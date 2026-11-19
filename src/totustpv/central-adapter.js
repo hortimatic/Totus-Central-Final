@@ -1,28 +1,28 @@
-import {operatorAcknowledgement} from './operator-acknowledgement.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {cashSummaryPresentation} from './cash-visibility.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {originalRefundPayments} from './refund-payments.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {offlineBasketCommercial} from './offline-basket-commercial.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {offlineBasketPrices} from './offline-basket-prices.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {createOfflineSourceStore} from './offline-source-store.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
+import {operatorAcknowledgement} from './operator-acknowledgement.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {cashSummaryPresentation} from './cash-visibility.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {originalRefundPayments} from './refund-payments.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {offlineBasketCommercial} from './offline-basket-commercial.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {offlineBasketPrices} from './offline-basket-prices.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {createOfflineSourceStore} from './offline-source-store.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
 /** Browser adapter: only normal authenticated Central calls. No shop URL,
  * credentials, native commands or privileged client can enter this module.
  * Request IDs survive response loss; financial commands are never auto-retried.
  */
-import {lineName} from './line-name.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {budgetDraft} from './budget-contract.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {saleNote} from './sale-note.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {taxSummary} from './tax-summary.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {parkingExpiry} from './parking-options.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {quotePaymentMethods} from './payment-options.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
+import {lineName} from './line-name.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {budgetDraft} from './budget-contract.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {saleNote} from './sale-note.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {taxSummary} from './tax-summary.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {parkingExpiry} from './parking-options.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {quotePaymentMethods} from './payment-options.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
 const need=(ok,message)=>{if(!ok)throw new Error(message);};
 const clone=value=>structuredClone(value);
 const ordered=value=>Array.isArray(value)?value.map(ordered):value&&typeof value==='object'?
@@ -140,7 +140,7 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
    const policy=cachedPaymentOptions;
    need(policy?.scope===scopeKey()&&Date.now()-policy.readAt>=0&&Date.now()-policy.readAt<300000,'Conecta para actualizar los medios de cobro de esta caja.');
    const options=policy.data.options,methods=options.enabledMethods;
-   need(Array.isArray(methods)&&methods.length>0&&methods.every(method=>['cash','card','bizum','transfer'].includes(method)),'No se han confirmado los medios de cobro de esta caja.');
+   need(Array.isArray(methods)&&methods.length>0&&methods.every(method=>['cash','card','bizum','transfer','cheque'].includes(method)),'No se han confirmado los medios de cobro de esta caja.');
    const scope=scopeKey(),basket=await api.localBasketPrices({lines:intent.lines});
    need(scope===scopeKey(),'La caja ha cambiado durante el cálculo local.');
    const commercial=offlineBasketCommercial(basket);
@@ -309,7 +309,7 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
   async pendingSale(){const data=saved(),scope=scopeKey();for(const kind of ['submitted-sale','prepare'])if(data[kind]?.scope===scope)return data[kind].id;
    let rows;try{rows=await call('history');}catch(error){if(error?.code==='TPV_CONNECTION_UNAVAILABLE')return null;throw error;}return rows.find(row=>['dispatched','uncertain'].includes(row.status))?.id||null;},
   async submit({operationId,payments,approvalId,operatorAcknowledgement:acknowledgement}){const ack=operatorAcknowledgement(acknowledgement,actorId);const quote=prepared.get(operationId);need(quote,'Vuelve a preparar el cobro.');
-   need(payments.every(row=>row.method==='cash'||['card','bizum','transfer'].includes(row.method)&&row.simulatedAccepted===true),'Confirma que has recibido el cobro externo.');
+   need(payments.every(row=>row.method==='cash'||['card','bizum','transfer','cheque'].includes(row.method)&&row.simulatedAccepted===true),'Confirma que has recibido el cobro externo.');
    const allocations=payments.map(row=>({id:row.method,method:row.method,amountCents:row.amountCents,
     ...(row.reference===undefined?{}:{reference:paymentReference(row.reference)}),
     ...(row.method==='cash'?{receivedCents:row.receivedCents}:{})}));
@@ -411,10 +411,10 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
    let total=0;for(const item of chosen){const row=source.items.find(row=>row.detail_id===item.detailId);
     need(row&&Number.isSafeInteger(item.qty)&&item.qty>0&&item.qty<=row.remaining_quantity,'Cantidad de devolución no válida.');
     total+=Number((BigInt(row.allocated_cents)*BigInt(row.returned_quantity+item.qty)*2n+BigInt(row.sold_quantity))/(2n*BigInt(row.sold_quantity)))-row.refunded_cents;}
-   need(refundMethod==='original'||['cash','card','bizum','transfer'].includes(refundMethod)&&source.remaining_payments[refundMethod]>=total,
+   need(refundMethod==='original'||['cash','card','bizum','transfer','cheque'].includes(refundMethod)&&source.remaining_payments[refundMethod]>=total,
     'El medio elegido no tiene saldo suficiente de la venta original para este reintegro. Selecciona el reparto original.');
    need(source.returnPolicy?.requireOriginalPayment!==true||refundMethod==='original','Esta caja exige repartir el reintegro entre los medios originales. Vuelve a consultar la venta.');
-   let remaining=total;let payments=[];if(source.returnPolicy?.requireOriginalPayment===true){payments=originalRefundPayments(total,source.remaining_payments);remaining=0;}else for(const method of refundMethod==='original'?['cash','card','bizum','transfer']:[refundMethod]){const amount=Math.min(remaining,source.remaining_payments[method]||0);
+   let remaining=total;let payments=[];if(source.returnPolicy?.requireOriginalPayment===true){payments=originalRefundPayments(total,source.remaining_payments);remaining=0;}else for(const method of refundMethod==='original'?['cash','card','bizum','transfer','cheque']:[refundMethod]){const amount=Math.min(remaining,source.remaining_payments[method]||0);
     if(amount>0){payments.push({method,amountCents:amount});remaining-=amount;}}
    need(remaining===0,'No se puede distribuir este reintegro con los pagos originales.');
    return {...await call('prepare-refund',{saleId,items:chosen,payments,...(reason?{reason}:{})},operationId),payments};},
@@ -433,6 +433,7 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
   async stockReceipts(){return call('stock-receipts');},
   async barcodeOptions(settings){return call('barcode-options',settings===undefined?{}:{settings});},
   async paymentOptions(settings){const scope=scopeKey(),{data,readAt}=settings===undefined?await cachedRead('payment-options'):{data:await call('payment-options',{settings}),readAt:Date.now()};need(scope===scopeKey(),'La caja ha cambiado.');if(settings!==undefined)try{workstationCache.put('payment-options',canonical([selection(),selected.connectionRevision]),data);}catch{}cachedPaymentOptions={scope,readAt,data:clone(data)};return data;},
+  async stockReceiptLabels(id,query={}){return call('barcode-receipt-labels',{query},id);},
   async barcodeLabels(id,query={}){return call('barcode-labels',{query},id);},
   async barcodeJobs(){return call('barcodes');},
   async createBarcodeJob(){const id=await operation('barcode',{}),result=await call('barcode-create',{},id);forget('barcode',id);return result;},

@@ -1,16 +1,26 @@
-import {workstationIcon} from './workstation-visual.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
+import {workstationIcon} from './workstation-visual.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
+const helpText={
+ 'CFG-01-01':'Emite un sonido al incorporar una unidad al ticket. No modifica el precio ni las existencias.',
+ 'CFG-01-02':'Muestra u oculta el desglose del IVA. Los impuestos se siguen calculando en ambos casos.',
+ 'CFG-02-02':'El logo se configura en la cabecera de este apartado. Desactiva esta opción para imprimir sin imagen.',
+ 'CFG-02-22':'Abre la impresión después de confirmar una venta. Puedes volver a imprimir desde Tickets.',
+ 'CFG-09-13':'Elige cómo se presentan los precios del catálogo. El cobro conserva el cálculo fiscal de la tienda.',
+ 'CFG-09-14':'Muestra las unidades disponibles junto al artículo. Su visibilidad no autoriza vender sin existencias.',
+ 'CFG-09-15':'Muestra la referencia interna junto al nombre del producto.'
+};
+const fieldHelp=(f,binding)=>helpText[f.id]||(binding.member?'Incluye este campo entre los criterios de búsqueda de artículos.':binding.initialCategory?'Categoría que se muestra al abrir el catálogo del puesto seleccionado.':binding.text?'Este texto se incluye en la presentación del documento según las opciones activas.':binding.group==='receipt'?'Se aplica a los tickets del puesto seleccionado. La vista previa permite revisar su presentación antes de imprimir.':binding.group==='customerDisplay'?'Se aplica a la pantalla para cliente del puesto seleccionado.':f.label+'. Guarda los cambios para aplicarlos al puesto seleccionado.');
 const fieldHtml=(f,settings,editable,draft,categories)=>{
  f={...f,label:({'CFG-01-02':'Mostrar desglose del IVA','CFG-02-02':'Mostrar logo del establecimiento'}[f.id]||f.label)};
  const binding=REFERENCE_PREFERENCE_FIELDS[f.id];
  if(binding){
   const value=Object.hasOwn(draft,f.id)?draft[f.id]:binding.group==='root'?settings[binding.key]:binding.member?settings[binding.group][binding.key].includes(binding.member):settings[binding.group][binding.key],disabled=editable?'':'disabled';
   const control=binding.initialCategory?`<select name="${f.id}" id="reference-${f.id}" aria-label="${esc(f.label)}" ${disabled}>${[{id:0,label:'Todas las categorías'},...categories.filter(row=>!settings.catalogue.excludedCategories.includes(row.id))].map(row=>`<option value="${row.id}" ${String(row.id)===String(value)?'selected':''}>${esc(row.label||row.name)}</option>`).join('')}</select>`:binding.categories?`<div class="tpv-reference-category-choice"><select multiple name="${f.id}" aria-label="${esc(f.label)}" id="reference-${f.id}" ${disabled}>${categories.map(row=>`<option value="${row.id}" ${Array.isArray(value)&&value.map(String).includes(String(row.id))?'selected':''}>${esc(row.label||row.name)}</option>`).join('')}</select><button type="button" class="btn secondary" data-tpv-action="reference-clear-categories" ${disabled}>Mostrar todas las categorías</button></div>`:binding.options?`<select name="${f.id}" id="reference-${f.id}" aria-label="${esc(f.label)}" ${disabled}>${binding.options.map(([key,label])=>`<option value="${esc(key)}" ${String(key)===String(value)?'selected':''}>${esc(label)}</option>`).join('')}</select>`:binding.text?`<${binding.text>80?'textarea':'input'} name="${f.id}" id="reference-${f.id}" aria-label="${esc(f.label)}" maxlength="${binding.text}" ${binding.text>80?'rows="3"':`value="${esc(value)}"`} ${disabled}>${binding.text>80?esc(value):''}${binding.text>80?'</textarea>':''}`:binding.color?`<input type="color" name="${f.id}" id="reference-${f.id}" value="${esc(value)}" ${disabled}>`:`<div class="tpv-reference-switch" role="group" aria-label="${esc(f.label)}">${[[true,'On'],[false,'Off']].map(([key,label])=>`<label><input type="radio" name="${f.id}" value="${key}" ${String(key)===String(value)?'checked':''} ${disabled}><span>${label}</span></label>`).join('')}</div>`;
-  return `<div class="tpv-reference-option"><label for="reference-${f.id}"><span class="tpv-reference-info" aria-hidden="true">i</span>${esc(f.label)}</label>${control}</div>`;
+  return `<div class="tpv-reference-option"><div class="tpv-setting-label"><label for="reference-${f.id}">${esc(f.label)}</label><details class="tpv-info-help"><summary aria-label="Ayuda: ${esc(f.label)}">i</summary><div role="note">${esc(fieldHelp(f,binding))}</div></details></div>${control}</div>`;
  }
 
  return `<div class="tpv-reference-option tpv-option-unavailable"><span class="tpv-option-label">${esc(f.label)}</span><span class="tpv-option-status">No disponible aquí</span></div>`;
@@ -46,7 +56,7 @@ export function referenceSettingsHtml(section='General',{values={},editable=fals
  <article><header class="tpv-settings-section-head"><h4>${esc(original.name)}</h4><p class="tpv-reference-status">${practice?'Modo práctica · cambios guardados en este navegador.':'Ajustes del puesto seleccionado · sujetos a tus permisos.'}</p></header>
  <div class="tpv-settings-editor"><div class="tpv-settings-fields">
  ${section==='Ticket'&&brandingHtml?`<div class="tpv-settings-card">${brandingHtml}</div>`:''}
- ${supported.length?`<form data-tpv-form="reference-preferences" class="tpv-settings-card"><header><h5>Presentación y uso</h5><p>Ajusta las opciones de este apartado y guarda los cambios.</p></header>${preferenceGroupsHtml(section,supported,settings,editable,draft,categories)}<footer><button type="submit" class="btn primary" ${!editable?'disabled':''}>Guardar cambios</button></footer></form>`:''}
+ ${supported.length?`<form data-tpv-form="reference-preferences" class="tpv-settings-card"><header><h5>Presentación y uso</h5></header>${preferenceGroupsHtml(section,supported,settings,editable,draft,categories)}<footer><button type="submit" class="btn primary" ${!editable?'disabled':''}>Guardar cambios</button></footer></form>`:''}
  ${connectedHtml?`<div class="tpv-reference-connected">${connectedHtml}</div>`:''}
  ${pending.length?`<details class="tpv-settings-card tpv-settings-pending" ${!supported.length&&!connectedHtml?'open':''}><summary>Opciones todavía no disponibles aquí <span>${pending.length}</span></summary><p>${practice?'La práctica no permite configurar las funciones administrativas de una tienda.':'Estas opciones todavía no están conectadas en este puesto.'}</p>${pending.map(f=>fieldHtml(f,settings,false,draft,categories)).join('')}</details>`:''}
  </div>${section==='Ticket'&&preview?`<aside class="tpv-settings-ticket-preview"><h5>Vista previa del ticket</h5><p>Ejemplo de impresión</p><div data-tpv-reference-preview>${preview}</div><p data-tpv-reference-preview-feedback role="status"></p></aside>`:''}</div></article></div></section>`;

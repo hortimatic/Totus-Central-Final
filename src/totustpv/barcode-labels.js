@@ -17,14 +17,19 @@ export function barcodeSvg(modules){
 }
 export const LABEL_PAPERS=Object.freeze({thermal58:{label:'Rollo de 58 mm',paper:58,width:48,height:50},thermal100:{label:'Rollo de 100 mm',paper:100,width:90,height:50},a4:{label:'Hoja A4',paper:210,width:200,height:297,sheet:true},a4landscape:{label:'Hoja A4 horizontal',paper:297,width:287,height:210,sheet:true}});
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function labelSheetHtml(labels,{paper='thermal58',copies=1}={}){
+export function labelSheetHtml(labels,{paper='thermal58',copies=1,receivedQuantities=false,showName=true,showPrice=true,showReference=false}={}){
  const profile=LABEL_PAPERS[paper];
  if(!profile||!Number.isInteger(copies)||copies<1||copies>20||!Array.isArray(labels?.items)||labels.items.length>50)throw Error('Revisa el papel y el número de copias de las etiquetas.');
+ let total=0;
  const rows=labels.items.flatMap(row=>{
+  const count=receivedQuantities?row.quantity:copies;
+  if(!Number.isSafeInteger(count)||count<1||count>1000||(total+=count)>1000)throw Error('Imprime como máximo 1.000 etiquetas por tanda. Ajusta las cantidades de esta impresión.');
   const width=(row.modules.length+22)*.264;
   if(width>profile.width)throw Error('Este código necesita una etiqueta más ancha. Elige un papel más ancho; para referencias largas puedes usar A4 horizontal.');
-  const label=`<article class="tpv-barcode-label" style="width:${profile.width}mm"><strong>${esc(row.name)}</strong>${row.variantName?`<small>${esc(row.variantName)}</small>`:''}<div class="tpv-label-symbol" style="width:${width.toFixed(3)}mm;height:18.3mm">${barcodeSvg(row.modules)}</div><code>${esc(row.code)}</code></article>`;
-  return Array(copies).fill(label);
+  if(row.priceCents!==undefined&&(!Number.isSafeInteger(row.priceCents)||row.priceCents<0||row.currency!=='EUR'))throw Error('No se ha confirmado el precio de la etiqueta.');
+  const price=showPrice&&row.priceCents!==undefined?`<b class="tpv-label-price">${esc(new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(row.priceCents/100))}</b>`:'';
+  const label=`<article class="tpv-barcode-label" style="width:${profile.width}mm">${showName?`<strong>${esc(row.name)}</strong>`:''}${row.variantName?`<small>${esc(row.variantName)}</small>`:''}${price}${showReference&&row.reference?`<small>${esc(row.reference)}</small>`:''}<div class="tpv-label-symbol" style="width:${width.toFixed(3)}mm;height:18.3mm">${barcodeSvg(row.modules)}</div><code>${esc(row.code)}</code></article>`;
+  return Array(count).fill(label);
  });
  return `<section class="tpv-label-sheet" data-label-paper="${paper}">${rows.join('')}</section>`;
 }
