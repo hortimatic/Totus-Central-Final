@@ -1,6 +1,6 @@
-import {selectReportData,reportMonths} from './report-period.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
-import {informationalTaxPayments} from './payment-information.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
-import {closingIncomeAmount,expenseCostAmount} from './calculations.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
+import {selectReportData,reportMonths} from './report-period.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
+import {informationalTaxPayments} from './payment-information.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
+import {closingIncomeAmount,expenseCostAmount} from './calculations.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
 export function calendarReportPeriod(year,kind,index){
  year=Number(year);index=Number(index);if(!Number.isInteger(year)||year<2000||year>2199)throw new Error('Indica un año entre 2000 y 2199.');
  if(!['month','quarter'].includes(kind)||!Number.isInteger(index)||index<1||index>(kind==='month'?12:4))throw new Error('Selecciona un mes o trimestre válido.');

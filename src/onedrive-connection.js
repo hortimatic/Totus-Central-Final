@@ -1,16 +1,16 @@
-import {credentialLifetime} from './connection-maintenance.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
-import {backupRetentionCount} from './backup-retention.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
+import {credentialLifetime} from './connection-maintenance.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
+import {backupRetentionCount} from './backup-retention.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
 
-import {state,isAdmin} from './state.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
-import {esc} from './utils.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
-import {btn,kpi} from './components.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
+import {state,isAdmin} from './state.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
+import {esc} from './utils.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
+import {btn,kpi} from './components.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
 
 let connectionStatus=null,connectionOwner='',maintenanceStatus=null,maintenanceOwner='';
 export function setOneDriveMaintenance(value){maintenanceStatus=value;maintenanceOwner=state.user?.email||'';}
 export function setOneDriveStatus(value){connectionStatus=value?{...value,fetched_at:new Date().toISOString()}:value;connectionOwner=state.user?.email||'';if(value&&Object.hasOwn(value,'credential_expires_at'))setOneDriveMaintenance(value);}
 export async function oneDriveRequest(action,values={}){
  if(!isAdmin())throw new Error('Solo administración puede configurar OneDrive.');
- const {sb}=await import('./api.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af');
+ const {sb}=await import('./api.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6');
  const {data,error}=await sb.functions.invoke('totus-onedrive',{body:{action,...values}});
  if(error){
   let message='No se pudo contactar con la conexión de OneDrive.';
@@ -49,7 +49,8 @@ export function oneDrivePanel(){
  ${s.connected?`<p>Microsoft ha autorizado la carpeta exclusiva de la aplicación.</p>${s.tested_at?'<p>Última comprobación: '+esc(new Date(s.tested_at).toLocaleString('es-ES'))+'.</p>':''}<div class="inline-actions">${btn('Guardar y comprobar archivo de prueba','onedrive-test','primary')}${btn('Volver a autorizar OneDrive','onedrive-begin','secondary')}${folder?'<a class="btn secondary" href="'+esc(folder)+'" target="_blank" rel="noopener noreferrer">Abrir carpeta de OneDrive</a>':''}</div>`:`<ol><li>En Microsoft, prepara la aplicación <b>Totus Central</b> con la dirección de retorno indicada abajo.</li><li>Crea tú la credencial de la aplicación y pega su <b>valor</b> aquí. Se guarda cifrada en Supabase; no se muestra de nuevo.</li><li>Autoriza el acceso a la carpeta de la aplicación y prueba la conexión.</li></ol>
  <div class="field"><label>Identificador de la aplicación</label><code style="overflow-wrap:anywhere">${esc(s.client_id||'')}</code></div>
  <div class="field"><label>Dirección de retorno en Microsoft · plataforma Web</label><code style="overflow-wrap:anywhere">${esc(s.redirect_uri||'')}</code></div>
- ${s.configured?'<p class="note">Credencial guardada. Falta tu autorización en Microsoft.</p>':`<div class="field"><label for="odClientSecret">Valor de la credencial de Microsoft</label><input id="odClientSecret" type="password" autocomplete="new-password" data-draft-ignore></div>${btn('Guardar credencial','onedrive-credential-save','primary')}`}
+ ${s.configured?'<p class="note">Credencial guardada. Falta tu autorización en Microsoft.</p>':''}
+ <details ${s.configured?'':'open'}><summary>${s.configured?'Corregir la credencial guardada':'Guardar la credencial de Microsoft'}</summary><p>Copia la columna <b>Valor</b> del secreto de esta aplicación en Microsoft. El identificador del secreto no sirve como clave.</p><div class="field"><label for="odClientSecret">Valor de la credencial de Microsoft</label><input id="odClientSecret" type="password" autocomplete="new-password" data-draft-ignore></div>${btn('Guardar credencial','onedrive-credential-save','primary')}</details>
  <div class="inline-actions">${btn('Preparar autorización de Microsoft','onedrive-begin','secondary',s.configured?'':'disabled')}</div>`}
  `}
  ${s?.connected&&s?.mirror?`<div class="note"><b>Documentos con copia verificada: ${Number(s.mirror.verified)||0} de ${Number(s.mirror.total)||0}</b><p>${Number(s.mirror.pending)||0} pendientes. La copia por lotes se ejecuta en Supabase cada dos minutos y se detiene cuando no queda nada pendiente. Las vistas previas y descargas utilizan OneDrive cuando el documento está verificado. Las nuevas subidas siguen disponibles desde Supabase mientras se completa su traslado.</p><progress aria-label="Documentos copiados y comprobados en OneDrive" max="${Math.max(1,Number(s.mirror.total)||0)}" value="${Number(s.mirror.verified)||0}" style="width:100%"></progress></div>${s.mirror.last_error?'<p class="note warn">Último lote: '+esc(s.mirror.last_error)+'</p>':''}${s.mirror.running?'<p role="status">Copia en curso en el servidor.</p>':''}${btn('Copiar siguiente lote de documentos','onedrive-mirror','secondary',s.tested_at&&s.mirror.pending&&!s.mirror.running?'':'disabled')}`:''}

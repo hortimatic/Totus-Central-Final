@@ -1,5 +1,5 @@
-import {customerSettings,configuredCustomerFields,CUSTOMER_FORM_FIELDS} from './customer-settings.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
-import {directoryText} from '../contact-directory-core.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
+import {customerSettings,configuredCustomerFields,CUSTOMER_FORM_FIELDS} from './customer-settings.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
+import {directoryText} from '../contact-directory-core.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const option=(row,value)=>`<option value="${esc(row.id)}" ${String(row.id)===String(value)?'selected':''}>${esc(directoryText(row.name))}</option>`;
 export function createTpvCustomerPanel({adapter,can,onSelect,onStatus,confirmDiscard=async()=>false,settings=()=>customerSettings(),onPrintCard=null}){

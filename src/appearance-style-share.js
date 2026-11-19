@@ -1,4 +1,4 @@
-import {appearanceValues,APPEARANCE_FIELDS} from './appearance-core.js?v=afe1ffb1ee1b0b9f66af68e70d2d3bff732828af';
+import {appearanceValues,APPEARANCE_FIELDS} from './appearance-core.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
 
 // Portable visual preset: deliberately excludes personal identity, logos, photos and route ordering.
 // The receiver explicitly imports it to their own library; nothing changes in another account silently.
