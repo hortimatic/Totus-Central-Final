@@ -1,8 +1,8 @@
-import {bindChatViewport} from './chat-viewport.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
-import {CHAT_SOUNDS,CHAT_BACKGROUNDS,CHAT_BUZZ,isChatBuzz,chatPreferences,applyChatBackground,prepareChatBackground} from './chat-preferences.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
-import {prepareChatSound,playChatSound,requestChatDesktopPermission,chatDesktopStatus} from './chat-alerts.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
-import {uploadChatFile,chatFileMetadata,chatFileHash} from './chat-files.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
-import {CHAT_CHANNEL_ICONS,chatRetiredDirect,chatChannelIdentity,chatChannelMatches,chatSearchText,chatMoveChannel,chatText,chatChannelInput,chatDateRange,chatGroups,chatLayout,chatTaskPrompt,CHAT_REACTIONS,CHAT_TASK_STATES,CHAT_GROUPS} from './team-chat-core.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {bindChatViewport} from './chat-viewport.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
+import {CHAT_SOUNDS,CHAT_BACKGROUNDS,CHAT_BUZZ,isChatBuzz,chatPreferences,applyChatBackground,prepareChatBackground} from './chat-preferences.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
+import {prepareChatSound,playChatSound,requestChatDesktopPermission,chatDesktopStatus} from './chat-alerts.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
+import {uploadChatFile,chatFileMetadata,chatFileHash} from './chat-files.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
+import {CHAT_CHANNEL_ICONS,chatRetiredDirect,chatChannelIdentity,chatChannelMatches,chatSearchText,chatMoveChannel,chatText,chatChannelInput,chatDateRange,chatGroups,chatLayout,chatTaskPrompt,CHAT_REACTIONS,CHAT_TASK_STATES,CHAT_GROUPS} from './team-chat-core.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const chatIcons={'mobile-channels':'←','channel-files':'▱','search-toggle':'⌕','refresh':'↻'};
 const chatButton=(label,action,attrs='',kind='secondary')=>'<button type="button" class="btn '+kind+'" data-chat="'+action+'" '+attrs+(chatIcons[action]&&!attrs.includes('title=')?' title="'+esc(label)+'"':'')+'>'+(chatIcons[action]?'<span class="chat-action-icon" aria-hidden="true">'+chatIcons[action]+'</span><span class="chat-action-label">'+esc(label)+'</span>':esc(label))+'</button>';
