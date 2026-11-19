@@ -1,14 +1,15 @@
-import {printTpvMarkup} from './documents.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {ticketLogoData} from './ticket-branding.js?v=2dfeb2bef1ce945a669212cb5be50ea661bea26e';
+import {printTpvMarkup} from './documents.js?v=2dfeb2bef1ce945a669212cb5be50ea661bea26e';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const date=value=>value?new Date(value).toLocaleString('es-ES'):'—';
 const label=method=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia'}[method]||method);
-export function cashReportHtml(report){
+export function cashReportHtml(report,{logoData=''}={}){
  if(!report||report.currency!=='EUR'||report.environment!=='qa'||!['open','closed'].includes(report.status)||
   report.cashSummaryHidden!==true&&!Number.isSafeInteger(report.expectedCashCents))throw Error('Informe de caja no válido.');
  if(report.cashSummaryHidden===true)return `<article class="tpv-cash-report"><h4>${report.status==='closed'?'Cierre de caja':'Informe de caja abierta'}</h4><p><strong>${esc(report.storeName)} · ${esc(report.drawerName)}</strong><br>Apertura: ${esc(date(report.openedAt))}<br>Cierre: ${esc(date(report.closedAt))}</p><p role="status">Los importes de este resumen están ocultos para tu cuenta. El cierre y los importes reales se conservan.</p>${report.unresolvedSales||report.pendingRefunds?'<p>Hay operaciones pendientes de recuperar.</p>':''}</article>`;
  const methods=[...new Set([...Object.keys(report.payments||{}),...Object.keys(report.refunds||{})])];
- return `<article class="tpv-cash-report"><header class="tpv-cash-document-heading"><small>TOTUSTPV · CONTROL DE CAJA</small><h4>${report.status==='closed'?'Cierre de caja':'Informe de caja abierta'}</h4><span>${report.status==='closed'?'Sesión cerrada':'Sesión en curso'}</span></header>
+ return `<article class="tpv-cash-report"><header class="tpv-cash-document-heading">${logoData?`<img src="${esc(ticketLogoData(logoData))}" alt="Logo del establecimiento" style="display:block;max-width:100%;max-height:70px;object-fit:contain;margin:0 auto 10px">`:''}<small>TOTUSTPV · CONTROL DE CAJA</small><h4>${report.status==='closed'?'Cierre de caja':'Informe de caja abierta'}</h4><span>${report.status==='closed'?'Sesión cerrada':'Sesión en curso'}</span></header>
   <p><strong>${esc(report.storeName)} · ${esc(report.drawerName)}</strong><br>Apertura: ${esc(date(report.openedAt))} · ${esc(report.openedByName)}<br>Cierre: ${esc(date(report.closedAt))}${report.closedAt?' · '+esc(report.closedByName):''}</p>
   <small>Entorno de pruebas<br>Consultado: ${esc(date(report.generatedAt))}</small><dl class="tpv-cash-document-totals">
    <div><dt>Fondo inicial</dt><dd>${money(report.openingCents)}</dd></div>
@@ -21,7 +22,7 @@ export function cashReportHtml(report){
   <h4>Movimientos de efectivo</h4>${(report.movements||[]).map(row=>`<p><strong>${row.kind==='cash-in'?'Entrada':'Retirada'} · ${money(row.amountCents)}</strong><br>${esc(row.reason)}<small>${esc(date(row.recordedAt))}</small></p>`).join('')||'<p>Sin movimientos de efectivo.</p>'}
   ${report.movementCount>(report.movements?.length||0)?'<p>Se muestran los últimos 200 movimientos. El resumen incluye todos.</p>':''}</article>`;
 }
-export function createCashReportsPanel({adapter,capturePrintContext=()=>()=>true,canOpenCentral=()=>false}){
+export function createCashReportsPanel({adapter,getLogo=()=>'',capturePrintContext=()=>()=>true,canOpenCentral=()=>false}){
  let visible=false,rows=[],report=null;
  const reset=()=>{visible=false;rows=[];report=null;};
  async function select(id){const data=await adapter().cashReports({sessionId:id});if(data.length!==1)throw Error('No se encuentra este informe en la caja seleccionada.');report=data[0];}
@@ -29,9 +30,9 @@ export function createCashReportsPanel({adapter,capturePrintContext=()=>()=>true
   async open(){visible=true;rows=await adapter().cashReports();report=null;if(rows.length)await select(rows[0].sessionId);},
   html(){if(!visible)return '';return `<section class="card card-pad tpv-cash-reports" aria-label="Informes de caja"><header class="inline-actions"><h3>Informes de caja · últimas 30 sesiones</h3><button type="button" class="btn secondary" data-tpv-report-action="close">Cerrar informes</button></header>
    ${rows.length?`<label>Sesión de caja<select data-tpv-report-id>${rows.map(row=>`<option value="${esc(row.sessionId)}" ${row.sessionId===report?.sessionId?'selected':''}>${esc(date(row.openedAt))} · ${esc(row.drawerName)} · ${row.status==='closed'?'cerrada':'abierta'}</option>`).join('')}</select></label>`:'<p>Todavía no hay sesiones registradas para esta caja.</p>'}
-   ${report?cashReportHtml(report)+'<div class="inline-actions"><button type="button" class="btn secondary" data-tpv-report-action="print">Imprimir informe</button>'+(canOpenCentral()?'<button type="button" class="btn secondary" data-tpv-report-action="central">Ver en Cajas de Central</button>':'')+'</div>':''}</section>`;},
+   ${report?cashReportHtml(report,{logoData:getLogo()})+'<div class="inline-actions"><button type="button" class="btn secondary" data-tpv-report-action="print">Imprimir informe</button>'+(canOpenCentral()?'<button type="button" class="btn secondary" data-tpv-report-action="central">Ver en Cajas de Central</button>':'')+'</div>':''}</section>`;},
   async change(target){if(!target.hasAttribute('data-tpv-report-id'))return false;await select(target.value);return true;},
   click(target){if(!target.dataset.tpvReportAction)return false;
-   if(target.dataset.tpvReportAction==='close')reset();else if(target.dataset.tpvReportAction==='print'&&report)printTpvMarkup(cashReportHtml(report),'TotusTPV · informe de caja',{current:capturePrintContext()});return true;}
+   if(target.dataset.tpvReportAction==='close')reset();else if(target.dataset.tpvReportAction==='print'&&report)printTpvMarkup(cashReportHtml(report,{logoData:getLogo()}),'TotusTPV · informe de caja',{current:capturePrintContext()});return true;}
  };
 }

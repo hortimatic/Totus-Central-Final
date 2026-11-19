@@ -1,10 +1,10 @@
-import {SET_FORMAT,SET_INDEX_BYTES,openBackupSet} from './backup-set.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
-import {archiveHash,MAX_ARCHIVE_BYTES} from './recovery-core.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {SET_FORMAT,SET_INDEX_BYTES,openBackupSet} from './backup-set.js?v=2dfeb2bef1ce945a669212cb5be50ea661bea26e';
+import {archiveHash,MAX_ARCHIVE_BYTES} from './recovery-core.js?v=2dfeb2bef1ce945a669212cb5be50ea661bea26e';
 
 // Storage's per-object limit remains unchanged. A large ordinary ZIP is stored
 // as immutable, hashed pieces; publish its index only after verifying every piece.
-import {BACKUP_PART_BYTES,validateBackupIndex} from './backup-index.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
-export {BACKUP_PART_BYTES,validateBackupIndex} from './backup-index.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {BACKUP_PART_BYTES,validateBackupIndex} from './backup-index.js?v=2dfeb2bef1ce945a669212cb5be50ea661bea26e';
+export {BACKUP_PART_BYTES,validateBackupIndex} from './backup-index.js?v=2dfeb2bef1ce945a669212cb5be50ea661bea26e';
 const INDEX_LIMIT=16384;
 const hashPattern=/^[a-f0-9]{64}$/;
 export async function writeBackupObject(path,input,write,read){

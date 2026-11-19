@@ -1,4 +1,4 @@
-import {PRESTASHOP_QUERY_RECIPES} from './prestashop-queries.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {PRESTASHOP_QUERY_RECIPES} from './prestashop-queries.js?v=2dfeb2bef1ce945a669212cb5be50ea661bea26e';
 const date=s=>/^\d{4}-\d{2}-\d{2}$/.test(s)&&new Date(s+'T12:00:00Z').toISOString().slice(0,10)===s;
 export function validatePrestashopFlow(raw){
  const flow={id:String(raw.id||''),name:String(raw.name||'').trim(),store:raw.store,recipe:raw.recipe,period:raw.period,start:raw.start||'00:00',end:raw.end||'23:59'};
