@@ -1,10 +1,10 @@
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=5039a0843093125484f95696a90712c1d0355c9e';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=5039a0843093125484f95696a90712c1d0355c9e';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=5039a0843093125484f95696a90712c1d0355c9e';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=5039a0843093125484f95696a90712c1d0355c9e';
-import {taxSummaryHtml} from './tax-summary.js?v=5039a0843093125484f95696a90712c1d0355c9e';
-import {receiptNumber} from './receipt-series.js?v=5039a0843093125484f95696a90712c1d0355c9e';
-import {documentPaymentReferences} from './payment-reference.js?v=5039a0843093125484f95696a90712c1d0355c9e';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {taxSummaryHtml} from './tax-summary.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {receiptNumber} from './receipt-series.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
+import {documentPaymentReferences} from './payment-reference.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);

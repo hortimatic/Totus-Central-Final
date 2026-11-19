@@ -1,4 +1,4 @@
-import {printTpvMarkup} from './documents.js?v=5039a0843093125484f95696a90712c1d0355c9e';
+import {printTpvMarkup} from './documents.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const date=value=>value?new Date(value).toLocaleString('es-ES'):'—';

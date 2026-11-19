@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=5039a0843093125484f95696a90712c1d0355c9e';
+import {websiteKey} from './website-registry.js?v=ca3a0126b1d066628fa75cf89d90b09b811389a3';
 // Money from the source remains separate from catalogue-quality diagnostics.
 export function sourceCents(value){
  if(typeof value!=='string'||!/^\d{1,10}(?:\.\d{1,6})?$/.test(value))return null;
