@@ -1,0 +1,28 @@
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const valid=n=>Number.isSafeInteger(n)&&n>=0&&n<=100000000;
+export function createInventoryPanel({storage,actor=()=>'',can=()=>false}){
+ let key='',rows=[],storeName='',drawerName='',saved=false;
+ function open(scope){
+  const next='totus:tpv:inventory:v1:'+encodeURIComponent(actor())+':'+encodeURIComponent(scope.storeId);
+  if(!actor()||!scope.storeId)throw Error('Selecciona una tienda antes de contar existencias.');
+  if(next!==key){if(rows.length&&!saved)throw Error('Guarda el recuento antes de cambiar de tienda.');const raw=storage.getItem(next);const data=raw?JSON.parse(raw):null;
+   if(data&&(!Array.isArray(data.rows)||data.rows.length>10000||data.rows.some(r=>typeof r.id!=='string'||!valid(r.count)||!Number.isSafeInteger(r.expected))))throw Error('El recuento guardado no es válido. No se ha sobrescrito.');
+   rows=data?.rows||[];key=next;saved=!!data;
+  }
+  storeName=scope.storeName;drawerName=scope.drawerName;
+ }
+ function save(){if(!can()||!key)throw Error('No tienes permiso para guardar este recuento.');storage.setItem(key,JSON.stringify({version:1,rows,updatedAt:new Date().toISOString()}));saved=true;}
+ function count(product,value){
+  if(!can())throw Error('No tienes permiso para contar existencias.');
+  if(product.chooseVariant)throw Error('Selecciona una variante para contar sus unidades.');
+  const quantity=String(value).trim();if(!/^\d+$/.test(quantity)||!valid(Number(quantity)))throw Error('Indica una cantidad entera, desde cero.');
+  if(!Number.isSafeInteger(product.stock))throw Error('Consulta primero las existencias de este artículo.');
+  const row=rows.find(r=>r.id===product.id);if(row)row.count=Number(quantity);else{if(rows.length>=10000)throw Error('El recuento admite hasta 10.000 artículos.');rows.push({id:product.id,name:product.name,reference:product.reference||'',expected:product.stock,count:Number(quantity)});}saved=false;
+ }
+ function html(products,search=''){return `<section class="tpv-inventory"><header class="tpv-screen-heading"><span aria-hidden="true">▦</span><div><h3>Inventario</h3><p>${esc(storeName)} · ${esc(drawerName)}</p></div><button class="btn secondary" data-tpv-action="sale">Volver a la venta</button></header>
+  <div class="tpv-inventory-summary"><article><small>ARTÍCULOS CONTADOS</small><strong>${rows.length}</strong></article><article><small>CON DIFERENCIAS</small><strong>${rows.filter(r=>r.count!==r.expected).length}</strong></article><article><small>UNIDADES CONTADAS</small><strong>${rows.reduce((n,r)=>n+r.count,0)}</strong></article></div>
+  <div class="tpv-inventory-work"><section><h4>1. Localizar y contar</h4><label>Buscar por nombre o código<input type="search" data-tpv-search value="${esc(search)}" placeholder="Nombre, referencia o código"></label><p>Introduce cero si no queda ninguna unidad. Los artículos sin contar conservan su estado.</p><div class="tpv-inventory-table"><table><thead><tr><th>Artículo</th><th>Existencias consultadas</th><th>Unidades contadas</th><th>Diferencia</th></tr></thead><tbody>${products.map(p=>{const r=rows.find(r=>r.id===p.id);return `<tr><td><strong>${esc(p.name)}</strong><small>${esc(p.reference)}</small></td><td>${Number.isSafeInteger(p.stock)?p.stock:'Sin comprobar'}</td><td>${p.chooseVariant?`<button class="btn secondary" data-tpv-inventory-variants="${esc(p.id)}">Elegir variante</button>`:`<input type="number" min="0" max="100000000" step="1" data-tpv-inventory-count="${esc(p.id)}" aria-label="Unidades contadas de ${esc(p.name)}" value="${r?r.count:''}" ${can()?'':'disabled'}>`}</td><td data-inventory-difference="${esc(p.id)}">${r?r.count-r.expected:'Sin contar'}</td></tr>`;}).join('')||'<tr><td colspan="4">No hay artículos para esta búsqueda.</td></tr>'}</tbody></table></div><div class="inline-actions"><button class="btn secondary" data-tpv-action="catalogue-previous">Anterior</button><button class="btn secondary" data-tpv-action="catalogue-next">Siguiente</button></div></section>
+  <aside><h4>2. Revisar el recuento</h4><p>Las existencias consultadas se conservan como referencia al contar cada artículo.</p><div class="tpv-inventory-counted">${rows.map(r=>`<div><strong>${esc(r.name)}</strong><span>${r.expected} → ${r.count} <b>${r.count-r.expected>0?'+':''}${r.count-r.expected}</b></span></div>`).join('')||'<p>Aún no has contado artículos.</p>'}</div><button class="btn primary" data-tpv-action="inventory-save" ${!rows.length||!can()?'disabled':''}>Guardar recuento en este equipo</button><button class="btn secondary" data-tpv-action="inventory-export" ${!rows.length?'disabled':''}>Exportar recuento CSV</button><p role="status">${saved?'Borrador guardado en este equipo.':'Guarda el recuento antes de cerrar el navegador.'}</p><p class="note">Este recuento todavía no registra ajustes de existencias. La confirmación auditada de diferencias sigue pendiente de conectar.</p></aside></div></section>`;}
+ function csv(){const cell=v=>'"'+String(v??'').replace(/^[=+@-]/,"'$&").replace(/"/g,'""')+'"';return '\ufeff'+[['Tienda','Referencia','Artículo','Existencias consultadas','Recuento','Diferencia'],...rows.map(r=>[storeName,r.reference,r.name,r.expected,r.count,r.count-r.expected])].map(r=>r.map(cell).join(';')).join('\r\n');}
+ return {open,html,count,save,csv,hasDraft:()=>rows.length>0&&!saved,reset(){key='';rows=[];saved=false;},snapshot:()=>structuredClone(rows)};
+}

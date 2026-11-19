@@ -1,4 +1,4 @@
-import {esc,download} from '../utils.js?v=7f63f137a7d87a23c91de2760fed365c1eef9af6';
+import {esc,download} from '../utils.js?v=2755c8b66ca122ce3ccd212dcd42e0785a795890';
 const amount=(cents,currency='EUR')=>new Intl.NumberFormat('es-ES',{style:'currency',currency}).format(cents/100);
 const date=value=>new Date(value).toLocaleString('es-ES');
 /** Existing native documents, through the same authenticated Central session.
