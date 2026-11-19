@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<script>const moduleBase=document.createElement("base");moduleBase.href=new URL(location.pathname.endsWith("/")?"../":"./",location.href).href;document.head.prepend(moduleBase);</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>const entryUrl=new URL(location.href);if(entryUrl.searchParams.has('release')||entryUrl.searchParams.has('totus_refresh')){entryUrl.searchParams.delete('release');entryUrl.searchParams.delete('totus_refresh');history.replaceState(history.state,'',entryUrl.href);}</script>
+<meta name="theme-color" content="#101827">
+<title>Totus Central final</title>
+<link rel="modulepreload" href="src/app.js?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="src/styles.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/team-chat.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/tasks.css?v=545787bef649757425a9f0058acf219a4252fa16">
+
+<link rel="stylesheet" href="src/interface-design.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/appearance.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/stitch-design.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/home-widgets.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/prestashop.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/productos.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/contact-directory.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/interface-controls.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/totustpv/workspace.css?v=545787bef649757425a9f0058acf219a4252fa16">
+<link rel="stylesheet" href="src/totustpv/reference-interface.css?v=545787bef649757425a9f0058acf219a4252fa16">
+</head>
+<body>
+<div id="login" class="login-screen checking-session">
+  <form id="loginForm" class="login-card">
+    <div class="brand large"><span class="brand-mark"><img src="favicon.svg" alt="" width="36" height="36"></span><div><b>Totus Central</b><small>Gestión diaria</small><small class="app-version" role="status"><span class="app-build">versión sin verificar</span></small></div></div>
+    <h1>Acceso</h1>
+    <p>Entra con tu correo y contraseña.</p>
+    <label>Correo<input id="loginEmail" type="email" autocomplete="email" required></label>
+    <label>Contraseña<input id="loginPassword" type="password" autocomplete="current-password" required></label>
+    <button class="btn primary" type="submit">Entrar</button>
+    
+    <button class="btn link" id="recoverBtn" type="button">He olvidado mi contraseña</button>
+    <div id="passwordResetPanel" class="hidden" aria-live="polite">
+      <h2>Establecer nueva contraseña</h2>
+      <p>Escribe una contraseña distinta a la anterior.</p>
+      <label>Nueva contraseña<input id="recoveryPassword" type="password" autocomplete="new-password" minlength="12"></label>
+      <label>Repetir contraseña<input id="recoveryPasswordConfirm" type="password" autocomplete="new-password" minlength="12"></label>
+      <button id="saveRecoveryPassword" class="btn primary" type="button">Guardar contraseña</button>
+    </div>
+    <div id="loginMessage" class="message" role="status">Comprobando tu acceso…</div>
+  </form>
+</div>
+
+<div id="app" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark"><img src="favicon.svg" alt="" width="36" height="36"></span><div><b>Totus Central</b><small>Gestión diaria</small><small class="app-version" role="status"><span class="app-build">versión sin verificar</span></small></div></div>
+    <nav id="nav"></nav>
+    <div class="sidebar-foot">
+      <div id="userCard" class="user-card"></div>
+      <button class="btn ghost full" data-action="logout">Cerrar sesión</button>
+    </div>
+  </aside>
+  <header class="topbar">
+    <button class="icon-btn mobile-only" data-action="toggle-menu" aria-label="Abrir menú">☰</button>
+    <div>
+      <div id="pageEyebrow" class="eyebrow"></div>
+      <h1 id="pageTitle"></h1>
+    </div>
+    <div id="topActions" class="top-actions"></div><button class="btn secondary session-logout-mobile" data-action="logout" aria-label="Cerrar sesión">Salir</button>
+  </header>
+  <main id="content" class="content"></main>
+</div>
+
+<div id="toastHost" class="toast-host"></div>
+<div id="modalHost"></div>
+
+<script type="module" src="src/bootstrap.js?v=545787bef649757425a9f0058acf219a4252fa16"></script>
+<script>
+/* Identificar el código cargado, incluso si el navegador conserva un HTML antiguo. */
+(function(){
+  const script=document.querySelector('script[type="module"][src*="src/bootstrap.js"]');
+  const loaded=script?new URL(script.getAttribute('src'),document.baseURI).searchParams.get('v'):null;
+  const verified=/^[0-9a-f]{40}$/.test(loaded||'');
+  const labels=document.querySelectorAll('.app-build');
+  labels.forEach(el=>{el.textContent=verified?'· versión '+loaded.slice(0,8):'· versión local sin verificar'});
+  let lastCheck=0,checking=false,dismissed='';
+  async function check(){
+  if(checking||document.hidden||Date.now()-lastCheck<30000)return;
+  checking=true;lastCheck=Date.now();
+  try{
+    const response=await fetch('./build-info.json?fresh='+Date.now(),{cache:'no-store'});
+    if(!response.ok)throw new Error('Publicación no verificada');
+    const build=await response.json();
+    if(build.environment!=='production'||!/^[0-9a-f]{40}$/.test(build.commit))throw new Error('Sello inválido');
+    if(verified&&loaded!==build.commit){
+      const target=new URL(location.href);
+      target.searchParams.set('release',build.commit);
+      target.searchParams.set('totus_refresh',String(Date.now()));
+      labels.forEach(el=>{
+        if(el.querySelector('[data-release-link]'))return;
+        const link=document.createElement('a');
+        link.dataset.releaseLink='';
+        link.href=target.href;
+        link.textContent='Actualizar';
+        link.title='Hay una versión nueva. Guarda tu trabajo antes de actualizar.';
+        link.setAttribute('aria-label','Cargar la nueva versión de Totus Central');
+        el.append(' · ',link);
+      });
+      if(dismissed!==build.commit&&!document.getElementById('releaseNotice')){
+        const notice=document.createElement('aside');notice.id='releaseNotice';notice.setAttribute('role','status');
+        notice.style.cssText='position:fixed;right:16px;bottom:16px;z-index:1000;max-width:min(420px,calc(100vw - 32px));padding:14px;border:1px solid var(--line,#8ba4bd);border-radius:var(--radius,12px);background:var(--surface,#fff);color:var(--text,#10283f);box-shadow:0 4px 20px #0002;font-size:14px';
+        const message=document.createElement('p');message.textContent='Hay una versión nueva de Totus. Guarda las ediciones pendientes antes de actualizar.';
+        const update=document.createElement('a');update.href=target.href;update.textContent='Actualizar Totus';update.className='btn secondary';
+        const close=document.createElement('button');close.type='button';close.textContent='Más tarde';close.className='btn secondary';close.onclick=()=>{dismissed=build.commit;notice.remove();};
+        notice.append(message,update,close);document.body.append(notice);
+      }
+    }
+  }catch{
+    labels.forEach(el=>{el.title='No se ha podido comprobar si hay una versión nueva.'});
+  }finally{checking=false;}
+  }
+  void check();
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)void check();});
+  window.addEventListener('totus:module-changed',()=>void check());
+})();
+</script>
+</body>
+</html>

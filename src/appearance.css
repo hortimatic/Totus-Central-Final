@@ -1,0 +1,318 @@
+/* Opt-in visual settings; empty settings preserve the established production interface. */
+html[data-appearance]{font-size:var(--appearance-font)}
+html[data-appearance] body{font-size:var(--appearance-font)}
+html[data-appearance] .app{grid-template-rows:var(--appearance-header) 1fr}
+html[data-appearance] .topbar{background:var(--appearance-surface)}
+html[data-appearance] .content{padding:var(--appearance-pad)}
+html[data-appearance] .page{gap:var(--appearance-gap)}
+html[data-appearance] .card-pad{padding:var(--appearance-card-pad)}
+html[data-appearance] .btn{border-radius:var(--appearance-button-radius)}
+html[data-appearance] .nav-btn{padding-top:calc(11px * var(--appearance-density));padding-bottom:calc(11px * var(--appearance-density))}
+html[data-appearance] .data-table td{height:var(--appearance-row-height)}
+html[data-appearance] .field input:focus,html[data-appearance] .field select:focus{border-color:var(--appearance-accent)}
+html[data-appearance=dark] :is(.data-table,.modal,.modal-head,.field input,.field select,.field textarea,.form-grid input,.form-grid select,.form-grid textarea,.btn.secondary,.filters,.tabs){background:var(--appearance-surface);color:var(--ink)}
+html[data-appearance=dark] :is(.data-table th,.data-table tr:hover td){background:var(--panel);color:var(--ink)}
+.appearance-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:18px;align-items:start}
+.appearance-grid>.card{min-width:0}.appearance-grid fieldset{border:0;padding:18px 0;margin:0}.appearance-grid input[type=color]{height:42px;padding:4px}.appearance-grid input[type=range]{padding:0;accent-color:var(--accent)}
+.appearance-grid .field{font-size:12px;font-weight:650;min-width:0}.appearance-grid .field input,.appearance-grid .field select{max-width:100%}
+.appearance-grid output{font-variant-numeric:tabular-nums;font-weight:800}.appearance-grid h3{margin:0 0 12px}
+.appearance-presets{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-top:14px}.appearance-presets label{display:grid;gap:5px}.appearance-presets select{padding:9px;border-radius:8px;border:1px solid var(--line)}
+.appearance-preview{overflow:hidden;border:1px solid var(--line);border-radius:14px;margin-top:15px;background:var(--bg);color:var(--ink);font-size:var(--appearance-font,14px)}
+.appearance-preview-card{position:sticky;top:100px}.appearance-demo{display:grid;grid-template-columns:110px minmax(0,1fr);min-height:380px}
+.appearance-demo>aside{background:#111827;color:white;display:flex;flex-direction:column;gap:12px;padding:12px;overflow-wrap:anywhere}.appearance-demo>aside img{object-fit:contain}.appearance-demo small{color:#cbd5e1}
+.appearance-demo header{background:var(--appearance-surface);padding:16px;min-height:var(--appearance-header)}.appearance-demo section{display:grid;gap:var(--appearance-gap);padding:15px}.appearance-demo .card{border-radius:var(--r)}.appearance-demo .card-pad{padding:var(--appearance-card-pad)}.appearance-demo .btn{border-radius:var(--appearance-button-radius);font-size:12px}.appearance-demo .data-table{min-width:0;font-size:12px}.appearance-demo .data-table td{height:var(--appearance-row-height);padding:8px}
+.custom-login{background:var(--login-bg);background-size:cover;background-position:center;font-family:var(--login-font);color:var(--login-text)}
+.custom-login .login-card{width:min(var(--login-width),100%);background:var(--login-card-bg);padding:var(--login-padding);border:1px solid var(--login-border);border-radius:var(--login-radius);box-shadow:var(--login-shadow);color:var(--login-text);font-family:var(--login-font)}
+.custom-login[data-login-card=glass] .login-card{backdrop-filter:blur(16px)}
+.custom-login .brand{justify-content:var(--login-align);text-align:var(--login-align);flex-direction:column;align-items:var(--login-align)}
+.custom-login .brand-mark{width:var(--login-logo-width);height:var(--login-logo-height);background:transparent;max-width:100%}.custom-login .brand-mark[hidden]{display:none}
+.custom-login .brand-mark img{width:100%;height:100%;object-fit:contain}.custom-login[data-login-frame=soft] .brand-mark{background:#ffffff30;border:1px solid #ffffff60;border-radius:12px;padding:5px}
+.custom-login .brand small,.custom-login .login-card>p{color:inherit;opacity:.78}.custom-login .login-card input{background:#fff;color:#172033}
+.custom-login .login-card>.btn.primary{background:var(--login-button);color:white;border-color:var(--login-button)}
+.custom-login[data-login-button=gradient] .login-card>.btn.primary{background:linear-gradient(120deg,var(--login-button),#0ea5e9)}
+.custom-login[data-login-button=outline] .login-card>.btn.primary{background:transparent;color:var(--login-text);border:2px solid var(--login-button)}
+.custom-login .btn.link{color:var(--login-text)}
+.appearance-login-preview{display:grid;place-items:center;padding:18px;min-height:530px}.appearance-login-preview .login-card{gap:14px}.appearance-login-preview .btn:disabled{opacity:1}
+@media(max-width:1180px){.appearance-grid{grid-template-columns:1fr}.appearance-preview-card{position:static}}
+@media(max-width:800px){html[data-appearance] .app{display:block}html[data-appearance] .sidebar{width:270px}html[data-appearance] .content{padding:min(var(--appearance-pad),16px)}}
+@media(max-width:550px){.appearance-grid .form-grid{grid-template-columns:1fr}.appearance-demo{grid-template-columns:85px minmax(0,1fr)}.appearance-demo section{padding:8px}.appearance-login-preview{padding:8px}.appearance-grid .form-actions{justify-content:flex-start;flex-wrap:wrap}}
+
+.custom-login[data-login-align=left] .brand{align-items:flex-start}.custom-login[data-login-align=center] .brand{align-items:center}
+.appearance-preview[data-appearance=dark] :is(.data-table,.data-table th,.btn.secondary){background:var(--appearance-surface);color:var(--ink)}
+
+.appearance-grid .field{align-self:start}.appearance-grid legend{font-weight:800;font-size:14px;padding:4px 0 10px;border-bottom:1px solid var(--line);width:100%;margin-bottom:12px}
+
+html[data-appearance] .sidebar .brand>div,.custom-login .brand>div{min-width:0;max-width:100%}html[data-appearance] .sidebar .brand b,html[data-appearance] .sidebar .brand small,.custom-login .brand b,.custom-login .brand small{overflow-wrap:anywhere}
+
+/* Shared visual tokens inspired by Material color roles and Fluent elevation. */
+html[data-appearance] body,.appearance-demo{background-image:var(--appearance-bg-image);background-size:cover;background-position:center;background-attachment:fixed}
+html[data-appearance] :is(.card,.kpi,.table-wrap,.module-tabs,.store-status-card,.storage-provider-card,.credential-card,.storage-backup-strip,.storage-detail-panel,.configuration-sections,.appearance-tools),.appearance-demo :is(.card,.table-wrap){border:var(--appearance-border-width) solid var(--line);border-radius:var(--r)}
+html[data-appearance] :is(.store-status-card,.storage-provider-card,.credential-card,.storage-backup-strip,.storage-detail-panel,.configuration-sections,.appearance-tools){box-shadow:var(--shadow)}
+html[data-appearance] .sidebar .brand-mark{width:var(--appearance-logo-height);height:var(--appearance-logo-height);flex-shrink:0}
+html[data-appearance] .sidebar .brand-mark img,.appearance-demo [data-brand-logo]{width:var(--appearance-logo-height);height:var(--appearance-logo-height);object-fit:contain}
+html[data-appearance] .btn.primary,.appearance-demo .btn.primary{color:var(--appearance-button-ink);box-shadow:0 0 var(--appearance-button-glow) var(--appearance-glow)}
+html[data-appearance] .btn.primary:hover{color:var(--appearance-hover-ink)}
+[data-appearance-finish=gradient] .appearance-demo .btn.primary,html[data-appearance-finish=gradient] #app .btn.primary{background:linear-gradient(120deg,var(--accent),var(--accent2))}
+[data-appearance-finish=gloss] .appearance-demo .btn.primary,html[data-appearance-finish=gloss] #app .btn.primary{background-image:linear-gradient(#ffffff40,transparent 55%)}
+html[data-appearance] #app .btn,.appearance-demo .btn{transition:box-shadow .16s ease,transform .16s ease}
+html[data-appearance-hover=lift] #app .btn:hover,[data-appearance-hover=lift] .appearance-demo .btn:hover{transform:translateY(-2px)}
+html[data-appearance-hover=glow] #app .btn:hover,[data-appearance-hover=glow] .appearance-demo .btn:hover{box-shadow:0 0 calc(var(--appearance-button-glow) + 8px) var(--appearance-glow)}
+html[data-appearance] .btn:focus-visible,.appearance-demo .btn:focus-visible{outline:3px solid var(--appearance-accent);outline-offset:3px}
+.custom-login{background-image:var(--login-overlay),var(--login-bg)}
+.custom-login .login-card{border-width:var(--login-border-width)}
+.custom-login .login-card>.btn.primary{color:var(--login-button-ink);box-shadow:0 0 var(--login-button-glow) var(--login-glow)}
+.custom-login[data-login-button=outline] .login-card>.btn.primary{color:var(--login-text)}
+.appearance-page>div.card:first-child{background:linear-gradient(110deg,#fff,#f0f5ff);border-color:#dce7f8}
+.appearance-page .appearance-grid{gap:22px}
+.appearance-section{margin:18px 0;border:1px solid #e1e8f1;border-radius:14px;overflow:hidden;background:#fff}
+.appearance-section>summary{display:flex;align-items:center;gap:10px;padding:14px 16px;font-weight:800;color:#273e64;background:linear-gradient(100deg,#f4f7fd,#fff);cursor:pointer;list-style:none}
+.appearance-section>summary:after{content:'⌄';margin-left:auto}.appearance-section:not([open])>summary:after{content:'›'}
+.appearance-section>summary:focus-visible{outline:3px solid #2563eb;outline-offset:-3px}
+.appearance-section-number{display:grid;place-items:center;border-radius:9px;background:#e3edff;color:#245ab0;width:28px;height:28px;font-size:12px;flex-shrink:0}
+.appearance-grid .appearance-section fieldset{padding:16px;gap:18px}
+.appearance-section .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.appearance-grid .form-actions{position:sticky;bottom:10px;z-index:3;background:#fffffff5;backdrop-filter:blur(12px);border:1px solid #e2e8f0;padding:12px;border-radius:12px;box-shadow:0 6px 24px #17203312}
+.appearance-preview-head{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.appearance-preview-head h3{margin:0}
+.appearance-save-state{font-size:11px;font-weight:700;background:#edf6ef;color:#24663a;border-radius:30px;padding:6px 9px}.appearance-save-state.changed{background:#fff1d6;color:#80501a}
+.appearance-preview-tools{display:flex;gap:7px;margin:16px 0}.appearance-preview-tools .btn[aria-pressed=true]{background:#e8f0ff;border-color:#92b3ef;color:#164f9b}
+.appearance-preview[data-preview-size=mobile]{max-width:320px;margin-left:auto;margin-right:auto}.appearance-preview[data-preview-size=mobile] .appearance-demo{grid-template-columns:75px minmax(0,1fr)}
+.appearance-preview[data-preview-size=mobile] .appearance-demo section{padding:9px}.appearance-preview[data-preview-size=mobile] .appearance-demo .btn{margin-bottom:6px}
+.appearance-preview[data-preview-size=mobile] .login-card{padding:min(var(--login-padding),20px)}
+.appearance-image-field{grid-column:1/-1}.appearance-image-upload{border:1px dashed #b5c8e5;border-radius:12px;padding:14px;background:#f8faff;display:grid;gap:12px;min-width:0}
+.appearance-image-upload img{max-width:100%;max-height:150px;object-fit:contain;justify-self:center;border-radius:9px;background:repeating-conic-gradient(#eef2f7 0 25%,white 0 50%) 0/16px 16px}
+.appearance-image-empty{font-size:30px;color:#6d8cba;text-align:center}.appearance-image-upload input{width:100%;min-width:0}.appearance-image-upload .btn{justify-self:start}
+@media(prefers-reduced-motion:reduce){html[data-appearance] #app .btn,.appearance-demo .btn{transition:none!important;transform:none!important}}
+@media(max-width:550px){.appearance-grid .appearance-section fieldset{padding:12px}.appearance-grid .form-actions{bottom:4px;gap:6px}.appearance-grid .form-actions .btn{padding:9px;font-size:12px}}
+html[data-appearance=dark] .appearance-page :is(.appearance-section,.appearance-image-upload,.appearance-presets select,.form-actions){background:var(--appearance-surface);color:var(--ink);border-color:var(--line)}
+html[data-appearance=dark] .appearance-page>.card:first-child,html[data-appearance=dark] .appearance-section>summary{background:var(--panel);color:var(--ink);border-color:var(--line)}
+.appearance-anchors{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0}
+.appearance-anchors button{border:1px solid var(--line);border-radius:20px;padding:7px 10px;background:var(--panel);color:var(--ink);font-size:12px;font-weight:650}
+.appearance-anchors button:hover{border-color:var(--accent);color:var(--accent)}
+.appearance-anchors button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.appearance-section,.appearance-preview-card{scroll-margin-top:100px}
+.appearance-anchors [data-show-preview]{margin-left:auto;background:#e8f0ff;color:#1d4c93}
+
+/* Keep replaced images inside the configured logo height in CSS grid. */
+.appearance-demo [data-brand-logo]{max-width:100%}
+.custom-login .brand-mark{overflow:hidden;min-width:0;min-height:0}
+.custom-login .brand-mark img{height:var(--login-logo-height);max-height:100%;min-height:0;min-width:0}
+
+.appearance-tools {display:flex;align-items:end;gap:12px;flex-wrap:wrap;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);margin:12px 0;}
+.appearance-tools>label {display:grid;gap:6px;flex:1 1 220px;min-width:0;font-size:12px;font-weight:650;}
+.appearance-tools input {width:100%;min-width:0;}
+.appearance-tools>small {flex-basis:100%;color:var(--muted);}
+.appearance-login-presets {flex-wrap:wrap;margin:12px 0;}
+.appearance-login-presets small {flex-basis:100%;color:var(--muted);}
+.appearance-section[hidden],.appearance-anchors button[hidden] {display:none!important;}
+@media(max-width:600px){.appearance-tools>.inline-actions {width:100%;}.appearance-tools .btn {flex:1 1 120px;min-height:44px;}.appearance-tools input {font-size:16px;}}
+.configuration-sections{flex-wrap:wrap;padding:0;background:var(--panel,#fff);border:1px solid var(--line,#dfe6ef);border-radius:12px}.configuration-sections .tab{min-height:44px}#connectionsRoot[hidden],#appearanceRoot[hidden]{display:none!important}#connectionsRoot{min-width:0}#connectionsRoot p{overflow-wrap:anywhere}
+
+.appearance-external-tabs>.tabs{display:none}
+
+/* Connection manager: scoped cards and bounded form fields. */
+.api-connection-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
+.api-connection-card{min-width:0;padding:18px;border:1px solid var(--line,#dce4f1);border-radius:14px;background:var(--surface,#fff)}
+.api-connection-card h3{margin:0;overflow-wrap:anywhere}.api-connection-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:14px;margin:16px 0}.api-connection-facts>div{min-width:0}.api-connection-facts dt{font-size:12px;color:var(--muted,#64748b)}.api-connection-facts dd{margin:3px 0 0;overflow-wrap:anywhere;font-size:13px}.api-connection-actions{display:flex;flex-wrap:wrap;gap:7px}.api-connection-actions .btn{padding:7px 10px;font-size:12px}
+[data-api-manager] .form-grid input,[data-api-manager] .form-grid select{min-width:0;width:100%;box-sizing:border-box}.api-user-help{font-size:12px;align-self:end}.api-user-help p{margin:0 0 6px}
+[data-api-manager] [hidden]{display:none!important}
+
+.api-user-dialog{width:min(520px,calc(100vw - 28px));max-height:calc(100dvh - 28px);overflow:auto;border:0;border-radius:16px;padding:22px;box-shadow:0 20px 70px #0004}.api-user-dialog form{display:grid;gap:14px}.api-user-dialog label{display:grid;gap:5px}.api-user-dialog input,.api-user-dialog select{width:100%;box-sizing:border-box;min-height:40px}.api-user-dialog::backdrop{background:#17203370}
+
+
+@media(max-width:600px){[data-api-manager] .btn{min-height:44px}[data-api-manager] .section-head .inline-actions{width:100%;flex-wrap:wrap}}
+
+.appearance-style-library{margin:16px 0;padding:16px;border:var(--appearance-border-width,1px) solid var(--line);border-radius:var(--r,12px);background:var(--appearance-surface,var(--panel));min-width:0}
+.appearance-style-library h3{margin:0 0 6px;font-size:1rem}.appearance-style-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.appearance-style-fields label{display:grid;gap:6px;min-width:0}.appearance-style-fields :is(input,select){width:100%;min-width:0;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);font:inherit}.appearance-style-library .inline-actions{gap:8px;flex-wrap:wrap}.appearance-style-library [data-style-status]{margin:10px 0 0}@media(max-width:600px){.appearance-style-fields{grid-template-columns:1fr}.appearance-style-library .btn{white-space:normal}}
+
+
+/* Representative, non-persistent module preview. Never mounts business forms or fetches records. */
+.appearance-demo{color:var(--ink);background:var(--bg)}
+.appearance-demo>aside{background:var(--nav-bg);color:var(--nav-ink);gap:7px}
+.appearance-demo-brand{display:flex;flex-direction:column;gap:4px;min-width:0}
+.appearance-demo-brand b{display:block;font-size:12px;overflow-wrap:anywhere}
+.appearance-demo-brand small{display:block;color:var(--nav-section-ink);font-size:10px}
+.appearance-demo-section{color:var(--nav-section-ink);font-size:9px;letter-spacing:.07em;margin-top:12px}
+.appearance-demo-nav{border:0;border-radius:7px;background:transparent;color:var(--nav-ink);font:inherit;font-size:11px;text-align:left;padding:9px 6px;cursor:pointer}
+.appearance-demo-nav[aria-pressed=true]{background:var(--nav-active);color:var(--appearance-nav-active-ink);font-weight:750}
+.appearance-demo-nav:focus-visible{outline:2px solid var(--appearance-accent);outline-offset:2px}
+.appearance-demo-main{min-width:0}
+.appearance-demo header{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--ink);border-bottom:1px solid var(--line);font-weight:750;padding:12px;min-height:var(--appearance-header)}
+.appearance-demo-user{font-size:10px;font-weight:500;color:var(--muted);text-align:right}
+.appearance-demo section{min-width:0;align-content:start}
+.appearance-demo-tabs{display:flex;gap:5px;flex-wrap:wrap;border-bottom:1px solid var(--line);font-size:11px;color:var(--muted)}
+.appearance-demo-tabs span{padding:7px 9px}.appearance-demo-tabs .is-selected{color:var(--ink);border-bottom:2px solid var(--appearance-accent);font-weight:750}
+.appearance-demo-content[hidden]{display:none!important}
+.appearance-demo-content{display:grid;gap:var(--appearance-gap);min-width:0}
+.appearance-demo-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.appearance-demo-cards>.card{display:grid;gap:5px;min-width:0}
+.appearance-demo-cards strong{font-size:clamp(14px,2vw,20px);overflow-wrap:anywhere}
+.appearance-demo h4{margin:0 0 8px;font-size:13px}
+.appearance-demo p{font-size:11px}
+.appearance-demo-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.appearance-demo-fields label{display:grid;gap:4px;font-size:10px;color:var(--ink);min-width:0}
+.appearance-demo-fields :is(input,select){box-sizing:border-box;max-width:100%;min-width:0;padding:7px 5px;border:1px solid var(--line);border-radius:7px;background:var(--appearance-surface);color:var(--ink);font:inherit}
+.appearance-demo-actions{display:flex;flex-wrap:wrap;gap:8px}
+.appearance-demo .card,.appearance-demo .table-wrap{background:var(--panel);color:var(--ink)}
+.appearance-demo .data-table{color:var(--ink)}
+.appearance-preview[data-preview-size=mobile] .appearance-demo-user{display:none}
+.appearance-preview[data-preview-size=mobile] .appearance-demo-cards,.appearance-preview[data-preview-size=mobile] .appearance-demo-fields{grid-template-columns:1fr}
+.appearance-preview[data-preview-size=mobile] .appearance-demo>aside{padding:6px}
+.appearance-preview[data-preview-size=mobile] .appearance-demo-nav{font-size:9px;padding:7px 3px}
+
+
+/* Opt-in text and neutral control contrast across existing module surfaces.
+   Semantic warning/error colors remain owned by their components. */
+html[data-appearance] :is(.topbar,.topbar h1,.topbar .eyebrow,.field label,.form-grid>label,.section-head h2,.section-head h3,.record-toolbar h2){color:var(--ink)}
+html[data-appearance] :is(.topbar .eyebrow,.kpi small,.pagination,.metric-box span){color:var(--muted)}
+html[data-appearance] :is(.module-tabs,.tabs,.filters){color:var(--ink);border-color:var(--line)}
+html[data-appearance] :is(.tab,.module-tabs button){color:var(--muted)}
+html[data-appearance] :is(.tab.active,.module-tabs button.active){color:var(--accent)}
+html[data-appearance] :is(.data-table th,.data-table td){color:var(--ink);border-color:var(--line)}
+html[data-appearance] .data-table th{color:var(--muted)}
+html[data-appearance=dark] :is(.topbar,.table-wrap,.data-table,.modal,.modal-head,.module-tabs,.filters,.tabs,.attachment-box,.check-field:not(.emphasis-check),.file-picker){background:var(--appearance-surface);color:var(--ink);border-color:var(--line)}
+html[data-appearance=dark] :is(.card,.kpi){background:var(--panel);color:var(--ink);border-color:var(--line)}
+html[data-appearance=dark] :is(.data-table th,.data-table tr:hover td,.table-wrap::before){background:var(--panel);color:var(--ink);border-color:var(--line)}
+html[data-appearance=dark] :is(.field input,.field select,.field textarea,.form-grid input,.form-grid select,.form-grid textarea,.search input){background:var(--panel);color:var(--ink);border-color:var(--line)}
+html[data-appearance=dark] :is(.btn.secondary,.close-btn,.icon-btn){background:var(--panel);color:var(--ink);border-color:var(--line)}
+html[data-appearance=dark] :is(.note:not(.warn):not(.bad),.badge:not(.ok):not(.warn):not(.bad):not(.info)){background:var(--panel);color:var(--ink);border-color:var(--line)}
+html[data-appearance=dark] .summary-row{border-color:var(--line)}
+html[data-appearance] :is(.field input,.field select,.field textarea,.form-grid input,.form-grid select,.form-grid textarea):focus-visible{outline:2px solid var(--appearance-accent);outline-offset:1px}
+
+/* Scale the simulated sidebar to the configured width, without overflowing narrow previews. */
+.appearance-demo{grid-template-columns:clamp(98px,calc(var(--sidebar) * .45),165px) minmax(0,1fr)}
+
+
+/* Navigation organiser: all controls remain reachable on narrow screens. */
+.nav-order-editor{display:grid;gap:8px;min-width:0}
+.nav-order-editor>[data-nav-row]{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);min-width:0}
+.nav-order-editor>[data-nav-row]>span:first-child{min-width:0;overflow-wrap:anywhere}
+.nav-order-actions{display:inline-flex;align-items:center;flex-wrap:wrap;gap:4px;justify-content:flex-end;flex-shrink:0}
+.nav-order-actions .btn{padding:5px 8px;min-width:32px}
+@media(max-width:550px){.nav-order-editor>[data-nav-row]{align-items:flex-start;flex-wrap:wrap}.nav-order-actions{width:100%;justify-content:flex-start}}
+
+/* Selected menu text adapts to the user's chosen active background. */
+html[data-appearance] .sidebar .nav-btn.active{background:var(--nav-active);color:var(--appearance-nav-active-ink)}
+
+/* Local preview-only colour diagnostics; no changes to production surfaces. */
+.appearance-contrast-panel{display:grid;gap:7px;padding:12px;margin-bottom:10px;border:1px solid var(--line);border-radius:10px;min-width:0}
+.appearance-contrast-panel h4{margin:0;font-size:13px}
+.appearance-contrast-panel p{margin:0;overflow-wrap:anywhere;font-size:12px}
+.appearance-contrast-panel [data-contrast-status=warning]{color:var(--ink);font-weight:650}
+.appearance-contrast-panel small{color:var(--muted);font-size:11px}
+.appearance-contrast-panel button{justify-self:start;white-space:normal;text-align:left}
+
+
+/* Existing personal colours now reach secondary actions and neutral containers too. */
+html[data-appearance] #app .btn.secondary{background:var(--appearance-surface);color:var(--ink);border-color:var(--line)}
+html[data-appearance] #app .note:not(.warn):not(.bad){background:var(--appearance-surface);color:var(--ink);border-color:var(--line)}
+html[data-appearance] #app .module-tabs{background:var(--appearance-surface);color:var(--ink)}
+html[data-appearance] #app :is(.filters,.attachment-box):not(.emphasis-check){background:var(--appearance-surface);color:var(--ink);border-color:var(--line)}
+
+/* Optional header layout shortcuts reuse the validated existing settings. */
+.appearance-header-presets{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:10px 12px}
+.appearance-header-presets span{font-size:12px;font-weight:650;margin-right:5px}
+.appearance-header-presets .btn{padding:7px 10px}
+
+
+/* Expanded personal palette. Scoped to opt-in appearance and neutral elements:
+   semantic status colours (success/error/warning) keep their own contract. */
+html[data-appearance] #app .topbar{background:var(--appearance-topbar-bg);color:var(--appearance-topbar-ink)}
+html[data-appearance] .appearance-demo header{background:var(--appearance-topbar-bg);color:var(--appearance-topbar-ink)}
+html[data-appearance] #app .topbar :is(h1,.eyebrow){color:var(--appearance-topbar-ink)}
+/* The clock belongs to the topbar palette, not to generic button text. */
+html[data-appearance] #app .topbar .header-clock,
+html[data-appearance] #app .topbar .header-clock :is(b,small){color:var(--appearance-topbar-ink)}
+.appearance-demo header :is([data-demo-heading],.appearance-demo-user){color:var(--appearance-topbar-ink)}
+html[data-appearance] #app :is(.section-head h2,.section-head h3,.record-toolbar h2,.card h2,.card h3,.card h4,.kpi strong,.modal-head h2){color:var(--appearance-heading-ink)}
+html[data-appearance] #app :is(.field label,.form-grid>label,.form-grid label,.login-card label){color:var(--appearance-label-ink)}
+html[data-appearance] #app :is(.field input:not([type=color]):not([type=checkbox]):not([type=radio]),.field select,.field textarea,.form-grid input:not([type=color]):not([type=checkbox]):not([type=radio]),.form-grid select,.form-grid textarea,.search input,.file-picker){background:var(--appearance-input-bg);color:var(--appearance-input-ink);border-color:var(--line)}
+html[data-appearance] #app :is(.data-table,.data-table tbody,.data-table tbody tr,.data-table td){background:var(--appearance-table-row-bg)}
+html[data-appearance] #app .data-table :is(th,thead){background:var(--appearance-table-head-bg);color:var(--appearance-table-head-ink)}
+html[data-appearance] #app .data-table tbody tr:hover td{background:var(--panel)}
+html[data-appearance] #app .btn.secondary{background:var(--appearance-secondary-bg);color:var(--appearance-secondary-ink);border-color:var(--line)}
+html[data-appearance] #app .note:not(.warn):not(.bad){background:var(--appearance-note-bg);color:var(--appearance-note-ink);border-color:var(--line)}
+html[data-appearance] #app :is(.filters,.attachment-box):not(.emphasis-check){background:var(--appearance-filter-bg)}
+html[data-appearance] #app .table-wrap::before{background:var(--appearance-filter-bg)}
+html[data-appearance] #app :is(.modal,.modal-head){background:var(--appearance-modal-bg);color:var(--ink)}
+/* The editor's own input labels must remain legible even if the user picks a low-contrast label colour. */
+html[data-appearance] .appearance-grid .field label{color:var(--ink)}
+/* Preview mirrors the same independent fields, even when the host has no live appearance saved. */
+.appearance-demo header{background:var(--appearance-topbar-bg);color:var(--appearance-topbar-ink)}
+.appearance-demo header :is([data-demo-heading],.appearance-demo-user){color:var(--appearance-topbar-ink)}
+.appearance-demo :is(h4,.appearance-demo-cards strong){color:var(--appearance-heading-ink)}
+.appearance-demo-fields label{color:var(--appearance-label-ink)}
+.appearance-demo-fields :is(input,select){background:var(--appearance-input-bg);color:var(--appearance-input-ink)}
+.appearance-demo .data-table :is(th,thead){background:var(--appearance-table-head-bg);color:var(--appearance-table-head-ink)}
+.appearance-demo .data-table tbody td{background:var(--appearance-table-row-bg)}
+.appearance-demo .btn.secondary{background:var(--appearance-secondary-bg);color:var(--appearance-secondary-ink)}
+.appearance-demo .note:not(.warn):not(.bad){background:var(--appearance-note-bg);color:var(--appearance-note-ink)}
+
+/* Extra sample boxes show these colours even when viewing only one example module. */
+.appearance-demo-samples{display:grid;gap:7px;min-width:0}
+.appearance-demo-samples .filters{padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:var(--appearance-filter-bg);color:var(--ink);font-size:11px}
+.appearance-demo-samples .note{padding:8px 10px;background:var(--appearance-note-bg);color:var(--appearance-note-ink);font-size:11px}
+.appearance-demo-modal-sample{padding:9px 10px;border:1px solid var(--line);border-radius:7px;background:var(--appearance-modal-bg);color:var(--ink);font-size:11px}
+
+
+/* Expanded static visual laboratory: responsive mock screens and local modal. */
+.appearance-demo{position:relative}
+.appearance-demo-main>section{padding:10px;gap:10px}
+.appearance-demo-tabs{display:flex;flex-wrap:wrap}
+.appearance-demo-tabs .appearance-demo-tab{appearance:none;border:0;border-bottom:2px solid transparent;padding:8px 10px;background:transparent;color:var(--muted);font:inherit;font-size:11px;cursor:pointer}
+.appearance-demo-tabs .appearance-demo-tab[aria-pressed=true]{border-bottom-color:var(--appearance-accent);color:var(--appearance-heading-ink);font-weight:750}
+.appearance-demo [data-demo-panel][hidden],.appearance-demo [data-demo-dialog][hidden],.appearance-demo [data-demo-table-row][hidden]{display:none!important}
+.appearance-demo [data-demo-panel]{display:grid;gap:9px;min-width:0}
+.appearance-demo .appearance-demo-content{min-width:0}
+.appearance-demo-content-card{display:grid;gap:9px}
+.appearance-demo-document{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 9px;border:1px solid var(--line);border-radius:8px;background:var(--appearance-surface);font-size:11px;color:var(--ink)}
+.appearance-demo-document span:last-child{color:var(--muted);font-size:10px}
+.appearance-demo-table{overflow:auto;max-width:100%}
+.appearance-demo .data-table{font-size:11px}
+.appearance-demo .data-table th{background:var(--appearance-table-head-bg);color:var(--appearance-table-head-ink)}
+.appearance-demo .data-table td{background:var(--appearance-table-row-bg)}
+.appearance-demo-dialog{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;padding:14px;z-index:3;background:#0008}
+.appearance-demo-dialog-content{display:grid;gap:9px;width:min(300px,100%);border:1px solid var(--line);border-radius:var(--r,12px);background:var(--appearance-modal-bg);color:var(--ink);padding:16px;box-shadow:0 18px 45px #0005}
+.appearance-demo-dialog-content h4,.appearance-demo-dialog-content p{margin:0}
+.appearance-demo-dialog-content .appearance-demo-fields{grid-template-columns:1fr}
+.appearance-demo-dialog-content .btn{justify-self:start}
+.appearance-demo :is(.appearance-demo-nav,.appearance-demo-tab,.btn):focus-visible{outline:2px solid var(--appearance-accent);outline-offset:2px}
+@media(max-width:650px){.appearance-demo>aside{padding:6px}.appearance-demo-main>section{padding:6px}.appearance-demo-document{flex-direction:column;align-items:flex-start}.appearance-demo .data-table{min-width:290px}}
+
+
+/* Personal style exchange is opt-in: the user handles the code, never another account. */
+.appearance-style-share{display:grid;gap:9px;margin:12px 0;padding:16px;border:1px solid var(--line);border-radius:var(--r,12px);background:var(--appearance-surface,var(--panel));min-width:0}
+.appearance-style-share h3,.appearance-style-share p{margin:0}
+.appearance-style-share h3{font-size:1rem}
+.appearance-style-share label{display:grid;gap:7px;font-size:12px;font-weight:650;min-width:0}
+.appearance-style-share textarea{box-sizing:border-box;display:block;width:100%;max-width:100%;min-height:105px;resize:vertical;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--appearance-input-bg,var(--panel));color:var(--appearance-input-ink,var(--ink));font:12px/1.5 ui-monospace,monospace;overflow-wrap:anywhere}
+.appearance-style-share .inline-actions{display:flex;flex-wrap:wrap;gap:8px}
+.appearance-style-share .btn{white-space:normal;text-align:left}
+.appearance-style-share [data-style-share-status]{overflow-wrap:anywhere}
+
+
+/* An enlarged preview is an in-page local simulator, not a second application. */
+.appearance-preview-card.is-expanded{position:fixed;inset:12px;z-index:1005;overflow:auto;max-width:none;width:auto;height:auto;box-shadow:0 16px 70px #0008}
+.appearance-preview-card.is-expanded .appearance-demo{grid-template-columns:minmax(155px,20%) minmax(0,1fr);min-height:min(640px,75vh)}
+.appearance-preview-card.is-expanded .appearance-preview{max-width:1200px;margin:15px auto}
+.appearance-preview-card.is-expanded .appearance-demo-main>section{padding:16px}
+.appearance-preview-card.is-expanded .appearance-demo .appearance-demo-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:600px){.appearance-preview-card.is-expanded{inset:3px;padding:8px}.appearance-preview-card.is-expanded .appearance-demo{grid-template-columns:105px minmax(0,1fr)}.appearance-preview-card.is-expanded .appearance-demo-main>section{padding:6px}}
+
+
+/* Specialised views reuse the same personal palette without touching their
+   business flows, validation states, compact layouts or explicit brand badges. */
+html[data-appearance] #app :is(.home-widget-header h3,.home-dashboard-toolbar strong,.home-top-products>header h4){color:var(--appearance-heading-ink)}
+html[data-appearance] #app :is(.home-orders-table th,.home-products-table th){background:var(--appearance-table-head-bg);color:var(--appearance-table-head-ink)}
+html[data-appearance] #app :is(.home-orders-table tbody td,.home-products-table tbody td){background:var(--appearance-table-row-bg)}
+html[data-appearance] #app #productosRoot .prd-stitch :is(h2,h3,h4,.text-headline-md,.text-headline-sm){color:var(--appearance-heading-ink)}
+html[data-appearance] #app #productosRoot .prd-stitch :is(.prd-fields label,.prd-field label,.prd-catalog-filters label){color:var(--appearance-label-ink)}
+html[data-appearance] #app #productosRoot .prd-stitch :is(.prd-fields input:not([type=checkbox]):not([type=radio]):not([type=color]),.prd-fields select,.prd-fields textarea,.prd-parallel-editors input:not([type=checkbox]):not([type=radio]),.prd-parallel-editors textarea){background:var(--appearance-input-bg);color:var(--appearance-input-ink)}
+html[data-appearance] #app #productosRoot .prd-stitch .prd-catalog-table th{background:var(--appearance-table-head-bg);color:var(--appearance-table-head-ink)}
+html[data-appearance] #app #productosRoot .prd-stitch .prd-catalog-table tbody td{background:var(--appearance-table-row-bg)}
+
+html[data-appearance] .header-clock b{font-size:var(--appearance-clock-font,14px)}
+html[data-clock-layout="inline"] .header-clock{display:flex;align-items:center;gap:6px}
+html[data-clock-date="hide"] .header-clock small{display:none}
+html[data-calendar-density="compact"] .header-calendar{width:min(270px,calc(100vw - 24px));padding:10px}
+html[data-calendar-density="compact"] .header-calendar-grid button{min-height:26px;padding:4px}
+@media(max-width:480px){html[data-clock-layout="inline"] .header-clock{display:grid;gap:0}html[data-appearance] .header-clock b{font-size:min(var(--appearance-clock-font,14px),14px)}}

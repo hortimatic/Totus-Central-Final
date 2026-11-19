@@ -1,0 +1,68 @@
+import {previewQuickPriceStudy,parseDecimal} from './calculations.js?v=545787bef649757425a9f0058acf219a4252fa16';
+
+export function parseVariantAttributes(text){
+ const entries=String(text||'').split(/[;·\n]/).map(s=>s.trim()).filter(Boolean);
+ const result=Object.create(null);
+ for(const entry of entries){
+  const i=entry.indexOf(':'),key=entry.slice(0,i).trim(),value=entry.slice(i+1).trim();
+  if(i<1||!value)throw new Error('Escribe los atributos como Color: Negro; Resistencia: 0,8 Ω.');
+  if(['__proto__','prototype','constructor'].includes(key))throw new Error('Nombre de atributo no permitido.');
+  if(Object.hasOwn(result,key))throw new Error('Hay un atributo repetido: '+key);
+  result[key]=value;
+ }
+ return {...result};
+}
+export function formatVariantAttributes(attributes){
+ return Object.entries(attributes||{}).map(([key,value])=>key+': '+String(value)).join(' · ');
+}
+export function variantStudy(variant,settings={},discount=0){
+ const cost=variant?.cost_net,pvp=variant?.pvp;
+ if(cost==null||String(cost).trim()===''||pvp==null||String(pvp).trim()==='')return null;
+ return previewQuickPriceStudy({cost,pvp,discount,vat:settings.default_sales_vat_rate??21,re:settings.purchase_re_rate??5.2});
+}
+
+// Product editors use the same economic calculation as Precio. A missing cost
+// stays unknown; it is never treated as a free purchase or a 100% margin.
+export function productPriceStudy({saleNet,costNet,vat=21,re=5.2,discount=0}={}){
+ if([saleNet,costNet].some(value=>value==null||String(value).trim()===''))return null;
+ try{
+  const net=parseDecimal(saleNet),rate=parseDecimal(vat);
+  const study=previewQuickPriceStudy({cost:costNet,pvp:net*(1+rate/100),vat:rate,re,discount});
+  if(!study)return null;
+  const netMargin=study.saleNet-study.cost;
+  return {...study,netMargin,netMarginPct:study.saleNet>0?netMargin/study.saleNet*100:0};
+ }catch{return null;}
+}
+
+// A live input is not a stored amount: invalid or missing costs stay unknown.
+export function pricingProviderPreview(row){
+ if(row?.net_cost==null||String(row.net_cost).trim()==='')return null;
+ try{
+  const net_cost=parseDecimal(row.net_cost),provider_discount=parseDecimal(row.provider_discount??0),shipping_unit=parseDecimal(row.shipping_unit??0);
+  if(net_cost<0||provider_discount<0||provider_discount>100||shipping_unit<0)return null;
+  return {...row,net_cost,provider_discount,shipping_unit};
+ }catch{return null}
+}
+export function numericRange(values,format){
+ const valid=values.filter(v=>v!=null&&String(v).trim()!==''&&Number.isFinite(Number(v))).map(Number);
+ if(!valid.length)return '—';
+ const low=Math.min(...valid),high=Math.max(...valid);
+ return low===high?format(low):format(low)+' – '+format(high);
+}
+export function validateVariant(row,others=[],id=''){
+ if(!row.name?.trim()||!row.sku?.trim())throw new Error('Indica el nombre y la referencia de la variante.');
+ if(others.some(v=>v.id!==id&&v.sku?.trim().toLowerCase()===row.sku.trim().toLowerCase()))throw new Error('Ya existe una variante con esa referencia.');
+ for(const key of ['cost_net','pvp','nicotine_mg_ml','volume_ml','special_tax_rate_ml','special_tax_amount']){
+  if(row[key]!=null&&(!Number.isFinite(Number(row[key]))||Number(row[key])<0))throw new Error('Los importes, la nicotina y el volumen deben ser números positivos o cero.');
+ }
+ return row;
+}
+
+export function pricingProviderCost(row){
+ return Number(row?.net_cost||0)*(1-Number(row?.provider_discount||0)/100)+Number(row?.shipping_unit||0);
+}
+
+export function pricingCompetition(rows=[]){
+ const prices=rows.filter(r=>r.price!=null&&Number.isFinite(Number(r.price))&&Number(r.price)>=0&&!['no','sin stock','agotado','out of stock'].includes(String(r.stock_status||'').trim().toLowerCase())).map(r=>Number(r.price)*(1-Math.min(100,Math.max(0,Number(r.discount)||0))/100)+Math.max(0,Number(r.shipping)||0));
+ return prices.length?{count:prices.length,min:Math.min(...prices),mean:prices.reduce((a,b)=>a+b,0)/prices.length,max:Math.max(...prices)}:{count:0,min:null,mean:null,max:null};
+}

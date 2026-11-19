@@ -1,0 +1,42 @@
+import {parseDecimal,manualClosingReconciled,sourceClosingReconciled} from './calculations.js?v=545787bef649757425a9f0058acf219a4252fa16';
+import {archiveAccepted} from './historical-acceptance.js?v=545787bef649757425a9f0058acf219a4252fa16';
+export const DRAWER_MONEY_FIELDS=['opening_cash','closing_cash','card_sales','bizum_sales','online_sales','other_income','cash_withdrawals','cash_expenses_declared','cash_extra_in','cash_extra_out','cash_discrepancy'];
+export const DRAWER_FORM_FIELDS=[['Open','opening_cash'],['Close','closing_cash'],['Card','card_sales'],['Bizum','bizum_sales'],['Online','online_sales'],['Other','other_income'],['Withdraw','cash_withdrawals'],['CashExpense','cash_expenses_declared'],['ExtraIn','cash_extra_in'],['ExtraOut','cash_extra_out'],['Discrepancy','cash_discrepancy']];
+export function closingMissingFields(row){
+ if(row?.status!=='borrador')return {};
+ try{const source=JSON.parse(row.source_ref||'{}'),map=source.draft_missing_fields;
+  if(!map||Array.isArray(map)||typeof map!=='object')return {};
+  return Object.fromEntries(Object.entries(map).map(([id,fields])=>[id,Array.isArray(fields)?fields.filter(f=>['opening_cash','closing_cash'].includes(f)):[]]).filter(([,fields])=>fields.length));
+ }catch{return {}}
+}
+export const incompleteClosing=row=>Object.keys(closingMissingFields(row)).length>0;
+export const closingDrawerValue=(row,drawerId,field,value)=>closingMissingFields(row)[drawerId]?.includes(field)?null:value;
+export const drawerCashSales=d=>Math.round((Number(d.closing_cash||0)+Number(d.cash_withdrawals||0)+Number(d.cash_expenses_declared||0)+Number(d.cash_extra_out||0)-Number(d.cash_extra_in||0)-Number(d.opening_cash||0)-Number(d.cash_discrepancy||0))*100)/100;
+export function drawerSalesReferences(readings){
+ const values=readings.map(row=>{
+  const raw=row.reported_total_sales;if(raw==null||String(raw).trim()==='')return null;
+  const value=parseDecimal(raw);
+  if(!Number.isFinite(value)||value<0||Math.abs(value*100-Math.round(value*100))>1e-6)throw Error('Las ventas de cada caja deben ser un importe positivo o cero, con un máximo de dos decimales.');
+  return value;
+ });
+ const any=values.some(v=>v!==null),complete=!!values.length&&values.every(v=>v!==null);
+ return {values,any,complete,total:complete?values.reduce((cents,value)=>cents+Math.round(value*100),0)/100:null};
+}
+export function closingStateLabel(row,settings){
+ try{if(JSON.parse(row.source_ref||'{}').pending_cash_discrepancies?.length)return 'Cerrado · descuadre pendiente';}catch{};
+ if(archiveAccepted(settings,row,'closing')||manualClosingReconciled(row)||sourceClosingReconciled(row))return 'Conciliado y aceptado';
+ return row.entry_mode==='source_snapshot'?'Pendiente de conciliación':row.status==='borrador'?'Borrador':'Cerrado';
+}
+export function previewClosing(readings,reported=''){
+ try{
+  const drawers=readings.map(raw=>{const d={drawer_id:raw.drawer_id};for(const field of DRAWER_MONEY_FIELDS){const value=raw[field];d[field]=['opening_cash','closing_cash'].includes(field)&&(value==null||String(value).trim()==='')?null:parseDecimal(value);if(field!=='cash_discrepancy'&&d[field]!=null&&d[field]<0)throw Error('No se admiten importes negativos en Cajas.')}d.cash_discrepancy_reason=String(raw.cash_discrepancy_reason||'').trim();if(d.cash_discrepancy!==0&&(!d.cash_discrepancy_reason||raw.reported_total_sales==null||String(raw.reported_total_sales).trim()===''))throw Error('Indica las ventas registradas de esa caja y el motivo del descuadre pendiente.');if(Math.abs(d.cash_discrepancy*100-Math.round(d.cash_discrepancy*100))>1e-6)throw Error('El descuadre admite como máximo dos decimales.');return d});
+  const complete=!!drawers.length&&drawers.every(d=>d.opening_cash!=null&&d.closing_cash!=null);
+  const total=complete?drawers.reduce((s,d)=>s+drawerCashSales(d)+d.card_sales+d.bizum_sales+d.online_sales+d.other_income,0):null;
+  const references=drawerSalesReferences(readings);
+  const reference=references.any?references.total:reported==null||String(reported).trim()===''?null:parseDecimal(reported);
+  if(reference!=null&&reference<0)throw Error('El total de ventas no puede ser negativo.');
+  if(total!=null&&!Number.isFinite(total))throw Error('Los importes son demasiado grandes.');
+  const drawerDifferences=drawers.map((d,index)=>complete&&references.values[index]!=null?Math.round((drawerCashSales(d)+d.card_sales+d.bizum_sales+d.online_sales+d.other_income-references.values[index])*100)/100:null);
+  return {valid:true,complete,drawers,total,references,drawerDifferences,difference:complete&&reference!=null?Math.round((total-reference)*100)/100:null,negativeDrawers:drawers.filter(d=>d.opening_cash!=null&&d.closing_cash!=null&&drawerCashSales(d)<-1e-9).map(d=>d.drawer_id)};
+ }catch(error){return {valid:false,complete:false,total:null,difference:null,error:error.message,drawers:[],negativeDrawers:[]}}
+}

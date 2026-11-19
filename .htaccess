@@ -1,0 +1,8 @@
+Options -Indexes
+DirectoryIndex index.html
+<IfModule mod_headers.c>
+<FilesMatch "^(index\.html|build-info\.json)$">
+Header set Cache-Control "no-cache, must-revalidate"
+</FilesMatch>
+Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
