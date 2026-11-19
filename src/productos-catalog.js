@@ -1,5 +1,5 @@
-import {textValue,associationIds} from './productos-core.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {csvCell} from './utils.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
+import {textValue,associationIds} from './productos-core.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {csvCell} from './utils.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
 export const PRODUCT_COLUMNS=Object.freeze([
  ['image','Foto'],['name','Producto'],['id','ID'],['reference','Ref.'],['ean13','EAN'],['brand','Marca'],['supplier','Proveedor'],['category','Categoría'],['store','Tienda'],['cost','Coste neto'],['costVat','Coste +IVA'],['costTotal','Coste total'],['price','PVP neto'],['gross','PVP final'],['margin','Margen %'],['marginTotal','Margen €'],['stock','Stock'],['variants','Variantes'],['active','Estado'],['weight','Peso'],['width','Ancho'],['height','Alto'],['depth','Fondo'],['date_add','Creado'],['creator','Autor'],['date_upd','Actualizado']
 ]);

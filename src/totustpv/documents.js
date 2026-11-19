@@ -1,11 +1,11 @@
-import {ticketLogoData} from './ticket-branding.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {taxSummaryHtml} from './tax-summary.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {receiptNumber} from './receipt-series.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {documentPaymentReferences} from './payment-reference.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
+import {ticketLogoData} from './ticket-branding.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {taxSummaryHtml} from './tax-summary.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {receiptNumber} from './receipt-series.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {documentPaymentReferences} from './payment-reference.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
@@ -58,6 +58,7 @@ export function receiptHtml(document,options,{preview=false}={}){
   ${o.showWebsite&&receiptWebsiteUrl(document.merchant_origin)?`<small>${esc(receiptWebsiteUrl(document.merchant_origin))}</small>`:''}
   ${o.showOperator&&typeof document.operator_name==='string'&&document.operator_name.trim()?`<small>Te atendió: ${esc(document.operator_name)}</small>`:''}
   ${gift?'':customerHtml(document.customer,o)}
+  ${!gift&&o.showCustomer&&o.showCustomerExtra&&document.customer_extra?.field===o.customerExtraField&&typeof document.customer_extra.value==='string'&&document.customer_extra.value.trim()?`<p class="tpv-receipt-customer-extra"><strong>${esc(o.customerExtraLabel)}:</strong> ${esc(document.customer_extra.value)}</p>`:''}
   ${!gift&&!preview&&(o.showOriginalPrice||o.showLineDiscount||o.includeLineDiscountsInTotal||!o.showDiscountedPrices)&&document.line_discounts_complete!==true?'<small>Este pedido no dispone del desglose histórico de precios y descuentos de artículos.</small>':''}
   ${!gift&&!o.showDiscountedPrices&&document.lines.some(line=>historicalGroupRate(line)===null)?'<small>Algunos artículos no tienen datos históricos suficientes para distinguir sus descuentos; sus importes se mantienen ocultos.</small>':''}
   ${!gift&&o.showGroupDiscount&&document.lines.some(line=>historicalGroupRate(line)===null)?'<small>El porcentaje histórico del grupo no está disponible para algunos artículos.</small>':''}
@@ -65,6 +66,7 @@ export function receiptHtml(document,options,{preview=false}={}){
   ${gift&&o.showGiftDiscounts?giftDiscounts?`${giftDiscounts.ticketCents>0?`<p>Descuento del ticket: −${money(giftDiscounts.ticketCents)}</p>`:''}${giftDiscounts.partial?'<small>Algunos descuentos no tienen un importe histórico desglosado disponible.</small>':!giftDiscounts.lines.some(value=>value>0)&&giftDiscounts.ticketCents===0?'<small>No hay importes de descuento registrados en este justificante.</small>':''}`:'<small>No se ha podido comprobar el desglose de descuentos del regalo. No se muestran importes sin verificar.</small>':''}
   ${gift?'':`${receiptVouchersHtml(document,o.showVouchers)}${taxSummaryHtml({totalCents:document.total_cents,totalTaxExclCents:document.total_tax_excl_cents},options?.showTaxBreakdown===true)}<dl>${o.showDiscounts&&(document.discount_cents||o.includeLineDiscountsInTotal&&document.line_discounts_complete&&document.line_discount_cents)?`<div><dt>${o.includeLineDiscountsInTotal&&document.line_discounts_complete?'Total descuentos':'Descuentos de ticket'}</dt><dd>−${money(document.discount_cents+(o.includeLineDiscountsInTotal&&document.line_discounts_complete?document.line_discount_cents:0))}</dd></div>`:''}${document.external_order&&document.shipping_cents?`<div><dt>Envío</dt><dd>${money(document.shipping_cents)}</dd></div>`:''}${document.external_order&&document.wrapping_cents?`<div><dt>Envoltorio</dt><dd>${money(document.wrapping_cents)}</dd></div>`:''}<div><dt>${document.external_order?'Total del pedido':'Total'}</dt><dd><strong>${money(document.total_cents)}</strong></dd></div>
    ${o.showPayments?Object.entries(document.payments).map(([method,cents])=>`<div><dt>${esc(paymentLabel(method))}${o.showPaymentReferences&&documentPaymentReferences(document)[method]?`<small>Operación: ${esc(documentPaymentReferences(document)[method])}</small>`:''}</dt><dd>${money(cents)}</dd></div>`).join(''):''}</dl>${preview?'':document.external_order?'<small>Copia de un pedido existente. No registra un cobro en caja ni sustituye su factura.</small>':'<small>La factura nativa está disponible en Documentos de este pedido.</small>'}`}
+  ${!gift&&o.showCustomer&&o.showCustomerExtra&&document.customer_extra_unavailable?'<small>El dato adicional del cliente no está disponible con tu acceso actual.</small>':''}
   ${document.external_order&&o.showCustomer&&document.customer_details_unavailable?'<small>Los datos del cliente no están disponibles con tu acceso actual. La copia se muestra sin ellos.</small>':''}
   ${document.external_order&&document.merchant?.details_unavailable?'<small>La tienda no permite consultar su dirección y datos comerciales. Se identifica por su web.</small>':''}
   ${o.footer?`<p class="tpv-receipt-footer" style="white-space:pre-wrap">${esc(o.footer)}</p>`:''}
@@ -76,7 +78,7 @@ function receiptPreviewDocument(){return {kind:'receipt',existing_document:true,
  merchant:{name:'Tu establecimiento',address:'Dirección del establecimiento',city:'Localidad',phone:'Teléfono',registration:'Datos fiscales'},
  customer:{email:'cliente@ejemplo.invalid',invoice:{name:'Cliente de ejemplo',company:'Empresa de ejemplo',address1:'Dirección del cliente',postcode:'00000',city:'Localidad',country:'País',phone:'Teléfono del cliente',comment:'Comentario de ejemplo'},delivery:{name:'Destinatario de ejemplo',address1:'Dirección de entrega',postcode:'00000',city:'Localidad',country:'País'}},
  lines:[{name:'Artículo de ejemplo · Azul · M',base_name:'Artículo de ejemplo',variant_name:'Color: Azul · Talla: M',reference:'REF-001',quantity:2,line_cents:1000,unit_tax_incl_micros:5000000,original_unit_tax_incl_micros:6000000,original_line_cents:1200,line_discount_cents:200,group_reduction_percent_micros:5000000,tax_cents:174}],payments:{cash:400,card:500},payment_intent:[{method:'cash',amount_cents:400,received_cents:400},{method:'card',amount_cents:500,external_reference:'OP-EJEMPLO-0042'}],total_cents:900,total_tax_excl_cents:744,discount_cents:100,vouchers:[{name:"Vale de ejemplo",amount_cents:100}],vouchers_complete:true,line_discount_cents:200,line_discounts_complete:true};}
-export function receiptPreviewHtml(options){return receiptHtml(receiptPreviewDocument(),options,{preview:true});}
+export function receiptPreviewHtml(options){const o=receiptOptions(options),sample=receiptPreviewDocument();sample.customer_extra={field:o.customerExtraField,value:{taxId:'ID-EJEMPLO',company:'Empresa de ejemplo',comment:'Información de ejemplo del cliente'}[o.customerExtraField]};return receiptHtml(sample,options,{preview:true});}
 export function giftReceiptPreviewHtml(options){const receipt=receiptPreviewDocument();receipt.lines=receipt.lines.map(line=>({...line,group_reduction_percent_micros:0}));const gift=giftReceiptBase({...receipt,kind:'gift'});return receiptHtml(receiptOptions(options).showGiftDiscounts?giftReceiptWithDiscounts(gift,receipt):gift,options,{preview:true});}
 
 export async function downloadNativePdf(document){

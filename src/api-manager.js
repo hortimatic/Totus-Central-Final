@@ -1,6 +1,6 @@
-import {fieldHelp} from './components.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {API_PRESETS,managementApiPreset} from './api-presets.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {esc} from './utils.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
+import {fieldHelp} from './components.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {API_PRESETS,managementApiPreset} from './api-presets.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {esc} from './utils.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
 export const API_PROTOCOLS=[['http','API HTTP / REST'],['prestashop','PrestaShop'],['github','GitHub'],['cloudflare','Cloudflare Workers AI'],['openai_compatible','IA compatible con Chat Completions'],['anthropic','Claude / Anthropic']];
 const option=(v,label,current)=>'<option value="'+esc(v)+'" '+(v===current?'selected':'')+'>'+esc(label)+'</option>';
 export const apiManagerHtml=()=>'<article class="card card-pad" data-api-manager><div class="section-head"><div><h2>Mis conexiones</h2><p>Servicios y proveedores de IA. Solo los asistentes necesitan una identidad para responder y actuar.</p></div><div class="inline-actions"><button type="button" class="btn secondary" data-api="refresh">Actualizar</button><button type="button" class="btn primary" data-api="new">+ Nueva conexión</button></div></div><p role="status" data-api-status>Cargando conexiones…</p><div data-api-list></div><div data-api-editor hidden></div><p class="small muted">Las claves se guardan cifradas en el servidor y no vuelven al navegador. Los duplicados se crean desactivados y sin copiar la clave. Los límites locales no representan el saldo del proveedor.</p></article>';

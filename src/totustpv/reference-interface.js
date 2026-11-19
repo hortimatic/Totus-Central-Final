@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
+import {workstationIcon} from './workstation-visual.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=57318dae1c2bc690a8b45c05770a1fc7a468d27e';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
@@ -8,6 +8,9 @@ const helpText={
  'CFG-01-01':'Emite un sonido al incorporar una unidad al ticket. No modifica el precio ni las existencias.',
  'CFG-01-02':'Muestra u oculta el desglose del IVA. Los impuestos se siguen calculando en ambos casos.',
  'CFG-02-02':'El logo se configura en la cabecera de este apartado. Desactiva esta opción para imprimir sin imagen.',
+ 'CFG-02-16':'Muestra el dato elegido de la dirección de facturación del cliente. Requiere Datos del cliente activado y permiso para consultar Clientes. El ticket regalo no lo muestra.',
+ 'UI-CUSTOMER-EXTRA-FIELD':'Elige un dato ya guardado en la dirección de facturación. No crea ni modifica los datos del cliente.',
+ 'UI-CUSTOMER-EXTRA-LABEL':'Nombre con el que aparecerá este dato en el ticket.',
  'CFG-02-22':'Abre la impresión después de confirmar una venta. Puedes volver a imprimir desde Tickets.',
  'CFG-09-13':'Elige cómo se presentan los precios del catálogo. El cobro conserva el cálculo fiscal de la tienda.',
  'CFG-09-14':'Muestra las unidades disponibles junto al artículo. Su visibilidad no autoriza vender sin existencias.',
@@ -35,20 +38,20 @@ function preferenceGroupsHtml(section,fields,settings,editable,draft,categories)
  };
  const groups=section==='Ticket'?[
   ['Cabecera y datos del establecimiento',[2,4,5,9,18,19,34,35,37]],
-  ['Datos del cliente',[10,11,12,13,14,15,16]],
+  ['Datos del cliente',[10,11,12,13,14,15,16,'UI-CUSTOMER-EXTRA-FIELD','UI-CUSTOMER-EXTRA-LABEL']],
   ['Artículos y columnas',[24,25,26,27,28,29,32,38,39]],
   ['Totales y descuentos',[17,30,31,33,36,41,42,43,44]],
   ['Impresión y documentos',[20,21,22,23,40]]
  ]:sectionGroups[section];
  if(!groups)return fields.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('');
- const used=new Set();const blocks=groups.map(([title,ids],index)=>{const items=fields.filter(f=>ids.includes(Number(f.id.split('-').at(-1))));items.forEach(f=>used.add(f.id));return items.length?`<details class="tpv-settings-group" ${index===0?'open':''}><summary>${esc(title)}<span>${items.length} opciones</span></summary><div>${items.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('')}</div></details>`:'';});
+ const used=new Set();const blocks=groups.map(([title,ids],index)=>{const items=fields.filter(f=>ids.includes(f.id)||ids.includes(Number(f.id.split('-').at(-1))));items.forEach(f=>used.add(f.id));return items.length?`<details class="tpv-settings-group" ${index===0?'open':''}><summary>${esc(title)}<span>${items.length} opciones</span></summary><div>${items.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('')}</div></details>`:'';});
  const other=fields.filter(f=>!used.has(f.id));if(other.length)blocks.unshift(`<div class="tpv-settings-group-extra">${other.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('')}</div>`);
  return blocks.join('');
 }
 export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml='',brandingHtml=''}={}){
  const settings=normalizeReferencePreferences(values);
  const original=REFERENCE_SETTINGS.find(g=>g.name===section)||REFERENCE_SETTINGS[0];
- const fields=(section==='Interfaz'?[{id:'UI-VIEW-MODE',label:'Vista del catálogo al iniciar'},...original.fields]:original.fields).filter(f=>!coveredIds.includes(f.id)&&(!connectedHtml||!f.id.startsWith('CFG-13-')));
+ const fields=(section==='Interfaz'?[{id:'UI-VIEW-MODE',label:'Vista del catálogo al iniciar'},...original.fields]:section==='Ticket'?[...original.fields,{id:'UI-CUSTOMER-EXTRA-FIELD',label:'Dato adicional que se imprime'},{id:'UI-CUSTOMER-EXTRA-LABEL',label:'Título del dato adicional'}]:original.fields).filter(f=>!coveredIds.includes(f.id)&&(!connectedHtml||!f.id.startsWith('CFG-13-')));
  const supported=fields.filter(f=>REFERENCE_PREFERENCE_FIELDS[f.id]),pending=fields.filter(f=>!REFERENCE_PREFERENCE_FIELDS[f.id]);
  return `<section class="tpv-reference-settings" aria-label="Configuración de TotusTPV">
  <header><div><small>TOTUSTPV · AJUSTES</small><h3>Configuración</h3></div><button type="button" class="btn secondary" data-tpv-action="sale">Volver al mostrador</button></header>${scopeHtml}
