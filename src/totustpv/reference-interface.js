@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=03e435b33817a454f0544371422fa353bcdee400';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=03e435b33817a454f0544371422fa353bcdee400';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=03e435b33817a454f0544371422fa353bcdee400';
+import {workstationIcon} from './workstation-visual.js?v=5039a0843093125484f95696a90712c1d0355c9e';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=5039a0843093125484f95696a90712c1d0355c9e';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=5039a0843093125484f95696a90712c1d0355c9e';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
@@ -48,10 +48,19 @@ export function referenceSettingsHtml(section='General',{values={},editable=fals
  ${supported.length?`<form data-tpv-form="reference-preferences" class="tpv-settings-card"><header><h5>Presentación y uso</h5><p>Ajusta las opciones de este apartado y guarda los cambios.</p></header>${preferenceGroupsHtml(section,supported,settings,editable,draft,categories)}<footer><button type="submit" class="btn primary" ${!editable?'disabled':''}>Guardar cambios</button></footer></form>`:''}
  ${connectedHtml?`<div class="tpv-reference-connected">${connectedHtml}</div>`:''}
  ${pending.length?`<details class="tpv-settings-card tpv-settings-pending" ${!supported.length&&!connectedHtml?'open':''}><summary>Opciones todavía no disponibles aquí <span>${pending.length}</span></summary><p>${practice?'La práctica no permite configurar las funciones administrativas de una tienda.':'Estas opciones todavía no están conectadas en este puesto.'}</p>${pending.map(f=>fieldHtml(f,settings,false,draft,categories)).join('')}</details>`:''}
- </div>${section==='Ticket'&&preview?`<aside class="tpv-settings-ticket-preview"><h5>Vista previa del ticket</h5><p>Ejemplo de impresión</p>${preview}</aside>`:''}</div></article></div></section>`;
+ </div>${section==='Ticket'&&preview?`<aside class="tpv-settings-ticket-preview"><h5>Vista previa del ticket</h5><p>Ejemplo de impresión</p><div data-tpv-reference-preview>${preview}</div><p data-tpv-reference-preview-feedback role="status"></p></aside>`:''}</div></article></div></section>`;
 }
 
-export function referenceActionsHtml(live){
- const actions=[['new-product','＋','Nuevo producto','Alta de artículos y variantes','store'],['drafts','▣','Carritos','Recupera un ticket aparcado','cart'],['budgets','▤','Presupuestos','Prepara y convierte propuestas','drawer'],['history','↩','Devoluciones','Localiza la venta y su reintegro','cart'],['history','☷','Pedidos','Consulta ventas y documentos','store'],['session','€','Mi caja','Movimientos, arqueo y cierre','drawer'],['stock','⇄','Stock','Recibe mercancía y revisa unidades','store'],['settings','⚙','Configuración','Todos los ajustes del mostrador','user']];
- return `<section class="tpv-reference-actions" aria-label="Acciones del mostrador"><header><small>TOTUSTPV</small><h3>Todo a mano</h3><p>Elige lo que necesitas y vuelve a tu venta.</p></header><div class="tpv-action-card-grid">${actions.map(([action,icon,label,description,image])=>`<button type="button" data-tpv-action="${action}" ${!live&&['new-product','drafts','budgets','stock'].includes(action)?'disabled title="Necesita una tienda conectada"':''}><span class="tpv-action-symbol" aria-hidden="true">${action==='settings'?'⚙':action==='history'?'↩':workstationIcon(image)}</span><strong>${label}</strong><small>${description}</small></button>`).join('')}</div></section>`;
+export function referenceActionsHtml(live,available={}){
+ const groups=[['Artículos y existencias','Mercancía, recuentos y altas sin salir del TPV',[
+ ['stock','Entrada de mercancía','Registra las unidades recibidas','store',live&&available.stock],
+ ['inventory','Inventario','Cuenta, revisa diferencias y ajusta existencias','drawer',available.inventory],
+ ['new-product','Nuevo producto','Da de alta artículos y sus variantes','store',live&&available.newProduct],
+ ['new-customer','Nuevo cliente','Crea su ficha y continúa con la venta','user',live&&available.newCustomer]]],
+ ['Operaciones de venta','Recupera trabajo pendiente y consulta los documentos',[
+ ['drafts','Tickets aparcados','Continúa una venta guardada','cart',live],
+ ['budgets','Presupuestos','Prepara y convierte propuestas','drawer',live],
+ ['history','Pedidos y devoluciones','Consulta ventas, documentos y reintegros','cart',true],
+ ['session','Caja y cierre','Movimientos, arqueo y cierre de jornada','drawer',true]]]];
+ return `<section class="tpv-reference-actions" aria-label="Gestión diaria"><header><small>TOTUSTPV · TU ESTABLECIMIENTO</small><h3>Gestión diaria</h3><p>Todo lo que acompaña a la venta, organizado en un solo lugar.</p></header>${groups.map(([title,description,actions])=>`<section class="tpv-daily-group"><header><h4>${title}</h4><p>${description}</p></header><div class="tpv-action-card-grid">${actions.map(([action,label,description,image,enabled])=>`<button type="button" data-tpv-action="${action}" ${!enabled?'disabled title="Necesita una caja abierta y los permisos correspondientes"':''}><span class="tpv-action-symbol" aria-hidden="true">${workstationIcon(image)}</span><strong>${label}</strong><small>${description}</small></button>`).join('')}</div></section>`).join('')}</section>`;
 }

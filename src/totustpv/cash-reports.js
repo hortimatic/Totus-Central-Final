@@ -1,4 +1,4 @@
-import {printTpvMarkup} from './documents.js?v=03e435b33817a454f0544371422fa353bcdee400';
+import {printTpvMarkup} from './documents.js?v=5039a0843093125484f95696a90712c1d0355c9e';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const date=value=>value?new Date(value).toLocaleString('es-ES'):'—';
@@ -8,14 +8,14 @@ export function cashReportHtml(report){
   report.cashSummaryHidden!==true&&!Number.isSafeInteger(report.expectedCashCents))throw Error('Informe de caja no válido.');
  if(report.cashSummaryHidden===true)return `<article class="tpv-cash-report"><h4>${report.status==='closed'?'Cierre de caja':'Informe de caja abierta'}</h4><p><strong>${esc(report.storeName)} · ${esc(report.drawerName)}</strong><br>Apertura: ${esc(date(report.openedAt))}<br>Cierre: ${esc(date(report.closedAt))}</p><p role="status">Los importes de este resumen están ocultos para tu cuenta. El cierre y los importes reales se conservan.</p>${report.unresolvedSales||report.pendingRefunds?'<p>Hay operaciones pendientes de recuperar.</p>':''}</article>`;
  const methods=[...new Set([...Object.keys(report.payments||{}),...Object.keys(report.refunds||{})])];
- return `<article class="tpv-cash-report"><h4>${report.status==='closed'?'Cierre de caja':'Informe de caja abierta'}</h4>
+ return `<article class="tpv-cash-report"><header class="tpv-cash-document-heading"><small>TOTUSTPV · CONTROL DE CAJA</small><h4>${report.status==='closed'?'Cierre de caja':'Informe de caja abierta'}</h4><span>${report.status==='closed'?'Sesión cerrada':'Sesión en curso'}</span></header>
   <p><strong>${esc(report.storeName)} · ${esc(report.drawerName)}</strong><br>Apertura: ${esc(date(report.openedAt))} · ${esc(report.openedByName)}<br>Cierre: ${esc(date(report.closedAt))}${report.closedAt?' · '+esc(report.closedByName):''}</p>
-  <small>Entorno de pruebas<br>Consultado: ${esc(date(report.generatedAt))}</small><dl>
+  <small>Entorno de pruebas<br>Consultado: ${esc(date(report.generatedAt))}</small><dl class="tpv-cash-document-totals">
    <div><dt>Fondo inicial</dt><dd>${money(report.openingCents)}</dd></div>
    ${methods.map(method=>`<div><dt>${esc(label(method))} · cobros / reintegros</dt><dd>${money(report.payments?.[method]||0)} / ${money(report.refunds?.[method]||0)}</dd></div>`).join('')}
    <div><dt>Pedidos / devoluciones</dt><dd>${report.orderCount} / ${report.refundCount}</dd></div>
-   <div><dt>Efectivo esperado</dt><dd>${money(report.expectedCashCents)}</dd></div>
-   ${report.status==='closed'?`<div><dt>Efectivo contado</dt><dd>${money(report.countedCents)}</dd></div><div><dt>Diferencia</dt><dd>${money(report.differenceCents)}</dd></div>`:''}</dl>
+   <div class="tpv-cash-expected"><dt>Efectivo esperado</dt><dd>${money(report.expectedCashCents)}</dd></div>
+   ${report.status==='closed'?`<div><dt>Efectivo contado</dt><dd>${money(report.countedCents)}</dd></div><div class="tpv-cash-difference"><dt>Diferencia</dt><dd>${money(report.differenceCents)}</dd></div>`:''}</dl>
   ${report.note?`<p>Observaciones: ${esc(report.note)}</p>`:''}
   ${report.unresolvedSales||report.pendingRefunds?'<p>Hay operaciones pendientes de recuperar. Este informe no es un cierre definitivo.</p>':''}
   <h4>Movimientos de efectivo</h4>${(report.movements||[]).map(row=>`<p><strong>${row.kind==='cash-in'?'Entrada':'Retirada'} · ${money(row.amountCents)}</strong><br>${esc(row.reason)}<small>${esc(date(row.recordedAt))}</small></p>`).join('')||'<p>Sin movimientos de efectivo.</p>'}

@@ -5,7 +5,14 @@ export function lineOptions(value){
  return {allowPriceChanges:value.allowPriceChanges===true,requireSaleNote:value.requireSaleNote===true,allowNameChanges:value.allowNameChanges===true};
 }
 export const lineOptionsFromForm=fields=>({allowPriceChanges:fields.get('allowPriceChanges')==='on',requireSaleNote:fields.get('requireSaleNote')==='on',allowNameChanges:fields.get('allowNameChanges')==='on'});
-export function lineOptionsHtml(value,canEdit){const options=lineOptions(value);return `<fieldset><legend>Opciones del ticket</legend><label class="tpv-check"><input type="checkbox" name="allowPriceChanges" ${options.allowPriceChanges?'checked':''} ${canEdit?'':'disabled'}> Permitir fijar el precio de un artículo en este ticket</label><p class="small muted">Requiere permiso para editar ventas. El precio del catálogo y de la web se conserva; el cobro confirma el importe calculado en la tienda.</p><label class="tpv-check"><input type="checkbox" name="allowNameChanges" ${options.allowNameChanges?'checked':''} ${canEdit?'':'disabled'}> Permitir cambiar el nombre de un artículo en esta venta</label><p class="small muted">Requiere permiso para editar ventas. El nombre del catálogo se conserva.</p><label class="tpv-check"><input type="checkbox" name="requireSaleNote" ${options.requireSaleNote?'checked':''} ${canEdit?'':'disabled'}> Pedir una nota interna antes de cobrar</label><p class="small muted">La nota se guarda de forma privada en el pedido. No aparece en el ticket ni en la pantalla del cliente.</p></fieldset>`;}
+export function lineOptionsHtml(value,canEdit,{showPrice=true,showName=true,showNote=true}={}){
+ const options=lineOptions(value),hidden=key=>`<input type="hidden" name="${key}" value="${options[key]?'on':'off'}">`,check=(key,label)=>`<label class="tpv-check"><input type="checkbox" name="${key}" ${options[key]?'checked':''} ${canEdit?'':'disabled'}> ${label}</label>`;
+ return `<fieldset><legend>Opciones del ticket</legend>
+ ${showPrice?check('allowPriceChanges','Permitir fijar el precio de un artículo en este ticket')+'<p class="small muted">Requiere permiso para editar ventas. El precio del catálogo se conserva.</p>':hidden('allowPriceChanges')}
+ ${showName?check('allowNameChanges','Permitir cambiar el nombre de un artículo en esta venta')+'<p class="small muted">El nombre del catálogo se conserva.</p>':hidden('allowNameChanges')}
+ ${showNote?check('requireSaleNote','Pedir una nota interna antes de cobrar')+'<p class="small muted">La nota se guarda en el pedido y solo es visible para el equipo.</p>':hidden('requireSaleNote')}
+ </fieldset>`;
+}
 export function lineAdjustment(value){
  if(value===undefined)return undefined;
  const valid=value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).length===2&&Object.keys(value).every(key=>['kind','value'].includes(key))&&

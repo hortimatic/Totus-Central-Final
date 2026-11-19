@@ -1,4 +1,4 @@
-import {esc} from './utils.js?v=03e435b33817a454f0544371422fa353bcdee400';
+import {esc} from './utils.js?v=5039a0843093125484f95696a90712c1d0355c9e';
 
 const shops=[['hortimatic','Hortimatic'],['newoldsmok','NewOldSmok']];
 const offline=['tpvtienda','bo_order','totuscentralconnector'];

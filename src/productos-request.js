@@ -1,5 +1,5 @@
-import {esc} from './utils.js?v=03e435b33817a454f0544371422fa353bcdee400';
-import {fieldHelp} from './components.js?v=03e435b33817a454f0544371422fa353bcdee400';
+import {esc} from './utils.js?v=5039a0843093125484f95696a90712c1d0355c9e';
+import {fieldHelp} from './components.js?v=5039a0843093125484f95696a90712c1d0355c9e';
 const stores={hortimatic:'Hortimatic',newoldsmok:'NewOldSmok',ambas:'Hortimatic y NewOldSmok'};
 const labels={url:'URL del proveedor',product_id:'ID del producto existente',reference:'Referencia',brand:'Marca',supplier:'Proveedor',ean:'EAN del producto o de cada variación',name:'Nombre del producto',cost:'Coste sin impuestos (€)',sale:'Precio de venta con impuestos (€)',weight:'Peso (kg)',width:'Anchura (cm)',height:'Altura (cm)',depth:'Profundidad (cm)',variants:'Variaciones y atributos',images:'URLs de imágenes proporcionadas',notes:'Indicaciones adicionales'};
 export function buildProductRequest(data={}){
