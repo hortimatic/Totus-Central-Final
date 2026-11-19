@@ -1,4 +1,4 @@
-import {enhanceSearchableSelects} from '../productos-controls.js?v=2755c8b66ca122ce3ccd212dcd42e0785a795890';
+import {enhanceSearchableSelects} from '../productos-controls.js?v=03e435b33817a454f0544371422fa353bcdee400';
 export const EURO_CASH_FACES=Object.freeze([50000,20000,10000,5000,2000,1000,500,200,100,50,20,10,5,2,1]);
 const money=cents=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(cents/100);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

@@ -1,4 +1,4 @@
-import {positionColumnPanel,standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=2755c8b66ca122ce3ccd212dcd42e0785a795890';
+import {positionColumnPanel,standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=03e435b33817a454f0544371422fa353bcdee400';
 /** Shared presentation and personal layouts; never writes business records. */
 export function installSharedTableArrows(root=document,{owner=()=>null}={}){
  const entries=new Map(),abort=new AbortController();let frame=0;

@@ -1,6 +1,6 @@
-import {esc} from './utils.js?v=2755c8b66ca122ce3ccd212dcd42e0785a795890';
-import {textValue} from './productos-core.js?v=2755c8b66ca122ce3ccd212dcd42e0785a795890';
-import {showProductDialog} from './productos-dialogs.js?v=2755c8b66ca122ce3ccd212dcd42e0785a795890';
+import {esc} from './utils.js?v=03e435b33817a454f0544371422fa353bcdee400';
+import {textValue} from './productos-core.js?v=03e435b33817a454f0544371422fa353bcdee400';
+import {showProductDialog} from './productos-dialogs.js?v=03e435b33817a454f0544371422fa353bcdee400';
 
 const decimal=(value,places,signed=false)=>{
  const raw=String(value??'').trim().replace(',','.');

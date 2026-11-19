@@ -1,6 +1,6 @@
-import {esc} from './utils.js?v=2755c8b66ca122ce3ccd212dcd42e0785a795890';
-import {textValue} from './productos-core.js?v=2755c8b66ca122ce3ccd212dcd42e0785a795890';
-import {showProductDialog} from './productos-dialogs.js?v=2755c8b66ca122ce3ccd212dcd42e0785a795890';
+import {esc} from './utils.js?v=03e435b33817a454f0544371422fa353bcdee400';
+import {textValue} from './productos-core.js?v=03e435b33817a454f0544371422fa353bcdee400';
+import {showProductDialog} from './productos-dialogs.js?v=03e435b33817a454f0544371422fa353bcdee400';
 
 const fields=[['name','Nombre'],['reference','Referencia'],['ean13','EAN'],['wholesale_price','Coste sin IVA'],['price','Precio sin IVA'],['weight','Peso (kg)'],['width','Ancho (cm)'],['height','Alto (cm)'],['depth','Fondo (cm)'],['active','Estado'],['visibility','Visibilidad'],['available_for_order','Permitir compras']];
 const choices={active:[['0','Inactivo'],['1','Activo']],visibility:[['none','Oculto'],['both','Catálogo y búsqueda'],['catalog','Solo catálogo'],['search','Solo búsqueda']],available_for_order:[['0','No'],['1','Sí']]};
