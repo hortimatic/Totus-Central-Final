@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=545787bef649757425a9f0058acf219a4252fa16';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=545787bef649757425a9f0058acf219a4252fa16';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=545787bef649757425a9f0058acf219a4252fa16';
+import {workstationIcon} from './workstation-visual.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
@@ -13,19 +13,26 @@ const fieldHtml=(f,settings,editable,draft,categories)=>{
   return `<div class="tpv-reference-option"><label for="reference-${f.id}"><span class="tpv-reference-info" aria-hidden="true">i</span>${esc(f.label)}</label>${control}</div>`;
  }
 
- return `<div class="tpv-reference-option tpv-option-unavailable"><span class="tpv-option-label">${esc(f.label)}</span><span class="tpv-option-status">Pendiente de implementar</span></div>`;
+ return `<div class="tpv-reference-option tpv-option-unavailable"><span class="tpv-option-label">${esc(f.label)}</span><span class="tpv-option-status">No disponible aquí</span></div>`;
 };
 function preferenceGroupsHtml(section,fields,settings,editable,draft,categories){
- if(section!=='Ticket')return fields.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('');
- const groups=[
+ const sectionGroups={
+  General:[['Venta y artículos',[1,2,3,4,5,6,7]],['Equipo y accesos',[8,9,10,11]]],
+  Interfaz:[['Distribución del mostrador',[1,2,3,4,5,6]],['Selección de artículos',[7,8,9,10,11,12]],['Precios, existencias y almacenes',[13,14,15,16,17]]],
+  Buscador:[['Disponibilidad y categorías',[1,2,3]],['Datos para buscar artículos',[4,5,6,7,8]]],
+  'Funciones especiales':[['Pedidos y documentos',[1,2,3,4]],['Balanza y códigos',[5,6,7,9]],['Operativa del establecimiento',[8,10,11,12,13]]],
+  'Estados y formas de pago':[['Formas de cobro',[1,2,3,4,5,6,7]],['Confirmación del pago',[8,9,10]],['Administración de cobros',[11,12,13,14,15,16]]]
+ };
+ const groups=section==='Ticket'?[
   ['Cabecera y datos del establecimiento',[2,4,5,9,18,19,34,35,37]],
   ['Datos del cliente',[10,11,12,13,14,15,16]],
   ['Artículos y columnas',[24,25,26,27,28,29,32,38,39]],
   ['Totales y descuentos',[17,30,31,33,36,41,42,43,44]],
   ['Impresión y documentos',[20,21,22,23,40]]
- ];
+ ]:sectionGroups[section];
+ if(!groups)return fields.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('');
  const used=new Set();const blocks=groups.map(([title,ids],index)=>{const items=fields.filter(f=>ids.includes(Number(f.id.split('-').at(-1))));items.forEach(f=>used.add(f.id));return items.length?`<details class="tpv-settings-group" ${index===0?'open':''}><summary>${esc(title)}<span>${items.length} opciones</span></summary><div>${items.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('')}</div></details>`:'';});
- const other=fields.filter(f=>!used.has(f.id));if(other.length)blocks.push(`<details class="tpv-settings-group"><summary>Otras opciones del ticket<span>${other.length} opciones</span></summary><div>${other.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('')}</div></details>`);
+ const other=fields.filter(f=>!used.has(f.id));if(other.length)blocks.unshift(`<div class="tpv-settings-group-extra">${other.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('')}</div>`);
  return blocks.join('');
 }
 export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml=''}={}){
@@ -35,12 +42,12 @@ export function referenceSettingsHtml(section='General',{values={},editable=fals
  const supported=fields.filter(f=>REFERENCE_PREFERENCE_FIELDS[f.id]),pending=fields.filter(f=>!REFERENCE_PREFERENCE_FIELDS[f.id]);
  return `<section class="tpv-reference-settings" aria-label="Configuración de TotusTPV">
  <header><div><small>TOTUSTPV · AJUSTES</small><h3>Configuración</h3></div><button type="button" class="btn secondary" data-tpv-action="sale">Volver al mostrador</button></header>${scopeHtml}
- <div class="tpv-reference-settings-layout"><nav aria-label="Apartados de configuración">${REFERENCE_SETTINGS.map(g=>`<button type="button" class="${g===original?'active':''}" data-tpv-reference-section="${esc(g.name)}" aria-current="${g===original?'page':'false'}">${esc(g.name)}</button>`).join('')}</nav>
+ <div class="tpv-reference-settings-layout"><nav aria-label="Apartados de configuración"><label class="tpv-settings-search">Buscar un ajuste<input type="search" data-tpv-settings-search placeholder="Logo, permisos, stock…" autocomplete="off"></label><p class="tpv-settings-search-status" data-tpv-settings-search-status role="status" hidden></p>${REFERENCE_SETTINGS.map(g=>`<button type="button" class="${g===original?'active':''}" data-tpv-reference-section="${esc(g.name)}" data-tpv-settings-keywords="${esc([g.name,...g.fields.map(f=>f.label)].join(' '))}" aria-current="${g===original?'page':'false'}">${esc(g.name)}</button>`).join('')}</nav>
  <article><header class="tpv-settings-section-head"><h4>${esc(original.name)}</h4><p class="tpv-reference-status">${practice?'Modo práctica · cambios guardados en este navegador.':'Ajustes del puesto seleccionado · sujetos a tus permisos.'}</p></header>
  <div class="tpv-settings-editor"><div class="tpv-settings-fields">
  ${supported.length?`<form data-tpv-form="reference-preferences" class="tpv-settings-card"><header><h5>Presentación y uso</h5><p>Ajusta las opciones de este apartado y guarda los cambios.</p></header>${preferenceGroupsHtml(section,supported,settings,editable,draft,categories)}<footer><button type="submit" class="btn primary" ${!editable?'disabled':''}>Guardar cambios</button></footer></form>`:''}
  ${connectedHtml?`<div class="tpv-reference-connected">${connectedHtml}</div>`:''}
- ${pending.length?`<section class="tpv-settings-card tpv-settings-pending"><header><h5>Funciones aún pendientes</h5><p>Se conservan todas las opciones solicitadas. Estas todavía no están disponibles aquí.</p></header>${pending.map(f=>fieldHtml(f,settings,false,draft,categories)).join('')}</section>`:''}
+ ${pending.length?`<details class="tpv-settings-card tpv-settings-pending" ${!supported.length&&!connectedHtml?'open':''}><summary>Opciones todavía no disponibles aquí <span>${pending.length}</span></summary><p>${practice?'La práctica no permite configurar las funciones administrativas de una tienda.':'Estas opciones todavía no están conectadas en este puesto.'}</p>${pending.map(f=>fieldHtml(f,settings,false,draft,categories)).join('')}</details>`:''}
  </div>${section==='Ticket'&&preview?`<aside class="tpv-settings-ticket-preview"><h5>Vista previa del ticket</h5><p>Ejemplo de impresión</p>${preview}</aside>`:''}</div></article></div></section>`;
 }
 

@@ -1,8 +1,8 @@
-import {displayPreferences,TPV_VARIANT_ORDERS} from './display-preferences.js?v=545787bef649757425a9f0058acf219a4252fa16';
-import {receiptOptions} from './receipt-options.js?v=545787bef649757425a9f0058acf219a4252fa16';
-import {customerDisplayOptions} from './customer-display.js?v=545787bef649757425a9f0058acf219a4252fa16';
-import {searchPreferences} from './search-preferences.js?v=545787bef649757425a9f0058acf219a4252fa16';
-import {cataloguePreferences} from './catalogue-preferences.js?v=545787bef649757425a9f0058acf219a4252fa16';
+import {displayPreferences,TPV_VARIANT_ORDERS} from './display-preferences.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
+import {receiptOptions} from './receipt-options.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
+import {customerDisplayOptions} from './customer-display.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
+import {searchPreferences} from './search-preferences.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
+import {cataloguePreferences} from './catalogue-preferences.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
 
 // These are presentation preferences only. Fiscal, permission and payment policies
 // deliberately remain with their own authorized services.

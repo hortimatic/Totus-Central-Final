@@ -1,6 +1,6 @@
-import {captureFormDraft} from './form-drafts.js?v=545787bef649757425a9f0058acf219a4252fa16';
-import {interfaceIcon,metricIcon} from './interface-icons.js?v=545787bef649757425a9f0058acf219a4252fa16';
-import {esc,fmtDate,money,statusClass} from './utils.js?v=545787bef649757425a9f0058acf219a4252fa16';
+import {captureFormDraft} from './form-drafts.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
+import {interfaceIcon,metricIcon} from './interface-icons.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
+import {esc,fmtDate,money,statusClass} from './utils.js?v=007d885c10a0fcfe194594849a6d9e2023970941';
 
 // Contextual help follows the viewport. A MutationObserver runs at the
 // open-attribute microtask, avoiding the delayed native <details> toggle event.
