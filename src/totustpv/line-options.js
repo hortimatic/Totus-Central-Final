@@ -8,9 +8,9 @@ export const lineOptionsFromForm=fields=>({allowPriceChanges:fields.get('allowPr
 export function lineOptionsHtml(value,canEdit,{showPrice=true,showName=true,showNote=true}={}){
  const options=lineOptions(value),hidden=key=>`<input type="hidden" name="${key}" value="${options[key]?'on':'off'}">`,check=(key,label)=>`<label class="tpv-check"><input type="checkbox" name="${key}" ${options[key]?'checked':''} ${canEdit?'':'disabled'}> ${label}</label>`;
  return `<fieldset><legend>Opciones del ticket</legend>
- ${showPrice?check('allowPriceChanges','Permitir fijar el precio de un artículo en este ticket')+'<p class="small muted">Requiere permiso para editar ventas. El precio del catálogo se conserva.</p>':hidden('allowPriceChanges')}
- ${showName?check('allowNameChanges','Permitir cambiar el nombre de un artículo en esta venta')+'<p class="small muted">El nombre del catálogo se conserva.</p>':hidden('allowNameChanges')}
- ${showNote?check('requireSaleNote','Pedir una nota interna antes de cobrar')+'<p class="small muted">La nota se guarda en el pedido y solo es visible para el equipo.</p>':hidden('requireSaleNote')}
+ ${showPrice?check('allowPriceChanges','Permitir fijar el precio de un artículo en este ticket')+'<details class="tpv-info-help"><summary aria-label="Ayuda: opciones del ticket">i</summary><div role="note">Requiere permiso para editar ventas. El precio del catálogo se conserva.</div></details>':hidden('allowPriceChanges')}
+ ${showName?check('allowNameChanges','Permitir cambiar el nombre de un artículo en esta venta')+'<details class="tpv-info-help"><summary aria-label="Ayuda: opciones del ticket">i</summary><div role="note">El nombre del catálogo se conserva.</div></details>':hidden('allowNameChanges')}
+ ${showNote?check('requireSaleNote','Pedir una nota interna antes de cobrar')+'<details class="tpv-info-help"><summary aria-label="Ayuda: opciones del ticket">i</summary><div role="note">La nota se guarda en el pedido y solo es visible para el equipo.</div></details>':hidden('requireSaleNote')}
  </fieldset>`;
 }
 export function lineAdjustment(value){

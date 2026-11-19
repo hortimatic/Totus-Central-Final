@@ -1,4 +1,4 @@
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=22929641cf807cb03329ec6d55ebc86855894ef2';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=a35f03a08e2a5ea589a2de4ca743ec91b3d50521';
 /** Read-only catalogue snapshots. These are not payable quotes or permissions.
  * Separate database from the delivery journal: cache replacement cannot erase sales.
  */
@@ -20,6 +20,7 @@ export function createOfflineCatalogueCache({scope,indexedDB=globalThis.indexedD
  need(scope&&['actorId','connectionId','drawerId'].every(key=>uuid(scope[key]))&&Number.isSafeInteger(scope.shopId)&&scope.shopId>0&&['customerId','addressId'].every(key=>Number.isSafeInteger(scope[key])&&scope[key]>=0),'No se ha identificado el catálogo de este puesto y cliente.');
  const revision=scope.revision??0;need(Number.isSafeInteger(revision)&&revision>=0,'La revisión del catálogo no es válida.');
  const partition=canonical({...Object.fromEntries(['actorId','connectionId','drawerId','shopId','customerId','addressId'].map(key=>[key,scope[key]])),revision});
+ const invalidationPartition='product-changes:'+canonical({actorId:scope.actorId,connectionId:scope.connectionId,shopId:scope.shopId});
  const queryKey=query=>{const key=canonical(query);need(typeof key==='string'&&key.length<=5000,'La consulta de catálogo no es válida.');return key;};
  async function transaction(write,action){
   need(indexedDB,'No se puede guardar el catálogo en este navegador.');
@@ -38,14 +39,32 @@ export function createOfflineCatalogueCache({scope,indexedDB=globalThis.indexedD
   });}finally{db.close();}
  }
  return Object.freeze({
+  async invalidateProduct(productId){
+   need(/^[1-9]\d{0,14}$/.test(String(productId)),'Producto de catálogo no válido.');
+   return transaction(true,(store,done,fail)=>{
+    const marker=store.get([invalidationPartition,'products']);marker.onsuccess=()=>{try{
+     const instant=now(),products=Object.fromEntries(Object.entries(marker.result?.products||{}).filter(([,at])=>instant-at<=86400000));products[String(productId)]=instant;
+     store.put({partition:invalidationPartition,query:'products',products});
+     const cursorRequest=store.openCursor();cursorRequest.onsuccess=()=>{try{
+      const cursor=cursorRequest.result;if(!cursor){done(true);return;}const row=cursor.value;
+      if(row.partition.startsWith('{')){const other=JSON.parse(row.partition);
+       if(other.actorId===scope.actorId&&other.connectionId===scope.connectionId&&other.shopId===scope.shopId&&row.data?.items?.some(item=>String(item.nativeProductId??item.id?.split(':')[0])===String(productId)))cursor.delete();
+      }cursor.continue();
+     }catch(error){fail(error);}};
+    }catch(error){fail(error);}};
+   });
+  },
   async put(query,value,{requestedAt}={}){
    const key=queryKey(query),data=snapshot(value),savedAt=now();
    need(Number.isSafeInteger(requestedAt)&&requestedAt>=0&&requestedAt<=savedAt,'La fecha del catálogo no es válida.');
    return transaction(true,(store,done,fail)=>{
-    const request=store.get([partition,key]);request.onsuccess=()=>{try{
+    const marker=store.get([invalidationPartition,'products']);marker.onsuccess=()=>{try{
+     if(data.items.some(item=>requestedAt<=(marker.result?.products?.[String(item.nativeProductId??item.id?.split(':')[0])]??-1))){done(false);return;}
+     const request=store.get([partition,key]);request.onsuccess=()=>{try{
      // A slow, older response must not replace a more recent request's result.
      if(request.result?.requestedAt>=requestedAt){done(false);return;}
      store.put({partition,query:key,requestedAt,savedAt,data,fingerprint:canonical(data)});done(true);
+     }catch(error){fail(error);}};
     }catch(error){fail(error);}};
    });
   },
