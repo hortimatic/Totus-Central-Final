@@ -1,4 +1,4 @@
-import {archiveHash,validateArchivePath} from './recovery-core.js?v=2dfeb2bef1ce945a669212cb5be50ea661bea26e';
+import {archiveHash,validateArchivePath} from './recovery-core.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
 export const SET_FORMAT='totus-backup-set';
 export const SET_VERSION=4;
 export const SET_COMPONENT_BYTES=32*1024*1024;

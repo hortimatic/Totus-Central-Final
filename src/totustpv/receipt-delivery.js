@@ -1,4 +1,4 @@
-import {receiptOptions} from './receipt-options.js?v=2dfeb2bef1ce945a669212cb5be50ea661bea26e';
+import {receiptOptions} from './receipt-options.js?v=0371fd1148509cd1aa9d0b90cfaf80d1fe580886';
 /** Presentation after a confirmed sale only. It cannot submit or recover a
  * financial command. A failed print/read stays a document issue, not a sale. */
 export function createReceiptDelivery({getDocument,print}){
