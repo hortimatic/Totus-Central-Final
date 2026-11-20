@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=90fb00ddff1236f69d2209deff7799963f1d6575';
+import {websiteKey} from './website-registry.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
 // Productos / PrestaShop 1.7: restrictive write contract.
 // Never accept XML, URLs, arbitrary paths, numeric relationships or shop IDs from the client.
 // The source XML comes exclusively from a freshly validated server-side GET.

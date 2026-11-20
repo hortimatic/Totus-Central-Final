@@ -1,8 +1,8 @@
-import {columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=90fb00ddff1236f69d2209deff7799963f1d6575';
-import {openTableViewProfiles} from './table-view-profiles.js?v=90fb00ddff1236f69d2209deff7799963f1d6575';
-import {esc,csv,download} from './utils.js?v=90fb00ddff1236f69d2209deff7799963f1d6575';
-import {fieldHelp} from './components.js?v=90fb00ddff1236f69d2209deff7799963f1d6575';
-import {attachProductTableLayout} from './productos-table-layout.js?v=90fb00ddff1236f69d2209deff7799963f1d6575';
+import {columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
+import {openTableViewProfiles} from './table-view-profiles.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
+import {esc,csv,download} from './utils.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
+import {fieldHelp} from './components.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
+import {attachProductTableLayout} from './productos-table-layout.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
 
 export const ORDER_COLUMNS=Object.freeze([
  ['id','Pedido',110],['reference','Referencia',160],['images','Productos',150],

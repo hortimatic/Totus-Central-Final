@@ -1,4 +1,4 @@
-import {taskToday,taskRange,taskInput,taskVisibleRows,addTaskDays,TASK_STATES,TASK_PRIORITIES} from './tasks-core.js?v=90fb00ddff1236f69d2209deff7799963f1d6575';
+import {taskToday,taskRange,taskInput,taskVisibleRows,addTaskDays,TASK_STATES,TASK_PRIORITIES} from './tasks-core.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const opt=(v,label,selected)=>'<option value="'+esc(v)+'" '+(String(v??'')===String(selected??'')?'selected':'')+'>'+esc(label)+'</option>';
 const taskButton=(label,action,attrs='',kind='secondary')=>'<button type="button" class="btn '+kind+'" data-task="'+action+'" '+attrs+'>'+esc(label)+'</button>';
