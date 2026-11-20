@@ -1,73 +1,73 @@
-import {createCreditCollections} from './credit-collections.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {openCentralCheckoutDialog,confirmCentralOperator} from './central-checkout-dialog.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createOrderNoticeWatcher,orderNoticeInbox,orderNoticeOptions,orderNoticeFields,orderNoticeFromForm,orderNoticePolicy} from './order-notices.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createOwnedTpvSetup} from './owned-configuration.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createCheckoutRulesPanel,CHECKOUT_DEFAULTS,checkoutRules,checkoutReceived} from './checkout-rules.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createCashSetup} from './cash-setup.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createPromotionPanel} from './promotions.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createLoyaltyPanel} from './loyalty.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createReceiptSetup} from './receipt-setup.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createGeneralSetup} from './general-setup.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {taxPreference,taxPreferenceHtml,createTaxGroupPicker} from './catalogue-tax.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createTicketBranding} from './ticket-branding.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {workstationHeader,workstationDialog,workstationIcon} from './workstation-visual.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {referencePolicyPayload,confirmReferencePolicy} from './reference-policy-settings.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {applyReferencePreferences,normalizeReferencePreferences} from './reference-preferences.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {referenceSettingsHtml,referenceActionsHtml,folderIcon,productIcon} from './reference-interface.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {customerSettings} from './customer-settings.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createInventoryPanel} from './inventory-panel.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {customerOptionsHtml,customerSettingsFormValues,customerSettingsFromForm,customerSettingsError,changeCustomerFieldPosition} from './customer-options.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {budgetOptions,budgetOptionsFromForm,budgetOptionsHtml,budgetSettingsError} from './budget-options.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {operatorSwitchPolicy,operatorSwitchPolicyHtml,saveOperatorSwitchPolicy} from './operator-switch-policy.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {sensitiveSettings,sensitiveSettingsHtml,createPasswordPrompt} from './sensitive-actions.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {loadGiftReceipt} from './gift-discounts.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {operatorSettings,operatorSettingsHtml} from './operator-settings.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {operatorAvailability,createOperatorPicker} from './operator-picker.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {cashVisibility,cashVisibilityHtml} from './cash-visibility.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createAccessBatchPanel} from './workstation-access-batch.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createSignaturePanel} from './signature-panel.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {signatureOptions,signatureOptionsFromForm,signatureOptionsHtml} from './signature-options.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {tenderSummaryHtml} from './tender-summary.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {returnPolicy,returnPolicyHtml} from './return-policy.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {menuLinks as normalizeMenuLinks,menuLinksFromForm,menuLinksHtml,menuLinksActions} from './menu-links.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createCatalogueBackground} from './catalogue-background.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {mountSettingsNavigation} from './settings-navigation.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {roundPriceMicros,roundPriceSubtotal} from './offline-rounding.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createOfflineSync} from './offline-sync.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createOfflineJournal} from './offline-journal.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {offlineDevice} from './offline-device.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {submitWithLocalReceipt} from './local-sale-submission.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createOfflinePanel} from './offline-panel.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {lineName,createLineNameEditor} from './line-name.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {budgetDocumentHtml,budgetStatus} from './budget-document.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {saleNote} from './sale-note.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {paymentFormMethods,paymentSettingsHtml,paymentSettingsFromForm} from './payment-options.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {paymentReferenceFields,referenceForTender} from './payment-reference.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {parkingOptions,parkingOptionsHtml,parkingOptionsFromForm,parkingExpiry} from './parking-options.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {lineOptions,lineOptionsHtml,lineOptionsFromForm,lineAdjustment} from './line-options.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {stockPolicy,stockPolicyFromForm,stockPolicyHtml,canExceedStock,stockWarning} from './stock-policy.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createQuantityPicker} from './quantity-picker.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createTpvPracticeAdapter} from './practice-adapter.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {cashTenderPreview} from './model.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {taxSummaryHtml} from './tax-summary.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {receiptHtml as nativeReceiptHtml,receiptPreviewHtml,giftReceiptPreviewHtml,downloadNativePdf,printReceipt,printTpvMarkup} from './documents.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError,receiptNumber} from './receipt-series.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {receiptOptions,receiptOptionsHtml,receiptOptionsFromForm} from './receipt-options.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createReceiptDelivery} from './receipt-delivery.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {orderLookupInput} from './central-adapter.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createTpvCustomerPanel} from './customers.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createCashReportsPanel} from './cash-reports.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createStockIntake} from './stock-intake.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createBarcodePanel} from './barcode-panel.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createProductIntakePanel} from './product-intake.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {cashOptions,cashOptionsHtml,cashOptionsFromForm,cashCountHtml,updateCashCount,clearCashCount,mountCashOptions} from './cash-counting.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createWorkstationAccessPanel} from './workstation-access.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createCustomerDisplay,customerDisplayOptions,customerDisplayOptionsHtml,customerDisplayOptionsFromForm} from './customer-display.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {createCatalogueTable,priceBuildHtml} from './catalogue-table.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {displayPreferences,displayPreferencesHtml,displayPreferencesFromForm,cataloguePriceCents,variantOrder,TPV_VARIANT_ORDERS} from './display-preferences.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {searchPreferences,searchPreferencesFromForm,searchPreferencesHtml,TPV_SEARCH_FIELDS} from './search-preferences.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
-import {cataloguePreferences,cataloguePreferencesFromForm,cataloguePreferencesHtml,visibleCatalogueCategories,catalogueDetails,variantDetails} from './catalogue-preferences.js?v=654c17e4e481e4a0fbf47a65021d1c6480a355f9';
+import {createCreditCollections} from './credit-collections.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {openCentralCheckoutDialog,confirmCentralOperator} from './central-checkout-dialog.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createOrderNoticeWatcher,orderNoticeInbox,orderNoticeOptions,orderNoticeFields,orderNoticeFromForm,orderNoticePolicy} from './order-notices.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createOwnedTpvSetup} from './owned-configuration.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createCheckoutRulesPanel,CHECKOUT_DEFAULTS,checkoutRules,checkoutReceived} from './checkout-rules.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createCashSetup} from './cash-setup.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createPromotionPanel} from './promotions.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createLoyaltyPanel} from './loyalty.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createReceiptSetup} from './receipt-setup.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createGeneralSetup} from './general-setup.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {taxPreference,taxPreferenceHtml,createTaxGroupPicker} from './catalogue-tax.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createTicketBranding} from './ticket-branding.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {workstationHeader,workstationDialog,workstationIcon} from './workstation-visual.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {referencePolicyPayload,confirmReferencePolicy} from './reference-policy-settings.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {applyReferencePreferences,normalizeReferencePreferences} from './reference-preferences.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {referenceSettingsHtml,referenceActionsHtml,folderIcon,productIcon} from './reference-interface.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {customerSettings} from './customer-settings.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createInventoryPanel} from './inventory-panel.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {customerOptionsHtml,customerSettingsFormValues,customerSettingsFromForm,customerSettingsError,changeCustomerFieldPosition} from './customer-options.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {budgetOptions,budgetOptionsFromForm,budgetOptionsHtml,budgetSettingsError} from './budget-options.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {operatorSwitchPolicy,operatorSwitchPolicyHtml,saveOperatorSwitchPolicy} from './operator-switch-policy.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {sensitiveSettings,sensitiveSettingsHtml,createPasswordPrompt} from './sensitive-actions.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {loadGiftReceipt} from './gift-discounts.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {operatorSettings,operatorSettingsHtml} from './operator-settings.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {operatorAvailability,createOperatorPicker} from './operator-picker.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {cashVisibility,cashVisibilityHtml} from './cash-visibility.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createAccessBatchPanel} from './workstation-access-batch.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createSignaturePanel} from './signature-panel.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {signatureOptions,signatureOptionsFromForm,signatureOptionsHtml} from './signature-options.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {tenderSummaryHtml} from './tender-summary.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {returnPolicy,returnPolicyHtml} from './return-policy.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {menuLinks as normalizeMenuLinks,menuLinksFromForm,menuLinksHtml,menuLinksActions} from './menu-links.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createCatalogueBackground} from './catalogue-background.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {mountSettingsNavigation} from './settings-navigation.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {roundPriceMicros,roundPriceSubtotal} from './offline-rounding.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createOfflineSync} from './offline-sync.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createOfflineJournal} from './offline-journal.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {offlineDevice} from './offline-device.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {submitWithLocalReceipt} from './local-sale-submission.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createOfflinePanel} from './offline-panel.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {lineName,createLineNameEditor} from './line-name.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {budgetDocumentHtml,budgetStatus} from './budget-document.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {saleNote} from './sale-note.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {paymentFormMethods,paymentSettingsHtml,paymentSettingsFromForm} from './payment-options.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {paymentReferenceFields,referenceForTender} from './payment-reference.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {parkingOptions,parkingOptionsHtml,parkingOptionsFromForm,parkingExpiry} from './parking-options.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {lineOptions,lineOptionsHtml,lineOptionsFromForm,lineAdjustment} from './line-options.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {stockPolicy,stockPolicyFromForm,stockPolicyHtml,canExceedStock,stockWarning} from './stock-policy.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createQuantityPicker} from './quantity-picker.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createTpvPracticeAdapter} from './practice-adapter.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {cashTenderPreview} from './model.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {taxSummaryHtml} from './tax-summary.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {receiptHtml as nativeReceiptHtml,receiptPreviewHtml,giftReceiptPreviewHtml,downloadNativePdf,printReceipt,printTpvMarkup} from './documents.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError,receiptNumber} from './receipt-series.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {receiptOptions,receiptOptionsHtml,receiptOptionsFromForm} from './receipt-options.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createReceiptDelivery} from './receipt-delivery.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {orderLookupInput} from './central-adapter.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createTpvCustomerPanel} from './customers.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createCashReportsPanel} from './cash-reports.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createStockIntake} from './stock-intake.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createBarcodePanel} from './barcode-panel.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createProductIntakePanel} from './product-intake.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {cashOptions,cashOptionsHtml,cashOptionsFromForm,cashCountHtml,updateCashCount,clearCashCount,mountCashOptions} from './cash-counting.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createWorkstationAccessPanel} from './workstation-access.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createCustomerDisplay,customerDisplayOptions,customerDisplayOptionsHtml,customerDisplayOptionsFromForm} from './customer-display.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {createCatalogueTable,priceBuildHtml} from './catalogue-table.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {displayPreferences,displayPreferencesHtml,displayPreferencesFromForm,cataloguePriceCents,variantOrder,TPV_VARIANT_ORDERS} from './display-preferences.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {searchPreferences,searchPreferencesFromForm,searchPreferencesHtml,TPV_SEARCH_FIELDS} from './search-preferences.js?v=7936c4b82857c62a900bbc308546410965633f87';
+import {cataloguePreferences,cataloguePreferencesFromForm,cataloguePreferencesHtml,visibleCatalogueCategories,catalogueDetails,variantDetails} from './catalogue-preferences.js?v=7936c4b82857c62a900bbc308546410965633f87';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 export function inputCents(value) {
@@ -89,12 +89,12 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
  const nativeCheckout=createCheckoutRulesPanel({store:(...args)=>storeCheckoutRules(...args)});
  const nativePromotion=createPromotionPanel({store:(...args)=>storePromotionSetup(...args)});
  const nativeLoyalty=createLoyaltyPanel({store:(...args)=>storeLoyaltySetup(...args)});
- const cashSetup=createCashSetup({actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),drawerManagement,confirm,onClose:()=>render()});
- const permissionsSetup=createCashSetup({accessOnly:true,storeSensitiveSetup,actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),drawerManagement,confirm,onClose:()=>render()});
- const paymentSetup=createCashSetup({paymentOnly:true,storeCheckoutRules,storeCommercialSetup,actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),drawerManagement,confirm,onClose:()=>render()});
- const generalSetup=createGeneralSetup({actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),confirm,onClose:()=>render()});
- const receiptSetup=createReceiptSetup({actor,storage,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),storeBranding:(scope,value)=>storeBrandingSetup(scope,value),storeSeries:storeReceiptSeriesSetup,storeLoyalty:storeLoyaltySetup,storePromotion:storePromotionSetup,confirm,onClose:()=>render()});
- const ownedSetups=Object.fromEntries(['special','returns','barcodes','budgets'].map(key=>[key,createOwnedTpvSetup(key,{actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),confirm,onClose:()=>render()})]));
+ const cashSetup=createCashSetup({actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId||session?.drawerId||selectedDrawer,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),drawerManagement,confirm,onClose:()=>render()});
+ const permissionsSetup=createCashSetup({accessOnly:true,storeSensitiveSetup,actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId||session?.drawerId||selectedDrawer,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),drawerManagement,confirm,onClose:()=>render()});
+ const paymentSetup=createCashSetup({paymentOnly:true,storeCheckoutRules,storeCommercialSetup,actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId||session?.drawerId||selectedDrawer,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),drawerManagement,confirm,onClose:()=>render()});
+ const generalSetup=createGeneralSetup({actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId||session?.drawerId||selectedDrawer,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),confirm,onClose:()=>render()});
+ const receiptSetup=createReceiptSetup({actor,storage,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId||session?.drawerId||selectedDrawer,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),storeBranding:(scope,value)=>storeBrandingSetup(scope,value),storeSeries:storeReceiptSeriesSetup,storeLoyalty:storeLoyaltySetup,storePromotion:storePromotionSetup,confirm,onClose:()=>render()});
+ const ownedSetups=Object.fromEntries(['special','returns','barcodes','budgets'].map(key=>[key,createOwnedTpvSetup(key,{actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId||session?.drawerId||selectedDrawer,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),confirm,onClose:()=>render()})]));
  let budgetRules=budgetOptions(),customerRules=customerSettings(),referenceSection='General',quickPaymentMethod='cash';
  let operatorAuthRules=operatorSwitchPolicy();
  let sensitiveRules=sensitiveSettings();const passwordPrompt=createPasswordPrompt();
@@ -235,7 +235,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    <header class="tpv-entry-heading"><div><span class="tpv-entry-eyebrow">TU PUESTO DE VENTA</span><h3>${busy?'Abriendo tu caja…':'Abrir mostrador'}</h3></div><div class="tpv-entry-account"><small>Usuario</small><strong>${esc(actor()?.full_name||'Tu cuenta de Central')}</strong>${onChangeOperator&&operatorRules.switchEnabled&&!busy?button('change-operator','Cambiar'):''}</div></header>
    ${failure?`<p class="note bad" role="alert">${esc(failure)}</p>`:notice?`<p class="note" role="status">${esc(notice)}</p>`:''}
    ${!busy?`<div class="tpv-entry-primary"><span class="tpv-entry-symbol" aria-hidden="true">${workstationIcon('drawer')}</span><div><h4>Tu tienda y tu caja</h4><p>Selecciona tu puesto o recupera la caja que dejaste abierta.</p></div>${createLiveAdapter?button('live',failure?'Volver a intentar':'Seleccionar puesto','primary'):''}</div>
-   <div class="tpv-entry-secondary"><div><h4>Practicar sin ventas reales</h4><details class="tpv-info-help"><summary aria-label="Ayuda: modo práctica">i</summary><div role="note">Usa artículos y cobros ficticios. No crea pedidos ni modifica existencias. Los ajustes administrativos se realizan en un puesto conectado.</div></details></div>${button('practice','Abrir práctica')}</div>`:'<p class="tpv-entry-loading" role="status">Consultando tus cajas disponibles…</p>'}
+`:'<p class="tpv-entry-loading" role="status">Consultando tus cajas disponibles…</p>'}
    ${!busy&&(canAssign()&&readConfiguration||readSetup||onConfigure&&canConfigure())?`<details class="tpv-entry-administration" ${configuration||setup||notice?'open':''}><summary>Preparar tiendas, cajas y accesos</summary><div class="tpv-entry-admin-grid">${canAssign()&&generalSetupInvoke?button('general-setup','Configurar General','primary'):''}${canAssign()&&readConfiguration?button('assign','Tiendas, cajas y usuarios'):''}${readSetup?button('setup','Comprobar conexión'):''}${onConfigure&&canConfigure()?button('configure','Conexiones de tiendas'):''}</div>${configuration?configurationHtml():''}${setup?setupHtml():''}</details>`:''}
    </section>`;host.querySelectorAll('label').forEach(el=>el.classList.add('field'));return;}
   const status=failure?`<p class="note bad" role="alert">${esc(failure)}</p>`:notice?`<p class="note" role="status">${esc(notice)}</p>`:'';
@@ -244,7 +244,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    <button type="button" class="tab ${['reference-actions','stock','inventory','credits'].includes(tab)?'active':''}" data-tpv-action="reference-actions">Gestión diaria</button>
    <button type="button" class="tab ${tab==='history'?'active':''}" data-tpv-action="history">${wording('Tickets de práctica','Pedidos y devoluciones')}</button>
    <button type="button" class="tab ${tab==='session'?'active':''}" data-tpv-action="session">Caja</button><button type="button" class="tab ${tab==='settings'?'active':''}" data-tpv-action="settings">Configuración</button><details class="tpv-actions"><summary>Más acciones</summary><div>${live()?`${button('reports','Informes de caja')}${button('drafts','Tickets aparcados')}${button('budgets','Presupuestos')}${canReadCost()?button('product-history','Altas de productos'):''}${canReadCost()?button('barcodes','Códigos de barras'):''}${session?button('offline-pending','Ventas pendientes de sincronizar'):''}${button('settings','Configuración')}${storeOrderNotices?button('order-notices','Pedidos nuevos e impresión'):''}${customerScreenOptions.enabled&&session?button('customer-display','Pantalla para cliente'):''}`:''}${onOnlineOrders&&canOnlineOrders()?button('online-orders','Pedidos online'):''}${onChangeOperator&&operatorRules.switchEnabled?button('change-operator','Cambiar operador'):''}${button('exit','Salir del puesto')}${live()||central()?menuLinksActions(customMenuLinks):''}</div></details></nav><div class="tpv-workarea">${status}${live()&&!canSell()?'<p class="note" role="status">'+(canManageCash()?'Puedes consultar y gestionar la caja. Tu acceso no permite registrar ventas.':'Acceso de consulta. No puedes registrar ventas ni movimientos de efectivo.')+'</p>':''}
-   ${live()&&session&&adapter.prepareOfflineCatalogue?`<p class="small muted" data-tpv-catalogue-status>${esc(catalogueStatusText())}</p>`:''}${documentPreview&&tab!=='settings'?nativeReceiptHtml(documentPreview,effectiveReceiptStyle()):''}${live()&&tab!=='settings'?customers.html()+reports.html():''}<div data-tpv-new-orders-status>${orderNoticeBanner()}</div><div data-tpv-body>${tab==='credits'?creditCollections.html():tab==='order-notices'?orderNoticeInbox(orderWatch.snapshot()):tab==='signature'?signaturePanel.html():tab==='offline-pending'?offlinePanel.html():tab==='barcodes'?barcodePanel.html():tab==='reference-actions'?referenceActionsHtml(live(),{parking:central()&&!!adapter?.drafts&&canSell(),credits:central()&&canCustomer('view'),stock:!!session&&canReceiveStock()&&!payment,inventory:!!session&&canInventory()&&!payment,newProduct:!!session&&canSell()&&canCreateProduct()&&!payment,newCustomer:!!session&&canCustomer('view')&&canCustomer('create')&&!payment}):tab==='settings'?referenceSettingsHtml(referenceSection,{values:{viewMode:catalogueView,initialCategoryId,display:displayOptions,receipt:receiptStyle,customerDisplay:customerScreenOptions,search:searchOptions,catalogue:catalogueOptions},editable:!live()||!!workspacePreferences,draft:formValues['reference-preferences']||{},practice:!live(),preview:receiptPreviewHtml({...receiptStyle,logoData:ticketBranding.logoData()}),categories,connectedHtml:referenceConnectedSettingsHtml(),coveredIds:referenceConnectedCoverage(),onlineOrdersHtml:onOnlineOrders&&canOnlineOrders()?'<section class="tpv-settings-card"><h5>Avisos de pedidos online</h5>'+button('online-orders','Configurar avisos y detección de pedidos')+'</section>':'',scopeHtml:['General','Ticket','Caja','Estados y formas de pago','Permisos','Funciones especiales','Devoluciones','Códigos barras','Presupuestos'].includes(referenceSection)&&!live()&&generalSetupInvoke&&canAssign()?'':referenceSettingsScopeHtml(),generalSetupHtml:!live()&&generalSetupInvoke&&canAssign()?(referenceSection==='General'?'<div data-tpv-general-setup></div>':referenceSection==='Ticket'&&storeBrandingSetup?'<div data-tpv-receipt-setup></div>':referenceSection==='Caja'?'<div data-tpv-cash-setup></div>':referenceSection==='Estados y formas de pago'?'<div data-tpv-payment-setup></div>':referenceSection==='Permisos'?'<div data-tpv-permissions-setup></div>':referenceSection==='Funciones especiales'?'<div data-tpv-owned-special></div>':referenceSection==='Devoluciones'?'<div data-tpv-owned-returns></div>':referenceSection==='Códigos barras'?'<div data-tpv-owned-barcodes></div>':referenceSection==='Presupuestos'?'<div data-tpv-owned-budgets></div>':''):'',administrationHtml:canAssign()&&generalSetupInvoke?button('general-setup','Configurar General de la tienda'):canAssign()&&readConfiguration?button('assign','Configurar tiendas y cajas'): '',brandingHtml:(!live()||ticketBrandingStore)?ticketBranding.html():''}):tab==='settings-functional'?settingsHtml()+paymentSettingsHtml(drawerPayments,canAssign(),formValues['payment-settings']):tab==='configuration'&&configuration?`<section class="card card-pad"><h3>Configuración de TotusTPV</h3>${configurationHtml()}</section>`:reports.isOpen()?'':tab==='history'?historyHtml():tab==='budgets'?budgetsHtml():!session?openingHtml():tab==='session'?sessionHtml():tab==='drafts'?draftsHtml():tab==='stock'?stockHtml():tab==='inventory'?inventoryPanel.html(products,search):receipt?receiptHtml():saleHtml()}</div></div>${live()?productIntake.html(failure):''}${workstationOpen?workstationDialog({stores:context.stores,drawers:context.drawers,storeId:workstationStore,drawerId:workstationDrawer,userName:actor()?.full_name||'Usuario de Central',open:!!session,canSwitchUser:!!onChangeOperator&&operatorRules.switchEnabled}):''}`;
+   ${live()&&session&&adapter.prepareOfflineCatalogue?`<p class="small muted" data-tpv-catalogue-status>${esc(catalogueStatusText())}</p>`:''}${documentPreview&&tab!=='settings'?nativeReceiptHtml(documentPreview,effectiveReceiptStyle()):''}${live()&&tab!=='settings'?customers.html()+reports.html():''}<div data-tpv-new-orders-status>${orderNoticeBanner()}</div><div data-tpv-body>${tab==='credits'?creditCollections.html():tab==='order-notices'?orderNoticeInbox(orderWatch.snapshot()):tab==='signature'?signaturePanel.html():tab==='offline-pending'?offlinePanel.html():tab==='barcodes'?barcodePanel.html():tab==='reference-actions'?referenceActionsHtml(live(),{parking:central()&&!!adapter?.drafts&&canSell(),credits:central()&&canCustomer('view'),stock:!!session&&canReceiveStock()&&!payment,inventory:!!session&&canInventory()&&!payment,newProduct:!!session&&canSell()&&canCreateProduct()&&!payment,newCustomer:!!session&&canCustomer('view')&&canCustomer('create')&&!payment}):tab==='settings'?referenceSettingsHtml(referenceSection,{values:{viewMode:catalogueView,initialCategoryId,display:displayOptions,receipt:receiptStyle,customerDisplay:customerScreenOptions,search:searchOptions,catalogue:catalogueOptions},editable:!live()||!!workspacePreferences,draft:formValues['reference-preferences']||{},practice:!live(),preview:receiptPreviewHtml({...receiptStyle,logoData:ticketBranding.logoData()}),categories,connectedHtml:referenceConnectedSettingsHtml(),coveredIds:referenceConnectedCoverage(),onlineOrdersHtml:onOnlineOrders&&canOnlineOrders()?'<section class="tpv-settings-card"><h5>Avisos de pedidos online</h5>'+button('online-orders','Configurar avisos y detección de pedidos')+'</section>':'',scopeHtml:['General','Ticket','Caja','Estados y formas de pago','Permisos','Funciones especiales','Devoluciones','Códigos barras','Presupuestos'].includes(referenceSection)&&!live()&&generalSetupInvoke&&canAssign()?'':referenceSettingsScopeHtml(),generalSetupHtml:!live()&&generalSetupInvoke&&canAssign()?(referenceSection==='General'?'<div data-tpv-general-setup></div>':referenceSection==='Ticket'&&storeBrandingSetup?'<div data-tpv-receipt-setup></div>':referenceSection==='Caja'?'<div data-tpv-cash-setup></div>':referenceSection==='Estados y formas de pago'?'<div data-tpv-payment-setup></div>':referenceSection==='Permisos'?'<div data-tpv-permissions-setup></div>':referenceSection==='Funciones especiales'?'<div data-tpv-owned-special></div>':referenceSection==='Devoluciones'?'<div data-tpv-owned-returns></div>':referenceSection==='Códigos barras'?'<div data-tpv-owned-barcodes></div>':referenceSection==='Presupuestos'?'<div data-tpv-owned-budgets></div>':''):'',administrationHtml:canAssign()&&generalSetupInvoke?button('general-setup','Configurar General de la tienda'):canAssign()&&readConfiguration?button('assign','Configurar tiendas y cajas'): '',brandingHtml:(!live()||ticketBrandingStore)?ticketBranding.html():''}):tab==='settings-functional'?settingsHtml()+paymentSettingsHtml(drawerPayments,canAssign(),formValues['payment-settings']):tab==='configuration'&&configuration?`<section class="card card-pad"><h3>Configuración de TotusTPV</h3>${configurationHtml()}</section>`:reports.isOpen()?'':tab==='history'?historyHtml():tab==='budgets'?budgetsHtml():!session?openingHtml():tab==='session'?sessionHtml():tab==='drafts'?draftsHtml():tab==='stock'?stockHtml():tab==='inventory'?inventoryPanel.html(products,search):receipt?receiptHtml():saleHtml()}</div></div>${live()?productIntake.html(failure):''}${workstationOpen?workstationDialog({stores:context.stores,drawers:context.drawers,storeId:workstationStore,drawerId:workstationDrawer,userName:actor()?.full_name||'Usuario de Central',open:!!session,canSwitchUser:!!onChangeOperator&&operatorRules.switchEnabled,canSwitchDrawer:central()&&!hasDraft(),sessions:context.sessions||[]}):''}`;
   host.querySelectorAll('label').forEach(el=>el.classList.add('field'));
   reflectPaymentMethod();
   host.querySelectorAll('button,select,input').forEach(el=>{if(busy&&!(scanning&&el.matches('[data-tpv-search]')))el.disabled=true;});
@@ -649,11 +649,12 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    if(noticeAction==='view')return work(async()=>{if(!receiptStyle.showOnlineTickets)throw Error('Activa el ticket de pedidos online en Ticket antes de abrirlo.');const run=generation,owner=identity(),source=adapter,document=await source.webReceipt(id);if(run!==generation||owner!==identity()||source!==adapter)return;if(document?.external_order!==true||document.order_id!==id)throw Error('El ticket no corresponde al pedido seleccionado.');documentPreview=document;tab='order-notices';});
   }
   if(action==='order-notices'&&live())return work(async()=>{if(returnForm)throw Error('Termina o cancela la devolución antes de abrir los avisos.');tab='order-notices';});
+  if(action==='show-workstation'&&central())return work(async()=>{if(hasDraft())throw Error('Termina o aparca el ticket y guarda los cambios antes de cambiar de puesto.');context=await adapter.context();workstationStore=session?.storeId||selectedStore||context.stores[0]?.id;workstationDrawer=session?.drawerId||selectedDrawer||context.drawers.find(row=>row.storeId===workstationStore)?.id;workstationOpen=true;});
   if(action==='show-workstation'){workstationStore=session?.storeId||selectedStore||context.stores[0]?.id;workstationDrawer=session?.drawerId||selectedDrawer||context.drawers.find(row=>row.storeId===workstationStore)?.id;workstationOpen=true;render();return;}
   if(action==='close-workstation'){workstationOpen=false;render();return;}
-  if(target.dataset.tpvPickStore&&!session){const store=context.stores.find(row=>row.id===target.dataset.tpvPickStore);if(!store)return;workstationStore=store.id;workstationDrawer=context.drawers.find(row=>row.storeId===store.id)?.id||'';render();return;}
-  if(target.dataset.tpvPickDrawer&&!session){const drawer=context.drawers.find(row=>row.id===target.dataset.tpvPickDrawer&&row.storeId===workstationStore);if(!drawer)return;workstationDrawer=drawer.id;render();return;}
-  if(action==='apply-workstation'&&!session){if(!context.drawers.some(row=>row.id===workstationDrawer&&row.storeId===workstationStore))return;workstationOpen=false;return changeWorkstation(workstationStore,workstationDrawer);}
+  if(target.dataset.tpvPickStore&&(!session||central())){const store=context.stores.find(row=>row.id===target.dataset.tpvPickStore);if(!store)return;workstationStore=store.id;workstationDrawer=context.drawers.find(row=>row.storeId===store.id)?.id||'';render();return;}
+  if(target.dataset.tpvPickDrawer&&(!session||central())){const drawer=context.drawers.find(row=>row.id===target.dataset.tpvPickDrawer&&row.storeId===workstationStore);if(!drawer)return;workstationDrawer=drawer.id;render();return;}
+  if(action==='apply-workstation'&&(!session||central())){if(!context.drawers.some(row=>row.id===workstationDrawer&&row.storeId===workstationStore))return;workstationOpen=false;return changeWorkstation(workstationStore,workstationDrawer);}
   if(action==='workstation-cash'){workstationOpen=false;return work(()=>changeTab('session'));}
   if(action==='workstation-user'){workstationOpen=false;render();const change=host.querySelector('[data-tpv-action=change-operator]');if(change)change.click();return;}
   if(action==='change-operator'&&onChangeOperator)return work(async()=>{
@@ -998,8 +999,8 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
  async function openLive(required){
   if(settingsDrawerId){await restoreSaleSettings();if(settingsDrawerId)return false;}
   const candidate=bindAdapter(createLiveAdapter()),observed=await candidate.context();
-  if(!observed.drawers?.length){if(required)throw Error('Todavía no tienes una caja asignada. Pide al responsable de tu tienda que te dé acceso desde Administrar tiendas y cajas.');notice='Todavía no tienes una caja asignada. Puedes practicar mientras el responsable de tu tienda prepara tu acceso.';return false;}
-  adapter=candidate;context=observed;session=context.sessions.find(s=>s.status==='open')||null;
+  if(!observed.drawers?.length){if(required)throw Error('Todavía no tienes una caja asignada. Pide al responsable de tu tienda que te dé acceso desde Administrar tiendas y cajas.');notice='Todavía no tienes una caja asignada. En Tiendas, cajas y usuarios puedes crear tu puesto y autorizar tu acceso.';return false;}
+  notice='';adapter=candidate;context=observed;session=context.sessions.find(s=>s.status==='open')||null;
   if(session)await adapter.selectSession(session);
   else {const drawer=context.drawers[0];selectedStore=drawer.storeId;selectedDrawer=drawer.id;await adapter.selectWorkstation({storeId:selectedStore,drawerId:selectedDrawer});
    if(context.drawers.length>1){workstationStore=selectedStore;workstationDrawer=selectedDrawer;workstationOpen=true;}}
@@ -1471,6 +1472,16 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   }catch(error){if(run===generation&&request===searchRevision){failure=error.message;render();}}},150);}
  function changeWorkstation(store,drawer){
   if(live())return work(async()=>{
+   if(central()){
+    if(hasDraft())throw Error('Termina o aparca el ticket y guarda los cambios antes de cambiar de caja.');
+    context=await adapter.context();
+    if(!context.drawers.some(d=>d.id===drawer&&d.storeId===store))throw Error('Ya no tienes acceso a esa caja.');
+    const nextSession=context.sessions.find(s=>s.drawerId===drawer&&s.status==='open')||null;
+    if(nextSession)await adapter.selectSession(nextSession);else await adapter.selectWorkstation({storeId:store,drawerId:drawer});
+    session=nextSession;selectedStore=store;selectedDrawer=drawer;centralSettingsDrawerId=drawer;
+    products=[];categories=[];receipt=null;documentPreview=null;summary=null;reports.reset();tab='sale';notice='';
+    await loadWorkspacePreferences();if(session)await reloadProducts();return;
+   }
    if(formValues['customer-settings']&&!await askCurrent('¿Cambiar de caja y descartar los cambios de clientes sin guardar?'))return;
    if(formValues['payment-settings']&&!await askCurrent('¿Cambiar de caja y descartar los cambios de medios de cobro sin guardar?'))return;
    if(signaturePanel.hasDraft())throw Error('Guarda, recupera o cancela la firma actual antes de cambiar de caja.');
