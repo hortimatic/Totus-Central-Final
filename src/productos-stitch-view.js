@@ -1,12 +1,12 @@
-import {columnSettingsRow} from './column-settings.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
-import {productGallery} from './productos-gallery.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
-import {esc} from './utils.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
-import {fieldHelp} from './components.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
+import {columnSettingsRow} from './column-settings.js?v=0781d18ab5403769f1945f9310e62ae5bd7522af';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=0781d18ab5403769f1945f9310e62ae5bd7522af';
+import {productGallery} from './productos-gallery.js?v=0781d18ab5403769f1945f9310e62ae5bd7522af';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=0781d18ab5403769f1945f9310e62ae5bd7522af';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=0781d18ab5403769f1945f9310e62ae5bd7522af';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=0781d18ab5403769f1945f9310e62ae5bd7522af';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=0781d18ab5403769f1945f9310e62ae5bd7522af';
+import {esc} from './utils.js?v=0781d18ab5403769f1945f9310e62ae5bd7522af';
+import {fieldHelp} from './components.js?v=0781d18ab5403769f1945f9310e62ae5bd7522af';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
