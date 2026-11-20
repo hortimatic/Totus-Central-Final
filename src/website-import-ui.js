@@ -1,13 +1,15 @@
-import {sb} from './api.js?v=927b4406f263022a3a0000c98e132c3e50925547';
-import {esc} from './utils.js?v=927b4406f263022a3a0000c98e132c3e50925547';
-import {fieldHelp} from './components.js?v=927b4406f263022a3a0000c98e132c3e50925547';
-import {WEBSITE_IMPORT_GROUPS} from './website-import-contract.js?v=927b4406f263022a3a0000c98e132c3e50925547';
+import {sb} from './api.js?v=89ec83abe02f359b7ce50cfdf284ebc99ec7421a';
+import {esc} from './utils.js?v=89ec83abe02f359b7ce50cfdf284ebc99ec7421a';
+import {fieldHelp} from './components.js?v=89ec83abe02f359b7ce50cfdf284ebc99ec7421a';
+import {WEBSITE_IMPORT_GROUPS} from './website-import-contract.js?v=89ec83abe02f359b7ce50cfdf284ebc99ec7421a';
 export async function openWebsiteImport({rpc,website,name,resources,current=()=>true}){
  const readable=new Set(resources.filter(r=>r.readable).map(r=>r.name));
  const dialog=document.createElement('dialog');dialog.className='api-user-dialog';
  let registry=null;let status=null,busy=false,stop=false,message='',requestId=crypto.randomUUID(),selection=WEBSITE_IMPORT_GROUPS.map(g=>g.key);
  const rpcArgs=action=>({p_website:website,p_action:action,p_job:status?.job?.id});
- const load=async()=>{status=await rpc('totus_web_import',{p_website:website,p_action:'status'});};
+ const transient=error=>/fetch|network|timeout|timed out|connection closed|HTTP (502|503|504)/i.test(error?.message||String(error));
+ const retryRead=async task=>{for(let attempt=0;attempt<3;attempt++)try{return await task();}catch(error){if(!transient(error)||attempt===2)throw error;await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));}};
+ const load=async()=>{status=await retryRead(()=>rpc('totus_web_import',{p_website:website,p_action:'status'}));};
  const active=()=>dialog.isConnected&&current();
  const mapping=()=>{const web=registry?.websites?.find(w=>w.key===website);return web?'<section><h4>Establecimiento de Central</h4><p>El catálogo importado y las nuevas ventas se asignarán al establecimiento elegido.</p><label>Establecimiento<select data-import-store '+(busy?'disabled':'')+'><option value="">Selecciona un establecimiento</option>'+registry.businesses.map(b=>'<option value="'+esc(b.id)+'" '+(web.business_id===b.id?'selected':'')+'>'+esc(b.name)+'</option>').join('')+'</select></label><button type="button" class="btn secondary" data-import-bind '+(busy?'disabled':'')+'>Guardar correspondencia</button><a class="btn link" href="/administracion?section=negocio" target="_blank" rel="noopener">Crear establecimiento</a></section>':'';};
  const paint=()=>{
@@ -22,7 +24,7 @@ export async function openWebsiteImport({rpc,website,name,resources,current=()=>
   stop=false;
   if(status.job.state==='paused')status=await rpc('totus_web_import',rpcArgs('resume'));
   while(active()&&!stop&&status.job?.state==='running'){
-   const response=await sb.functions.invoke('totus-web-sync',{body:{website,job:status.job.id}});
+   const response=await retryRead(async()=>{const response=await sb.functions.invoke('totus-web-sync',{body:{website,job:status.job.id}});if(response.error&&transient(response.error))throw response.error;return response;});
    if(response.error||response.data?.error){let detail;try{detail=await response.error?.context?.json();}catch{}throw Error(response.data?.error||detail?.error||response.error?.message||'No se pudo guardar el lote. Puedes continuar sin repetir lo confirmado.');}
    await load();if(active())paint();
   }

@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {PGlite} from '@electric-sql/pglite';
+import {safeImportedRecord,importBatchRows,WEBSITE_IMPORT_RESOURCES} from '../src/website-import-contract.js';
+assert(!WEBSITE_IMPORT_RESOURCES.includes('employees'));assert(!WEBSITE_IMPORT_RESOURCES.includes('configurations'));
+assert.deepEqual(safeImportedRecord({id:1,passwd:'private',secure_key:'private',email:'fiction@example.invalid',associations:{images:[{id:2}]},card_number:'private'}),{id:1,email:'fiction@example.invalid',associations:{images:[{id:2}]}});
+assert.throws(()=>importBatchRows({products:[{id:5},{id:4}]},'products','0',25),/orden/);
+assert.throws(()=>importBatchRows({products:[{id:5}]},'products','5',25),/orden/);
+assert.throws(()=>importBatchRows({},'products','5',25),/incompleta/);
+assert.deepEqual(importBatchRows([],'products','5',25),[]);
+assert.deepEqual(importBatchRows({stock_mvts:[{id:6}]},'stock_movements','5',100),[{id:'6'}]);
+assert.deepEqual(importBatchRows({order_slips:[{id:7}]},'order_slip','0',100),[{id:'7'}]);
+assert.throws(()=>importBatchRows({stock_mvts:[],stock_movements:[]},'stock_movements','0',100),/ambigua/);
+const db=new PGlite();
+try{
+ await db.exec(`create role anon;create role authenticated;create role service_role;create schema auth;create schema private;
+ create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql as $$select current_setting('app.actor',true)::uuid$$;
+ create table private.totus_api_connections(id uuid primary key,enabled boolean,verified_revision bigint,revision bigint,real_data_authorized boolean);
+ create table private.totus_websites(key text primary key,connection_id uuid,name text,origin text,status text);
+ create function private.totus_api_admin() returns void language plpgsql as $$begin if current_setting('app.admin',true) is distinct from 'yes' then raise exception 'Sin permiso';end if;end$$;`);
+ await db.exec(await readFile(new URL('../supabase/totus_web_import.sql',import.meta.url),'utf8'));
+ await db.exec(`set app.actor='00000000-0000-4000-8000-000000000001';set app.admin='yes';insert into auth.users values('00000000-0000-4000-8000-000000000001');insert into private.totus_api_connections values('00000000-0000-4000-8000-000000000002',true,1,1,true);insert into private.totus_websites values('shop-a','00000000-0000-4000-8000-000000000002','Fiction','https://example.invalid','active');`);
+ const call=(action,job='00000000-0000-4000-8000-000000000003')=>db.query(`select public.totus_web_import('shop-a',$1,$2,array['products']) result`,[action,job]);
+ await call('start');await call('start');
+ await db.query(`select public.totus_web_import_commit($1,$2,'products',0,$3,true)`,['00000000-0000-4000-8000-000000000003','00000000-0000-4000-8000-000000000001',JSON.stringify([{id:'1',name:'Fiction'}])]);
+ const retry=await db.query(`select public.totus_web_import_commit($1,$2,'products',0,'[]',false) result`,['00000000-0000-4000-8000-000000000003','00000000-0000-4000-8000-000000000001']);assert.equal(retry.rows[0].result.retry,true);
+ await call('pause');await assert.rejects(()=>call('step_context'),/activa/);await call('resume');
+ await db.query(`select public.totus_web_import_commit($1,$2,'products',1,'[]',false)`,['00000000-0000-4000-8000-000000000003','00000000-0000-4000-8000-000000000001']);
+ const completed=(await call('status')).rows[0].result;assert.equal(completed.job.state,'completed');assert.equal(completed.counts.products,1);
+ await db.exec(`set app.admin='no'`);await assert.rejects(()=>call('status'),/Sin permiso/);
+ const grants=await db.query(`select has_function_privilege('authenticated','public.totus_web_import_commit(uuid,uuid,text,bigint,jsonb,boolean)','execute') allowed`);assert.equal(grants.rows[0].allowed,false);
+ console.log('Website import: sanitization, monotonic cursors, durable pause/resume, idempotent batch recovery, permission denial. Isolated fixture only.');
+}finally{await db.close();}
