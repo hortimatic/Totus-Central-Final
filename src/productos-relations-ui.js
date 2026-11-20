@@ -1,6 +1,6 @@
-import {esc} from './utils.js?v=9b5bdd402be98ddba53a94e68f81cb70828db6e5';
-import {textValue} from './productos-core.js?v=9b5bdd402be98ddba53a94e68f81cb70828db6e5';
-import {fieldHelp} from './components.js?v=9b5bdd402be98ddba53a94e68f81cb70828db6e5';
+import {esc} from './utils.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
+import {textValue} from './productos-core.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
+import {fieldHelp} from './components.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
 
 export function categoryPaths(categories){
  const byId=new Map(categories.map(row=>[String(row.id),row]));
