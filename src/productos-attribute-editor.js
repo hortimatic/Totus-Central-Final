@@ -1,7 +1,7 @@
-import {esc} from './utils.js?v=310ced609296f2ed6b055f79f08973afc7a8417a';
-import {confirmProductDialog} from './productos-dialogs.js?v=310ced609296f2ed6b055f79f08973afc7a8417a';
-import {createDirectorySession} from './contact-directory-session.js?v=310ced609296f2ed6b055f79f08973afc7a8417a';
-import {directoryFields,directoryDiff,directoryText,DIRECTORY_LABELS} from './contact-directory-core.js?v=310ced609296f2ed6b055f79f08973afc7a8417a';
+import {esc} from './utils.js?v=3285e2076261036c4b7d62728b54465f824faedc';
+import {confirmProductDialog} from './productos-dialogs.js?v=3285e2076261036c4b7d62728b54465f824faedc';
+import {createDirectorySession} from './contact-directory-session.js?v=3285e2076261036c4b7d62728b54465f824faedc';
+import {directoryFields,directoryDiff,directoryText,DIRECTORY_LABELS} from './contact-directory-core.js?v=3285e2076261036c4b7d62728b54465f824faedc';
 const titles={product_options:'atributo',product_option_values:'valor de atributo',product_features:'característica',product_feature_values:'valor de característica'};
 export async function openAttributeRecord({root,store,resource,recordId=null,parentId=null,actor,can,rpc,invoke,current=()=>root.isConnected,onState=()=>{},onChanged=()=>{},onNotice=()=>{},trigger}){
  if(!titles[resource])throw Error('Tipo de atributo no válido.');
