@@ -1,5 +1,5 @@
-import {buildStoreMonthlyWorkbook} from './excel.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {selectReportData} from './report-period.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
+import {buildStoreMonthlyWorkbook} from './excel.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {selectReportData} from './report-period.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
 export function monthlyDiaryFile(data,{store,year,month},engine){
  const from=`${year}-${String(month).padStart(2,'0')}-01`;
  const to=`${year}-${String(month).padStart(2,'0')}-${new Date(year,month,0).getDate()}`;

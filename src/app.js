@@ -1,96 +1,96 @@
-import {createPromotionTpvClient} from './totustpv/promotions.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createLoyaltyTpvClient} from './totustpv/loyalty.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createCatalogueTaxChange,taxPreference} from './totustpv/catalogue-tax.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createOperatorLogin} from './totustpv/operator-login.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createPasswordConfirmation} from './totustpv/password-confirmation.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {installSearchableSelects} from './productos-controls.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createRecurringExpensesUI} from './recurring-expenses-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {installSharedTableArrows} from './shared-table-controls.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
+import {createPromotionTpvClient} from './totustpv/promotions.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createLoyaltyTpvClient} from './totustpv/loyalty.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createCatalogueTaxChange,taxPreference} from './totustpv/catalogue-tax.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createOperatorLogin} from './totustpv/operator-login.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createPasswordConfirmation} from './totustpv/password-confirmation.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {installSearchableSelects} from './productos-controls.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createRecurringExpensesUI} from './recurring-expenses-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {installSharedTableArrows} from './shared-table-controls.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
 installSharedTableArrows(document,{owner:()=>state.user?.id});
 installSearchableSelects(document);
-import {createContactDirectoryUI} from './contact-directory-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {interfaceStylesSettings,acceptInterfaceStyles,verifySavedInterfaceStyle} from './appearance-styles.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createAutomationsUI} from './automations-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {prestashopInvoiceDraft,prestashopInvoiceLineAmounts} from './prestashop-invoice.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createApiManager} from './api-manager.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {NAV_GROUPS,orderedRoutes} from './navigation-preferences.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {moduleNavigationState,moduleUrl,requestedModule,nativeModuleClick,adminSectionFromUrl,drawerManagementUrl} from './module-navigation.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {interfaceIcon} from './interface-icons.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {applyStitchLayout} from './stitch-layout.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {enhancePasswordVisibility,hidePasswords,accessDeadline} from './login-controls.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createPrestashopUI} from './prestashop-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createHomeWidgetsUI} from './home-widgets-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createProductosUI} from './productos-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createAccountUI} from './account-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createMobileNavigation} from './mobile-navigation.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTpvWorkspace} from './totustpv/workspace.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createInventoryAdjustment} from './totustpv/inventory-adjustment.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createCentralTpvAdapter} from './totustpv/central-adapter.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTpvConfigurationReader} from './totustpv/configuration-reader.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTpvHttpClient} from './totustpv/http-client.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTpvBillingUI} from './totustpv/billing-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createCentralCashUI} from './totustpv/central-cash-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {SUPABASE_URL as TPV_SUPABASE_URL,SUPABASE_KEY as TPV_SUPABASE_KEY} from './config.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTpvSetupReader} from './totustpv/setup-reader.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {personalInterfaceSettings,acceptPersonalInterface} from './interface-preferences.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createChatPreferenceTransport} from './chat-preference-transport.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createAppearanceUI,applyInterfaceAppearance,applyLoginAppearance} from './appearance-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createActivityLog} from './activity-log.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {beginStartupTiming,timedStartup,finishStartupTiming,clearStartupTiming,startupTimingReport} from './startup-timing.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {DRAWER_FORM_FIELDS,previewClosing} from './cash-closing.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createCloudBackupReader} from './cloud-backup-reader.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {editableReferences,reportDiaryStores,reportDiaryStore} from './reference-options.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {cleanupAllowed} from './write-safety.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createBusinessWriter} from './business-write.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {rememberWriteVersion,expectedWriteVersion,advanceWriteVersion} from './write-version.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {retireStoredDocument} from './document-removal.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createHeaderTools} from './header-tools.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {filterAuditEvents} from './audit-register.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createLogCleanup} from './log-cleanup.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {expenseLineAmounts,expenseTotals} from './expense-totals.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {selectExpenses} from './expense-selection.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {templateCopyCode} from './template-copy.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {templateExample} from './template-preview.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTasks} from './tasks-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {validateFormNumber} from './form-numbers.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {taskToday} from './tasks-core.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {requestChatFile,subscribeChat,createChatNotifier} from './chat-api.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTeamChat} from './team-chat-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {EXPENSE_REPORT_GROUPS,expenseReportOverride} from './expense-colors.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {discountScenarios} from './pricing-discounts.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {draftVariantRow,readDraftVariants,refreshDraftStudies,draftRange} from './pricing-drafts.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {parseVariantAttributes,formatVariantAttributes,variantStudy,validateVariant,pricingProviderCost,pricingProviderPreview,pricingCompetition} from './pricing-core.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {stockPage,stockAction,updateStockFileSelection} from './stock-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {readStockCatalog} from './stock-catalog.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {storeConnection,PRESTASHOP_STORES} from './prestashop-readonly.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {normalizeReportOrder} from './report-layout.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {calendarReportPeriod,reportPackagePlan,annualReportPlan} from './report-package.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {SET_FORMAT,uploadSelectedBackupSet} from './backup-set.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {archiveHash as componentHash} from './recovery-core.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {validateTaxExpense} from './tax-expense.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {workbookPreviewText} from './workbook-preview.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {oneDriveRequest,setOneDriveStatus,setOneDriveMaintenance,oneDriveCredentialNotice} from './onedrive-connection.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {backupRetentionCount} from './backup-retention.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {selectReportData,matchesText,searchText,selectDocuments} from './report-period.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {captureFormDraft,hasFormDraft,originalFormValue,setPristineFormValue,markFormFieldSaved} from './form-drafts.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {ROUTES,SUPABASE_URL} from './config.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {PERMISSION_MODULES,PERMISSION_ACTIONS,PERMISSION_HELP,permissionsFor,rolePermissions,canUser,setRolePermissions} from './permissions.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {state,isAdmin,isManager,getFilters,patchFilters,setRoute,getView,setView,resetView,resetSessionData} from './state.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {sb,select,accountDocumentPage,login,logout,recover,loadCore,reloadStorageUsage,invalidateStorageUsage,resetStorageUsageSession,reloadAudit,invalidateAuditReads,rpc,insert,update,remove,invokeTeam,invokeRecovery,upload,signedUrl,downloadFile,removeFile,completeDocumentRemoval} from './api.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {renderers,productRecordHtml,invoiceLineRow,expenseLineRow,invoicePreview,sourceClosingRecordHtml,openingDrawerCash,homeStorageAlertHtml,homeStorageMetricsHtml} from './pages/main.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {setHeader,closeModal,confirmAction,toast,modal,btn,formField,selectField,table} from './components.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {$,monthRange,n,isoToday,fmtDate,fmtDateTime,esc,download,csv,money} from './utils.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {parseDecimal,closingIncomeAmount,expenseCostAmount,quickPriceStudy,previewQuickPriceStudy,validateExpensePayment,validateExpenseLineAmounts,validateExpenseClassification,validateInvoiceSettlement,issuedDocumentFileLocked} from './calculations.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {documentMimeType,validateDocumentFile,previewKind,safeFileSegment,uniqueArchiveDocumentPath} from './file-utils.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {collectArchiveDocuments} from './archive-documents.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {expenseRegisterLines,GESTOR_EXPENSE_COLUMNS} from './expense-register.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {exportClosingsWorkbook,exportExpensesWorkbook,exportSummaryWorkbook,exportStoreMonthlyWorkbook,exportGestorWorkbook,buildStoreMonthlyWorkbook,buildGestorWorkbook,workbookBlob} from './excel.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createBackup,inspectBackup} from './backup.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {ensureExcel,ensureZip} from './office-libs.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {readBackupObject,writeBackupObject} from './backup-transport.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {buildGestorSourceWorkbook,exportGestorSourceWorkbook} from './excel.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {buildGestorSourceRows,gestorSourcePrintHtml} from './gestor-format.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {renderPdfPreview} from './pdf-preview.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
+import {createContactDirectoryUI} from './contact-directory-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {interfaceStylesSettings,acceptInterfaceStyles,verifySavedInterfaceStyle} from './appearance-styles.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createAutomationsUI} from './automations-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {prestashopInvoiceDraft,prestashopInvoiceLineAmounts} from './prestashop-invoice.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createApiManager} from './api-manager.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {NAV_GROUPS,orderedRoutes} from './navigation-preferences.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {moduleNavigationState,moduleUrl,requestedModule,nativeModuleClick,adminSectionFromUrl,drawerManagementUrl} from './module-navigation.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {interfaceIcon} from './interface-icons.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {applyStitchLayout} from './stitch-layout.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {enhancePasswordVisibility,hidePasswords,accessDeadline} from './login-controls.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createPrestashopUI} from './prestashop-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createHomeWidgetsUI} from './home-widgets-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createProductosUI} from './productos-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createAccountUI} from './account-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createMobileNavigation} from './mobile-navigation.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTpvWorkspace} from './totustpv/workspace.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createInventoryAdjustment} from './totustpv/inventory-adjustment.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createCentralTpvAdapter} from './totustpv/central-adapter.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTpvConfigurationReader} from './totustpv/configuration-reader.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTpvHttpClient} from './totustpv/http-client.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTpvBillingUI} from './totustpv/billing-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createCentralCashUI} from './totustpv/central-cash-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {SUPABASE_URL as TPV_SUPABASE_URL,SUPABASE_KEY as TPV_SUPABASE_KEY} from './config.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTpvSetupReader} from './totustpv/setup-reader.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {personalInterfaceSettings,acceptPersonalInterface} from './interface-preferences.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createChatPreferenceTransport} from './chat-preference-transport.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createAppearanceUI,applyInterfaceAppearance,applyLoginAppearance} from './appearance-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createActivityLog} from './activity-log.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {beginStartupTiming,timedStartup,finishStartupTiming,clearStartupTiming,startupTimingReport} from './startup-timing.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {DRAWER_FORM_FIELDS,previewClosing} from './cash-closing.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createCloudBackupReader} from './cloud-backup-reader.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {editableReferences,reportDiaryStores,reportDiaryStore} from './reference-options.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {cleanupAllowed} from './write-safety.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createBusinessWriter} from './business-write.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {rememberWriteVersion,expectedWriteVersion,advanceWriteVersion} from './write-version.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {retireStoredDocument} from './document-removal.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createHeaderTools} from './header-tools.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {filterAuditEvents} from './audit-register.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createLogCleanup} from './log-cleanup.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {expenseLineAmounts,expenseTotals} from './expense-totals.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {selectExpenses} from './expense-selection.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {templateCopyCode} from './template-copy.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {templateExample} from './template-preview.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTasks} from './tasks-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {validateFormNumber} from './form-numbers.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {taskToday} from './tasks-core.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {requestChatFile,subscribeChat,createChatNotifier} from './chat-api.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTeamChat} from './team-chat-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {EXPENSE_REPORT_GROUPS,expenseReportOverride} from './expense-colors.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {discountScenarios} from './pricing-discounts.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {draftVariantRow,readDraftVariants,refreshDraftStudies,draftRange} from './pricing-drafts.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {parseVariantAttributes,formatVariantAttributes,variantStudy,validateVariant,pricingProviderCost,pricingProviderPreview,pricingCompetition} from './pricing-core.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {stockPage,stockAction,updateStockFileSelection} from './stock-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {readStockCatalog} from './stock-catalog.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {storeConnection,PRESTASHOP_STORES} from './prestashop-readonly.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {normalizeReportOrder} from './report-layout.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {calendarReportPeriod,reportPackagePlan,annualReportPlan} from './report-package.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {SET_FORMAT,uploadSelectedBackupSet} from './backup-set.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {archiveHash as componentHash} from './recovery-core.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {validateTaxExpense} from './tax-expense.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {workbookPreviewText} from './workbook-preview.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {oneDriveRequest,setOneDriveStatus,setOneDriveMaintenance,oneDriveCredentialNotice} from './onedrive-connection.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {backupRetentionCount} from './backup-retention.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {selectReportData,matchesText,searchText,selectDocuments} from './report-period.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {captureFormDraft,hasFormDraft,originalFormValue,setPristineFormValue,markFormFieldSaved} from './form-drafts.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {ROUTES,SUPABASE_URL} from './config.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {PERMISSION_MODULES,PERMISSION_ACTIONS,PERMISSION_HELP,permissionsFor,rolePermissions,canUser,setRolePermissions} from './permissions.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {state,isAdmin,isManager,getFilters,patchFilters,setRoute,getView,setView,resetView,resetSessionData} from './state.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {sb,select,accountDocumentPage,login,logout,recover,loadCore,reloadStorageUsage,invalidateStorageUsage,resetStorageUsageSession,reloadAudit,invalidateAuditReads,rpc,insert,update,remove,invokeTeam,invokeRecovery,upload,signedUrl,downloadFile,removeFile,completeDocumentRemoval} from './api.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {renderers,productRecordHtml,invoiceLineRow,expenseLineRow,invoicePreview,sourceClosingRecordHtml,openingDrawerCash,homeStorageAlertHtml,homeStorageMetricsHtml} from './pages/main.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {setHeader,closeModal,confirmAction,toast,modal,btn,formField,selectField,table} from './components.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {$,monthRange,n,isoToday,fmtDate,fmtDateTime,esc,download,csv,money} from './utils.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {parseDecimal,closingIncomeAmount,expenseCostAmount,quickPriceStudy,previewQuickPriceStudy,validateExpensePayment,validateExpenseLineAmounts,validateExpenseClassification,validateInvoiceSettlement,issuedDocumentFileLocked} from './calculations.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {documentMimeType,validateDocumentFile,previewKind,safeFileSegment,uniqueArchiveDocumentPath} from './file-utils.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {collectArchiveDocuments} from './archive-documents.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {expenseRegisterLines,GESTOR_EXPENSE_COLUMNS} from './expense-register.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {exportClosingsWorkbook,exportExpensesWorkbook,exportSummaryWorkbook,exportStoreMonthlyWorkbook,exportGestorWorkbook,buildStoreMonthlyWorkbook,buildGestorWorkbook,workbookBlob} from './excel.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createBackup,inspectBackup} from './backup.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {ensureExcel,ensureZip} from './office-libs.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {readBackupObject,writeBackupObject} from './backup-transport.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {buildGestorSourceWorkbook,exportGestorSourceWorkbook} from './excel.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {buildGestorSourceRows,gestorSourcePrintHtml} from './gestor-format.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {renderPdfPreview} from './pdf-preview.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
 
 let chatUnread=0,pendingChatTarget=null,pendingTaskSource=null,pendingTaskDate=null;
 const businessWriter=createBusinessWriter({rpc});
@@ -160,6 +160,7 @@ const totusTpvUI=createTpvWorkspace({referencePreview:new URLSearchParams(locati
  storeBrandingSetup:(scope,settings=null)=>rpc('totus_tpv_store_ticket_branding',{p_store:scope.storeId,p_settings:settings}),
  storeReceiptSeriesSetup:(scope,settings=null,revision=null)=>rpc('totus_tpv_store_receipt_series',{p_store:scope.storeId,p_settings:settings,p_revision:revision}),
  storeLoyaltySetup:(scope,settings=null,revision=null)=>rpc('totus_tpv_loyalty_settings',{p_store:scope.storeId,p_settings:settings,p_revision:revision}),
+ storeCheckoutRules:(drawer,settings=null,revision=null)=>rpc('totus_tpv_checkout_rules',{p_drawer:drawer.id,p_settings:settings,p_revision:revision}),
  storePromotionSetup:(scope,settings=null,revision=null)=>rpc('totus_tpv_promotion_settings',{p_store:scope.storeId,p_settings:settings,p_revision:revision}),
  ticketBrandingStore:async(drawer,settings=null)=>{try{return await rpc('totus_tpv_ticket_branding',{p_connection:drawer.connectionId,p_shop:drawer.shopId,p_drawer:drawer.id,p_settings:settings});}catch(error){throw Error(/STALE/.test(error.message)?'Otra persona ha cambiado el logo. Vuelve a consultar esta tienda antes de guardar.':/FORBIDDEN/.test(error.message)?'No tienes permiso para configurar el logo de esta tienda.':'No se pudo consultar o guardar el logo. El archivo preparado se conserva.');}},
  workspacePreferences:(drawer,preferences=null)=>rpc('totus_tpv_workspace_preferences',{
@@ -3108,8 +3109,8 @@ document.addEventListener('click',async e=>{
   if(a==='drawer-new'){drawerForm(el.dataset.store);return}
   if(a==='drawer-edit'){drawerForm(el.dataset.store,state.data.drawers.find(x=>x.id===el.dataset.id));return}
   if(a==='drawer-save'){await saveDrawer(el.dataset.store,el.dataset.id||'');return}
-  if(a==='user-agent-access'){if(!isAdmin())throw Error('Solo administración puede vincular cuentas de IA.');const {openAgentAccess}=await import('./agent-access-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450');await openAgentAccess(state.data.team.find(x=>x.email===el.dataset.email));return;}
-  if(a==='user-agent-access-save'){const {saveAgentAccess}=await import('./agent-access-ui.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450');const result=await saveAgentAccess(el.dataset.email);await refresh(result.message);return;}
+  if(a==='user-agent-access'){if(!isAdmin())throw Error('Solo administración puede vincular cuentas de IA.');const {openAgentAccess}=await import('./agent-access-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30');await openAgentAccess(state.data.team.find(x=>x.email===el.dataset.email));return;}
+  if(a==='user-agent-access-save'){const {saveAgentAccess}=await import('./agent-access-ui.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30');const result=await saveAgentAccess(el.dataset.email);await refresh(result.message);return;}
   if(a==='user-new'){userModal();return}
   if(a==='user-profile'){const profile=state.data.profiles.find(p=>p.email?.toLowerCase()===el.dataset.email?.toLowerCase());if(!profile)throw Error('El perfil de este usuario aún no está disponible. Actualiza la página tras crear su cuenta.');await accountUI.openFor(profile.id);return;}
   if(a==='user-edit'){userModal(state.data.team.find(x=>x.email===el.dataset.email));return}

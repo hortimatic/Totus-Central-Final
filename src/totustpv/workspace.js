@@ -1,68 +1,69 @@
-import {createCashSetup} from './cash-setup.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createPromotionPanel} from './promotions.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createLoyaltyPanel} from './loyalty.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createReceiptSetup} from './receipt-setup.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createGeneralSetup} from './general-setup.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {taxPreference,taxPreferenceHtml,createTaxGroupPicker} from './catalogue-tax.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTicketBranding} from './ticket-branding.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {workstationHeader,workstationDialog,workstationIcon} from './workstation-visual.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {referencePolicyPayload,confirmReferencePolicy} from './reference-policy-settings.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {applyReferencePreferences,normalizeReferencePreferences} from './reference-preferences.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {referenceSettingsHtml,referenceActionsHtml,folderIcon,productIcon} from './reference-interface.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {customerSettings} from './customer-settings.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createInventoryPanel} from './inventory-panel.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {customerOptionsHtml,customerSettingsFormValues,customerSettingsFromForm,customerSettingsError,changeCustomerFieldPosition} from './customer-options.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {budgetOptions,budgetOptionsFromForm,budgetOptionsHtml,budgetSettingsError} from './budget-options.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {operatorSwitchPolicy,operatorSwitchPolicyHtml,saveOperatorSwitchPolicy} from './operator-switch-policy.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {sensitiveSettings,sensitiveSettingsHtml,createPasswordPrompt} from './sensitive-actions.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {loadGiftReceipt} from './gift-discounts.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {operatorSettings,operatorSettingsHtml} from './operator-settings.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {operatorAvailability,createOperatorPicker} from './operator-picker.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {cashVisibility,cashVisibilityHtml} from './cash-visibility.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createAccessBatchPanel} from './workstation-access-batch.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createSignaturePanel} from './signature-panel.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {signatureOptions,signatureOptionsFromForm,signatureOptionsHtml} from './signature-options.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {tenderSummaryHtml} from './tender-summary.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {returnPolicy,returnPolicyHtml} from './return-policy.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {menuLinks as normalizeMenuLinks,menuLinksFromForm,menuLinksHtml,menuLinksActions} from './menu-links.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createCatalogueBackground} from './catalogue-background.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {mountSettingsNavigation} from './settings-navigation.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {roundPriceMicros,roundPriceSubtotal} from './offline-rounding.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createOfflineSync} from './offline-sync.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createOfflineJournal} from './offline-journal.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {offlineDevice} from './offline-device.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {submitWithLocalReceipt} from './local-sale-submission.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createOfflinePanel} from './offline-panel.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {lineName,createLineNameEditor} from './line-name.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {budgetDocumentHtml,budgetStatus} from './budget-document.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {saleNote} from './sale-note.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {paymentFormMethods,paymentSettingsHtml,paymentSettingsFromForm} from './payment-options.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {paymentReferenceFields,referenceForTender} from './payment-reference.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {parkingOptions,parkingOptionsHtml,parkingOptionsFromForm,parkingExpiry} from './parking-options.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {lineOptions,lineOptionsHtml,lineOptionsFromForm,lineAdjustment} from './line-options.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {stockPolicy,stockPolicyFromForm,stockPolicyHtml,canExceedStock,stockWarning} from './stock-policy.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createQuantityPicker} from './quantity-picker.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTpvPracticeAdapter} from './practice-adapter.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {cashTenderPreview} from './model.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {taxSummaryHtml} from './tax-summary.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {receiptHtml as nativeReceiptHtml,receiptPreviewHtml,giftReceiptPreviewHtml,downloadNativePdf,printReceipt,printTpvMarkup} from './documents.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError,receiptNumber} from './receipt-series.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {receiptOptions,receiptOptionsHtml,receiptOptionsFromForm} from './receipt-options.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createReceiptDelivery} from './receipt-delivery.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {orderLookupInput} from './central-adapter.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createTpvCustomerPanel} from './customers.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createCashReportsPanel} from './cash-reports.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createStockIntake} from './stock-intake.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createBarcodePanel} from './barcode-panel.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createProductIntakePanel} from './product-intake.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {cashOptions,cashOptionsHtml,cashOptionsFromForm,cashCountHtml,updateCashCount,clearCashCount,mountCashOptions} from './cash-counting.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createWorkstationAccessPanel} from './workstation-access.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createCustomerDisplay,customerDisplayOptions,customerDisplayOptionsHtml,customerDisplayOptionsFromForm} from './customer-display.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {createCatalogueTable,priceBuildHtml} from './catalogue-table.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {displayPreferences,displayPreferencesHtml,displayPreferencesFromForm,cataloguePriceCents,variantOrder,TPV_VARIANT_ORDERS} from './display-preferences.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {searchPreferences,searchPreferencesFromForm,searchPreferencesHtml,TPV_SEARCH_FIELDS} from './search-preferences.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
-import {cataloguePreferences,cataloguePreferencesFromForm,cataloguePreferencesHtml,visibleCatalogueCategories,catalogueDetails,variantDetails} from './catalogue-preferences.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
+import {createCheckoutRulesPanel,CHECKOUT_DEFAULTS,checkoutRules,checkoutReceived} from './checkout-rules.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createCashSetup} from './cash-setup.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createPromotionPanel} from './promotions.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createLoyaltyPanel} from './loyalty.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createReceiptSetup} from './receipt-setup.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createGeneralSetup} from './general-setup.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {taxPreference,taxPreferenceHtml,createTaxGroupPicker} from './catalogue-tax.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTicketBranding} from './ticket-branding.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {workstationHeader,workstationDialog,workstationIcon} from './workstation-visual.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {referencePolicyPayload,confirmReferencePolicy} from './reference-policy-settings.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {applyReferencePreferences,normalizeReferencePreferences} from './reference-preferences.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {referenceSettingsHtml,referenceActionsHtml,folderIcon,productIcon} from './reference-interface.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {customerSettings} from './customer-settings.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createInventoryPanel} from './inventory-panel.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {customerOptionsHtml,customerSettingsFormValues,customerSettingsFromForm,customerSettingsError,changeCustomerFieldPosition} from './customer-options.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {budgetOptions,budgetOptionsFromForm,budgetOptionsHtml,budgetSettingsError} from './budget-options.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {operatorSwitchPolicy,operatorSwitchPolicyHtml,saveOperatorSwitchPolicy} from './operator-switch-policy.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {sensitiveSettings,sensitiveSettingsHtml,createPasswordPrompt} from './sensitive-actions.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {loadGiftReceipt} from './gift-discounts.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {operatorSettings,operatorSettingsHtml} from './operator-settings.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {operatorAvailability,createOperatorPicker} from './operator-picker.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {cashVisibility,cashVisibilityHtml} from './cash-visibility.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createAccessBatchPanel} from './workstation-access-batch.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createSignaturePanel} from './signature-panel.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {signatureOptions,signatureOptionsFromForm,signatureOptionsHtml} from './signature-options.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {tenderSummaryHtml} from './tender-summary.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {returnPolicy,returnPolicyHtml} from './return-policy.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {menuLinks as normalizeMenuLinks,menuLinksFromForm,menuLinksHtml,menuLinksActions} from './menu-links.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createCatalogueBackground} from './catalogue-background.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {mountSettingsNavigation} from './settings-navigation.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {roundPriceMicros,roundPriceSubtotal} from './offline-rounding.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createOfflineSync} from './offline-sync.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createOfflineJournal} from './offline-journal.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {offlineDevice} from './offline-device.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {submitWithLocalReceipt} from './local-sale-submission.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createOfflinePanel} from './offline-panel.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {lineName,createLineNameEditor} from './line-name.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {budgetDocumentHtml,budgetStatus} from './budget-document.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {saleNote} from './sale-note.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {paymentFormMethods,paymentSettingsHtml,paymentSettingsFromForm} from './payment-options.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {paymentReferenceFields,referenceForTender} from './payment-reference.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {parkingOptions,parkingOptionsHtml,parkingOptionsFromForm,parkingExpiry} from './parking-options.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {lineOptions,lineOptionsHtml,lineOptionsFromForm,lineAdjustment} from './line-options.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {stockPolicy,stockPolicyFromForm,stockPolicyHtml,canExceedStock,stockWarning} from './stock-policy.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createQuantityPicker} from './quantity-picker.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTpvPracticeAdapter} from './practice-adapter.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {cashTenderPreview} from './model.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {taxSummaryHtml} from './tax-summary.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {receiptHtml as nativeReceiptHtml,receiptPreviewHtml,giftReceiptPreviewHtml,downloadNativePdf,printReceipt,printTpvMarkup} from './documents.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError,receiptNumber} from './receipt-series.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {receiptOptions,receiptOptionsHtml,receiptOptionsFromForm} from './receipt-options.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createReceiptDelivery} from './receipt-delivery.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {orderLookupInput} from './central-adapter.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createTpvCustomerPanel} from './customers.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createCashReportsPanel} from './cash-reports.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createStockIntake} from './stock-intake.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createBarcodePanel} from './barcode-panel.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createProductIntakePanel} from './product-intake.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {cashOptions,cashOptionsHtml,cashOptionsFromForm,cashCountHtml,updateCashCount,clearCashCount,mountCashOptions} from './cash-counting.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createWorkstationAccessPanel} from './workstation-access.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createCustomerDisplay,customerDisplayOptions,customerDisplayOptionsHtml,customerDisplayOptionsFromForm} from './customer-display.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {createCatalogueTable,priceBuildHtml} from './catalogue-table.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {displayPreferences,displayPreferencesHtml,displayPreferencesFromForm,cataloguePriceCents,variantOrder,TPV_VARIANT_ORDERS} from './display-preferences.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {searchPreferences,searchPreferencesFromForm,searchPreferencesHtml,TPV_SEARCH_FIELDS} from './search-preferences.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
+import {cataloguePreferences,cataloguePreferencesFromForm,cataloguePreferencesHtml,visibleCatalogueCategories,catalogueDetails,variantDetails} from './catalogue-preferences.js?v=87cebe372dcc61695c0f31c14be7d0381ca8ed30';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 export function inputCents(value) {
@@ -78,12 +79,14 @@ const paymentLabel=method=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transf
  */
 export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
  confirmPassword=null,prepareOperatorLogin=null,onConfigure=null,canConfigure=()=>false,onAppearance=null,canAppearance=()=>false,onChangeOperator=null,readOperatorChoices=null,onOnlineOrders=null,canOnlineOrders=()=>false,onBilling=null,canBilling=()=>false,onCash=null,canCentralCash=()=>false,readSetup=null,createLiveAdapter=null,
- readConfiguration=null,generalSetupInvoke=null,storeBrandingSetup=null,storeReceiptSeriesSetup=null,storeLoyaltySetup=null,storePromotionSetup=null,configureWorkstation=null,cashVisibilityStore=null,operatorSettingsStore=null,drawerManagement=()=>null,workspacePreferences=null,ticketBrandingStore=null,receiptNumbering=null,budgetSettingsStore=null,customerSettingsStore=null,menuLinksStore=null,returnPolicyStore=null,canReturnPolicy=()=>false,signaturePolicyStore=null,canSignatureSettings=()=>false,canAssign=()=>false,canCustomer=()=>false,canStock=()=>false,applyInventory=null,catalogueTaxChange=null,canEditProductTax=()=>false,canCreateProduct=()=>false,canReadCost=()=>false,autoOpen=false,referencePreview=false}={}) {
+ readConfiguration=null,generalSetupInvoke=null,storeBrandingSetup=null,storeReceiptSeriesSetup=null,storeLoyaltySetup=null,storePromotionSetup=null,storeCheckoutRules=null,configureWorkstation=null,cashVisibilityStore=null,operatorSettingsStore=null,drawerManagement=()=>null,workspacePreferences=null,ticketBrandingStore=null,receiptNumbering=null,budgetSettingsStore=null,customerSettingsStore=null,menuLinksStore=null,returnPolicyStore=null,canReturnPolicy=()=>false,signaturePolicyStore=null,canSignatureSettings=()=>false,canAssign=()=>false,canCustomer=()=>false,canStock=()=>false,applyInventory=null,catalogueTaxChange=null,canEditProductTax=()=>false,canCreateProduct=()=>false,canReadCost=()=>false,autoOpen=false,referencePreview=false}={}) {
  let centralSettingsDrawerId='';
+ let checkoutStyle={...CHECKOUT_DEFAULTS};
+ const nativeCheckout=createCheckoutRulesPanel({store:(...args)=>storeCheckoutRules(...args)});
  const nativePromotion=createPromotionPanel({store:(...args)=>storePromotionSetup(...args)});
  const nativeLoyalty=createLoyaltyPanel({store:(...args)=>storeLoyaltySetup(...args)});
  const cashSetup=createCashSetup({actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),drawerManagement,confirm,onClose:()=>render()});
- const paymentSetup=createCashSetup({paymentOnly:true,actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),drawerManagement,confirm,onClose:()=>render()});
+ const paymentSetup=createCashSetup({paymentOnly:true,storeCheckoutRules,actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),drawerManagement,confirm,onClose:()=>render()});
  const generalSetup=createGeneralSetup({actor,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),confirm,onClose:()=>render()});
  const receiptSetup=createReceiptSetup({actor,storage,canConfigure:canAssign,initialDrawer:()=>centralSettingsDrawerId,onDrawer:id=>{centralSettingsDrawerId=id;},invoke:(name,args)=>generalSetupInvoke(name,args),storeBranding:(scope,value)=>storeBrandingSetup(scope,value),storeSeries:storeReceiptSeriesSetup,storeLoyalty:storeLoyaltySetup,storePromotion:storePromotionSetup,confirm,onClose:()=>render()});
  let budgetRules=budgetOptions(),customerRules=customerSettings(),referenceSection='General',quickPaymentMethod='cash';
@@ -152,7 +155,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   return Object.fromEntries(Object.entries(raw).map(([key,value])=>[key,typeof value!=='function'?value:
    async(...args)=>{if(born!==generation)throw new Error('La vista ha cambiado.');guard();
     const result=await value(...args);if(born!==generation)throw new Error('La vista ha cambiado.');guard();return result;}]));}
- function bindPractice(){taxRules=taxPreference();try{const saved=JSON.parse((storage||globalThis.localStorage).getItem('totus:tpv:reference-preferences:'+identity())||'null');if(saved){const value=normalizeReferencePreferences(saved);catalogueView=value.viewMode;initialCategoryId=value.initialCategoryId;displayOptions=value.display;receiptStyle=value.receipt;customerScreenOptions=value.customerDisplay;searchOptions=value.search;catalogueOptions=value.catalogue;includeDisabledStock=value.search.includeDisabledStock;}}catch{}operatorRules={switchEnabled:true,revision:0,requireAtCheckout:false};let practiceStorage=storage;
+ function bindPractice(){checkoutStyle={...CHECKOUT_DEFAULTS};taxRules=taxPreference();try{const saved=JSON.parse((storage||globalThis.localStorage).getItem('totus:tpv:reference-preferences:'+identity())||'null');if(saved){const value=normalizeReferencePreferences(saved);catalogueView=value.viewMode;initialCategoryId=value.initialCategoryId;displayOptions=value.display;receiptStyle=value.receipt;customerScreenOptions=value.customerDisplay;searchOptions=value.search;catalogueOptions=value.catalogue;includeDisabledStock=value.search.includeDisabledStock;}}catch{}operatorRules={switchEnabled:true,revision:0,requireAtCheckout:false};let practiceStorage=storage;
   try{practiceStorage??=globalThis.localStorage;}catch{throw new Error('Este navegador no permite guardar la práctica. Revisa sus permisos de almacenamiento.');}
   return bindAdapter(createTpvPracticeAdapter({actorId:identity(),storage:practiceStorage,referenceCatalogue:true}));}
  const guard=()=>{if(!host||!allowed()||mountedActor!==identity())throw new Error('La sesión ha cambiado. Vuelve a entrar en TotusTPV.');};
@@ -234,10 +237,10 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   if(!busy&&tab==='history'&&focusOrderLookup){const field=host.querySelector('[data-tpv-order-search] [name=orderId]');if(field){field.focus();field.select();focusOrderLookup=false;}}
  }
  function referenceConnectedCoverage(){
-  const ids=['CFG-02-01','CFG-01-03','CFG-03-04'];if(!live())return ids;
+  const ids=['CFG-02-01','CFG-01-03','CFG-03-04'];if(!live()){if(storeCheckoutRules&&canAssign())ids.push('CFG-04-04','CFG-04-10');return ids;}
   if(catalogueTaxChange&&canEditProductTax())ids.push('CFG-01-06');if(can('edit'))ids.push('CFG-01-05','CFG-01-07');if(canSell())ids.push('CFG-01-04','CFG-09-10');
   if(operatorSettingsStore)ids.push('CFG-01-08','CFG-01-09');if(adapter?.operatorSwitchPolicy)ids.push('CFG-01-10');if(menuLinksStore)ids.push('CFG-01-11');
-  if(nativeLoyalty.isLoaded()&&canAssign())ids.push('CFG-02-36');if(nativePromotion.isLoaded()&&canAssign())ids.push('CFG-02-17');
+  if(nativeCheckout.isLoaded()&&canAssign())ids.push('CFG-04-04','CFG-04-10');if(nativeLoyalty.isLoaded()&&canAssign())ids.push('CFG-02-36');if(nativePromotion.isLoaded()&&canAssign())ids.push('CFG-02-17');
   if(numbering)ids.push('CFG-02-03','CFG-02-06','CFG-02-07','CFG-02-08');
   ids.push('CFG-03-05');if(canAssign()&&readConfiguration)ids.push('CFG-03-01','CFG-03-02','CFG-03-03','CFG-05-01','CFG-05-02');
   if(cashVisibilityStore)ids.push('CFG-03-06');if(drawerPayments){ids.push('CFG-03-07','CFG-04-08','CFG-04-09','CFG-04-11','CFG-04-12');const methods=Object.keys(drawerPayments.options?.labels||{});if(methods.includes('transfer'))ids.push('CFG-04-06');if(methods.includes('card'))ids.push('CFG-04-07');if(methods.includes('cheque'))ids.push('CFG-04-03');if(methods.includes('cash')&&methods.length>1)ids.push('CFG-04-04');}
@@ -251,7 +254,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
  async function changeSettingsScope(drawerId){
   if(!live()||!createLiveAdapter)throw Error('Selecciona una tienda conectada para configurar otros puestos.');
   const drawer=context.drawers.find(row=>row.id===drawerId);if(!drawer)throw Error('No tienes acceso a esta caja.');
-  if((nativePromotion.hasDraft()||nativeLoyalty.hasDraft()||ticketBranding.hasDraft()||Object.keys(formValues).some(key=>key!=='ticket'))&&!await askCurrent('¿Cambiar de puesto y descartar los ajustes sin guardar?',{acceptLabel:'Cambiar puesto'}))return;
+  if(((nativePromotion.hasDraft()||nativeCheckout.hasDraft())||nativeLoyalty.hasDraft()||ticketBranding.hasDraft()||Object.keys(formValues).some(key=>key!=='ticket'))&&!await askCurrent('¿Cambiar de puesto y descartar los ajustes sin guardar?',{acceptLabel:'Cambiar puesto'}))return;
   const run=generation,owner=identity(),candidate=createLiveAdapter();
   await candidate.context();await candidate.selectWorkstation({storeId:drawer.storeId,drawerId:drawer.id});
   if(run!==generation||owner!==identity()||!host)throw Error('La sesión ha cambiado.');
@@ -264,7 +267,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
  }
  async function restoreSaleSettings(){
   if(!settingsDrawerId)return;
-  if((nativePromotion.hasDraft()||nativeLoyalty.hasDraft()||ticketBranding.hasDraft()||Object.keys(formValues).some(key=>key!=='ticket'))&&!await askCurrent('¿Volver a la venta y descartar los ajustes sin guardar?',{acceptLabel:'Volver a la venta'}))return;
+  if(((nativePromotion.hasDraft()||nativeCheckout.hasDraft())||nativeLoyalty.hasDraft()||ticketBranding.hasDraft()||Object.keys(formValues).some(key=>key!=='ticket'))&&!await askCurrent('¿Volver a la venta y descartar los ajustes sin guardar?',{acceptLabel:'Volver a la venta'}))return;
   const previousId=settingsDrawerId,previousAdapter=settingsAdapter;
   settingsDrawerId='';settingsAdapter=null;
   try{await loadWorkspacePreferences();}catch(error){settingsDrawerId=previousId;settingsAdapter=previousAdapter;throw error;}
@@ -290,7 +293,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    case 'General':return `<div class="tpv-general-connected">`+`<section class="tpv-setting-facts"><h4>Moneda del mostrador</h4><dl><div><dt>Moneda de cobro</dt><dd>Euro · EUR</dd></div></dl><details class="tpv-info-help"><summary aria-label="Ayuda: moneda del mostrador">i</summary><div role="note">Los precios, cobros y arqueos de este mostrador se registran en euros. El TPV todavía no admite otras monedas.</div></details></section>`+policy([...(can('edit')?['lineOptions']:[]),...(canSell()?['parking']:[])],(can('edit')?lineOptionsHtml(policyDraft('lineOptions')?lineOptionsFromForm(policyDraft('lineOptions')):priceRules,true,{showNote:false}):'')+(canSell()?parkingOptionsHtml(policyDraft('parking')?parkingOptionsFromForm(policyDraft('parking')):parkingRules,true):''))+(catalogueTaxChange&&canEditProductTax()?taxPreferenceHtml(formValues['tax-preference']?{allowTaxChanges:formValues['tax-preference'].allowTaxChanges==='on'}:taxRules,true):'')+(operatorSettingsStore?operatorSettingsHtml(operatorRules,canAssign(),formValues['operator-settings']):'')+(adapter?.operatorSwitchPolicy?operatorSwitchPolicyHtml(operatorAuthRules,canAssign(),formValues['operator-auth-settings']):'')+(menuLinksStore?menuLinksHtml(customMenuLinks,formValues['menu-links']):'')+`</div>`;
    case 'Ticket':return (numbering?receiptSeriesHtml(numbering,can('edit'),formValues['receipt-series']):'')+(canAssign()?nativeLoyalty.html().replace('data-setup-ticket-loyalty','data-setup-ticket-loyalty data-native-loyalty')+nativePromotion.html().replace('data-setup-ticket-promotion','data-setup-ticket-promotion data-native-promotion'):'');
    case 'Caja':return `<section class="tpv-setting-facts"><h4>Control de caja</h4><label class="tpv-check"><input type="checkbox" checked disabled> Caja abierta obligatoria para vender</label><p>Cada venta y movimiento queda vinculado a su tienda, caja y operador. Esta comprobación siempre está activa.</p></section>`+policy(['cash'],cashOptionsHtml(policyDraft('cash')?cashOptionsFromForm(policyDraft('cash')):cashStyle))+admin()+(cashVisibilityStore?cashVisibilityHtml(cashVisibilityRules,canAssign(),formValues['cash-visibility']):'')+paymentSettingsHtml(drawerPayments,canAssign(),formValues['payment-settings']);
-   case 'Estados y formas de pago':return paymentSettingsHtml(drawerPayments,canAssign(),formValues['payment-settings']);
+   case 'Estados y formas de pago':return (canAssign()?nativeCheckout.html().replace('data-setup-checkout-rules','data-setup-checkout-rules data-native-checkout'):'')+paymentSettingsHtml(drawerPayments,canAssign(),formValues['payment-settings']);
    case 'Permisos':return admin()+(adapter?.actionPolicy?sensitiveSettingsHtml(sensitiveRules,canAssign(),formValues['sensitive-settings']):'');
    case 'Funciones especiales':return (can('edit')?policy(['lineOptions'],lineOptionsHtml(policyDraft('lineOptions')?lineOptionsFromForm(policyDraft('lineOptions')):priceRules,true,{showPrice:false,showName:false})):'')+(signaturePolicyStore?signatureOptionsHtml(signatureRules,canSignatureSettings(),formValues['signature-policy']):'')+(onOnlineOrders&&canOnlineOrders()?`<section><h4>Avisos de pedidos online</h4>${button('online-orders','Abrir avisos de pedidos')}</section>`:'')+barcodeSettingsHtml(true);
    case 'Interfaz':return canSell()?policy(['stockPolicy'],stockPolicyHtml(policyDraft('stockPolicy')?stockPolicyFromForm(policyDraft('stockPolicy')):stockRules,true)):'';
@@ -375,7 +378,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    ${p.imageUrl?`<img src="${esc(p.imageUrl)}" alt="" loading="lazy" decoding="async" width="88" height="88" referrerpolicy="no-referrer">`:`<div class="tpv-product-placeholder">${productIcon}</div>`}<span><strong>${esc(p.name)}</strong>${p.offlineUnavailable?'<small>Faltan precio y existencias guardados</small>':p.saleEnabled===false?'<small>Solo para reposición</small>':''}${variantDetails(p)?`<small class="tpv-variant-details">${esc(variantDetails(p))}</small>`:''}<small>${[displayOptions.showReferences?p.reference:'',displayOptions.showStock?(p.stock===null?'Existencias sin comprobar':p.chooseVariant?'Existencias por variante':p.stock<=0&&canExceedStock(p,stockRules)?'Existencias: '+p.stock:p.stock+' disponibles'):'',p.chooseVariant?'Elegir variante':p.stock<=0&&canExceedStock(p,stockRules)?'Venta sin existencias permitida':''].filter(Boolean).map(esc).join(' · ')}</small>${catalogueOptions.extraDetails&&catalogueDetails(p)?`<small class="tpv-product-details">${esc(catalogueDetails(p))}</small>`:''}</span>${displayOptions.showPrices?`<b>${cataloguePriceCents(p,displayOptions.priceMode)===null?'Precio no disponible':money(cataloguePriceCents(p,displayOptions.priceMode))}<small>${displayOptions.priceMode==='net'?'sin IVA':'con IVA'}</small></b>`:''}</button>`).join('')||'<p class="tpv-empty">No hay artículos con esa búsqueda.</p>'}</div>`;
  }
  function variantDialogHtml(){return `<dialog class="tpv-variant-dialog" aria-labelledby="tpv-variant-heading"><header><div><p class="small muted">Selecciona una variante</p><h3 id="tpv-variant-heading">${esc(variantProductName)}</h3></div>${button('back-products','Volver a productos')}</header>${failure?`<p role="alert" class="note bad">${esc(failure)}</p>`:''}<div class="tpv-variant-controls"><label>Atributo para ordenar<select data-tpv-variant-group><option value="0">Todos los atributos</option>${(products.variantGroups||[]).map(row=>`<option value="${row.id}" ${row.id===variantGroupId?'selected':''}>${esc(row.name)}</option>`).join('')}</select></label><label>Orden<select data-tpv-variant-order>${Object.entries(TPV_VARIANT_ORDERS).map(([id,label])=>`<option value="${id}" ${id===catalogueSort.field+':'+catalogueSort.direction?'selected':''}>${label}</option>`).join('')}</select></label><label>Vista<select data-tpv-view>${[['table','Tabla'],['grid','Fotos'],['compact','Compacta'],['list','Lista']].map(([id,label])=>`<option value="${id}" ${id===variantView?'selected':''}>${label}</option>`).join('')}</select></label>${variantView==='table'?catalogueTable.settingsHtml():''}</div>${catalogueItemsHtml()}<footer class="inline-actions">${button('catalogue-previous','Anterior','secondary',productPage===0)}<span>Página ${productPage+1}${Number.isSafeInteger(products.totalCount)?' · '+products.totalCount+' variantes':''}</span>${button('catalogue-next','Siguiente','secondary',!products.hasMore)}</footer></dialog>`;}
- const quickPaymentMethods=()=>paymentFormMethods(drawerPayments?.options?.enabledMethods||['cash','card']);
+ const quickPaymentMethods=()=>allowedPaymentForms(drawerPayments?.options?.enabledMethods||['cash','card']);
  const viewCategoryTiles=()=>catalogueView==='grid'&&categoryId===0&&visibleCategories().length>0;
  function saleHtml(){return `<div class="tpv-sale-grid tpv-layout-${displayOptions.layout} tpv-pane-${mobilePane} ${payment?'tpv-checkout-grid':''}"><div class="tpv-mobile-switch">${button('show-products','Catálogo')}${button('show-ticket','Ticket · '+lines.reduce((n,l)=>n+l.qty,0))}</div><section class="tpv-panel tpv-catalogue" aria-label="Artículos" ${payment?'hidden':''}>
 
@@ -388,10 +391,11 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    ${live()&&!payment&&can('edit')?`<div class="tpv-line-discount"><label>Precio y descuento por unidad<select data-tpv-line-kind="${esc(l.productId)}"><option value="">Precio original</option><option value="percent" ${l.discountKind==='percent'?'selected':''}>Porcentaje · %</option><option value="amount" ${l.discountKind==='amount'?'selected':''}>Importe · €</option>${priceRules.allowPriceChanges&&l.unitPriceOverride||l.discountKind==='price'?`<option value="price" ${l.discountKind==='price'?'selected':''} ${!priceRules.allowPriceChanges?'disabled':''}>Fijar precio final · €</option>`:''}</select></label>${l.discountKind?`<label>${l.discountKind==='price'?'Precio final por unidad · €':'Valor'}<input data-tpv-line-value="${esc(l.productId)}" inputmode="decimal" value="${esc(l.discountValue??'')}"></label>`:''}</div>`:''}</div>`).join('')||`<div class="tpv-ticket-welcome"><span>${workstationIcon('cart')}</span><strong>Tu ticket empieza aquí</strong><p>Selecciona un artículo o escanea su código</p></div>`}</div>
   ${!payment?`<footer class="tpv-ticket-footer"><div class="tpv-ticket-total"><span>Estimación antes de descuentos</span><strong>${previewTotal()===null?'Por calcular':money(previewTotal())}</strong></div>`:''}
   ${live()&&!payment?`<details class="tpv-ticket-options" ${priceRules.requireSaleNote||formValues.ticket?.note||formValues.ticket?.discountKind||formValues.ticket?.coupon?'open':''}><summary>Opciones del ticket</summary><form data-tpv-form="ticket" class="tpv-ticket-adjustments"><label class="tpv-sale-note">Nota interna${priceRules.requireSaleNote?' · obligatoria para cobrar':' · opcional'}<textarea name="note" rows="2" placeholder="Solo visible para el equipo">${esc(formValues.ticket?.note??'')}</textarea><small>Solo para el equipo · Hasta 500 caracteres.</small></label><label>Descuento del ticket<select name="discountKind" ${!can('edit')?'disabled':''}><option value="">Sin descuento manual</option><option value="percent" ${formValues.ticket?.discountKind==='percent'?'selected':''}>Porcentaje · %</option><option value="amount" ${formValues.ticket?.discountKind==='amount'?'selected':''}>Importe · €</option></select></label><label>Valor del descuento<input name="discountValue" inputmode="decimal" value="${esc(formValues.ticket?.discountValue??'')}" ${!can('edit')?'disabled':''}></label><label>Cupón de la tienda<input name="coupon" maxlength="100" value="${esc(formValues.ticket?.coupon??'')}" ${!can('edit')?'disabled':''}></label><label>Nombre para aparcar<input name="draftLabel" maxlength="120" placeholder="Opcional" value="${esc(formValues.ticket?.draftLabel??draftInfo?.label??'')}"></label></form></details>`:''}
-  ${!payment?`<div class="inline-actions">${button('clear','Vaciar ticket','secondary',!lines.length&&!draftInfo||!canSell())}${live()?button('park','Aparcar ticket','secondary',!lines.length||!canSell()||!parkingRules.enabled):''}${live()?button('save-budget','Guardar presupuesto','secondary',!lines.length||!canSell()):''}<div class="tpv-reference-payments" role="group" aria-label="Medios de cobro">${[['cash','Efectivo'],['card','Tarjeta'],['bizum','Bizum'],['mixed','Mixta']].map(([method,label])=>`<button type="button" class="${quickPaymentMethod===method?'active':''}" data-tpv-quick-method="${method}" ${!quickPaymentMethods().includes(method)?'disabled title="No está habilitado en esta caja"':''}>${label}</button>`).join('')}${live()?button('save-budget','Presupuesto','secondary',!lines.length||!canSell()):''}${button('payment','FINALIZAR','primary',!lines.length||!canSell())}</div></div>${live()&&!parkingRules.enabled?'<p class="small muted" role="status">El aparcado está desactivado para tu cuenta y esta caja. Los tickets anteriores siguen en Más acciones · Tickets aparcados.</p>':''}`:''}
+  ${!payment?`<div class="inline-actions">${button('clear','Vaciar ticket','secondary',!lines.length&&!draftInfo||!canSell())}${live()?button('park','Aparcar ticket','secondary',!lines.length||!canSell()||!parkingRules.enabled):''}${live()?button('save-budget','Guardar presupuesto','secondary',!lines.length||!canSell()):''}<div class="tpv-reference-payments" role="group" aria-label="Medios de cobro">${quickPaymentMethods().map(method=>{const label=drawerPayments?.options?.labels?.[method]||paymentLabel(method);return `<button type="button" class="${quickPaymentMethod===method?'active':''}" data-tpv-quick-method="${method}" ${!quickPaymentMethods().includes(method)?'disabled title="No está habilitado en esta caja"':''}>${esc(label)}</button>`;}).join('')}${live()?button('save-budget','Presupuesto','secondary',!lines.length||!canSell()):''}${button('payment','FINALIZAR','primary',!lines.length||!canSell())}</div></div>${live()&&!parkingRules.enabled?'<p class="small muted" role="status">El aparcado está desactivado para tu cuenta y esta caja. Los tickets anteriores siguen en Más acciones · Tickets aparcados.</p>':''}`:''}
   ${!payment?'</footer>':''}${payment?paymentHtml():''}</section><div class="tpv-mobile-total"><strong>${previewTotal()===null?'Por calcular':money(previewTotal())}</strong>${button('show-ticket','Ver ticket','primary',!lines.length)}</div></div>`;}
+ const allowedPaymentForms=methods=>paymentFormMethods(methods).filter(id=>id!=='mixed'||checkoutStyle.allowMixed);
  function paymentHtml(){return `<form data-tpv-form="pay" class="tpv-payment"><h4>${payment.localEstimate?'Cobro sin conexión':wording('Cobro de práctica','Cobro · cálculo verificado en la tienda')}</h4>${payment.localEstimate?'<p>Importe calculado con el catálogo guardado. La venta quedará pendiente de comprobar y registrar cuando vuelva la conexión.</p>':''}${payment.discountCents?`<p>Descuento del ticket: −${money(payment.discountCents)}</p>`:''}${taxSummaryHtml(payment,displayOptions.showTaxBreakdown)}<p class="tpv-payment-amount">Total <strong>${money(payment.totalCents)}</strong></p>
-  <label>Forma de pago<select name="method" data-tpv-method>${paymentFormMethods(payment.paymentMethods).map(key=>`<option value="${key}" ${paymentValues.method===key?'selected':''}>${esc(payment.paymentLabels?.[key]||paymentLabel(key))}${!live()?' · práctica':''}</option>`).join('')}</select></label>
+  <label>Forma de pago<select name="method" data-tpv-method>${allowedPaymentForms(payment.paymentMethods).map(key=>`<option value="${key}" ${paymentValues.method===key?'selected':''}>${esc(payment.paymentLabels?.[key]||paymentLabel(key))}${!live()?' · práctica':''}</option>`).join('')}</select></label>
   <label data-tpv-external-method hidden>Segundo medio de pago<select name="externalMethod">${(payment.paymentMethods||['cash','card']).filter(method=>method!=='cash').map(method=>`<option value="${method}" ${paymentValues.externalMethod===method?'selected':''}>${esc(payment.paymentLabels?.[method]||paymentLabel(method))}</option>`).join('')}</select></label>
   <label data-tpv-cash-part hidden>Parte en efectivo · €<input name="cashPart" inputmode="decimal" value="${esc(paymentValues.cashPart??'0,00')}"></label>
   <label data-tpv-received>Efectivo recibido · €<input name="received" inputmode="decimal" placeholder="0,00" value="${esc(paymentValues.received??'')}" autocomplete="off"></label>${cashCountHtml('received',cashStyle,paymentValues)}
@@ -446,7 +450,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   const values=Object.fromEntries(new FormData(form));if(form.dataset.tpvForm==='reference-preferences')for(const select of form.querySelectorAll('select[multiple][name]'))values[select.name]=new FormData(form).getAll(select.name);formValues[form.dataset.tpvForm]=form.dataset.tpvForm==='reference-preferences'?{...formValues['reference-preferences'],...values}:values;
   if(['preferences','reference-policy'].includes(form.dataset.tpvForm)){values.policyGroups=new FormData(form).getAll('policyGroups');values.cashDenominations=new FormData(form).getAll('cashDenominations');values.searchFields=new FormData(form).getAll('searchFields');values.excludedCategories=new FormData(form).getAll('excludedCategories');}
   if(form.dataset.tpvForm==='pay')paymentValues=values;formDirty=true;}
- const hasDraft=()=>!!host&&(lines.length>0||!!draftInfo||!!payment||!!returnForm||formDirty||receipt?.status==='uncertain'||customers.hasDraft()||stockIntake.hasDraft()||(inventoryPanel.hasDraft()||ticketBranding.hasDraft())||productIntake.hasDraft()||accessPanel.hasDraft()||accessBatch.hasDraft()||signaturePanel.hasDraft()||generalSetup.hasDraft()||receiptSetup.hasDraft()||(cashSetup.hasDraft()||paymentSetup.hasDraft())||nativeLoyalty.hasDraft()||nativePromotion.hasDraft());
+ const hasDraft=()=>!!host&&(lines.length>0||!!draftInfo||!!payment||!!returnForm||formDirty||receipt?.status==='uncertain'||customers.hasDraft()||stockIntake.hasDraft()||(inventoryPanel.hasDraft()||ticketBranding.hasDraft())||productIntake.hasDraft()||accessPanel.hasDraft()||accessBatch.hasDraft()||signaturePanel.hasDraft()||generalSetup.hasDraft()||receiptSetup.hasDraft()||(cashSetup.hasDraft()||paymentSetup.hasDraft())||nativeLoyalty.hasDraft()||(nativePromotion.hasDraft()||nativeCheckout.hasDraft()));
  async function askCurrent(message,options){const run=generation,owner=identity();const accepted=await confirm(message,options);
   return accepted===true&&run===generation&&owner===identity()&&!!host;}
  async function requestLeave(){if(busy||generalSetup.isBusy()||receiptSetup.isBusy()||(cashSetup.isBusy()||paymentSetup.isBusy()))return false;if(!hasDraft())return true;
@@ -902,7 +906,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    const run=generation,operator=identity(),calculated=await adapter.quote({sessionId:session.id,lines:copyLines(),...(live()?{adjustment,coupon,note}:{})});
    if(run!==generation||operator!==identity()||!host)return;guard();if(!canSell())throw Error('Necesitas permiso de venta para continuar.');payment=calculated;
    if(live())for(const verified of payment.lines||[]){const line=lines.find(line=>line.productId===verified.productId+':'+verified.attributeId);if(line&&typeof verified.name==='string'){line.name=verified.name;if(typeof verified.catalogueName==='string')line.originalName=verified.catalogueName;}}
-   const methods=paymentFormMethods(payment.paymentMethods);paymentValues={method:methods.includes(quickPaymentMethod)?quickPaymentMethod:methods[0]};if(!methods.includes(quickPaymentMethod))notice='El medio elegido no está disponible. Revisa la forma de pago antes de confirmar.';});}
+   const methods=allowedPaymentForms(payment.paymentMethods);paymentValues={method:methods.includes(quickPaymentMethod)?quickPaymentMethod:methods[0]};if(!methods.includes(quickPaymentMethod))notice='El medio elegido no está disponible. Revisa la forma de pago antes de confirmar.';});}
   if(action==='cancel-payment')return work(async()=>{if(live())await adapter.discardQuote(payment.id);payment=null;paymentValues={};delete formValues.pay;formDirty=Object.keys(formValues).length>0;});
   if(action==='clear')return work(async()=>{if(!canSell()||payment)return;if((lines.length||draftInfo)&&!await askCurrent(wording('¿Vaciar el ticket de práctica?',
    '¿Descartar el ticket actual? Si procede de un aparcado, quedará archivado sin borrar su historial.'),{acceptLabel:'Descartar ticket'}))return;
@@ -947,6 +951,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   const saved=workspacePreferences&&drawer?await workspacePreferences(drawer):null;ensureCurrent();
   if(storePromotionSetup&&canAssign()&&drawer){await nativePromotion.open(drawer);ensureCurrent();}else nativePromotion.reset();
   if(storeLoyaltySetup&&canAssign()&&drawer){await nativeLoyalty.open(drawer);ensureCurrent();}else nativeLoyalty.reset();
+  if(storeCheckoutRules&&drawer){const result=await storeCheckoutRules(drawer);ensureCurrent();if(result?.drawerId!==drawer.id)throw Error('No se han verificado las opciones de cobro de la caja.');checkoutStyle=checkoutRules(result.settings);if(canAssign()){await nativeCheckout.open(drawer);ensureCurrent();}}else{checkoutStyle={...CHECKOUT_DEFAULTS};nativeCheckout.reset();}
   const loadedNumbering=receiptNumbering&&drawer?receiptSeries(await receiptNumbering(drawer)):null;ensureCurrent();
   const loadedCustomerRules=customerSettingsStore&&drawer?await readCustomerRules(drawer):customerSettings();ensureCurrent();
   const loadedBudgetRules=budgetSettingsStore&&drawer?await readBudgetRules(drawer):budgetOptions();ensureCurrent();
@@ -992,6 +997,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    <div class="tpv-history">${budgetPage.items.map(row=>`<article><div><b>${esc(row.reference)} · ${esc(row.title)}</b><small>${esc(budgetStatus(row.status))}${row.expired?' · Caducado':''} · ${esc(new Date(row.createdAt).toLocaleDateString('es-ES'))}</small></div><strong>${money(row.totalCents)}</strong><button type="button" class="btn secondary" data-tpv-budget-id="${esc(row.id)}">Ver presupuesto</button></article>`).join('')||'<p>No hay presupuestos que coincidan con esta búsqueda. Para preparar uno nuevo, añade los artículos al ticket y pulsa Guardar presupuesto.</p>'}</div>${budgetPage.hasMore?button('budget-more','Ver más presupuestos'):''}</section>`;
  }
  async function submit(event){
+  if(event.target.matches('[data-native-checkout]')&&host?.contains(event.target)){event.preventDefault();if(!busy&&canAssign())return work(async()=>{notice=await nativeCheckout.submit(event);checkoutStyle=checkoutRules(nativeCheckout.value());});return;}
   if(event.target.matches('[data-native-promotion]')&&host?.contains(event.target)){event.preventDefault();if(!busy&&canAssign())return work(async()=>{notice=await nativePromotion.submit(event);});return;}
   if(event.target.matches('[data-native-loyalty]')&&host?.contains(event.target)){event.preventDefault();if(!busy&&canAssign())return work(async()=>{notice=await nativeLoyalty.submit(event);});return;}
   const barcodeForm=event.target.closest('[data-tpv-barcode-form]');if(barcodeForm&&host?.contains(barcodeForm)){event.preventDefault();if(!busy){guard();return barcodePanel.submit(barcodeForm);}return;}
@@ -1195,10 +1201,10 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
     const settings=paymentSettingsFromForm(fields,Object.keys(drawerPayments.options.labels));
     drawerPayments=await settingsSource().paymentOptions(settings);delete formValues['payment-settings'];formDirty=Object.keys(formValues).length>0;notice='Medios de cobro guardados para esta caja.';
    } else if(kind==='pay'){
-    if(!paymentFormMethods(payment.paymentMethods).includes(fields.get('method'))||fields.get('method')==='mixed'&&!(payment.paymentMethods||['cash','card']).filter(id=>id!=='cash').includes(fields.get('externalMethod')))throw new Error('Este medio de cobro no está habilitado para esta venta.');
+    if(!allowedPaymentForms(payment.paymentMethods).includes(fields.get('method'))||fields.get('method')==='mixed'&&!(payment.paymentMethods||['cash','card']).filter(id=>id!=='cash').includes(fields.get('externalMethod')))throw new Error('Este medio de cobro no está habilitado para esta venta.');
     const method=fields.get('method'),cash=method==='cash'?payment.totalCents:method==='mixed'?inputCents(fields.get('cashPart')):0;
     if(cash>payment.totalCents||method==='mixed'&&(cash===0||cash===payment.totalCents))throw new Error('El pago mixto necesita una parte de efectivo y otra en el segundo medio.');
-    const payments=[];if(cash>0)payments.push({method:'cash',amountCents:cash,receivedCents:inputCents(fields.get('received'))});
+    const payments=[];if(cash>0)payments.push({method:'cash',amountCents:cash,receivedCents:checkoutReceived(checkoutStyle,cash,checkoutStyle.askReceived?inputCents(fields.get('received')):cash)});
     if(method!=='cash'){const external=method==='mixed'?fields.get('externalMethod'):method,reference=referenceForTender(payment.referencePolicy,external,fields.get('reference:'+external)??undefined);
      payments.push({method:external,amountCents:payment.totalCents-cash,simulatedAccepted:fields.get('cardAccepted')==='on',...(reference===undefined?{}:{reference})});}
     const submissionGeneration=generation,operator=identity(),operationId=payment.id;
@@ -1244,10 +1250,10 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
  }
  function reflectPaymentMethod(){const form=host?.querySelector('[data-tpv-form="pay"]');if(!form)return;
   const method=form.querySelector('[data-tpv-method]').value;
-  form.querySelector('[data-tpv-cash-part]').hidden=method!=='mixed';for(const element of form.querySelectorAll('[data-tpv-received]'))element.hidden=!['cash','mixed'].includes(method);
-  for(const input of form.querySelectorAll('[data-tpv-count="received"] input'))input.disabled=!['cash','mixed'].includes(method);
+  form.querySelector('[data-tpv-cash-part]').hidden=method!=='mixed';for(const element of form.querySelectorAll('[data-tpv-received]'))element.hidden=!checkoutStyle.askReceived||!['cash','mixed'].includes(method);
+  for(const input of form.querySelectorAll('[data-tpv-count="received"] input'))input.disabled=!checkoutStyle.askReceived||!['cash','mixed'].includes(method);
   form.querySelector('[data-tpv-external-method]').hidden=method!=='mixed';
-  form.querySelector('[data-tpv-denominations]').hidden=!['cash','mixed'].includes(method);
+  form.querySelector('[data-tpv-denominations]').hidden=!checkoutStyle.askReceived||!['cash','mixed'].includes(method);
   const external=method==='mixed'?form.elements.externalMethod.value:method;
   for(const field of form.querySelectorAll('[data-tpv-reference]')){const active=field.dataset.tpvReference===external;field.hidden=!active;field.querySelector('input').required=active&&payment.referencePolicy?.[external]==='required';}
   form.querySelector('[data-tpv-card-accept]').hidden=method==='cash';reflectTender();}
@@ -1255,7 +1261,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   const output=form.querySelector('[data-tpv-tender-preview]'),confirm=form.querySelector('button[type="submit"]');
   try{const method=form.elements.method.value,cash=method==='cash'?payment.totalCents:method==='mixed'?inputCents(form.elements.cashPart.value):0;
    if(method==='mixed'&&(cash===0||cash>=payment.totalCents))throw new Error('Indica la parte en efectivo; el resto se registra en el segundo medio.');
-   const tender=cashTenderPreview({totalCents:payment.totalCents,cashPartCents:cash,receivedCents:cash===0?0:form.elements.received.value.trim()===''?0:inputCents(form.elements.received.value)});
+   const tender=cashTenderPreview({totalCents:payment.totalCents,cashPartCents:cash,receivedCents:checkoutReceived(checkoutStyle,cash,checkoutStyle.askReceived?(cash===0?0:form.elements.received.value.trim()===''?0:inputCents(form.elements.received.value)):cash)});
    const external=method==='mixed'?form.elements.externalMethod.value:method;
    referenceForTender(payment.referencePolicy,external,form.elements.namedItem('reference:'+external)?.value);
    output.innerHTML=tenderSummaryHtml({totalCents:payment.totalCents,cashPartCents:cash,receivedCents:tender.receivedCents,discountCents:payment.discountCents||0,externalLabel:payment.paymentLabels?.[external]||paymentLabel(external)});
@@ -1316,6 +1322,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    else {failure='La cantidad debe ser entera y no superar las existencias disponibles.';event.target.reportValidity();}}
  }
  function input(event){if(!host||busy||!allowed()||mountedActor!==identity())return;
+  if(event.target.closest('[data-native-checkout]')){nativeCheckout.input(event);return;}
   if(event.target.closest('[data-native-promotion]')){nativePromotion.input(event);return;}
   if(event.target.closest('[data-native-loyalty]')){nativeLoyalty.input(event);return;}
   if(event.target.dataset.tpvInventoryCount){const product=products.find(r=>r.id===event.target.dataset.tpvInventoryCount);if(!product)return;try{inventoryPanel.count(product,event.target.value);event.target.setCustomValidity('');const rows=inventoryPanel.snapshot(),row=rows.find(r=>r.id===product.id),difference=event.target.closest('tr')?.querySelector('[data-inventory-difference]');if(difference)difference.textContent=String(row.count-row.expected);const totals=host.querySelectorAll('.tpv-inventory-summary strong');[rows.length,rows.filter(r=>r.count!==r.expected).length,rows.reduce((n,r)=>n+r.count,0)].forEach((v,i)=>{if(totals[i])totals[i].textContent=String(v);});const save=host.querySelector('[data-tpv-action="inventory-save"]');if(save)save.disabled=false;const list=host.querySelector('.tpv-inventory-counted');if(list)list.innerHTML=rows.map(r=>'<div><strong>'+esc(r.name)+'</strong><span>'+r.expected+' → '+r.count+' <b>'+(r.count-r.expected)+'</b></span></div>').join('');}catch(error){event.target.setCustomValidity(error.message);}return;}
@@ -1373,7 +1380,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   panel.style.top=up?'auto':'100%';panel.style.bottom=up?'100%':'auto';panel.style.maxHeight=Math.max(44,Math.min(480,(up?above:below)-12))+'px';
  }
  function sizeWorkspace(){if(host){host.style.setProperty('--tpv-height',Math.max(360,window.innerHeight-Math.max(0,host.getBoundingClientRect().top)-12)+'px');fitActionsMenu();}}
- function dispose(){nativePromotion.reset();nativeLoyalty.reset();centralSettingsDrawerId='';generalSetup.dispose();receiptSetup.dispose();cashSetup.dispose();paymentSetup.dispose();taxGroupPicker.cancel();taxRules=taxPreference();ticketBranding.reset();settingsDrawerId='';settingsAdapter=null;saleCatalogueBeforeSettings=null;workstationOpen=false;basketPriceRevision++;basketPreview=null;clearTimeout(basketPriceTimer);catalogueBackground.stop();clearTimeout(onlineSyncTimer);onlineSyncTimer=null;onlineSyncRequested=false;offlinePanel.reset();signaturePanel.reset();barcodePanel.reset();operatorPicker.cancel();passwordPrompt.cancel();quantityPicker.cancel();lineNameEditor.cancel();customerScreen.close();accessBatch.reset();accessPanel.reset();productIntake.reset();if(audioFeedback){void audioFeedback.close().catch(()=>{});audioFeedback=null;}generation++;searchRevision++;clearTimeout(searchTimer);clearTimeout(catalogueRefreshTimer);abort?.abort();catalogueTable.dispose();host=null;busy=false;scanQueue=[];scanning=false;mobilePane='catalogue';}
+ function dispose(){nativeCheckout.reset();nativePromotion.reset();nativeLoyalty.reset();centralSettingsDrawerId='';generalSetup.dispose();receiptSetup.dispose();cashSetup.dispose();paymentSetup.dispose();taxGroupPicker.cancel();taxRules=taxPreference();ticketBranding.reset();settingsDrawerId='';settingsAdapter=null;saleCatalogueBeforeSettings=null;workstationOpen=false;basketPriceRevision++;basketPreview=null;clearTimeout(basketPriceTimer);catalogueBackground.stop();clearTimeout(onlineSyncTimer);onlineSyncTimer=null;onlineSyncRequested=false;offlinePanel.reset();signaturePanel.reset();barcodePanel.reset();operatorPicker.cancel();passwordPrompt.cancel();quantityPicker.cancel();lineNameEditor.cancel();customerScreen.close();accessBatch.reset();accessPanel.reset();productIntake.reset();if(audioFeedback){void audioFeedback.close().catch(()=>{});audioFeedback=null;}generation++;searchRevision++;clearTimeout(searchTimer);clearTimeout(catalogueRefreshTimer);abort?.abort();catalogueTable.dispose();host=null;busy=false;scanQueue=[];scanning=false;mobilePane='catalogue';}
  return {mount(root){dispose();host=root;mountedActor=identity();
    budgetPending=false;
    includeDisabledStock=false;

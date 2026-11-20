@@ -1,4 +1,5 @@
 const messages={
+ TPV_CHECKOUT_MIXED_DISABLED:'El pago mixto está desactivado en esta caja. Conserva el ticket y revisa el cobro antes de continuar.',
  TPV_TARGET_NOT_REGISTERED:'Esta web todavía no está preparada para el TPV o su conexión ha cambiado. Un responsable debe abrir Configuración · Tiendas y cajas y comprobarla de nuevo.',
  TPV_QA_TARGET_NOT_REGISTERED:'Esta web todavía no está preparada para el TPV. Un responsable debe revisar Configuración · Tiendas y cajas.',
  TPV_TARGET_NOT_ELIGIBLE:'Esta web no puede usarse en el circuito de pruebas. Revisa que la conexión esté activa y verificada y que la web esté excluida de los totales reales. Las tiendas actuales de producción están protegidas.',
