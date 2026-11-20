@@ -1,4 +1,4 @@
-import {esc} from './utils.js?v=269849942f40e1519781799044386efb0f47d8dc';
+import {esc} from './utils.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
 
 const names={sales:['Ventas','venta'],products:['Productos','producto'],customers:['Clientes','cliente'],suppliers:['Proveedores','proveedor'],brands:['Marcas','marca']};
 export const localStoreHost=(kind,external='')=>`<section class="card card-pad" data-local-store-workspace="${kind}"><p role="status">Consultando establecimientos…</p></section>${external?`<details class="card card-pad" style="margin-top:18px"><summary>Webs conectadas y referencias generales</summary>${external}</details>`:''}`;

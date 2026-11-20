@@ -1,22 +1,22 @@
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {readPool} from './read-pool.js?v=269849942f40e1519781799044386efb0f47d8dc';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {readPool} from './read-pool.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {nextOpeningSummary} from './home-openings-view.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {state,getFilters} from './state.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {esc,money} from './utils.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {storeConnection,PRESTASHOP_STORES} from './prestashop-readonly.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {prestashopReadiness} from './prestashop-ui.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {prestashopProductImage} from './prestashop-readonly.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {archiveAccepted} from './historical-acceptance.js?v=269849942f40e1519781799044386efb0f47d8dc';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {nextOpeningSummary} from './home-openings-view.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {state,getFilters} from './state.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {esc,money} from './utils.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {storeConnection,PRESTASHOP_STORES} from './prestashop-readonly.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {prestashopReadiness} from './prestashop-ui.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {prestashopProductImage} from './prestashop-readonly.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {archiveAccepted} from './historical-acceptance.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],

@@ -1,6 +1,6 @@
-import {formField,btn} from './components.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {esc,n,money} from './utils.js?v=269849942f40e1519781799044386efb0f47d8dc';
-import {parseVariantAttributes,validateVariant,variantStudy,numericRange} from './pricing-core.js?v=269849942f40e1519781799044386efb0f47d8dc';
+import {formField,btn} from './components.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {esc,n,money} from './utils.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
+import {parseVariantAttributes,validateVariant,variantStudy,numericRange} from './pricing-core.js?v=61fed0329ddd264d36c587eba75ade07473e3ea2';
 export function draftVariantRow(id=crypto.randomUUID()){
  return '<section class="card card-pad pricing-draft-variant" data-draft-id="'+esc(id)+'"><div class="section-head"><h4>Nueva variante</h4>'+btn('Quitar','product-draft-remove','secondary','data-draft="'+esc(id)+'"')+'</div><div class="form-grid">'+
  formField('Nombre de variante','pdName_'+id,'')+formField('Referencia / SKU','pdSku_'+id,'')+
