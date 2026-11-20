@@ -1,5 +1,5 @@
-import {closingIncomeAmount,expenseCostAmount} from './calculations.js?v=80f605a47ceede01c48f1128ffa60515846d6e64';
-import {informationalTaxPayments} from './payment-information.js?v=80f605a47ceede01c48f1128ffa60515846d6e64';
+import {closingIncomeAmount,expenseCostAmount} from './calculations.js?v=d40925f290fc696bbf08f3479985a755624972a0';
+import {informationalTaxPayments} from './payment-information.js?v=d40925f290fc696bbf08f3479985a755624972a0';
 /** Uses the same amount functions and scope as the Informes summary. */
 export function periodReport(data,filters){
  const sum=(rows,amount)=>rows.reduce((n,r)=>n+Number(amount(r)||0),0),money=n=>Math.round((n+Number.EPSILON)*100)/100;

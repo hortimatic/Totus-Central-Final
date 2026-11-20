@@ -1,8 +1,8 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=80f605a47ceede01c48f1128ffa60515846d6e64';
-import {esc} from './utils.js?v=80f605a47ceede01c48f1128ffa60515846d6e64';
-import {textValue} from './productos-core.js?v=80f605a47ceede01c48f1128ffa60515846d6e64';
-import {prestashopProductImage} from './prestashop-readonly.js?v=80f605a47ceede01c48f1128ffa60515846d6e64';
-import {fieldHelp} from './components.js?v=80f605a47ceede01c48f1128ffa60515846d6e64';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=d40925f290fc696bbf08f3479985a755624972a0';
+import {esc} from './utils.js?v=d40925f290fc696bbf08f3479985a755624972a0';
+import {textValue} from './productos-core.js?v=d40925f290fc696bbf08f3479985a755624972a0';
+import {prestashopProductImage} from './prestashop-readonly.js?v=d40925f290fc696bbf08f3479985a755624972a0';
+import {fieldHelp} from './components.js?v=d40925f290fc696bbf08f3479985a755624972a0';
 
 const types={attributes:{label:'Atributos',group:'product_options',values:'product_option_values',parent:'id_attribute_group',description:'Opciones de compra que distinguen combinaciones: color, talla, nicotina…'},features:{label:'Características',group:'product_features',values:'product_feature_values',parent:'id_feature',description:'Información del producto completo: material, capacidad, composición… No crea combinaciones.'}};
 export function createAttributesWorkspace({invoke,actor,contextKey,canEdit,canCreate,onEdit,onCreate,onProduct,hasProduct}){
