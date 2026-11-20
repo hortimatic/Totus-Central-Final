@@ -1,13 +1,13 @@
-import {promotionReceiptHtml} from './promotions.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {loyaltyReceiptHtml} from './loyalty.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {ticketLogoData} from './ticket-branding.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {taxSummaryHtml} from './tax-summary.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {receiptNumber} from './receipt-series.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {documentPaymentReferences} from './payment-reference.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
+import {promotionReceiptHtml} from './promotions.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {loyaltyReceiptHtml} from './loyalty.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {ticketLogoData} from './ticket-branding.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {taxSummaryHtml} from './tax-summary.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {receiptNumber} from './receipt-series.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {documentPaymentReferences} from './payment-reference.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
@@ -96,7 +96,7 @@ export async function downloadNativePdf(document){
  link.href=url;link.download=document.filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),60000);
 }
 export function printReceipt(document,options,delivery){
- printTpvMarkup(receiptHtml(document,options),'TotusTPV · pedido '+document.order_id,delivery);
+ return printTpvMarkup(receiptHtml(document,options),'TotusTPV · pedido '+document.order_id,delivery);
 }
 export const TOTUS_PRINTER_PROFILE=Object.freeze({model:'Bisofice VTR-T58W',paperMm:58,printableMm:48,marginMm:5});
 export function fitTpvPrintPage(document){
@@ -108,13 +108,19 @@ export function prepareTpvPrintHtml(html,title){
  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${esc(title)}</title><style>@page{size:auto;margin:5mm}*{box-sizing:border-box}body{display:flow-root;font:11px Arial,sans-serif;color:#111;margin:0;width:48mm;overflow-wrap:anywhere}h3,p{margin:6px 0}table{table-layout:fixed;border-collapse:collapse;width:100%;font-size:10px}th,td{text-align:left;padding:5px 2px;border-bottom:1px solid #ddd}th:first-child{width:50%}th:nth-child(2){width:15%;white-space:nowrap}th:last-child,td:last-child{text-align:right;white-space:nowrap}small{display:block;font-size:9px}dl>div{display:flex;justify-content:space-between;gap:5px;padding:3px 0}dt{min-width:0}dd{margin:0;text-align:right;white-space:nowrap}.tpv-document th:last-child{font-size:.85em;white-space:nowrap}.tpv-document table{font-size:.91em}.tpv-document small{font-size:.82em}.tpv-document .tpv-tax-summary{margin:6px 0;font-size:.9em}.tpv-document .tpv-tax-summary>div{padding:2px 0}.tpv-document table[data-item-discounts] th:first-child{width:20%}.tpv-document table[data-item-discounts] th:nth-child(2){width:35%;font-size:.85em}.tpv-document table[data-item-discounts] th:nth-child(3){width:45%}.tpv-document table[data-item-discounts] th:last-child{width:45%}.tpv-document table[data-item-discounts] abbr{text-decoration:none}.tpv-document :is(.tpv-receipt-item-name,.tpv-receipt-line-details)>td{white-space:normal;text-align:left}.inline-actions{display:none}</style></head><body>${html}</body></html>`;
 }
 export function printTpvMarkup(html,title,{current=()=>true}={}){
- const frame=globalThis.document.createElement('iframe');
- frame.title='Impresión de TotusTPV';frame.setAttribute('sandbox','allow-same-origin allow-modals');
- frame.style.cssText='position:fixed;width:1px;height:1px;right:0;bottom:0;border:0;opacity:0';
- frame.onload=async()=>{try{if(!current()){frame.remove();return;}await frame.contentDocument.fonts?.ready;
-  if(!frame.isConnected||!current()){frame.remove();return;}
-  fitTpvPrintPage(frame.contentDocument);frame.contentWindow.addEventListener('afterprint',()=>frame.remove(),{once:true});frame.contentWindow.print();
- }catch{frame.remove();}};
- frame.srcdoc=prepareTpvPrintHtml(html,title);
- globalThis.document.body.append(frame);setTimeout(()=>frame.remove(),60000);
+ return new Promise(resolve=>{
+  const frame=globalThis.document.createElement('iframe');let settled=false,timer;
+  const finish=result=>{if(!settled){settled=true;resolve(result);}};
+  const abandon=()=>{frame.remove();clearTimeout(timer);finish({requested:false});};
+  frame.title='Impresión de TotusTPV';frame.setAttribute('sandbox','allow-same-origin allow-modals');
+  frame.style.cssText='position:fixed;width:1px;height:1px;right:0;bottom:0;border:0;opacity:0';
+  frame.onload=async()=>{try{
+   if(!current()){abandon();return;}await frame.contentDocument.fonts?.ready;
+   if(!frame.isConnected||!current()){abandon();return;}
+   fitTpvPrintPage(frame.contentDocument);frame.contentWindow.addEventListener('afterprint',()=>{frame.remove();clearTimeout(timer);},{once:true});
+   frame.contentWindow.print();finish({requested:true});
+  }catch{abandon();}};
+  frame.srcdoc=prepareTpvPrintHtml(html,title);
+  globalThis.document.body.append(frame);timer=setTimeout(abandon,60000);
+ });
 }

@@ -1,12 +1,15 @@
-import {signatureOptions} from './signature-options.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {createGeneralSetup} from './general-setup.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {returnPolicy} from './return-policy.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {barcodeOptions,BARCODE_FIELDS} from './barcode-options.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {budgetOptions} from './budget-options.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
+import {orderNoticeOptions} from './order-notices.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {signatureOptions} from './signature-options.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {createGeneralSetup} from './general-setup.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {returnPolicy} from './return-policy.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {barcodeOptions,BARCODE_FIELDS} from './barcode-options.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {budgetOptions} from './budget-options.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const help=(label,text)=>'<details class="tpv-info-help"><summary aria-label="Ayuda: '+esc(label)+'">i</summary><div role="note">'+esc(text)+'</div></details>';
 const definitions={
- special:{name:'Funciones especiales',keys:['requireSaleNote','requireQuantity','enabled','acceptanceText'],validate:value=>{if(typeof value.requireSaleNote!=='boolean'||typeof value.requireQuantity!=='boolean')throw Error('Revisa las reglas de la venta.');return {requireSaleNote:value.requireSaleNote,requireQuantity:value.requireQuantity,...signatureOptions({enabled:value.enabled,acceptanceText:value.acceptanceText})};},fields:[
+ special:{name:'Funciones especiales',keys:['requireSaleNote','requireQuantity','enabled','acceptanceText','orderAlerts','autoPrintOrders'],validate:value=>{if(typeof value.requireSaleNote!=='boolean'||typeof value.requireQuantity!=='boolean')throw Error('Revisa las reglas de la venta.');const notices=orderNoticeOptions({enabled:value.orderAlerts,autoPrint:value.autoPrintOrders});return {orderAlerts:notices.enabled,autoPrintOrders:notices.autoPrint,requireSaleNote:value.requireSaleNote,requireQuantity:value.requireQuantity,...signatureOptions({enabled:value.enabled,acceptanceText:value.acceptanceText})};},fields:[
+ ['orderAlerts','Avisar de pedidos nuevos de esta tienda','boolean','Comprueba pedidos mientras el puesto está abierto. Al activarlo toma los pedidos actuales como punto de partida; el historial anterior no se imprime.'],
+ ['autoPrintOrders','Solicitar impresión de pedidos nuevos','boolean','Requiere avisos activos. Utiliza el formato de Ticket de esta caja. Los trabajos dudosos quedan para revisión manual; el navegador no confirma que haya salido papel.'],
  ['requireSaleNote','Pedir una nota antes de cobrar','boolean','La nota queda vinculada a la venta y solo es visible para el equipo. Cancelar conserva el ticket.'],
  ['requireQuantity','Elegir la cantidad al añadir un artículo','boolean','Abre la selección de unidades antes de añadir el artículo. También se comprueba la disponibilidad y la cantidad mínima.'],
  ['enabled','Recoger y conservar la firma de facturas','boolean','Se conserva el PDF original y la copia firmada, ligados a su operación. Las firmas anteriores siguen disponibles aunque desactives esta opción.'],

@@ -255,3 +255,6 @@
  .totus-tpv .tpv-reference-settings-layout>article{padding:16px}
  .totus-tpv .tpv-general-setup{padding:0;background:transparent}
 }
+
+.totus-tpv .tpv-online-notice{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;margin:8px 12px;border:1px solid var(--border,#d4deed);border-radius:var(--radius,8px);background:var(--surface,#fff);color:var(--text,#172a45)}
+.totus-tpv .tpv-online-notice>span{flex:1;min-width:180px;font-size:.9em}

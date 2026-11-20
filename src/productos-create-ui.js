@@ -1,10 +1,10 @@
-import {esc} from './utils.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {textValue,productInputValue,matchExactReference,associationIds} from './productos-core.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {PRODUCT_CREATE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {fieldHelp} from './components.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {createProductStagesUI} from './productos-stages-ui.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {mapCopyRelations} from './productos-copy-map.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
-import {adaptStoreText,adaptStoreHTML} from './productos-copy-text.js?v=079f4181605ffc1bab62e13f2c749bc723b119dc';
+import {esc} from './utils.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {textValue,productInputValue,matchExactReference,associationIds} from './productos-core.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {PRODUCT_CREATE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {fieldHelp} from './components.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {createProductStagesUI} from './productos-stages-ui.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {mapCopyRelations} from './productos-copy-map.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
+import {adaptStoreText,adaptStoreHTML} from './productos-copy-text.js?v=5aeb506a2fa4cac550377eea912ffb643389b150';
 
 // A small opt-in creation flow. It neither copies shop IDs nor changes existing
 // products. Each destination is validated and committed separately.
