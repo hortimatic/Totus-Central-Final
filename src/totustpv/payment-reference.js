@@ -40,10 +40,12 @@ export function documentPaymentReferences(document){
  try{for(const row of rows){
   if(!row||!['cash','card','bizum','transfer','cheque'].includes(row.method)||seen.has(row.method))return {};
   seen.add(row.method);
-  if(Object.hasOwn(row,'external_reference')){
+  const field=document.central_sale===true&&Object.hasOwn(row,'reference')?'reference':'external_reference';
+  if(Object.hasOwn(row,'external_reference')&&Object.hasOwn(row,'reference'))return {};
+  if(Object.hasOwn(row,field)){
    if(row.method==='cash')return {};
-   const reference=paymentReference(row.external_reference);
-   if(reference===undefined||reference!==row.external_reference)return {};
+   const reference=paymentReference(row[field]);
+   if(reference===undefined||reference!==row[field])return {};
    result[row.method]=reference;
   }
  }}catch{return {};}

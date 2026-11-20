@@ -1,4 +1,4 @@
-import {createCentralCheckout} from './central-checkout.js?v=9935fd54dc4046938ace9267f3396750414cdcc5';
+import {createCentralCheckout} from './central-checkout.js?v=08c32cf71e215c33a16a9cdafee4d4e0f9ffec36';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(v/100);
 const cents=value=>{if(!/^\d+(?:[.,]\d{1,2})?$/.test(String(value)))throw Error('Escribe un importe positivo con hasta dos decimales.');const [whole,fraction='']=String(value).replace(',','.').split('.');const result=Number(whole)*100+Number(fraction.padEnd(2,'0'));if(!Number.isSafeInteger(result)||result>999999999)throw Error('El importe supera el máximo permitido.');return result;};
