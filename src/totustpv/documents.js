@@ -1,15 +1,15 @@
-import {code128Modules} from './code128.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {barcodeSvg} from './barcode-labels.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {promotionReceiptHtml} from './promotions.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {loyaltyReceiptHtml} from './loyalty.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {ticketLogoData} from './ticket-branding.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {taxSummaryHtml} from './tax-summary.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {receiptNumber} from './receipt-series.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
-import {documentPaymentReferences} from './payment-reference.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {code128Modules} from './code128.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {barcodeSvg} from './barcode-labels.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {promotionReceiptHtml} from './promotions.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {loyaltyReceiptHtml} from './loyalty.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {ticketLogoData} from './ticket-branding.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {taxSummaryHtml} from './tax-summary.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {receiptNumber} from './receipt-series.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {documentPaymentReferences} from './payment-reference.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
@@ -46,7 +46,7 @@ function customerHtml(customer,o){if(!o.showCustomer||!customer?.invoice)return 
   ${o.showAddressComment&&invoice.comment?`<p style="white-space:pre-wrap">${esc(invoice.comment)}</p>`:''}
   ${o.showDeliveryAddress&&customer.delivery?`<strong>Entrega</strong><div>${esc(customer.delivery.name)}</div><p>${address(customer.delivery)}</p>`:''}</section>`;}
 function barcodeHtml(document,o,preview){if(!o.showBarcode)return '';
- const local=document.central_sale===true&&typeof document.reference==='string'&&/^[A-Za-z0-9-]{1,10}$/.test(document.reference)?barcodeSvg(code128Modules('R:'+document.reference)):null;
+ const local=document.central_sale===true&&typeof document.reference==='string'&&/^[A-Za-z0-9/_-]{1,21}$/.test(document.reference)?barcodeSvg(code128Modules('R:'+document.reference)):null;
  const url=receiptBarcodeUrl(document.reference_barcode,document.reference),content=local?'<div style="height:14mm">'+local+'</div>'+ (o.showOrderReference?'<small>'+esc(document.reference)+'</small>':''):preview?
   '<div class="tpv-sample-barcode" aria-label="Ejemplo de código de barras"></div><small>Ejemplo · sin pedido real</small>':url?
   `<img class="tpv-reference-barcode" src="${url}" alt="Código de barras del pedido #${esc(document.order_id)}" style="display:block;box-sizing:border-box;width:100%;height:14mm;background:#fff">${o.showOrderReference?`<small>${esc(document.reference)}</small>`:''}`:
@@ -55,7 +55,7 @@ function barcodeHtml(document,o,preview){if(!o.showBarcode)return '';
 export function receiptHtml(document,options,{preview=false}={}){
  if(!preview&&!document?.existing_document||!['receipt','gift','credit-note'].includes(document?.kind)||document.currency!=='EUR'||!Array.isArray(document.lines))throw Error('Documento no válido.');
  const gift=document.kind==='gift',merchant=document.merchant,o=receiptOptions(options),giftDiscounts=gift&&o.showGiftDiscounts?giftDiscountState(document):null,logo=ticketLogoData(options?.logoData||'')||receiptLogoUrl(document.merchant_logo_origin,merchant.logo_path);
- const number=receiptNumber(document.ticket_number),numberHtml=number?`<p class="tpv-ticket-number"><strong>Ticket ${esc(number.label)}</strong></p>`:'';
+ const number=receiptNumber(document.ticket_number),numberHtml=number?`<p class="tpv-ticket-number"><strong>${number.kind==='return'?'Abono':'Ticket'} ${esc(number.label)}</strong></p>`:'';
  let date=document.created_at;if(o.dateFormat!=='native'){const parsed=new Date(String(date).replace(' ','T'));if(Number.isFinite(parsed.getTime()))date=new Intl.DateTimeFormat('es-ES',{dateStyle:o.dateFormat==='long'?'long':'short',timeStyle:o.dateFormat==='long'?'medium':'short'}).format(parsed);}
  return `<article class="tpv-document" aria-label="Documento de venta" style="font-family:${o.fontFamily==='monospace'?'monospace':'Arial,sans-serif'};font-size:${o.fontSize}px"><header>${o.showLogo?logo?`<img class="tpv-receipt-logo" src="${esc(logo)}" alt="${esc(merchant.name)}" referrerpolicy="no-referrer" style="display:block;max-width:100%;max-height:70px;object-fit:contain;margin:0 auto 8px">`:preview?'<div class="tpv-sample-logo" aria-label="Ejemplo de logo">LOGO</div>':'':''}<h3>${document.kind==='credit-note'?'Abono de devolución':gift?'Ticket regalo':document.external_order?'Copia del pedido':esc(o.title)}</h3><strong>${esc(merchant.name)}</strong>
   <p>${[...(o.showAddress?[merchant.address,merchant.address2,merchant.postcode,merchant.city]:[]),merchant.registration,o.showPhone?merchant.phone:''].filter(Boolean).map(esc).join(' · ')}</p>
