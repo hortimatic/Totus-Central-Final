@@ -40,7 +40,7 @@ begin
  end loop;
  select md5(coalesce(string_agg(rel::text||':'||key,',' order by rel,key),'')) into fingerprint from pg_temp.totus_business_cleanup_rows;
  select coalesce(jsonb_agg(jsonb_build_object('table',table_name,'count',records) order by table_name),'[]') into summary from(select (rel::regclass)::text table_name,count(*) records from pg_temp.totus_business_cleanup_rows group by rel)x;
- return jsonb_build_object('storeId',p_store,'storeName',store_name,'storeCode',store_code,'drawerId',p_drawer,'fingerprint',fingerprint,'tables',summary,'total',(select count(*) from pg_temp.totus_business_cleanup_rows),'requiresClosing',exists(select 1 from private.totus_tpv_local_sessions where store_id=p_store and (p_drawer is null or drawer_id=p_drawer) and closed_at is null),'hasFiles',exists(select 1 from pg_temp.totus_business_cleanup_rows where rel='public.ops_documents'::regclass and coalesce(data->>'storage_path',data->>'file_path',data->>'onedrive_item_id','')<>''));
+ return jsonb_build_object('storeId',p_store,'storeName',store_name,'storeCode',store_code,'drawerId',p_drawer,'drawerCode',(select code from public.ops_cash_drawers where id=p_drawer and store_id=p_store),'fingerprint',fingerprint,'tables',summary,'total',(select count(*) from pg_temp.totus_business_cleanup_rows),'requiresClosing',exists(select 1 from private.totus_tpv_local_sessions where store_id=p_store and (p_drawer is null or drawer_id=p_drawer) and closed_at is null),'hasFiles',exists(select 1 from pg_temp.totus_business_cleanup_rows where rel='public.ops_documents'::regclass and coalesce(data->>'storage_path',data->>'file_path',data->>'onedrive_item_id','')<>''));
 end $fn$;
 revoke all on function private.totus_business_cleanup_plan(uuid,uuid,text[],boolean) from public,anon,authenticated;
 
@@ -53,7 +53,7 @@ begin
  plan:=private.totus_business_cleanup_plan(p_store,p_drawer,p_groups,p_remove);
  if not p_execute then return plan;end if;
  if p_fingerprint is distinct from plan->>'fingerprint' then raise exception 'Los datos han cambiado. Vuelve a revisar el resumen antes de confirmar.';end if;
- if p_confirmation is distinct from ('ELIMINAR '||(plan->>'storeCode')) then raise exception 'Escribe la confirmación completa indicada en pantalla.';end if;
+ if p_confirmation is distinct from ('ELIMINAR '||coalesce(plan->>'drawerCode',plan->>'storeCode')) and p_confirmation is distinct from ('ELIMINAR '||(plan->>'storeCode')) then raise exception 'Escribe la confirmación completa indicada en pantalla.';end if;
  if (plan->>'requiresClosing')::boolean then raise exception 'Cierra las cajas abiertas desde el TPV antes de continuar.';end if;
  if (plan->>'hasFiles')::boolean then raise exception 'Retira primero los archivos vinculados desde Documentos para no dejar archivos huérfanos.';end if;
  for t in select rel,max(depth) depth from pg_temp.totus_business_cleanup_rows group by rel order by max(depth) desc,rel loop

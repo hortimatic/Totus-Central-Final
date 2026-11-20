@@ -1,5 +1,5 @@
 // The PDF worker has its own Map prototype; adapt it before loading PDF.js.
-import {ensurePdfMapCompatibility} from './pdf-compat.js?v=2f75e2627eb4533ce333dc5aa04386b8e9820e89';
+import {ensurePdfMapCompatibility} from './pdf-compat.js?v=6975f19bfe140c567e8a009ddc1bcd1d4d6410fe';
 ensurePdfMapCompatibility();
-const {WorkerMessageHandler}=await import('./vendor/pdfjs/pdf.worker.mjs?v=2f75e2627eb4533ce333dc5aa04386b8e9820e89');
+const {WorkerMessageHandler}=await import('./vendor/pdfjs/pdf.worker.mjs?v=6975f19bfe140c567e8a009ddc1bcd1d4d6410fe');
 export {WorkerMessageHandler};
