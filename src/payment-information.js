@@ -1,5 +1,5 @@
-import {inRange} from './utils.js?v=8fe97e6e2d0fbe6aa00a92914b417079c9ef5804';
-import {matchesText} from './report-period.js?v=8fe97e6e2d0fbe6aa00a92914b417079c9ef5804';
+import {inRange} from './utils.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
+import {matchesText} from './report-period.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
 
 // Tax settlement is a cash movement, never a second invoice or deductible cost.
 // RETA belongs in deductible expenses; an unspecified OTRO needs explicit review.

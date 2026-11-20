@@ -1,0 +1,19 @@
+import {esc} from './utils.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
+import {fieldHelp} from './components.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
+export async function openWebsiteProducts({rpc,website,name}){
+ const dialog=document.createElement('dialog');dialog.className='api-user-dialog';
+ let state=null,busy=false,stop=false,cursor=0,message='Consultando el catálogo guardado…';
+ const read=async()=>{state=await rpc('totus_web_product_projection',{p_website:website});};
+ const paint=()=>{dialog.innerHTML=`<header><h3>Catálogo propio · ${esc(name)}</h3></header><p>Incorpora los productos importados al establecimiento asignado para trabajar con ellos desde Central.</p>${fieldHelp('Identidad y conservación','Se conservan las referencias originales, incluso si están repetidas, todas las combinaciones válidas, atributos, SEO y asociaciones de imágenes. Las existencias negativas se mantienen. Si la web y Central cambian a la vez, no se sobrescriben los cambios locales. Los archivos de imagen se gestionan en su recorrido de almacenamiento.')}<table><tbody><tr><th>Productos guardados</th><td>${state?.sourceProducts??'—'}</td></tr><tr><th>Productos incorporados</th><td>${state?.incorporated??'—'}</td></tr><tr><th>Conflictos por revisar</th><td>${state?.conflicts??'—'}</td></tr></tbody></table>${state?.orphanCombinations?`<details><summary>Combinaciones sin producto de origen · ${state.orphanCombinations}</summary><p>Estos registros ya estaban sin un producto válido en la web. Se conservan en la importación original, separados del catálogo de venta. No se inventa un producto ni se borra el registro.</p></details>`:''}${state&&!state.pricesReady?'<p>Completa «Preparar precios y combinaciones» antes de incorporar el catálogo con sus importes verificados.</p>':''}<p role="status">${esc(message)}</p><footer class="inline-actions"><button type="button" class="btn primary" data-adopt ${busy||!state?.pricesReady?'disabled':''}>Incorporar o actualizar catálogo</button>${busy?'<button type="button" class="btn secondary" data-stop>Pausar</button>':'<a class="btn secondary" href="/productos" target="_blank" rel="noopener">Abrir Productos</a><button type="button" class="btn secondary" data-close>Cerrar</button>'}</footer>`;};
+ dialog.onclick=async e=>{
+  if(e.target.closest('[data-close]')){dialog.close();dialog.remove();return;}
+  if(e.target.closest('[data-stop]')){stop=true;message='Terminando el lote actual…';paint();return;}
+  if(!e.target.closest('[data-adopt]')||busy)return;
+  busy=true;stop=false;let more=true,total=0;
+  try{while(more&&!stop){message=`Incorporando catálogo · ${total} productos comprobados en esta continuación…`;paint();const result=await rpc('totus_web_product_projection',{p_website:website,p_cursor:cursor,p_apply:true});if(result.more&&result.cursor<=cursor)throw Error('El lote no ha avanzado. Lo confirmado se conserva.');cursor=result.cursor;total+=result.processed;more=result.more;}await read();message=stop?'Pausado. Puedes continuar desde el último lote confirmado.':state.conflicts?'Catálogo incorporado con conflictos pendientes. Se conservan los cambios de Central.':'Catálogo incorporado. Ya puedes abrir sus productos en Central.';if(!more)cursor=0;
+  }catch(error){message=(error.message||String(error))+' Los lotes confirmados se conservan.';try{await read();}catch{}}
+  finally{busy=false;if(dialog.isConnected)paint();}
+ };
+ dialog.oncancel=e=>{if(busy){e.preventDefault();stop=true;}else dialog.remove();};
+ document.body.append(dialog);dialog.showModal();paint();try{await read();message='';}catch(error){message=error.message||String(error);}paint();return dialog;
+}

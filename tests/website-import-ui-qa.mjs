@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
+const origin='http://127.0.0.1:'+String(process.env.AUDIT_PORT||4173);
 const browser=await chromium.launch({headless:true});
 try{for(const width of [390,1440]){
  const page=await browser.newPage({viewport:{width,height:1000}});
- await page.goto('http://127.0.0.1:4173/tests/chat-harness.html');
- await page.addStyleTag({url:'http://127.0.0.1:4173/src/appearance.css'});
- await page.addStyleTag({url:'http://127.0.0.1:4173/src/interface-controls.css'});
+ await page.goto(origin+'/tests/chat-harness.html');
+ await page.addStyleTag({url:origin+'/src/appearance.css'});
+ await page.addStyleTag({url:origin+'/src/interface-controls.css'});
  await page.evaluate(async()=>{
   const q=window.importQA={calls:[],fail:true,job:null,registry:{websites:[{key:'shop-a',connection_id:'connection',name:'Fiction',status:'active',include_in_totals:false,revision:1,business_id:null}],businesses:[{id:'store-a',name:'Fiction store'}]}};
   window.supabase={createClient:()=>({functions:{invoke:async()=>{if(q.fail){q.fail=false;return {data:{error:'Interrupción ficticia'}};}q.job={...q.job,state:'completed',resource_index:2,imported:1,progress:{products:1}};return {data:{ok:true}};}}})};

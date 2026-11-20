@@ -1,4 +1,4 @@
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=8fe97e6e2d0fbe6aa00a92914b417079c9ef5804';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
 /** Read-only catalogue snapshots. These are not payable quotes or permissions.
  * Separate database from the delivery journal: cache replacement cannot erase sales.
  */
