@@ -1,4 +1,4 @@
-import {prepareChatBackground} from '../chat-preferences.js?v=f280cfc359a44de55ee2eb7c66f1f5311311629e';
+import {prepareChatBackground} from '../chat-preferences.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export function ticketLogoData(value){
  if(value==='')return '';
