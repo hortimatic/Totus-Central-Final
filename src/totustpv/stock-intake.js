@@ -1,4 +1,4 @@
-import {LABEL_PAPERS,labelSheetHtml,printBarcodeLabels} from './barcode-labels.js?v=2bcae4c455480c2749e5651c0b7fe0b6653c38c4';
+import {LABEL_PAPERS,labelSheetHtml,printBarcodeLabels} from './barcode-labels.js?v=8c461b458bb98bc0e1adc31c2b2823ebe5019bb3';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const statusLabel=status=>({pending:'Preparada',processing:'En curso',verified:'Verificada',uncertain:'Pendiente de recuperar',dispatched:'Consultando resultado',cancelled:'Cancelada'}[status]||status);
 export function createStockIntake({adapter,canEdit=()=>false}){

@@ -1,20 +1,20 @@
-import {esc,csv,download} from '../utils.js?v=2bcae4c455480c2749e5651c0b7fe0b6653c38c4';
-import {printTpvMarkup} from './documents.js?v=2bcae4c455480c2749e5651c0b7fe0b6653c38c4';
+import {esc,csv,download} from '../utils.js?v=8c461b458bb98bc0e1adc31c2b2823ebe5019bb3';
+import {printTpvMarkup} from './documents.js?v=8c461b458bb98bc0e1adc31c2b2823ebe5019bb3';
 const money=(value,currency='EUR')=>new Intl.NumberFormat('es-ES',{style:'currency',currency}).format(value/100);
 const recordedMoney=(value,currency)=>Number.isSafeInteger(value)?money(value,currency):'Sin dato';
 const date=value=>value?new Date(value).toLocaleString('es-ES'):'—';
-const method=key=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia'}[key]||key);
+const method=key=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'}[key]||key);
 const paymentMethods=report=>{const keys=new Set([...Object.keys(report.payments||{}),...Object.keys(report.refunds||{})]);return [...['cash','card','bizum','transfer'].filter(key=>keys.has(key)),...[...keys].filter(key=>!['cash','card','bizum','transfer'].includes(key))];};
 const state=(value,refund=false)=>({confirmed:refund?'Devuelta':'Cobrado',ready:refund?'Preparada, sin devolver':'Preparado, sin cobrar',dispatched:'Pendiente de verificar',uncertain:'Revisar resultado',cancelled:'Anulado',open:'Abierta',closed:'Cerrada'}[value]||value);
 export function centralCashSummaryHtml(report){
- if(!report||report.environment!=='qa'||!['open','closed'].includes(report.status)||!/^[A-Z]{3}$/.test(report.currency||'')||
-  !['openingCents','expectedCashCents'].every(key=>Number.isSafeInteger(report[key])))throw Error('El resumen de caja no es válido. Actualiza la consulta.');
+ if(!report||!['qa','central'].includes(report.environment)||!['open','closed'].includes(report.status)||!/^[A-Z]{3}$/.test(report.currency||'')||
+  !Number.isSafeInteger(report.openingCents)||(!report.cashSummaryHidden&&!Number.isSafeInteger(report.expectedCashCents)))throw Error('El resumen de caja no es válido. Actualiza la consulta.');
  for(const values of [report.payments??{},report.refunds??{}])if(typeof values!=='object'||Array.isArray(values)||
   Object.values(values).some(value=>!Number.isSafeInteger(value)||value<0))throw Error('Los importes de la caja no son válidos. Actualiza la consulta.');
  const methods=paymentMethods(report);
- return '<article class="tpv-central-cash-summary"><header><div class="eyebrow">'+esc(state(report.status))+' · pruebas</div><h3>'+esc(report.drawerName)+'</h3><p>'+esc(report.storeName)+'</p><p class="small muted">Apertura: '+esc(date(report.openedAt))+' · '+esc(report.openedByName)+'</p>'+
+ return '<article class="tpv-central-cash-summary"><header><div class="eyebrow">'+esc(state(report.status))+(report.environment==='qa'?' · pruebas':'')+'</div><h3>'+esc(report.drawerName)+'</h3><p>'+esc(report.storeName)+'</p><p class="small muted">Apertura: '+esc(date(report.openedAt))+' · '+esc(report.openedByName)+'</p>'+
   (report.closedAt?'<p class="small muted">Cierre: '+esc(date(report.closedAt))+' · '+esc(report.closedByName)+'</p>':'')+'</header>'+
-  '<div class="metric-list"><div class="metric-box"><span>Fondo inicial</span><b>'+esc(money(report.openingCents,report.currency))+'</b></div><div class="metric-box"><span>Efectivo esperado</span><b>'+esc(money(report.expectedCashCents,report.currency))+'</b></div>'+
+  '<div class="metric-list"><div class="metric-box"><span>Fondo inicial</span><b>'+esc(money(report.openingCents,report.currency))+'</b></div><div class="metric-box"><span>Efectivo esperado</span><b>'+esc(report.cashSummaryHidden?'Oculto por permisos':recordedMoney(report.expectedCashCents,report.currency))+'</b></div>'+
   (report.status==='closed'?'<div class="metric-box"><span>Efectivo contado</span><b>'+esc(recordedMoney(report.countedCents,report.currency))+'</b></div><div class="metric-box"><span>Diferencia</span><b class="'+(!Number.isSafeInteger(report.differenceCents)?'':report.differenceCents?'danger-text':'good-text')+'">'+esc(recordedMoney(report.differenceCents,report.currency))+'</b></div>':'')+
   (Number.isSafeInteger(report.cashInCents)&&Number.isSafeInteger(report.cashOutCents)?'<div class="metric-box"><span>Entradas extra de efectivo</span><b>'+esc(money(report.cashInCents,report.currency))+'</b></div><div class="metric-box"><span>Retiradas de efectivo</span><b>'+esc(money(report.cashOutCents,report.currency))+'</b></div>':'')+'</div>'+
   '<div class="table-wrap"><table><thead><tr><th>Medio de pago</th><th>Cobros</th><th>Devuelto</th><th>Neto</th></tr></thead><tbody>'+methods.map(key=>'<tr><td>'+esc(method(key))+'</td><td>'+esc(money(report.payments?.[key]||0,report.currency))+'</td><td>'+esc(money(report.refunds?.[key]||0,report.currency))+'</td><td>'+esc(money((report.payments?.[key]||0)-(report.refunds?.[key]||0),report.currency))+'</td></tr>').join('')+'</tbody></table></div>'+
@@ -32,16 +32,16 @@ export function centralCashPrintHtml(report){
  if(Number.isSafeInteger(report.cashOutCents))rows.push(['Retiradas',money(report.cashOutCents,report.currency)]);
  for(const key of paymentMethods(report)){rows.push([method(key)+' · cobros',money(report.payments?.[key]||0,report.currency)],
   [method(key)+' · devoluciones',money(report.refunds?.[key]||0,report.currency)]);}
- return '<h3>Resumen de caja · pruebas</h3><p><b>'+esc(report.storeName)+' · '+esc(report.drawerName)+'</b></p><p>'+esc(state(report.status))+'<br>Apertura: '+esc(date(report.openedAt))+' · '+esc(report.openedByName)+
+ return '<h3>Resumen de caja'+(report.environment==='qa'?' · pruebas':'')+'</h3><p><b>'+esc(report.storeName)+' · '+esc(report.drawerName)+'</b></p><p>'+esc(state(report.status))+'<br>Apertura: '+esc(date(report.openedAt))+' · '+esc(report.openedByName)+
   (report.closedAt?'<br>Cierre: '+esc(date(report.closedAt))+' · '+esc(report.closedByName):'')+'</p><dl>'+rows.map(([label,value])=>'<div><dt>'+esc(label)+'</dt><dd>'+esc(value)+'</dd></div>').join('')+'</dl>'+
   '<p>'+esc(report.orderCount)+' ventas confirmadas · '+esc(report.refundCount)+' devoluciones confirmadas · '+esc(report.movementCount)+' movimientos de efectivo.</p>'+
   (report.unresolvedSales||report.pendingRefunds?'<p><b>Pendiente de revisar en el TPV:</b> '+esc(report.unresolvedSales||0)+' cobros y '+esc(report.pendingRefunds||0)+' devoluciones.</p>':'')+
-  (report.note?'<p>'+esc(report.note)+'</p>':'')+'<p>Pruebas: importes excluidos de los cierres fiscales del negocio.</p>';
+  (report.note?'<p>'+esc(report.note)+'</p>':'')+(report.environment==='qa'?'<p>Pruebas: importes excluidos de los cierres fiscales del negocio.</p>':'');
 }
 
 /** Central Cajas reads the same session/payment/refund journals as the TPV.
  * No order, closing, cash movement or fiscal document write exists here. */
-export function createCentralCashUI({actor,client,canExport=()=>false,canBilling=()=>false,onBilling=null}){
+export function createCentralCashUI({native=false,actor,client,canExport=()=>false,canBilling=()=>false,onBilling=null}){
  let root=null,owner=null,generation=0,call=null,sources=[],source=null,busy=false,message='',report=null,pane='sales',detailSearch='';
  let filters={drawer:'',status:'all',from:'',to:'',search:''},page={items:[],hasMore:false,cursor:null},previous=[],detailPage={items:[],hasMore:false,cursor:null},detailPrevious=[];
  const valid=stamp=>root?.isConnected&&owner===actor()&&stamp===generation;
@@ -69,7 +69,7 @@ export function createCentralCashUI({actor,client,canExport=()=>false,canBilling
   '<label>Apertura desde<input type="date" name="from" value="'+esc(filters.from)+'" data-draft-ignore></label><label>Hasta<input type="date" name="to" value="'+esc(filters.to)+'" data-draft-ignore></label>'+
   '<label>Buscar<input name="search" value="'+esc(filters.search)+'" maxlength="100" placeholder="Caja o empleado" data-draft-ignore></label><button class="btn primary" '+(busy||!source?'disabled':'')+'>Aplicar filtros</button><button type="button" class="btn secondary" data-central-cash-reset '+(busy?'disabled':'')+'>Limpiar</button></fieldset></form>';}
  function pages(detail=false){const view=detail?detailPage:page,history=detail?detailPrevious:previous;return '<div class="pagination"><button class="btn secondary" type="button" data-central-cash-prev '+(busy||!history.length?'disabled':'')+'>Anterior</button><span>Página '+(history.length+1)+'</span><button class="btn secondary" type="button" data-central-cash-next '+(busy||!view.hasMore?'disabled':'')+'>Siguiente</button></div>';}
- function sessionsHtml(){return controls()+(page.items.length?'<div class="tpv-central-cash-cards">'+page.items.map(row=>'<article class="tpv-central-cash-session"><div><span class="badge '+(row.status==='closed'?'good':'info')+'">'+esc(state(row.status))+'</span><h3>'+esc(row.drawerName)+'</h3><p class="small muted">'+esc(date(row.openedAt))+' · '+esc(row.openedByName)+'</p></div><div class="tpv-central-cash-balance"><span>Efectivo esperado</span><strong>'+esc(money(row.expectedCashCents,row.currency))+'</strong>'+
+ function sessionsHtml(){return controls()+(page.items.length?'<div class="tpv-central-cash-cards">'+page.items.map(row=>'<article class="tpv-central-cash-session"><div><span class="badge '+(row.status==='closed'?'good':'info')+'">'+esc(state(row.status))+'</span><h3>'+esc(row.drawerName)+'</h3><p class="small muted">'+esc(date(row.openedAt))+' · '+esc(row.openedByName)+'</p></div><div class="tpv-central-cash-balance"><span>Efectivo esperado</span><strong>'+esc(row.cashSummaryHidden?'Oculto por permisos':recordedMoney(row.expectedCashCents,row.currency))+'</strong>'+
   (row.status==='closed'?'<span>Diferencia: '+esc(recordedMoney(row.differenceCents,row.currency))+'</span>':'')+'</div><button type="button" class="btn primary" data-central-cash-open="'+esc(row.sessionId)+'" '+(busy?'disabled':'')+'>Consultar sesión</button></article>').join('')+'</div>'+pages():busy?'':'<div class="empty"><h3>No hay sesiones para esta consulta</h3><p>Revisa la caja y las fechas de apertura seleccionadas.</p></div>');}
  function detailsHtml(){
   const columns=pane==='movements'?['Movimiento','Importe','Motivo','Empleado']:['Pedido','Estado','Importe','Empleado',''];
@@ -79,11 +79,11 @@ export function createCentralCashUI({actor,client,canExport=()=>false,canBilling
    (detailSearch?'<p class="small muted">El filtro del detalle no modifica los totales de la sesión.</p>':'')+
    (canExport()?'<button type="button" class="btn secondary" data-central-cash-export '+(busy?'disabled':'')+'>Exportar '+(pane==='sales'?'ventas':pane==='refunds'?'devoluciones':'movimientos')+'</button>':'')+
    '<div class="table-wrap"><table><thead><tr>'+columns.map(value=>'<th>'+value+'</th>').join('')+'</tr></thead><tbody>'+detailPage.items.map(row=>pane==='movements'?'<tr><td>'+esc(row.kind==='cash-in'?'Entrada':'Retirada')+'<div class="small muted">'+esc(date(row.recordedAt))+'</div></td><td>'+esc(money(row.amountCents,report.currency))+'</td><td>'+esc(row.reason)+'</td><td>'+esc(row.actorName)+'</td></tr>':
-    '<tr><td>'+(row.orderId?'#'+esc(row.orderId):'Sin pedido confirmado')+'<div class="small muted">'+esc(date(row.recordedAt))+'</div></td><td>'+esc(state(row.status,pane==='refunds'))+'</td><td>'+esc(money(row.totalCents,report.currency))+'</td><td>'+esc(row.actorName)+'</td><td>'+(row.status==='confirmed'&&row.orderId&&onBilling&&canBilling()?'<button type="button" class="btn secondary" data-central-cash-billing="'+esc(row.saleId)+'" '+(busy?'disabled':'')+'>Ver factura</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'+
+    '<tr><td>'+(row.orderId?'#'+esc(row.orderId):row.reference?esc(row.reference):'Venta local')+'<div class="small muted">'+esc(date(row.recordedAt))+'</div></td><td>'+esc(state(row.status,pane==='refunds'))+'</td><td>'+esc(money(row.totalCents,report.currency))+'</td><td>'+esc(row.actorName)+'</td><td>'+(row.status==='confirmed'&&row.orderId&&onBilling&&canBilling()?'<button type="button" class="btn secondary" data-central-cash-billing="'+esc(row.saleId)+'" '+(busy?'disabled':'')+'>Ver factura</button>':'')+'</td></tr>').join('')+'</tbody></table></div>'+
    (!detailPage.items.length?'<p class="empty">Sin registros en esta sección.</p>':'')+(pane!=='movements'?'<p class="small muted">Las operaciones sin confirmar no se suman a los cobros o devoluciones registrados.</p>':'')+pages(true);
  }
- function render(){if(!valid(generation))return;root.innerHTML='<section class="card tpv-central-cash"><header class="section-head card-pad"><div><h2>Sesiones del TPV</h2><p>El dinero y los movimientos de cada caja, registrados al operar con TotusTPV.</p></div><span class="badge info">Pruebas</span></header><div class="card-pad"><p class="note">Estas sesiones pertenecen al entorno de pruebas. Sus importes quedan fuera de los cierres fiscales del negocio.</p><p role="status" aria-live="polite">'+esc(message||(busy?'Consultando las cajas…':''))+'</p>'+
-  (source?(report?detailsHtml():sessionsHtml()):busy?'':'<div class="empty"><h3>No hay establecimientos preparados</h3><p>El responsable debe preparar la conexión del TPV para consultar sus sesiones.</p></div>')+'</div></section>';}
+ function render(){if(!valid(generation))return;root.innerHTML='<section class="card tpv-central-cash"><header class="section-head card-pad"><div><h2>Sesiones del TPV</h2><p>El dinero y los movimientos de cada caja, registrados al operar con TotusTPV.</p></div>'+(native?'':'<span class="badge info">Pruebas</span>')+'</header><div class="card-pad">'+(native?'':'<p class="note">Estas sesiones pertenecen al entorno de pruebas. Sus importes quedan fuera de los cierres fiscales del negocio.</p>')+'<p role="status" aria-live="polite">'+esc(message||(busy?'Consultando las cajas…':''))+'</p>'+
+  (source?(report?detailsHtml():sessionsHtml()):busy?'':'<div class="empty"><h3>No hay establecimientos preparados</h3><p>Crea el establecimiento y sus cajas en Administración → Negocio y cajas, y autoriza tu usuario en Configuración → Caja del TPV.</p></div>')+'</div></section>';}
  async function exportRows(stamp){
   if(!canExport())throw Error('Necesitas permiso de exportación de Cajas.');const rows=[],seen=new Set();let cursor=null;
   do{const value=await read(stamp,pane,{search:detailSearch,limit:50,...(cursor?{cursor}:{})},report.sessionId);rows.push(...value.items);cursor=value.hasMore?value.cursor:null;
@@ -93,7 +93,7 @@ export function createCentralCashUI({actor,client,canExport=()=>false,canBilling
   const headers=pane==='movements'?[{label:'Fecha',get:r=>r.recordedAt},{label:'Movimiento',get:r=>r.kind==='cash-in'?'Entrada':'Retirada'},{label:'Importe',get:r=>r.amountCents/100},{label:'Efecto en efectivo',get:r=>(r.kind==='cash-in'?r.amountCents:-r.amountCents)/100},{label:'Motivo',get:r=>r.reason},{label:'Empleado',get:r=>r.actorName}]:
    [{label:'Fecha',get:r=>r.recordedAt},{label:'Pedido',get:r=>r.orderId||''},{label:'Estado',get:r=>state(r.status,pane==='refunds')},{label:'Importe de la operación',get:r=>r.totalCents/100},{label:'Importe confirmado',get:r=>r.status==='confirmed'?r.totalCents/100:0},{label:'Empleado',get:r=>r.actorName}];
   const context=[{label:'Establecimiento',get:()=>report.storeName},{label:'Caja',get:()=>report.drawerName},{label:'Apertura de sesión',get:()=>report.openedAt}];
-  download(new Blob(['\ufeff'+csv(rows,[...context,...headers,{label:'Moneda',get:()=>currency}],{decimalComma:true})],{type:'text/csv;charset=utf-8'}),'TPV-'+pane+'-pruebas.csv');message='Exportados '+rows.length+' registros de esta sesión.';
+  download(new Blob(['\ufeff'+csv(rows,[...context,...headers,{label:'Moneda',get:()=>currency}],{decimalComma:true})],{type:'text/csv;charset=utf-8'}),'TPV-'+pane+(native?'':'-pruebas')+'.csv');message='Exportados '+rows.length+' registros de esta sesión.';
  }
  async function mount(target,initial=null){
   dispose();root=target;if(!root)return;owner=actor();call=client(owner);const stamp=generation;
@@ -114,7 +114,7 @@ export function createCentralCashUI({actor,client,canExport=()=>false,canBilling
    if(button.dataset.centralCashBilling&&onBilling&&canBilling())void run(()=>onBilling({saleId:button.dataset.centralCashBilling,connectionId:source.connectionId,shopId:source.shopId}));
   };
   busy=true;render();try{const ctx=await call({action:'central-cash-context'});if(!valid(stamp))return;sources=ctx.sources;
-   source=initial?sources.find(row=>row.connectionId===initial.connectionId&&row.shopId===initial.shopId)??null:sources[0]??null;
+   source=initial?sources.find(row=>native?row.storeId===initial.storeId:row.connectionId===initial.connectionId&&row.shopId===initial.shopId)??null:sources[0]??null;
    if(initial&&!source)throw Error('El establecimiento de esta sesión no está disponible para tu cuenta.');
    if(source){await load(stamp);if(initial?.sessionId&&valid(stamp))await open(stamp,initial.sessionId);}
   }catch(error){if(valid(stamp))message=error.message;}finally{if(valid(stamp)){busy=false;render();}}

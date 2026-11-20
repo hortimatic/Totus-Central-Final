@@ -1,5 +1,5 @@
-import {parseDecimal,manualClosingReconciled,sourceClosingReconciled} from './calculations.js?v=2bcae4c455480c2749e5651c0b7fe0b6653c38c4';
-import {archiveAccepted} from './historical-acceptance.js?v=2bcae4c455480c2749e5651c0b7fe0b6653c38c4';
+import {parseDecimal,manualClosingReconciled,sourceClosingReconciled} from './calculations.js?v=8c461b458bb98bc0e1adc31c2b2823ebe5019bb3';
+import {archiveAccepted} from './historical-acceptance.js?v=8c461b458bb98bc0e1adc31c2b2823ebe5019bb3';
 export const DRAWER_MONEY_FIELDS=['opening_cash','closing_cash','card_sales','bizum_sales','online_sales','other_income','cash_withdrawals','cash_expenses_declared','cash_extra_in','cash_extra_out','cash_discrepancy'];
 export const DRAWER_FORM_FIELDS=[['Open','opening_cash'],['Close','closing_cash'],['Card','card_sales'],['Bizum','bizum_sales'],['Online','online_sales'],['Other','other_income'],['Withdraw','cash_withdrawals'],['CashExpense','cash_expenses_declared'],['ExtraIn','cash_extra_in'],['ExtraOut','cash_extra_out'],['Discrepancy','cash_discrepancy']];
 export function closingMissingFields(row){
