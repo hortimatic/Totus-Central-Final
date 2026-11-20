@@ -1,13 +1,13 @@
-import {promotionReceiptHtml} from './promotions.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {loyaltyReceiptHtml} from './loyalty.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {ticketLogoData} from './ticket-branding.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {taxSummaryHtml} from './tax-summary.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {receiptNumber} from './receipt-series.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {documentPaymentReferences} from './payment-reference.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
+import {promotionReceiptHtml} from './promotions.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {loyaltyReceiptHtml} from './loyalty.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {ticketLogoData} from './ticket-branding.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {taxSummaryHtml} from './tax-summary.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {receiptNumber} from './receipt-series.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {documentPaymentReferences} from './payment-reference.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
@@ -54,7 +54,7 @@ export function receiptHtml(document,options,{preview=false}={}){
  const gift=document.kind==='gift',merchant=document.merchant,o=receiptOptions(options),giftDiscounts=gift&&o.showGiftDiscounts?giftDiscountState(document):null,logo=ticketLogoData(options?.logoData||'')||receiptLogoUrl(document.merchant_logo_origin,merchant.logo_path);
  const number=receiptNumber(document.ticket_number),numberHtml=number?`<p class="tpv-ticket-number"><strong>Ticket ${esc(number.label)}</strong></p>`:'';
  let date=document.created_at;if(o.dateFormat!=='native'){const parsed=new Date(String(date).replace(' ','T'));if(Number.isFinite(parsed.getTime()))date=new Intl.DateTimeFormat('es-ES',{dateStyle:o.dateFormat==='long'?'long':'short',timeStyle:o.dateFormat==='long'?'medium':'short'}).format(parsed);}
- return `<article class="tpv-document" aria-label="Documento de venta" style="font-family:${o.fontFamily==='monospace'?'monospace':'Arial,sans-serif'};font-size:${o.fontSize}px"><header>${o.showLogo?logo?`<img class="tpv-receipt-logo" src="${esc(logo)}" alt="${esc(merchant.name)}" referrerpolicy="no-referrer" style="display:block;max-width:100%;max-height:70px;object-fit:contain;margin:0 auto 8px">`:preview?'<div class="tpv-sample-logo" aria-label="Ejemplo de logo">LOGO</div>':'':''}<h3>${gift?'Ticket regalo':document.external_order?'Copia del pedido':esc(o.title)}</h3><strong>${esc(merchant.name)}</strong>
+ return `<article class="tpv-document" aria-label="Documento de venta" style="font-family:${o.fontFamily==='monospace'?'monospace':'Arial,sans-serif'};font-size:${o.fontSize}px"><header>${o.showLogo?logo?`<img class="tpv-receipt-logo" src="${esc(logo)}" alt="${esc(merchant.name)}" referrerpolicy="no-referrer" style="display:block;max-width:100%;max-height:70px;object-fit:contain;margin:0 auto 8px">`:preview?'<div class="tpv-sample-logo" aria-label="Ejemplo de logo">LOGO</div>':'':''}<h3>${document.kind==='credit-note'?'Abono de devolución':gift?'Ticket regalo':document.external_order?'Copia del pedido':esc(o.title)}</h3><strong>${esc(merchant.name)}</strong>
   <p>${[...(o.showAddress?[merchant.address,merchant.address2,merchant.postcode,merchant.city]:[]),merchant.registration,o.showPhone?merchant.phone:''].filter(Boolean).map(esc).join(' · ')}</p>
   <small>${preview?'Vista previa · datos de ejemplo':document.central_sale?'Venta de Central':'Preproducción · documento de pruebas'}</small></header>${numberHtml}<p>${preview?('Ejemplo de ticket'+(o.showOrderReference?' · REF-EJEMPLO':'')):`${document.central_sale?'Venta':'Pedido'} #${esc(document.order_id)}${o.showOrderReference?` · ${esc(document.reference)}`:''}`}${o.showDate?`<br>${esc(date)}`:''}</p>
   ${o.showWebsite&&receiptWebsiteUrl(document.merchant_origin)?`<small>${esc(receiptWebsiteUrl(document.merchant_origin))}</small>`:''}

@@ -3,10 +3,10 @@ create or replace function totus_tpv_internal.local_cash_report_session(p_sessio
  'environment','central','currency','EUR','status',case when s.closed_at is null then 'open' else 'closed' end,
  'sessionId',s.id,'storeId',s.store_id,'drawerId',s.drawer_id,'storeName',st.name,'drawerName',d.name,
  'openedAt',s.opened_at,'openedByName',coalesce(op.full_name,'Usuario de Central'),'closedAt',s.closed_at,'closedByName',cl.full_name,
- 'payments',coalesce(totus_tpv_internal.local_summary(s.id,false)->'paymentTotals','{}'::jsonb),'refunds','{}'::jsonb,
+ 'payments',coalesce(totus_tpv_internal.local_summary(s.id,false)->'paymentTotals','{}'::jsonb),'refunds',coalesce(totus_tpv_internal.local_summary(s.id,false)->'refundTotals','{}'::jsonb),
  'cashInCents',(totus_tpv_internal.local_summary(s.id,false)->>'inCents')::bigint,'cashOutCents',(totus_tpv_internal.local_summary(s.id,false)->>'outCents')::bigint,
- 'orderCount',(select count(*) from private.totus_tpv_local_sales x where x.session_id=s.id),'refundCount',0,
- 'movementCount',(select count(*) from private.totus_tpv_local_cash_moves x where x.session_id=s.id),'unresolvedSales',0,'pendingRefunds',0)
+ 'orderCount',(select count(*) from private.totus_tpv_local_sales x where x.session_id=s.id),'refundCount',(select count(*) from private.totus_tpv_local_refunds x where x.session_id=s.id and x.status='confirmed'),
+ 'movementCount',(select count(*) from private.totus_tpv_local_cash_moves x where x.session_id=s.id),'unresolvedSales',0,'pendingRefunds',(select count(*) from private.totus_tpv_local_refunds x where x.session_id=s.id and x.status='ready'))
  from private.totus_tpv_local_sessions s join public.ops_stores st on st.id=s.store_id join public.ops_cash_drawers d on d.id=s.drawer_id left join public.profiles op on op.id=s.opened_by left join public.profiles cl on cl.id=s.closed_by where s.id=p_session;
 $fn$;
 revoke all on function totus_tpv_internal.local_cash_report_session(uuid) from public,anon,authenticated;
@@ -35,7 +35,7 @@ begin
    select coalesce(jsonb_agg(jsonb_build_object('id',x.id,'saleId',x.id,'reference',x.id::text,'orderId',null,'status','confirmed','totalCents',x.total_cents,'actorName',x.actor_name,'recordedAt',x.created_at) order by x.created_at desc,x.id desc),'[]') into result from (select s.*,op.full_name actor_name from private.totus_tpv_local_sales s left join public.profiles op on op.id=s.actor_id where s.session_id=sid and (needle='' or position(lower(needle) in lower(s.id::text))>0) and (cursor_time is null or (s.created_at,s.id)<(cursor_time,cursor_id)) order by s.created_at desc,s.id desc limit lim+1)x;
   elsif p_section='movements' then
    select coalesce(jsonb_agg(jsonb_build_object('id',x.id,'kind',case when x.kind='in' then 'cash-in' else 'cash-out' end,'amountCents',x.amount_cents,'reason',x.note,'actorName',x.actor_name,'recordedAt',x.created_at) order by x.created_at desc,x.id desc),'[]') into result from (select m.*,op.full_name actor_name from private.totus_tpv_local_cash_moves m left join public.profiles op on op.id=m.actor_id where m.session_id=sid and (needle='' or position(lower(needle) in lower(coalesce(m.note,'')))>0) and (cursor_time is null or (m.created_at,m.id)<(cursor_time,cursor_id)) order by m.created_at desc,m.id desc limit lim+1)x;
-  else result:='[]';end if;
+  else select coalesce(jsonb_agg(jsonb_build_object('id',x.id,'saleId',x.sale_id,'reference','D-'||left(x.id::text,8),'status',x.status,'totalCents',x.total_cents,'actorName',x.actor_name,'recordedAt',x.created_at) order by x.created_at desc,x.id desc),'[]') into result from (select f.*,op.full_name actor_name from private.totus_tpv_local_refunds f left join public.profiles op on op.id=f.actor_id where f.session_id=sid and (cursor_time is null or (f.created_at,f.id)<(cursor_time,cursor_id)) order by f.created_at desc,f.id desc limit lim+1)x;end if;
  end if;
  more:=jsonb_array_length(result)>lim;select coalesce(jsonb_agg(value order by ord),'[]') into result from jsonb_array_elements(result) with ordinality e(value,ord) where ord<=lim;lastrow:=result->(jsonb_array_length(result)-1);
  return jsonb_build_object('items',result,'hasMore',more,'cursor',case when more then jsonb_build_object('id',coalesce(lastrow->>'sessionId',lastrow->>'id'),'recordedAt',coalesce(lastrow->>'openedAt',lastrow->>'recordedAt')) else null end);

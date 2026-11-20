@@ -1,5 +1,5 @@
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
-import {roundPriceSubtotal} from './offline-rounding.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {roundPriceSubtotal} from './offline-rounding.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
 /** Select native quantity previews. This is not a payable quote: cart rules,
  * permissions and fiscal reconciliation must be checked before recording sale. */
 export function offlineBasketPrices({lines,pages,context,now=Date.now()}){
