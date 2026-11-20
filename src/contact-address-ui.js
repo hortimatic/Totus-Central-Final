@@ -1,7 +1,7 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=ad0b4c1ed008836df3354ae4eebc4e499db112ff';
-import {esc} from './utils.js?v=ad0b4c1ed008836df3354ae4eebc4e499db112ff';
-import {DIRECTORY_LABELS as labels,directoryText,directoryDiff} from './contact-directory-core.js?v=ad0b4c1ed008836df3354ae4eebc4e499db112ff';
-import {confirmProductDialog} from './productos-dialogs.js?v=ad0b4c1ed008836df3354ae4eebc4e499db112ff';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=92cf5da0958b88ab0b9c26cc584129665e581316';
+import {esc} from './utils.js?v=92cf5da0958b88ab0b9c26cc584129665e581316';
+import {DIRECTORY_LABELS as labels,directoryText,directoryDiff} from './contact-directory-core.js?v=92cf5da0958b88ab0b9c26cc584129665e581316';
+import {confirmProductDialog} from './productos-dialogs.js?v=92cf5da0958b88ab0b9c26cc584129665e581316';
 
 /** Addresses remain native shop records. Historical order addresses are never overwritten by copying. */
 export async function openContactAddresses({root,trigger,session,kind,record,languageId,can,current,onDirty=()=>{},onSaved=async()=>{}}){
