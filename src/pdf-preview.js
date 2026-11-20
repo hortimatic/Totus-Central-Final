@@ -1,5 +1,5 @@
 // PDF.js is bundled locally: invoice contents never go to an external viewer.
-import {ensurePdfMapCompatibility} from './pdf-compat.js?v=8c461b458bb98bc0e1adc31c2b2823ebe5019bb3';
+import {ensurePdfMapCompatibility} from './pdf-compat.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
 let library;
 export async function renderPdfPreview(blob,host){
  host.innerHTML='<div class="pdf-controls"><button type="button" class="btn secondary" data-pdf-prev disabled>Anterior</button><span role="status" aria-live="polite">Cargando PDF…</span><button type="button" class="btn secondary" data-pdf-next disabled>Siguiente</button></div><canvas class="pdf-page" role="img"></canvas>';
@@ -8,7 +8,7 @@ export async function renderPdfPreview(blob,host){
  const dispose=()=>{observer?.disconnect();loading?.destroy().catch(()=>{})};
  try{
   ensurePdfMapCompatibility();
-  library ||= import('./vendor/pdfjs/pdf.mjs?v=8c461b458bb98bc0e1adc31c2b2823ebe5019bb3');
+  library ||= import('./vendor/pdfjs/pdf.mjs?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec');
   const pdfjs=await library;
   if(!host.isConnected)return;
   const workerUrl=new URL('./pdf-worker.js',import.meta.url);
