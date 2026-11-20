@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
+import {websiteKey} from './website-registry.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
 // Business fields only. Authentication/password/reset tokens are never returned.
 export const DIRECTORY_KINDS=Object.freeze({
  clientes:{title:'Clientes',module:'facturacion',resource:'customers',resources:['customers','addresses','orders','order_details','products','combinations','currencies','countries','states','groups','languages']},

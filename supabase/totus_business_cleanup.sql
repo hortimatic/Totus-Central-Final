@@ -1,6 +1,6 @@
 -- Administrative deletion is invoked only by the visible preview/confirmation flow.
 create or replace function private.totus_business_cleanup_plan(p_store uuid,p_drawer uuid,p_groups text[],p_remove boolean) returns jsonb language plpgsql set search_path='' as $fn$
-declare t record;f record;condition text;matching bigint;changed bigint;pass integer:=0;group_name text;store_name text;store_code text;summary jsonb;fingerprint text;
+declare t record;fk_row record;condition text;matching bigint;changed bigint;pass integer:=0;group_name text;store_name text;store_code text;summary jsonb;fingerprint text;
 begin
  select name,code into store_name,store_code from public.ops_stores where id=p_store for update;
  if store_name is null then raise exception 'El establecimiento ya no existe.';end if;
@@ -31,9 +31,9 @@ begin
  end if;
  loop
   changed:=0;pass:=pass+1;if pass>64 then raise exception 'Hay dependencias circulares que requieren revisión. No se ha eliminado ningún dato.';end if;
-  for f in select k.*,n.nspname,child.relname,parent.oid parent_oid,pn.nspname parent_schema,parent.relname parent_name from pg_constraint k join pg_class child on child.oid=k.conrelid join pg_namespace n on n.oid=child.relnamespace join pg_class parent on parent.oid=k.confrelid join pg_namespace pn on pn.oid=parent.relnamespace where k.contype='f' and n.nspname in('public','private','totus_tpv_internal') and exists(select 1 from pg_temp.totus_business_cleanup_rows r where r.rel=k.confrelid) loop
-   select string_agg(format('c.%I=p.%I',ca.attname,pa.attname),' and ' order by x.ord) into condition from unnest(f.conkey,f.confkey) with ordinality x(ca_num,pa_num,ord) join pg_attribute ca on ca.attrelid=f.conrelid and ca.attnum=x.ca_num join pg_attribute pa on pa.attrelid=f.confrelid and pa.attnum=x.pa_num;
-   execute format('insert into pg_temp.totus_business_cleanup_rows as target(rel,key,data,depth) select %s,md5(to_jsonb(c)::text),to_jsonb(c),max(r.depth)+1 from pg_temp.totus_business_cleanup_rows r cross join lateral jsonb_populate_record(null::%I.%I,r.data) p join %I.%I c on %s where r.rel=%s and (%L<>''n'' or exists(select 1 from pg_temp.totus_business_cleanup_rows known where known.rel=%s and known.key=md5(to_jsonb(c)::text))) group by to_jsonb(c) on conflict(rel,key) do update set depth=excluded.depth where target.depth<excluded.depth',f.conrelid,f.parent_schema,f.parent_name,f.nspname,f.relname,condition,f.confrelid,f.confdeltype,f.conrelid);
+  for fk_row in select k.*,n.nspname,child.relname,parent.oid parent_oid,pn.nspname parent_schema,parent.relname parent_name from pg_constraint k join pg_class child on child.oid=k.conrelid join pg_namespace n on n.oid=child.relnamespace join pg_class parent on parent.oid=k.confrelid join pg_namespace pn on pn.oid=parent.relnamespace where k.contype='f' and n.nspname in('public','private','totus_tpv_internal') and exists(select 1 from pg_temp.totus_business_cleanup_rows r where r.rel=k.confrelid) loop
+   select string_agg(format('c.%I=p.%I',ca.attname,pa.attname),' and ' order by x.ord) into condition from unnest(fk_row.conkey,fk_row.confkey) with ordinality x(ca_num,pa_num,ord) join pg_attribute ca on ca.attrelid=fk_row.conrelid and ca.attnum=x.ca_num join pg_attribute pa on pa.attrelid=fk_row.confrelid and pa.attnum=x.pa_num;
+   execute format('insert into pg_temp.totus_business_cleanup_rows as target(rel,key,data,depth) select %s,md5(to_jsonb(c)::text),to_jsonb(c),max(r.depth)+1 from pg_temp.totus_business_cleanup_rows r cross join lateral jsonb_populate_record(null::%I.%I,r.data) p join %I.%I c on %s where r.rel=%s and (%L<>''n'' or exists(select 1 from pg_temp.totus_business_cleanup_rows known where known.rel=%s and known.key=md5(to_jsonb(c)::text))) group by to_jsonb(c) on conflict(rel,key) do update set depth=excluded.depth where target.depth<excluded.depth',fk_row.conrelid,fk_row.parent_schema,fk_row.parent_name,fk_row.nspname,fk_row.relname,condition,fk_row.confrelid,fk_row.confdeltype,fk_row.conrelid);
    get diagnostics matching=row_count;changed:=changed+matching;
   end loop;
   exit when changed=0;

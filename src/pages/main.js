@@ -1,36 +1,37 @@
-import {directoryPageHtml} from '../contact-directory-ui.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {apiManagerHtml} from '../api-manager.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {automationsPage} from '../automations-ui.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {prestashopWorkspacePage} from '../prestashop-ui.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {productosWorkspacePage} from '../productos-ui.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {appearancePage} from '../appearance-ui.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {discountScenarios} from '../pricing-discounts.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {draftVariantRow} from '../pricing-drafts.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {stockPage} from '../stock-ui.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {normalizeReportOrder} from '../report-layout.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {taxExpenseRecord} from '../tax-expense.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {incomeBreakdown} from '../income-breakdown.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {planStorage} from '../storage-planning.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {SUPABASE_URL} from '../config.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {expenseAttachedInvoices} from '../expense-register.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {selectExpenses} from '../expense-selection.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
-import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=aa8cfe74f14db4ffb1ddafd7c56b2b2d2d09d8ec';
+import {localStoreHost} from '../local-store-workspace.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {directoryPageHtml} from '../contact-directory-ui.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {apiManagerHtml} from '../api-manager.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {automationsPage} from '../automations-ui.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {prestashopWorkspacePage} from '../prestashop-ui.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {productosWorkspacePage} from '../productos-ui.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {appearancePage} from '../appearance-ui.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {discountScenarios} from '../pricing-discounts.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {draftVariantRow} from '../pricing-drafts.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {stockPage} from '../stock-ui.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {normalizeReportOrder} from '../report-layout.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {taxExpenseRecord} from '../tax-expense.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {incomeBreakdown} from '../income-breakdown.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {planStorage} from '../storage-planning.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {SUPABASE_URL} from '../config.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {expenseAttachedInvoices} from '../expense-register.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {selectExpenses} from '../expense-selection.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
 
 const stores=()=>state.data.stores.filter(x=>x.active!==false);
 const storeName=id=>state.data.stores.find(x=>x.id===id)?.name||'—';
@@ -988,7 +989,7 @@ export function providerCost(row){
 
 
 function contactBrandsPage(){return '<div class="page contact-brands-page"><section class="card card-pad"><div class="section-head"><div><h2>Marcas</h2><p>Directorio compartido por las familias y los productos.</p></div>'+btn('+ Nueva marca','brand-new','primary')+'</div>'+table([{label:'Marca',html:b=>'<b>'+esc(b.name)+'</b>'},{label:'Contacto',html:b=>esc([b.website,b.email,b.phone].filter(Boolean).join(' · ')||'—')},{label:'Familias',html:b=>String(state.data.families.filter(f=>f.brand_id===b.id).length)},{label:'Acciones',html:b=>'<div class="inline-actions">'+btn('Editar','brand-edit','secondary','data-id="'+b.id+'"')+btn('Eliminar','brand-delete','danger','data-id="'+b.id+'"')+'</div>'}],state.data.brands,{emptyTitle:'Sin marcas'})+'</section></div>';}
-export const renderers={totustpv:()=>'<div class="page totustpv-page"><section id="totusTpvRoot" class="totus-tpv" aria-label="TotusTPV"></section></div>',apis:()=>'<div class="page"><section id="connectionsRoot" aria-label="APIs y conexiones">'+apiManagerHtml()+'</section></div>',automatizaciones:automationsPage,ventas:()=>'<div class="page prestashop-page sales-page"><section id="salesRoot" aria-label="Ventas"><h2>Ventas</h2><p role="status">Preparando consultas de pedidos, productos vendidos y márgenes por tienda…</p></section></div>',prestashop:prestashopWorkspacePage,productos:productosWorkspacePage,clientes:()=>'<div class="page">'+directoryPageHtml('clientes',customersSectionHtml())+'</div>',proveedores:()=>directoryPageHtml('proveedores',expenseSuppliersHtml()),marcas:()=>directoryPageHtml('marcas',contactBrandsPage()),configuracion:appearancePage,tareas:()=>'<div class="page tasks-module-page"><section id="tasksRoot" aria-label="Tareas del equipo"><div class="card card-pad" role="status"><h2>Tareas del equipo</h2><p>Cargando el calendario y las tareas disponibles para tu cuenta…</p></div></section></div>',equipo:()=>'<div class="page chat-module-page"><section id="teamChatRoot" aria-label="Chat"><div class="card card-pad" role="status"><h2>Chat</h2><p>Cargando los canales disponibles para tu cuenta…</p></div></section></div>',cotejos:stockPage,inicio,pricing,cajas,gastos,facturacion,documentos,fiscalidad,informes,administracion};
+export const renderers={totustpv:()=>'<div class="page totustpv-page"><section id="totusTpvRoot" class="totus-tpv" aria-label="TotusTPV"></section></div>',apis:()=>'<div class="page"><section id="connectionsRoot" aria-label="APIs y conexiones">'+apiManagerHtml()+'</section></div>',automatizaciones:automationsPage,ventas:()=>'<div class="page prestashop-page sales-page"><section id="salesRoot" aria-label="Ventas"><h2>Ventas</h2><p role="status">Preparando consultas de pedidos, productos vendidos y márgenes por tienda…</p></section></div>',prestashop:prestashopWorkspacePage,productos:()=>localStoreHost('products',productosWorkspacePage()),clientes:()=>localStoreHost('customers',directoryPageHtml('clientes',customersSectionHtml())),proveedores:()=>localStoreHost('suppliers',directoryPageHtml('proveedores',expenseSuppliersHtml())),marcas:()=>localStoreHost('brands',directoryPageHtml('marcas',contactBrandsPage())),configuracion:appearancePage,tareas:()=>'<div class="page tasks-module-page"><section id="tasksRoot" aria-label="Tareas del equipo"><div class="card card-pad" role="status"><h2>Tareas del equipo</h2><p>Cargando el calendario y las tareas disponibles para tu cuenta…</p></div></section></div>',equipo:()=>'<div class="page chat-module-page"><section id="teamChatRoot" aria-label="Chat"><div class="card card-pad" role="status"><h2>Chat</h2><p>Cargando los canales disponibles para tu cuenta…</p></div></section></div>',cotejos:stockPage,inicio:()=>localStoreHost('summary')+inicio(),pricing,cajas,gastos,facturacion,documentos,fiscalidad,informes,administracion};
 
 export function openingDrawerCash(storeId,drawerId,targetDate=isoToday()){
  const drawer=state.data.drawers.find(x=>x.id===drawerId);
