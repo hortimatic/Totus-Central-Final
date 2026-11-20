@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
+import {workstationIcon} from './workstation-visual.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
@@ -81,6 +81,7 @@ export function referenceActionsHtml(live,available={}){
  ['new-product','Nuevo producto','Da de alta artículos y sus variantes','store',live&&available.newProduct],
  ['new-customer','Nuevo cliente','Crea su ficha y continúa con la venta','user',live&&available.newCustomer]]],
  ['Operaciones de venta','Recupera trabajo pendiente y consulta los documentos',[
+ ...(available.credits?[['credits','Saldos pendientes','Consulta y cobra ventas a crédito','user',true]]:[]),
  ['drafts','Tickets aparcados','Continúa una venta guardada','cart',live],
  ['budgets','Presupuestos','Prepara y convierte propuestas','drawer',live],
  ['history','Pedidos y devoluciones','Consulta ventas, documentos y reintegros','cart',true],

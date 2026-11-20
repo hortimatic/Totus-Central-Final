@@ -1,13 +1,13 @@
-import {promotionReceiptHtml} from './promotions.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {loyaltyReceiptHtml} from './loyalty.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {ticketLogoData} from './ticket-branding.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {taxSummaryHtml} from './tax-summary.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {receiptNumber} from './receipt-series.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
-import {documentPaymentReferences} from './payment-reference.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
+import {promotionReceiptHtml} from './promotions.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {loyaltyReceiptHtml} from './loyalty.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {ticketLogoData} from './ticket-branding.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {taxSummaryHtml} from './tax-summary.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {receiptNumber} from './receipt-series.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
+import {documentPaymentReferences} from './payment-reference.js?v=edcbcc4ad7ff80cd1d709a0c3e779eef09bbfd6c';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
@@ -68,7 +68,7 @@ export function receiptHtml(document,options,{preview=false}={}){
   <table ${!gift&&o.showLineDiscount?'data-item-discounts':''}><thead><tr>${!gift&&o.showLineDiscount?'<th>Ud.</th><th><abbr title="Descuento del artículo">Dto.</abbr><small>€</small></th>':'<th>Artículo</th><th>Ud.</th>'}${gift?'':'<th>Importe</th>'}</tr></thead><tbody>${receiptLineRows(document.lines,o,gift,giftDiscounts)}</tbody></table>
   ${gift&&o.showGiftDiscounts?giftDiscounts?`${giftDiscounts.ticketCents>0?`<p>Descuento del ticket: −${money(giftDiscounts.ticketCents)}</p>`:''}${giftDiscounts.partial?'<small>Algunos descuentos no tienen un importe histórico desglosado disponible.</small>':!giftDiscounts.lines.some(value=>value>0)&&giftDiscounts.ticketCents===0?'<small>No hay importes de descuento registrados en este justificante.</small>':''}`:'<small>No se ha podido comprobar el desglose de descuentos del regalo. No se muestran importes sin verificar.</small>':''}
   ${gift?'':`${receiptVouchersHtml(document,o.showVouchers)}${taxSummaryHtml({totalCents:document.total_cents,totalTaxExclCents:document.total_tax_excl_cents},options?.showTaxBreakdown===true)}<dl>${o.showDiscounts&&(document.discount_cents||o.includeLineDiscountsInTotal&&document.line_discounts_complete&&document.line_discount_cents)?`<div><dt>${o.includeLineDiscountsInTotal&&document.line_discounts_complete?'Total descuentos':'Descuentos de ticket'}</dt><dd>−${money(document.discount_cents+(o.includeLineDiscountsInTotal&&document.line_discounts_complete?document.line_discount_cents:0))}</dd></div>`:''}${document.external_order&&document.shipping_cents?`<div><dt>Envío</dt><dd>${money(document.shipping_cents)}</dd></div>`:''}${document.external_order&&document.wrapping_cents?`<div><dt>Envoltorio</dt><dd>${money(document.wrapping_cents)}</dd></div>`:''}<div><dt>${document.external_order?'Total del pedido':'Total'}</dt><dd><strong>${money(document.total_cents)}</strong></dd></div>
-   ${o.showPayments?Object.entries(document.payments).map(([method,cents])=>`<div><dt>${esc(paymentLabel(method))}${o.showPaymentReferences&&documentPaymentReferences(document)[method]?`<small>Operación: ${esc(documentPaymentReferences(document)[method])}</small>`:''}</dt><dd>${money(cents)}</dd></div>`).join(''):''}</dl>${preview?'':document.external_order?'<small>Copia de un pedido existente. No registra un cobro en caja ni sustituye su factura.</small>':'<small>La factura nativa está disponible en Documentos de este pedido.</small>'}`}
+   ${o.showPayments?Object.entries(document.payments).map(([method,cents])=>`<div><dt>${esc(paymentLabel(method))}${o.showPaymentReferences&&documentPaymentReferences(document)[method]?`<small>Operación: ${esc(documentPaymentReferences(document)[method])}</small>`:''}</dt><dd>${money(cents)}</dd></div>`).join(''):''}</dl>${preview?'':document.external_order?'<small>Copia de un pedido existente. No registra un cobro en caja ni sustituye su factura.</small>':document.central_sale?'<small>Ticket emitido y conservado en Central.</small>':'<small>La factura nativa está disponible en Documentos de este pedido.</small>'}`}
   ${!gift&&o.showCustomer&&o.showCustomerExtra&&document.customer_extra_unavailable?'<small>El dato adicional del cliente no está disponible con tu acceso actual.</small>':''}
   ${document.external_order&&o.showCustomer&&document.customer_details_unavailable?'<small>Los datos del cliente no están disponibles con tu acceso actual. La copia se muestra sin ellos.</small>':''}
   ${document.external_order&&document.merchant?.details_unavailable?'<small>La tienda no permite consultar su dirección y datos comerciales. Se identifica por su web.</small>':''}
