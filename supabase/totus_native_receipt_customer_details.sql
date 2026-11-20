@@ -72,11 +72,6 @@ begin
     perform public.totus_tpv_local_catalogue_save(gen_random_uuid(),p_store,v_variant,row_id,v_variant,jsonb_build_object('name',product_row.name||' · '||(select name from public.product_variants where id=v_variant),'reference',variant->>'reference','ean',coalesce(variant->>'ean',''),'priceCents',(variant->>'priceCents')::bigint,'taxBasisPoints',tax,'stock',(variant->>'stock')::numeric,'quantityUnit',unit,'metadata',jsonb_build_object('attributes',attributes,'brandId',product_row.brand_id),'active',true),coalesce(catalogue_row.revision,0));
    end loop;
   end if;
-  if p_kind in('customers','suppliers') then
-   if exists(select 1 from jsonb_each(p_data) e where e.key in('taxId','city','postalCode','province','country','company','addressComment','deliveryAddress') and (jsonb_typeof(e.value)<>'string' or char_length(e.value#>>'{}')>1000)) then raise exception 'Revisa los datos fiscales y de dirección.';end if;
-   execute format('update public.%I set tax_id=coalesce($2->>''taxId'',tax_id),city=coalesce($2->>''city'',city),postal_code=coalesce($2->>''postalCode'',postal_code),province=coalesce($2->>''province'',province),country=coalesce($2->>''country'',country) where id=$1',table_name) using row_id,p_data;
-   if p_kind='customers' then update public.ops_customers set details=details||jsonb_strip_nulls(jsonb_build_object('company',p_data->'company','comment',p_data->'addressComment','deliveryAddress',p_data->'deliveryAddress')) where id=row_id and store_id=p_store;end if;
-  end if;
   result:=jsonb_build_object('id',row_id,'storeId',p_store,'saved',true);
  else
   if btrim(coalesce(p_data->>'name',''))='' or char_length(p_data->>'name')>255 then raise exception 'Indica un nombre válido.';end if;
@@ -87,6 +82,11 @@ begin
   end if;
   result:=jsonb_build_object('id',row_id,'storeId',p_store,'saved',true);
  end if;
+  if p_action='save' and p_kind in('customers','suppliers') then
+   if exists(select 1 from jsonb_each(p_data) e where e.key in('taxId','city','postalCode','province','country','company','addressComment','deliveryAddress') and (jsonb_typeof(e.value)<>'string' or char_length(e.value#>>'{}')>1000)) then raise exception 'Revisa los datos fiscales y de dirección.';end if;
+   execute format('update public.%I set tax_id=coalesce($2->>''taxId'',tax_id),city=coalesce($2->>''city'',city),postal_code=coalesce($2->>''postalCode'',postal_code),province=coalesce($2->>''province'',province),country=coalesce($2->>''country'',country) where id=$1',table_name) using row_id,p_data;
+   if p_kind='customers' then update public.ops_customers set details=details||jsonb_strip_nulls(jsonb_build_object('company',p_data->'company','comment',p_data->'addressComment','deliveryAddress',p_data->'deliveryAddress')) where id=row_id and store_id=p_store;end if;
+  end if;
  insert into private.totus_local_workspace_requests(id,actor_id,store_id,intent,result) values(p_request,actor,p_store,intent,result);
  return result;
 end $function$

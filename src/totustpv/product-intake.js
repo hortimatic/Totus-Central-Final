@@ -1,9 +1,9 @@
-import {productIntakeDraft,productIntakeTaxPrice} from './product-intake-contract.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
-import {categoryCreationDraft} from '../category-create-contract.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
-import {normalizeProductImage} from '../productos-image-editor.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
-import {productCountryTaxRate,productDisplayAmounts} from '../productos-tax.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
-import {directoryText} from '../contact-directory-core.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
-import {enhanceSearchableSelects} from '../productos-controls.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
+import {productIntakeDraft,productIntakeTaxPrice} from './product-intake-contract.js?v=269849942f40e1519781799044386efb0f47d8dc';
+import {categoryCreationDraft} from '../category-create-contract.js?v=269849942f40e1519781799044386efb0f47d8dc';
+import {normalizeProductImage} from '../productos-image-editor.js?v=269849942f40e1519781799044386efb0f47d8dc';
+import {productCountryTaxRate,productDisplayAmounts} from '../productos-tax.js?v=269849942f40e1519781799044386efb0f47d8dc';
+import {directoryText} from '../contact-directory-core.js?v=269849942f40e1519781799044386efb0f47d8dc';
+import {enhanceSearchableSelects} from '../productos-controls.js?v=269849942f40e1519781799044386efb0f47d8dc';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const statuses={ready:'Lista para continuar',processing:'Comprobando resultado',attention:'Necesita comprobar el resultado',completed:'Alta terminada',cancelled:'Cancelada'};
 const categoryStatus=status=>status==='completed'?'Categoría creada':statuses[status]||status;
