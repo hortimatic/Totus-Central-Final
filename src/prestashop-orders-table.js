@@ -1,8 +1,8 @@
-import {columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=17dbe483aa78fd244c8a29e983e51235b29adac1';
-import {openTableViewProfiles} from './table-view-profiles.js?v=17dbe483aa78fd244c8a29e983e51235b29adac1';
-import {esc,csv,download} from './utils.js?v=17dbe483aa78fd244c8a29e983e51235b29adac1';
-import {fieldHelp} from './components.js?v=17dbe483aa78fd244c8a29e983e51235b29adac1';
-import {attachProductTableLayout} from './productos-table-layout.js?v=17dbe483aa78fd244c8a29e983e51235b29adac1';
+import {columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
+import {openTableViewProfiles} from './table-view-profiles.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
+import {esc,csv,download} from './utils.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
+import {fieldHelp} from './components.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
+import {attachProductTableLayout} from './productos-table-layout.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
 
 export const ORDER_COLUMNS=Object.freeze([
  ['id','Pedido',110],['reference','Referencia',160],['images','Productos',150],
