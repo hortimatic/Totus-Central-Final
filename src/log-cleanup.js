@@ -1,4 +1,4 @@
-import {modal,btn,confirmAction,toast} from './components.js?v=e4a5ce4b5b8ab2db429d7d2d0cdee3f89c3c6105';
+import {modal,btn,confirmAction,toast} from './components.js?v=6aa7e007559c7db80ec5cf16517f8c1043ded6df';
 
 export function cleanupRange(from,to,today){
  const valid=s=>/^\d{4}-\d{2}-\d{2}$/.test(s)&&Number.isFinite(Date.parse(s+'T00:00:00Z'))&&new Date(s+'T00:00:00Z').toISOString().slice(0,10)===s;
