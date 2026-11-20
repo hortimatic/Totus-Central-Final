@@ -1,8 +1,8 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {recurringExpenseNotice} from './recurring-expenses.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {esc} from './utils.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {fieldHelp} from './components.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {AUTOMATION_RECIPES,validatePrestaAutomation,orderOriginSamples,automationResult} from './prestashop-automation-core.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {recurringExpenseNotice} from './recurring-expenses.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {esc} from './utils.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {fieldHelp} from './components.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {AUTOMATION_RECIPES,validatePrestaAutomation,orderOriginSamples,automationResult} from './prestashop-automation-core.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
 
 const recipeChoices=AUTOMATION_RECIPES.filter((recipe,index,rows)=>rows.findIndex(row=>row.id===recipe.id)===index);
 const initial=()=>({name:'',message:'',recipe:'online_orders',stores:[],interval_hours:2,frequency:'interval',at_time:'09:00',weekdays:[1,2,3,4,5],period_days:1,min_count:1,daily_start:'00:00',daily_end:'23:59',online_modules:{},channel_id:'',enabled:false,sharing_confirmed:false});

@@ -1,36 +1,36 @@
-import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {openAttributeRecord} from './productos-attribute-editor.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {createProductMovementsUI} from './productos-movements-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {normalizeProductImage} from './productos-image-editor.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {openTableViewProfiles} from './table-view-profiles.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {openProductMasters} from './productos-masters-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {attachProductTableLayout} from './productos-table-layout.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {adaptProductTexts} from './productos-copy-text.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {showProductDialog} from './productos-dialogs.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {enhanceProductSelects} from './productos-controls.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {createProductTableEditor} from './productos-table-editor.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {openCatalogPriceBatch} from './catalog-price-batch.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,productCatalogCsv} from './productos-catalog.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {productStockSummary} from './product-stock-summary.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {readPool} from './read-pool.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {storeConnection} from './prestashop-readonly.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {createProductWizard} from './productos-create-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {esc} from './utils.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {fieldHelp} from './components.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {productDraftStore} from './productos-draft-store.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
-import {productPriceStudy} from './pricing-core.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {openAttributeRecord} from './productos-attribute-editor.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {createProductMovementsUI} from './productos-movements-ui.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {normalizeProductImage} from './productos-image-editor.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {openTableViewProfiles} from './table-view-profiles.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {openProductMasters} from './productos-masters-ui.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {attachProductTableLayout} from './productos-table-layout.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {adaptProductTexts} from './productos-copy-text.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {showProductDialog} from './productos-dialogs.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {enhanceProductSelects} from './productos-controls.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {createProductTableEditor} from './productos-table-editor.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {openCatalogPriceBatch} from './catalog-price-batch.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,productCatalogCsv} from './productos-catalog.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {productStockSummary} from './product-stock-summary.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {readPool} from './read-pool.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {storeConnection} from './prestashop-readonly.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {createProductWizard} from './productos-create-ui.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {esc} from './utils.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {fieldHelp} from './components.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {productDraftStore} from './productos-draft-store.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
+import {productPriceStudy} from './pricing-core.js?v=5fd2dc6f05dbb86f1167541d0988c4b2dafe5677';
 
 export const productosWorkspacePage=(workspace='products')=>'<div class="page productos-page"><section id="productosRoot" data-pr-workspace="'+workspace+'" aria-label="'+(workspace==='pricing'?'Precios y ofertas':'Gestión de productos')+'"><p role="status">Cargando Productos…</p></section></div>';
 const h=x=>esc(String(x??''));
@@ -160,7 +160,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   const filtered=visibleCatalog(),pages=Math.max(1,Math.ceil(filtered.length/listSize));listPage=Math.min(listPage,pages-1);
   const visibleIds=new Set(filtered.map(catalogKey));
   const metaOptions=kind=>catalogScope==='both'?PRODUCT_STORES.flatMap(shop=>(catalogMeta.get(shop.key)?.[kind]||[]).map(r=>[shop.key+'|'+r.id,shop.label+' · '+textValue(r.name)])):(kind==='brands'?catalogBrands:catalogCategories).map(r=>[r.id,textValue(r.name)]);
-  return stitchCatalog({pricingMode:pricingMode(),backendLink:p=>productBackofficeUrl(p,p.__store||store,owner),canDelete:canDelete(),canCreate:canCreate(),canExport:canExport(),canEdit:canEdit(),activeKey:record?.id?store+'|'+record.id:'',tableEdits:tableEditor.rows,purchaseSurcharge:priceOptions.re,offerPending:offerBatch.pending(),views:catalogViews,viewName:catalogViewName,columnWidths,layoutStatus:layoutSaveState,store:catalogScope,rows:rows.map(p=>({...p,__visible:visibleIds.has(catalogKey(p))})),columns:catalogColumns,selected:catalogSelected,query,filters:catalogFilters,brands:metaOptions('brands'),categories:metaOptions('categories'),page:listPage,size:listSize,hasMore,pending,ready:catalogScope==='both'?PRODUCT_STORES.every(s=>ready(s.key)):ready(store),value:catalogValue,photo:p=>photo(p,p.__store||store),rowKey:catalogKey});
+  return stitchCatalog({pricingMode:pricingMode(),backendLink:p=>productBackofficeUrl(p,p.__store||store,owner),canDelete:canDelete(),canCreate:canCreate(),canExport:canExport(),canEdit:canEdit(),activeKey:record?.id?store+'|'+record.id:'',tableEdits:tableEditor.rows,purchaseSurcharge:priceOptions.re,offerPending:offerBatch.pending(),views:catalogViews,viewName:catalogViewName,columnWidths,layoutStatus:layoutSaveState,store:catalogScope,rows:rows.map(p=>({...p,__visible:visibleIds.has(catalogKey(p))})),columns:catalogColumns,selected:catalogSelected,query,filters:catalogFilters,brands:metaOptions('brands'),categories:metaOptions('categories'),page:listPage,size:listSize,hasMore,pending,ready:catalogScope==='both'?PRODUCT_STORES.length>0&&PRODUCT_STORES.every(s=>ready(s.key)):ready(store),value:catalogValue,photo:p=>photo(p,p.__store||store),rowKey:catalogKey});
  }
 
  function photo(p,shop,large=false){const url=productPhoto(p,shop);return url?'<img class="'+(large?'prd-product-photo':'prd-thumb')+'" src="'+h(url)+'" alt="'+h(text(p?.name)||'Producto')+'" loading="lazy">':'<span class="'+(large?'prd-product-photo':'prd-thumb')+' prd-no-photo" aria-label="Sin imagen">Sin imagen</span>';}
@@ -352,8 +352,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  const attributesUI=createAttributesWorkspace({invoke:invokeShop,actor,contextKey:shop=>{const c=connection(shop);return shop+'|'+c?.id+'|'+c?.revision;},canEdit,canCreate,hasProduct:()=>!!record?.id,onEdit:(resource,id,trigger)=>void editAttribute(resource,id,null,trigger),onCreate:(resource,parentId)=>void editAttribute(resource,null,parentId),onProduct:id=>{void work(()=>openProduct(id,store));}});
  function render(){
   if(!current())return;
-  if(!PRODUCT_STORES.length){root.innerHTML='<section class="card card-pad"><h2>Sin catálogos de webs</h2><p>No hay webs conectadas. Tus productos propios se gestionan desde el catálogo local de Totus Central.</p></section>';return;}
-  if(!PRODUCT_STORES.some(s=>s.key===store))store=PRODUCT_STORES[0].key;
+  if(!PRODUCT_STORES.some(s=>s.key===store))store=PRODUCT_STORES[0]?.key||'';
   if(!catalogScope)catalogScope=store;
   if(root.querySelector('.prd-quick-edit[open]'))return;
   if(root.classList.contains('prd-column-resizing')){renderAfterResize=true;return;}renderAfterResize=false;
