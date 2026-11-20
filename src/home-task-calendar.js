@@ -1,5 +1,5 @@
-import {esc} from './utils.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
-import {taskToday,taskDate,taskRange,addTaskDays,TASK_STATES} from './tasks-core.js?v=269c810969c1cd32fadbc78df96c65826a2eed24';
+import {esc} from './utils.js?v=80f605a47ceede01c48f1128ffa60515846d6e64';
+import {taskToday,taskDate,taskRange,addTaskDays,TASK_STATES} from './tasks-core.js?v=80f605a47ceede01c48f1128ffa60515846d6e64';
 
 export function calendarRange(anchor,view){return view==='day'?{from:taskDate(anchor),to:anchor}:taskRange(anchor,view);}
 export function calendarShift(anchor,view,step){

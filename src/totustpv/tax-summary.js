@@ -4,7 +4,8 @@ const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR
  * product, sum rounded line taxes, or change the amount that will be charged. */
 export function taxSummary(value){
  if(value?.totalTaxExclCents===undefined||value?.totalTaxExclCents===null)return null;
- if(!valid(value.totalCents)||!valid(value.totalTaxExclCents)||value.totalTaxExclCents>value.totalCents)
+ const credit=value.creditNote===true&&value.totalCents<0&&value.totalTaxExclCents<=0&&value.totalTaxExclCents>=value.totalCents&&valid(-value.totalCents)&&valid(-value.totalTaxExclCents);
+ if(!credit&&(!valid(value.totalCents)||!valid(value.totalTaxExclCents)||value.totalTaxExclCents>value.totalCents))
   throw Object.assign(Error('No se ha podido verificar el desglose de impuestos. Conserva el ticket y recupera su cálculo antes de cobrar.'),{code:'TPV_TAX_SUMMARY_INVALID'});
  return {baseCents:value.totalTaxExclCents,taxCents:value.totalCents-value.totalTaxExclCents,totalCents:value.totalCents};
 }
