@@ -1,14 +1,16 @@
-import {receiptOptions,receiptWebsiteUrl} from './receipt-options.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {receiptNumber} from './receipt-series.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {historicalGroupRate} from './receipt-discount-display.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
+import {receiptOptions,receiptWebsiteUrl} from './receipt-options.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {receiptNumber} from './receipt-series.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {historicalGroupRate} from './receipt-discount-display.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
 const amount=value=>Number.isSafeInteger(value)&&value>=0&&value<=100000000000;
 const text=value=>typeof value==='string'&&value.length<=2048&&!/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(value);
 const pick=(source,keys)=>Object.fromEntries(keys.filter(key=>text(source?.[key])).map(key=>[key,source[key]]));
+const validQuantity=(value,central)=>Number.isFinite(value)&&value>0&&value<=10000&&(Number.isSafeInteger(value)||central&&Math.abs(value*1000-Math.round(value*1000))<1e-7);
 const identity=line=>JSON.stringify([line.name,line.reference||'',line.quantity]);
 export function giftReceiptBase(source){
  if(source?.kind!=='gift'||source.existing_document!==true||source.currency!=='EUR'||!Number.isSafeInteger(source.order_id)||source.order_id<1||!text(source.reference)||!source.reference.trim()||!Array.isArray(source.lines)||source.lines.length<1||source.lines.length>200)throw Error('El ticket regalo no corresponde a un pedido comprobado.');
- const lines=source.lines.map(line=>{if(!text(line?.name)||!line.name.trim()||!Number.isSafeInteger(line.quantity)||line.quantity<1||line.quantity>10000)throw Error('Los artículos del ticket regalo no son válidos.');return {...pick(line,['name','reference','base_name','variant_name']),quantity:line.quantity};});
+ const lines=source.lines.map(line=>{if(!text(line?.name)||!line.name.trim()||!validQuantity(line.quantity,source.central_sale===true))throw Error('Los artículos del ticket regalo no son válidos.');return {...pick(line,['name','reference','base_name','variant_name']),quantity:line.quantity};});
  const result={kind:'gift',existing_document:true,order_id:source.order_id,reference:source.reference,currency:'EUR',lines,merchant:pick(source.merchant,['name','address','address2','postcode','city','phone','registration','logo_path']),...pick(source,['created_at','operator_name','environment'])};
+ if(source.central_sale===true)result.central_sale=true;
  for(const key of ['merchant_origin','merchant_logo_origin']){const origin=receiptWebsiteUrl(source[key]);if(origin)result[key]=origin;}
  const number=receiptNumber(source.ticket_number);if(number)result.ticket_number=number;
  if(source.reference_barcode){const barcode=pick(source.reference_barcode,['format','mime','text','payload']);if(typeof source.reference_barcode.data==='string'&&source.reference_barcode.data.length<100000)barcode.data=source.reference_barcode.data;result.reference_barcode=barcode;}
@@ -17,7 +19,7 @@ export function giftReceiptBase(source){
 export function giftReceiptWithDiscounts(gift,receipt){
  const base=giftReceiptBase(gift),unavailable=()=>({...base,giftDiscounts:{available:false}});
  if(receipt?.kind!=='receipt'||receipt.existing_document!==true||receipt.currency!=='EUR'||receipt.order_id!==base.order_id||receipt.reference!==base.reference||!amount(receipt.total_cents)||!Array.isArray(receipt.lines)||receipt.lines.length!==base.lines.length)return unavailable();
- const groups=new Map();for(const line of receipt.lines){if(!text(line?.name)||!Number.isSafeInteger(line.quantity)||line.quantity<1||line.quantity>10000)return unavailable();const key=identity(line),values=groups.get(key)||[];values.push(line);groups.set(key,values);}
+ const groups=new Map();for(const line of receipt.lines){if(!text(line?.name)||!validQuantity(line.quantity,receipt.central_sale===true))return unavailable();const key=identity(line),values=groups.get(key)||[];values.push(line);groups.set(key,values);}
  const counts=new Map();for(const line of base.lines){const key=identity(line);counts.set(key,(counts.get(key)||0)+1);}
  if([...groups].some(([key,values])=>counts.get(key)!==values.length)||[...counts].some(([key,count])=>groups.get(key)?.length!==count))return unavailable();
  // Copy the native recorded discounts, never invert a current price or rate.

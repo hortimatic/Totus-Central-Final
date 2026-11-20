@@ -1,6 +1,6 @@
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
+import {catalogueSearchFields} from './search-preferences.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
@@ -59,6 +59,7 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
   async claimDraft({draftId}){need(!activeDraft||activeDraft.id===draftId,'Aparca o descarta el ticket actual antes de abrir otro.');const rows=await call('totus_tpv_local_drafts',{p_drawer:station().id}),row=rows.find(d=>d.id===draftId);need(row,'El ticket ya no está disponible.');const restored=await draftCommand('claim',{draftId,version:row.version});need(restored.status==='claimed'&&restored.mine&&restored.sessionId===active().id,'No se ha confirmado la recuperación.');activeDraft=restored;const catalogue=await page('catalogue');const lines=restored.payload.lines.map(l=>{const p=catalogue.find(p=>p.id===l.productId);need(p,'Un artículo ya no está disponible. El ticket aparcado se conserva.');return {productId:p.id,name:l.displayName||p.name,originalName:p.name,...(l.displayName?{customName:l.displayName,temporaryLineNames:true}:{}),qty:l.qty,unitCents:p.price_cents,stock:p.stock,quantityUnit:p.quantity_unit||'unit',minimumQty:p.quantity_unit==='unit'?1:0.001,...(l.discount?{discountKind:l.discount.kind,discountValue:(l.discount.value/100).toFixed(2),unitPriceOverride:true}:{})};});customer=null;if(restored.payload.customerId){const found=await call('totus_tpv_local_customers',{p_drawer:station().id,p_customer:restored.payload.customerId});need(found?.items?.length===1,'El cliente del ticket requiere revisión. El ticket se conserva.');customer=found.items[0];}return {draft:restored,lines,customer:copy(customer),adjustment:null,coupon:'',note:''};},
   async archiveDraft({draftId,version}){const row=await draftCommand('archive',{draftId,version});need(row.status==='archived','No se ha confirmado el archivo.');if(activeDraft?.id===draftId)activeDraft=null;return row;},
   async abandonDraft(){if(!activeDraft)return;const row=await draftCommand('archive',{draftId:activeDraft.id,version:activeDraft.version});need(row.status==='archived','No se ha confirmado el archivo.');activeDraft=null;},
+  async orders({orderId,reference}={}){const rows=await this.history();return rows.filter(row=>(!orderId||row.orderId===orderId)&&(!reference||row.reference.toUpperCase()===reference.toUpperCase())).slice(0,100);},
   async history({sessionId}={}){const rows=await page('sales'),refunds=await call('totus_tpv_local_refund',{p_drawer:station().id});return rows.map(row=>({...sale(row),refunds:refunds.items.filter(r=>r.sale_id===row.id).map(r=>({...r,totalCents:r.total_cents}))}));},
   async orders(){return (await page('sales')).map(sale);},
   async credits(){return (await page('credits')).map(sale);},

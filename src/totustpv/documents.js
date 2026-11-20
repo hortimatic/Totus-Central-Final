@@ -1,13 +1,15 @@
-import {promotionReceiptHtml} from './promotions.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {loyaltyReceiptHtml} from './loyalty.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {ticketLogoData} from './ticket-branding.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {taxSummaryHtml} from './tax-summary.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {receiptNumber} from './receipt-series.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
-import {documentPaymentReferences} from './payment-reference.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
+import {code128Modules} from './code128.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {barcodeSvg} from './barcode-labels.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {promotionReceiptHtml} from './promotions.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {loyaltyReceiptHtml} from './loyalty.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {ticketLogoData} from './ticket-branding.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {taxSummaryHtml} from './tax-summary.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {receiptNumber} from './receipt-series.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
+import {documentPaymentReferences} from './payment-reference.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
@@ -44,7 +46,8 @@ function customerHtml(customer,o){if(!o.showCustomer||!customer?.invoice)return 
   ${o.showAddressComment&&invoice.comment?`<p style="white-space:pre-wrap">${esc(invoice.comment)}</p>`:''}
   ${o.showDeliveryAddress&&customer.delivery?`<strong>Entrega</strong><div>${esc(customer.delivery.name)}</div><p>${address(customer.delivery)}</p>`:''}</section>`;}
 function barcodeHtml(document,o,preview){if(!o.showBarcode)return '';
- const url=receiptBarcodeUrl(document.reference_barcode,document.reference),content=preview?
+ const local=document.central_sale===true&&typeof document.reference==='string'&&/^[A-Za-z0-9-]{1,10}$/.test(document.reference)?barcodeSvg(code128Modules('R:'+document.reference)):null;
+ const url=receiptBarcodeUrl(document.reference_barcode,document.reference),content=local?'<div style="height:14mm">'+local+'</div>'+ (o.showOrderReference?'<small>'+esc(document.reference)+'</small>':''):preview?
   '<div class="tpv-sample-barcode" aria-label="Ejemplo de código de barras"></div><small>Ejemplo · sin pedido real</small>':url?
   `<img class="tpv-reference-barcode" src="${url}" alt="Código de barras del pedido #${esc(document.order_id)}" style="display:block;box-sizing:border-box;width:100%;height:14mm;background:#fff">${o.showOrderReference?`<small>${esc(document.reference)}</small>`:''}`:
   '<small>Código de barras no disponible. Usa el número de pedido.</small>';

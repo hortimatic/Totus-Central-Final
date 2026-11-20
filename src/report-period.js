@@ -1,4 +1,4 @@
-import {inRange,isoToday} from './utils.js?v=16a74feb6de0cdbcb84a8741110110261fcbc18b';
+import {inRange,isoToday} from './utils.js?v=7c563eccbb25714881a1f0b10625dcaaaeeffc7f';
 
 export const searchText=value=>String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es').trim();
 export const matchesText=(query,...values)=>!searchText(query)||searchText(values.join(' ')).includes(searchText(query));
