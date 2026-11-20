@@ -3,9 +3,9 @@
  * endpoint and must never be wired directly to browser-supplied dependencies.
  * No in-memory production ledger, built-in transport retry or POSTPV dependency.
  */
-import {assertSameCheckoutScope, remoteOrderKey} from './context.js?v=3b978bb83415667314c74896141659d4e1d426e4';
-import {paymentSummary, verifyRemoteSale} from './model.js?v=3b978bb83415667314c74896141659d4e1d426e4';
-import {nativePaymentPlan,verifyNativePaymentBreakdown} from './server/payment-readback.js?v=3b978bb83415667314c74896141659d4e1d426e4';
+import {assertSameCheckoutScope, remoteOrderKey} from './context.js?v=7aa8c303191d8bfb73e18aad10bd83c8fd1e3915';
+import {paymentSummary, verifyRemoteSale} from './model.js?v=7aa8c303191d8bfb73e18aad10bd83c8fd1e3915';
+import {nativePaymentPlan,verifyNativePaymentBreakdown} from './server/payment-readback.js?v=7aa8c303191d8bfb73e18aad10bd83c8fd1e3915';
 
 const uuid = value => typeof value === 'string' && /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);
 const positive = value => Number.isSafeInteger(value) && value > 0;
