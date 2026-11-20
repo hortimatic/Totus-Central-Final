@@ -12,6 +12,7 @@ export function receiptSeriesFromForm(fields){
  return receiptSeries({enabled:fields.get('series-enabled')==='on',salePrefix:fields.get('series-salePrefix'),returnPrefix:fields.get('series-returnPrefix'),lastSaleNumber:number('series-lastSaleNumber'),lastReturnNumber:number('series-lastReturnNumber')});
 }
 export function receiptSeriesError(error){const code=error?.code||error?.message;return new Error({
+ TPV_RECEIPT_SERIES_STALE:'Otra persona o una venta ha cambiado la numeración. Vuelve a consultar antes de guardar.',
  TPV_RECEIPT_COUNTER_DECREASE_FORBIDDEN:'El contador no puede retroceder. Consulta el último número y guarda un número igual o superior.',
  TPV_RECEIPT_COUNTER_EXHAUSTED:'El contador ha alcanzado su límite. El responsable debe revisar la numeración antes de continuar.',
  TPV_RECEIPT_SERIES_FORBIDDEN:'No tienes permiso para cambiar la numeración de este establecimiento.',
