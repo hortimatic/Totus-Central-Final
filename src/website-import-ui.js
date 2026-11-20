@@ -1,8 +1,8 @@
-import {sb} from './api.js?v=e8e6ac9d608d1643ba8d1aef852486e29fe43a55';
-import {esc} from './utils.js?v=e8e6ac9d608d1643ba8d1aef852486e29fe43a55';
-import {fieldHelp} from './components.js?v=e8e6ac9d608d1643ba8d1aef852486e29fe43a55';
-import {WEBSITE_IMPORT_GROUPS} from './website-import-contract.js?v=e8e6ac9d608d1643ba8d1aef852486e29fe43a55';
-import {openWebsiteDirectories} from './website-directory-adoption.js?v=e8e6ac9d608d1643ba8d1aef852486e29fe43a55';
+import {sb} from './api.js?v=1befc154e44d67fa921a8b2d63570a505b87ffee';
+import {esc} from './utils.js?v=1befc154e44d67fa921a8b2d63570a505b87ffee';
+import {fieldHelp} from './components.js?v=1befc154e44d67fa921a8b2d63570a505b87ffee';
+import {WEBSITE_IMPORT_GROUPS} from './website-import-contract.js?v=1befc154e44d67fa921a8b2d63570a505b87ffee';
+import {openWebsiteDirectories} from './website-directory-adoption.js?v=1befc154e44d67fa921a8b2d63570a505b87ffee';
 export async function openWebsiteImport({rpc,website,name,resources,current=()=>true}){
  const readable=new Set(resources.filter(r=>r.readable).map(r=>r.name));
  const dialog=document.createElement('dialog');dialog.className='api-user-dialog';

@@ -29,6 +29,7 @@ try{
  await assert.rejects(()=>call('customers',0,true),/sesión/);
  await db.exec(`set test.actor='00000000-0000-4000-8000-000000000003';`);
  await assert.rejects(()=>call('customers',0,true,'web-b'),/establecimiento/);
+ assert.equal((await call()).resources.customers.available,1);
  for(const resource of ['manufacturers','suppliers','customers'])assert.equal((await call(resource,0,true)).processed,1);
  const customer=(await db.query('select * from ops_customers')).rows[0];
  assert.equal(customer.name,'Ana Uno');assert.equal(customer.tax_id,'ABC');assert.equal(customer.details.addresses.length,2);assert.equal(customer.country,'España');

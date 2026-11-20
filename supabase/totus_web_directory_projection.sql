@@ -25,7 +25,7 @@ begin
  select * into strict w from private.totus_websites where key=p_website;
  if w.business_id is null or private.totus_local_store_access(w.business_id) is not true then raise exception 'Asigna un establecimiento accesible antes de incorporar los datos.';end if;
  if not p_apply then
-  select coalesce(jsonb_object_agg(resource,jsonb_build_object('available',available,'incorporated',incorporated,'conflicts',conflicts)),'{}') into counts from (
+  select coalesce(jsonb_object_agg(q.resource,jsonb_build_object('available',q.available,'incorporated',q.incorporated,'conflicts',q.conflicts)),'{}') into counts from (
    select kinds.resource,(select count(*) from private.totus_web_source_records s where s.website_key=w.key and s.resource=kinds.resource) available,
     (select count(*) from private.totus_web_directory_projection p where p.website_key=w.key and p.resource=kinds.resource) incorporated,
     (select count(*) from private.totus_web_directory_projection p where p.website_key=w.key and p.resource=kinds.resource and p.conflict) conflicts
