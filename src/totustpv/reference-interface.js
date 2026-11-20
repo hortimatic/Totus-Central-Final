@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
+import {workstationIcon} from './workstation-visual.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
@@ -49,11 +49,12 @@ function preferenceGroupsHtml(section,fields,settings,editable,draft,categories)
  const other=fields.filter(f=>!used.has(f.id));if(other.length)blocks.unshift(`<div class="tpv-settings-group-extra">${other.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('')}</div>`);
  return blocks.join('');
 }
-export function receiptSetupFieldsHtml(receipt,{disabled=false,preview='',numbering=false,loyalty=false}={}){
+export function receiptSetupFieldsHtml(receipt,{disabled=false,preview='',numbering=false,loyalty=false,promotion=false}={}){
  const settings=normalizeReferencePreferences({receipt}),original=REFERENCE_SETTINGS.find(g=>g.name==='Ticket');
  const fields=[...original.fields,{id:'UI-CUSTOMER-EXTRA-FIELD',label:'Dato adicional que se imprime'},{id:'UI-CUSTOMER-EXTRA-LABEL',label:'Título del dato adicional'}].filter(f=>REFERENCE_PREFERENCE_FIELDS[f.id]?.group==='receipt');
  const draft=Object.fromEntries(fields.filter(f=>Object.hasOwn(receipt,REFERENCE_PREFERENCE_FIELDS[f.id].key)).map(f=>[f.id,receipt[REFERENCE_PREFERENCE_FIELDS[f.id].key]]));
- return `<div class="tpv-receipt-setup-layout"><fieldset ${disabled?'disabled':''}>${preferenceGroupsHtml('Ticket',fields,settings,!disabled,draft,[])}<details class="tpv-settings-group"><summary>Funciones aún pendientes de completar</summary><div>${original.fields.filter(f=>(numbering?['CFG-02-17','CFG-02-36']:['CFG-02-03','CFG-02-06','CFG-02-07','CFG-02-08','CFG-02-17','CFG-02-36']).includes(f.id)&&!(loyalty&&f.id==='CFG-02-36')).map(f=>`<div class="tpv-reference-option" data-setting-requirement="${f.id}"><span>${esc(f.label)}</span><span class="tpv-option-status">Pendiente</span></div>`).join('')}</div></details></fieldset><aside class="tpv-settings-ticket-preview"><h5>Vista previa</h5><div data-receipt-setup-preview>${preview}</div></aside></div>`;
+ const pending=original.fields.filter(f=>(numbering?['CFG-02-17','CFG-02-36']:['CFG-02-03','CFG-02-06','CFG-02-07','CFG-02-08','CFG-02-17','CFG-02-36']).includes(f.id)&&!(loyalty&&f.id==='CFG-02-36')&&!(promotion&&f.id==='CFG-02-17'));
+ return `<div class="tpv-receipt-setup-layout"><fieldset ${disabled?'disabled':''}>${preferenceGroupsHtml('Ticket',fields,settings,!disabled,draft,[])}${pending.length?`<details class="tpv-settings-group"><summary>Funciones aún pendientes de completar</summary><div>${pending.map(f=>`<div class="tpv-reference-option" data-setting-requirement="${f.id}"><span>${esc(f.label)}</span><span class="tpv-option-status">Pendiente</span></div>`).join('')}</div></details>`:''}</fieldset><aside class="tpv-settings-ticket-preview"><h5>Vista previa</h5><div data-receipt-setup-preview>${preview}</div></aside></div>`;
 }
 export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml='',brandingHtml='',administrationHtml='',generalSetupHtml=''}={}){
  const settings=normalizeReferencePreferences(values);

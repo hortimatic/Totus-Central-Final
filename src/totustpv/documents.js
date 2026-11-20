@@ -1,12 +1,13 @@
-import {loyaltyReceiptHtml} from './loyalty.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {ticketLogoData} from './ticket-branding.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {taxSummaryHtml} from './tax-summary.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {receiptNumber} from './receipt-series.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
-import {documentPaymentReferences} from './payment-reference.js?v=df4c8d39776ae963dde611a17c0555fcc78a4484';
+import {promotionReceiptHtml} from './promotions.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {loyaltyReceiptHtml} from './loyalty.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {ticketLogoData} from './ticket-branding.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {taxSummaryHtml} from './tax-summary.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {receiptNumber} from './receipt-series.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {documentPaymentReferences} from './payment-reference.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
@@ -71,7 +72,7 @@ export function receiptHtml(document,options,{preview=false}={}){
   ${!gift&&o.showCustomer&&o.showCustomerExtra&&document.customer_extra_unavailable?'<small>El dato adicional del cliente no está disponible con tu acceso actual.</small>':''}
   ${document.external_order&&o.showCustomer&&document.customer_details_unavailable?'<small>Los datos del cliente no están disponibles con tu acceso actual. La copia se muestra sin ellos.</small>':''}
   ${document.external_order&&document.merchant?.details_unavailable?'<small>La tienda no permite consultar su dirección y datos comerciales. Se identifica por su web.</small>':''}
-  ${loyaltyReceiptHtml(document)}
+  ${loyaltyReceiptHtml(document)}${promotionReceiptHtml(document)}
   ${o.footer?`<p class="tpv-receipt-footer" style="white-space:pre-wrap">${esc(o.footer)}</p>`:''}
   ${barcodeHtml(document,o,preview)}
   ${preview?'':'<div class="inline-actions"><button type="button" class="btn secondary" data-tpv-action="close-document">Cerrar documento</button><button type="button" class="btn primary" data-tpv-action="print-document">Imprimir</button></div>'}</article>`;
@@ -81,7 +82,7 @@ function receiptPreviewDocument(){return {kind:'receipt',existing_document:true,
  merchant:{name:'Tu establecimiento',address:'Dirección del establecimiento',city:'Localidad',phone:'Teléfono',registration:'Datos fiscales'},
  customer:{email:'cliente@ejemplo.invalid',invoice:{name:'Cliente de ejemplo',company:'Empresa de ejemplo',address1:'Dirección del cliente',postcode:'00000',city:'Localidad',country:'País',phone:'Teléfono del cliente',comment:'Comentario de ejemplo'},delivery:{name:'Destinatario de ejemplo',address1:'Dirección de entrega',postcode:'00000',city:'Localidad',country:'País'}},
  lines:[{name:'Artículo de ejemplo · Azul · M',base_name:'Artículo de ejemplo',variant_name:'Color: Azul · Talla: M',reference:'REF-001',quantity:2,line_cents:1000,unit_tax_incl_micros:5000000,original_unit_tax_incl_micros:6000000,original_line_cents:1200,line_discount_cents:200,group_reduction_percent_micros:5000000,tax_cents:174}],payments:{cash:400,card:500},payment_intent:[{method:'cash',amount_cents:400,received_cents:400},{method:'card',amount_cents:500,external_reference:'OP-EJEMPLO-0042'}],total_cents:900,total_tax_excl_cents:744,discount_cents:100,vouchers:[{name:"Vale de ejemplo",amount_cents:100}],vouchers_complete:true,line_discount_cents:200,line_discounts_complete:true};}
-export function receiptPreviewHtml(options){const o=receiptOptions(options),sample=receiptPreviewDocument();if(options?.loyaltyPreview)sample.loyalty=options.loyaltyPreview;sample.lines[0].unit_measure={label:'kg',price_micros:10000000};sample.customer_extra={field:o.customerExtraField,value:{taxId:'ID-EJEMPLO',company:'Empresa de ejemplo',comment:'Información de ejemplo del cliente'}[o.customerExtraField]};return receiptHtml(sample,options,{preview:true});}
+export function receiptPreviewHtml(options){const o=receiptOptions(options),sample=receiptPreviewDocument();if(options?.loyaltyPreview)sample.loyalty=options.loyaltyPreview;if(options?.promotionPreview)sample.promotion=options.promotionPreview;sample.lines[0].unit_measure={label:'kg',price_micros:10000000};sample.customer_extra={field:o.customerExtraField,value:{taxId:'ID-EJEMPLO',company:'Empresa de ejemplo',comment:'Información de ejemplo del cliente'}[o.customerExtraField]};return receiptHtml(sample,options,{preview:true});}
 export function giftReceiptPreviewHtml(options){const receipt=receiptPreviewDocument();receipt.lines=receipt.lines.map(line=>({...line,group_reduction_percent_micros:0}));const gift=giftReceiptBase({...receipt,kind:'gift'});return receiptHtml(receiptOptions(options).showGiftDiscounts?giftReceiptWithDiscounts(gift,receipt):gift,options,{preview:true});}
 
 export async function downloadNativePdf(document){
