@@ -1,6 +1,6 @@
-import {quickPriceStudy} from './calculations.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
-import {esc,money} from './utils.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
-import {variantStudy} from './pricing-core.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {quickPriceStudy} from './calculations.js?v=b2e00773312e6e35e461b1c865276f652f025fc0';
+import {esc,money} from './utils.js?v=b2e00773312e6e35e461b1c865276f652f025fc0';
+import {variantStudy} from './pricing-core.js?v=b2e00773312e6e35e461b1c865276f652f025fc0';
 export function profitability(study,target=35){
  if(!study)return 'Sin coste o precio';
  return study.margin<0?'Pérdida':study.marginPct<18?'Crítico':study.marginPct<25?'Ajustado':study.marginPct<target?'Sano':'Muy sano';

@@ -1,5 +1,5 @@
-import {chatFileMetadata,microsoftTransferUrl,chatFileHash} from './chat-files.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
-import {csvCell} from './utils.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {chatFileMetadata,microsoftTransferUrl,chatFileHash} from './chat-files.js?v=b2e00773312e6e35e461b1c865276f652f025fc0';
+import {csvCell} from './utils.js?v=b2e00773312e6e35e461b1c865276f652f025fc0';
 const checked=r=>{if(r.error)throw Error(r.error.message||'No se pudo leer el documento autorizado.');return r.data;};
 export function deliveryReply(text,files){
  // The model cannot know whether the server's subsequent upload will succeed.
