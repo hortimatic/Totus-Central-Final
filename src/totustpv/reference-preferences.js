@@ -1,8 +1,8 @@
-import {displayPreferences,TPV_VARIANT_ORDERS} from './display-preferences.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {receiptOptions} from './receipt-options.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {customerDisplayOptions} from './customer-display.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {searchPreferences} from './search-preferences.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {cataloguePreferences} from './catalogue-preferences.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
+import {displayPreferences,TPV_VARIANT_ORDERS} from './display-preferences.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {receiptOptions} from './receipt-options.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {customerDisplayOptions} from './customer-display.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {searchPreferences} from './search-preferences.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {cataloguePreferences} from './catalogue-preferences.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
 
 // These are presentation preferences only. Fiscal, permission and payment policies
 // deliberately remain with their own authorized services.
@@ -15,7 +15,7 @@ for(const [id,key] of Object.entries({'04':'ticketNewestFirst','06':'returnToSta
 bind('CFG-09-08','display','variantOrder',Object.entries(TPV_VARIANT_ORDERS));
 bind('CFG-09-13','display','priceMode',[['gross','Con IVA'],['net','Sin IVA']]);
 bind('CFG-06-11','display','requireQuantity');
-const receiptFields={'02':'showLogo','04':'dateFormat','05':'title','09':'footer','10':'showCustomer','11':'showCustomerPhone','12':'showCustomerEmail','13':'showAddressComment','14':'showDeliveryAddress','15':'showCustomerCompany','16':'showCustomerExtra','18':'fontSize','19':'fontFamily','20':'showOnlineTickets','21':'showAfterSale','22':'printAfterSale','23':'showOrderReference','24':'showAttributes','25':'showReferences','26':'showLineDiscount','28':'showOriginalPrice','29':'showUnitPrice','30':'showGroupDiscount','31':'showGiftDiscounts','32':'showDiscountedPrices','33':'showPayments','34':'showOperator','35':'showAddress','37':'showWebsite','38':'showLineTax','39':'numberLines','40':'showBarcode','41':'showDiscounts','42':'includeLineDiscountsInTotal','43':'showVouchers','44':'showPaymentReferences'};
+const receiptFields={'02':'showLogo','04':'dateFormat','05':'title','09':'footer','10':'showCustomer','11':'showCustomerPhone','12':'showCustomerEmail','13':'showAddressComment','14':'showDeliveryAddress','15':'showCustomerCompany','16':'showCustomerExtra','18':'fontSize','19':'fontFamily','20':'showOnlineTickets','21':'showAfterSale','22':'printAfterSale','23':'showOrderReference','24':'showAttributes','25':'showReferences','26':'showLineDiscount','27':'showUnitMeasure','28':'showOriginalPrice','29':'showUnitPrice','30':'showGroupDiscount','31':'showGiftDiscounts','32':'showDiscountedPrices','33':'showPayments','34':'showOperator','35':'showAddress','37':'showWebsite','38':'showLineTax','39':'numberLines','40':'showBarcode','41':'showDiscounts','42':'includeLineDiscountsInTotal','43':'showVouchers','44':'showPaymentReferences'};
 for(const [id,key] of Object.entries(receiptFields))bind('CFG-02-'+id,'receipt',key);
 bind('UI-CUSTOMER-EXTRA-FIELD','receipt','customerExtraField',[['taxId','NIF / CIF / identificación fiscal'],['company','Empresa de la dirección'],['comment','Información adicional de la dirección']]);
 bind('UI-CUSTOMER-EXTRA-LABEL','receipt','customerExtraLabel');fields['UI-CUSTOMER-EXTRA-LABEL'].text=40;

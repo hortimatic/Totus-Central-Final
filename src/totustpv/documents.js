@@ -1,17 +1,17 @@
-import {ticketLogoData} from './ticket-branding.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {taxSummaryHtml} from './tax-summary.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {receiptNumber} from './receipt-series.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
-import {documentPaymentReferences} from './payment-reference.js?v=ff39fccb618d59c393b9947ece450ce7b9bf4163';
+import {ticketLogoData} from './ticket-branding.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {taxSummaryHtml} from './tax-summary.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {receiptNumber} from './receipt-series.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {documentPaymentReferences} from './payment-reference.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
 const unitMoney=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:6}).format(value/1000000);
 function linePriceDetails(line,o,gift){if(gift||!receiptPriceVisible(line,o))return '';
- return `${o.showOriginalPrice&&Number.isSafeInteger(line.original_unit_tax_incl_micros)?`<small>Precio original: ${unitMoney(line.original_unit_tax_incl_micros)}</small>`:''}${o.showUnitPrice&&Number.isSafeInteger(line.unit_tax_incl_micros)?`<small>Precio unitario: ${unitMoney(line.unit_tax_incl_micros)}</small>`:''}${o.showLineTax&&Number.isSafeInteger(line.tax_cents)?`<small>Impuesto de línea: ${money(line.tax_cents)}</small>`:''}`;}
+ return `${o.showUnitMeasure&&typeof line.unit_measure?.label==='string'&&line.unit_measure.label.length<=80&&Number.isSafeInteger(line.unit_measure.price_micros)&&line.unit_measure.price_micros>=0?`<small>${unitMoney(line.unit_measure.price_micros)} / ${esc(line.unit_measure.label)}</small>`:''}${o.showOriginalPrice&&Number.isSafeInteger(line.original_unit_tax_incl_micros)?`<small>Precio original: ${unitMoney(line.original_unit_tax_incl_micros)}</small>`:''}${o.showUnitPrice&&Number.isSafeInteger(line.unit_tax_incl_micros)?`<small>Precio unitario: ${unitMoney(line.unit_tax_incl_micros)}</small>`:''}${o.showLineTax&&Number.isSafeInteger(line.tax_cents)?`<small>Impuesto de línea: ${money(line.tax_cents)}</small>`:''}`;}
 const paymentLabel=method=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia'}[method]||method);
 export function receiptLinePresentation(line,showAttributes=true){
  const valid=text=>typeof text==='string'&&Array.from(text).length<=512&&!/[\x00-\x1f\x7f]/.test(text);
@@ -59,6 +59,7 @@ export function receiptHtml(document,options,{preview=false}={}){
   ${o.showOperator&&typeof document.operator_name==='string'&&document.operator_name.trim()?`<small>Te atendió: ${esc(document.operator_name)}</small>`:''}
   ${gift?'':customerHtml(document.customer,o)}
   ${!gift&&o.showCustomer&&o.showCustomerExtra&&document.customer_extra?.field===o.customerExtraField&&typeof document.customer_extra.value==='string'&&document.customer_extra.value.trim()?`<p class="tpv-receipt-customer-extra"><strong>${esc(o.customerExtraLabel)}:</strong> ${esc(document.customer_extra.value)}</p>`:''}
+  ${!gift&&o.showUnitMeasure&&document.unit_measure_unavailable?'<small>Este pedido no dispone de todos los precios por unidad de medida guardados.</small>':''}
   ${!gift&&!preview&&(o.showOriginalPrice||o.showLineDiscount||o.includeLineDiscountsInTotal||!o.showDiscountedPrices)&&document.line_discounts_complete!==true?'<small>Este pedido no dispone del desglose histórico de precios y descuentos de artículos.</small>':''}
   ${!gift&&!o.showDiscountedPrices&&document.lines.some(line=>historicalGroupRate(line)===null)?'<small>Algunos artículos no tienen datos históricos suficientes para distinguir sus descuentos; sus importes se mantienen ocultos.</small>':''}
   ${!gift&&o.showGroupDiscount&&document.lines.some(line=>historicalGroupRate(line)===null)?'<small>El porcentaje histórico del grupo no está disponible para algunos artículos.</small>':''}
@@ -78,7 +79,7 @@ function receiptPreviewDocument(){return {kind:'receipt',existing_document:true,
  merchant:{name:'Tu establecimiento',address:'Dirección del establecimiento',city:'Localidad',phone:'Teléfono',registration:'Datos fiscales'},
  customer:{email:'cliente@ejemplo.invalid',invoice:{name:'Cliente de ejemplo',company:'Empresa de ejemplo',address1:'Dirección del cliente',postcode:'00000',city:'Localidad',country:'País',phone:'Teléfono del cliente',comment:'Comentario de ejemplo'},delivery:{name:'Destinatario de ejemplo',address1:'Dirección de entrega',postcode:'00000',city:'Localidad',country:'País'}},
  lines:[{name:'Artículo de ejemplo · Azul · M',base_name:'Artículo de ejemplo',variant_name:'Color: Azul · Talla: M',reference:'REF-001',quantity:2,line_cents:1000,unit_tax_incl_micros:5000000,original_unit_tax_incl_micros:6000000,original_line_cents:1200,line_discount_cents:200,group_reduction_percent_micros:5000000,tax_cents:174}],payments:{cash:400,card:500},payment_intent:[{method:'cash',amount_cents:400,received_cents:400},{method:'card',amount_cents:500,external_reference:'OP-EJEMPLO-0042'}],total_cents:900,total_tax_excl_cents:744,discount_cents:100,vouchers:[{name:"Vale de ejemplo",amount_cents:100}],vouchers_complete:true,line_discount_cents:200,line_discounts_complete:true};}
-export function receiptPreviewHtml(options){const o=receiptOptions(options),sample=receiptPreviewDocument();sample.customer_extra={field:o.customerExtraField,value:{taxId:'ID-EJEMPLO',company:'Empresa de ejemplo',comment:'Información de ejemplo del cliente'}[o.customerExtraField]};return receiptHtml(sample,options,{preview:true});}
+export function receiptPreviewHtml(options){const o=receiptOptions(options),sample=receiptPreviewDocument();sample.lines[0].unit_measure={label:'kg',price_micros:10000000};sample.customer_extra={field:o.customerExtraField,value:{taxId:'ID-EJEMPLO',company:'Empresa de ejemplo',comment:'Información de ejemplo del cliente'}[o.customerExtraField]};return receiptHtml(sample,options,{preview:true});}
 export function giftReceiptPreviewHtml(options){const receipt=receiptPreviewDocument();receipt.lines=receipt.lines.map(line=>({...line,group_reduction_percent_micros:0}));const gift=giftReceiptBase({...receipt,kind:'gift'});return receiptHtml(receiptOptions(options).showGiftDiscounts?giftReceiptWithDiscounts(gift,receipt):gift,options,{preview:true});}
 
 export async function downloadNativePdf(document){
