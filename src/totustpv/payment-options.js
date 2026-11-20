@@ -1,7 +1,7 @@
 /** Counter presentation and allowed methods. These options do not charge a
  * bank, change native payment proofs or turn a new method into a supported one.
  */
-import {paymentReferencePolicy} from './payment-reference.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {paymentReferencePolicy} from './payment-reference.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
 export const TPV_PAYMENT_NAMES=Object.freeze({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia'});
 const need=ok=>{if(!ok)throw Error('Revisa los medios de cobro de esta caja. Activa al menos uno y utiliza nombres distintos.');};
 export function paymentOptions(value,available=Object.keys(TPV_PAYMENT_NAMES)){

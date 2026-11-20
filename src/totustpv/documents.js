@@ -1,13 +1,13 @@
-import {promotionReceiptHtml} from './promotions.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
-import {loyaltyReceiptHtml} from './loyalty.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
-import {ticketLogoData} from './ticket-branding.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
-import {taxSummaryHtml} from './tax-summary.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
-import {receiptNumber} from './receipt-series.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
-import {documentPaymentReferences} from './payment-reference.js?v=cb055feb6284a6576f72e988faa1a870c73f6eb3';
+import {promotionReceiptHtml} from './promotions.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {loyaltyReceiptHtml} from './loyalty.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {ticketLogoData} from './ticket-branding.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {taxSummaryHtml} from './tax-summary.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {receiptNumber} from './receipt-series.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
+import {documentPaymentReferences} from './payment-reference.js?v=2558ea01a2459559fc70455191de2d4e5ff99a1f';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
@@ -72,7 +72,7 @@ export function receiptHtml(document,options,{preview=false}={}){
   ${!gift&&o.showCustomer&&o.showCustomerExtra&&document.customer_extra_unavailable?'<small>El dato adicional del cliente no está disponible con tu acceso actual.</small>':''}
   ${document.external_order&&o.showCustomer&&document.customer_details_unavailable?'<small>Los datos del cliente no están disponibles con tu acceso actual. La copia se muestra sin ellos.</small>':''}
   ${document.external_order&&document.merchant?.details_unavailable?'<small>La tienda no permite consultar su dirección y datos comerciales. Se identifica por su web.</small>':''}
-  ${loyaltyReceiptHtml(document)}${promotionReceiptHtml(document)}
+  ${loyaltyReceiptHtml(document)}${promotionReceiptHtml(document,{preview})}
   ${o.footer?`<p class="tpv-receipt-footer" style="white-space:pre-wrap">${esc(o.footer)}</p>`:''}
   ${barcodeHtml(document,o,preview)}
   ${preview?'':'<div class="inline-actions"><button type="button" class="btn secondary" data-tpv-action="close-document">Cerrar documento</button><button type="button" class="btn primary" data-tpv-action="print-document">Imprimir</button></div>'}</article>`;
