@@ -1,4 +1,4 @@
-import {PARALLEL_SUPABASE_URL,PARALLEL_SUPABASE_KEY} from './parallel-backend.js?v=b2e00773312e6e35e461b1c865276f652f025fc0';
+import {PARALLEL_SUPABASE_URL,PARALLEL_SUPABASE_KEY} from './parallel-backend.js?v=7b431c1e79ab87f1be524c794405acf0b2f96450';
 export const SUPABASE_URL=PARALLEL_SUPABASE_URL;
 export const SUPABASE_KEY=PARALLEL_SUPABASE_KEY;
 export const APP_NAME='Totus Central final';
