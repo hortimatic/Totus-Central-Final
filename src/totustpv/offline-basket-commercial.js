@@ -1,7 +1,7 @@
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
-import {offlineCommercial} from './offline-commercial.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
-import {roundPriceLine,roundPriceLineMicros,roundPriceSubtotal} from './offline-rounding.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
-import {reconcileNativeTaxedSubtotal} from './server/native-subtotal.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
+import {offlineCommercial} from './offline-commercial.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
+import {roundPriceLine,roundPriceLineMicros,roundPriceSubtotal} from './offline-rounding.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
+import {reconcileNativeTaxedSubtotal} from './server/native-subtotal.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
 
 /** Local capture for an unmodified basket. Never evidence of a native order.
  * Delivery must obtain a fresh native quote and compare every captured amount.

@@ -1,7 +1,7 @@
-import {esc} from './utils.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
-import {readStockRuleSource,stockRuleQuantity,stockRuleResult} from './stock-rules.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
-import {STOCK_STATES,stockLineResult} from './stock-core.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
-import {fieldHelp} from './components.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
+import {esc} from './utils.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
+import {readStockRuleSource,stockRuleQuantity,stockRuleResult} from './stock-rules.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
+import {STOCK_STATES,stockLineResult} from './stock-core.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
+import {fieldHelp} from './components.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
 const qty=v=>v==null?'Pendiente':Number(v).toLocaleString('es-ES',{maximumFractionDigits:6});
 // All work remains in this receipt-scoped editor until its explicit save.
 export function mountStockRuleEditor(host,context,{save,preview,valid=()=>true}){

@@ -1,11 +1,11 @@
 /** Counter presentation and allowed methods. These options do not charge a
  * bank, change native payment proofs or turn a new method into a supported one.
  */
-import {paymentReferencePolicy} from './payment-reference.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
-export const TPV_PAYMENT_NAMES=Object.freeze({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia'});
+import {paymentReferencePolicy} from './payment-reference.js?v=19d87f3f7d1b2b86be73374ca6b8d3108cac6288';
+export const TPV_PAYMENT_NAMES=Object.freeze({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'});
 const need=ok=>{if(!ok)throw Error('Revisa los medios de cobro de esta caja. Activa al menos uno y utiliza nombres distintos.');};
-export function paymentOptions(value,available=Object.keys(TPV_PAYMENT_NAMES)){
- need(Array.isArray(available)&&available.length>0&&available.length<=4&&new Set(available).size===available.length&&available.every(id=>Object.hasOwn(TPV_PAYMENT_NAMES,id)));
+export function paymentOptions(value,available=['cash','card','bizum','transfer']){
+ need(Array.isArray(available)&&available.length>0&&available.length<=5&&new Set(available).size===available.length&&available.every(id=>Object.hasOwn(TPV_PAYMENT_NAMES,id)));
  if(value===undefined)value={};
  need(value&&typeof value==='object'&&!Array.isArray(value)&&Object.keys(value).every(key=>['enabledMethods','labels','referencePolicy'].includes(key)));
  const enabled=Object.hasOwn(value,'enabledMethods')?value.enabledMethods:available,labels=Object.hasOwn(value,'labels')?value.labels:{};
@@ -34,7 +34,7 @@ export function quotePaymentMethods(expected){
  const policy=expected?.operatorPaymentPolicy;
  if(policy===undefined)return available;
  need(policy&&policy.enabled===true&&policy.modes&&typeof policy.modes==='object'&&!Array.isArray(policy.modes));
- const modes={cash:'cash-in-hand',card:'external-terminal',bizum:'external-receipt',transfer:'external-receipt'};
+ const modes={cash:'cash-in-hand',card:'external-terminal',bizum:'external-receipt',transfer:'external-receipt',cheque:'external-receipt'};
  const methods=policy.methodOrder??Object.keys(policy.modes);
  need(Array.isArray(methods)&&methods.length>0&&methods.length===Object.keys(policy.modes).length&&new Set(methods).size===methods.length&&methods.every(id=>available.includes(id)&&policy.modes[id]===modes[id]));
  return methods;
@@ -49,7 +49,7 @@ const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>
 function referenceSettingsHtml(id,options,draft){
  if(id==='cash')return '';
  const selected=draft?.['reference:'+id]??options.referencePolicy[id];
- return `<label>Referencia del cobro<select name="reference:${id}">${[['hidden','No pedir'],['optional','Opcional'],['required','Obligatoria']].map(([value,label])=>`<option value="${value}" ${selected===value?'selected':''}>${label}</option>`).join('')}</select></label>`;
+ return `<label>Referencia del cobro<select name="reference:${id}">${(id==='cheque'?[['required','Obligatoria']]:[['hidden','No pedir'],['optional','Opcional'],['required','Obligatoria']]).map(([value,label])=>`<option value="${value}" ${selected===value?'selected':''}>${label}</option>`).join('')}</select></label>`;
 }
 export function paymentSettingsHtml(saved,editable,draft){
  if(!saved)return '';
@@ -62,5 +62,5 @@ export function paymentSettingsFromForm(fields,available){
  const positions=enabled.map(id=>Number(fields.get('position:'+id)));
  if(!positions.every(n=>Number.isInteger(n)&&n>=0&&n<available.length)||new Set(positions).size!==positions.length)throw Error('Elige una posición distinta para cada medio de cobro habilitado.');
  enabled.sort((a,b)=>Number(fields.get('position:'+a))-Number(fields.get('position:'+b)));
- return paymentOptions({enabledMethods:enabled,labels:Object.fromEntries(available.map(id=>[id,fields.get('label:'+id)])),referencePolicy:Object.fromEntries(available.filter(id=>id!=='cash').map(id=>[id,fields.get('reference:'+id)??'hidden']))},available);
+ return paymentOptions({enabledMethods:enabled,labels:Object.fromEntries(available.map(id=>[id,fields.get('label:'+id)])),referencePolicy:Object.fromEntries(available.filter(id=>id!=='cash').map(id=>[id,fields.get('reference:'+id)??(id==='cheque'?'required':'hidden')]))},available);
 }
