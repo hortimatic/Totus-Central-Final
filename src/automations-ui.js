@@ -1,5 +1,5 @@
-import {createPrestashopAutomations} from './prestashop-automations-ui.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
-import {storeConnection} from './prestashop-readonly.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {createPrestashopAutomations} from './prestashop-automations-ui.js?v=8ad483537c8fcd1f8720845c185ee337277325a8';
+import {storeConnection} from './prestashop-readonly.js?v=8ad483537c8fcd1f8720845c185ee337277325a8';
 export const automationsPage=()=>'<div class="page automations-page"><section id="automationsRoot" class="ps-workspace" aria-label="Automatizaciones"><div class="card card-pad" role="status"><h2>Automatizaciones y avisos</h2><p>Preparando las reglas, sus horarios y el historial disponible para tu cuenta…</p></div></section></div>';
 export function createAutomationsUI({rpc,actor,can,canReadStores,invoke,onConfigureBell,confirm}){
  let connections=[],owner=null;
