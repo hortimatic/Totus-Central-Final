@@ -1,5 +1,5 @@
 // Read-only contracts. Server identity is bound to a registered connection.
-import {WEBSITE_CHOICES as PRESTASHOP_STORES,connectionWebsite} from './website-registry.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {WEBSITE_CHOICES as PRESTASHOP_STORES,connectionWebsite} from './website-registry.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
 export {PRESTASHOP_STORES};
 export const PRESTASHOP_RESOURCES=Object.freeze({
  orders:Object.freeze(['id','reference','date_add','payment','total_paid_tax_incl','total_paid_tax_excl','current_state','valid','id_currency','id_customer','id_address_invoice','id_address_delivery','id_shop','invoice_number','invoice_date','total_shipping_tax_incl','total_shipping_tax_excl','total_wrapping_tax_excl','total_discounts_tax_incl','total_discounts_tax_excl','module']),

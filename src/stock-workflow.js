@@ -1,4 +1,4 @@
-import {STOCK_STATES,stockReceiptStatus,stockLineResult,stockCorrectedLineResult,stockSummary} from './stock-core.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {STOCK_STATES,stockReceiptStatus,stockLineResult,stockCorrectedLineResult,stockSummary} from './stock-core.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
 const text=v=>String(v??'');
 export const stockIdentity=v=>text(v).trim().toLocaleLowerCase('es');
 export function filterStockReceipts(rows,{query='',store='all',from='',to='',status='all'}={},storeName=()=> ''){

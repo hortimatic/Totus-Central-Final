@@ -1,13 +1,13 @@
-import {promotionReceiptHtml} from './promotions.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
-import {loyaltyReceiptHtml} from './loyalty.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
-import {ticketLogoData} from './ticket-branding.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
-import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
-import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
-import {receiptVouchersHtml} from './receipt-vouchers.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
-import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
-import {taxSummaryHtml} from './tax-summary.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
-import {receiptNumber} from './receipt-series.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
-import {documentPaymentReferences} from './payment-reference.js?v=3e62f2d0bb0d3cab0e4991ab6106f8179efdc4b3';
+import {promotionReceiptHtml} from './promotions.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {loyaltyReceiptHtml} from './loyalty.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {ticketLogoData} from './ticket-branding.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {giftDiscountState,giftReceiptBase,giftReceiptWithDiscounts} from './gift-discounts.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {receiptPriceVisible,historicalGroupRate,receiptGroupDiscountHtml} from './receipt-discount-display.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {receiptVouchersHtml} from './receipt-vouchers.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {receiptOptions,receiptLogoUrl,receiptBarcodeUrl,receiptWebsiteUrl} from './receipt-options.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {taxSummaryHtml} from './tax-summary.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {receiptNumber} from './receipt-series.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {documentPaymentReferences} from './payment-reference.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const discountAmount=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}).format(value/100);
@@ -50,7 +50,7 @@ function barcodeHtml(document,o,preview){if(!o.showBarcode)return '';
   '<small>Código de barras no disponible. Usa el número de pedido.</small>';
  return `<figure class="tpv-order-barcode" style="margin:12px 0 0;text-align:center">${content}</figure>`;}
 export function receiptHtml(document,options,{preview=false}={}){
- if(!preview&&!document?.existing_document||!['receipt','gift'].includes(document?.kind)||document.currency!=='EUR'||!Array.isArray(document.lines))throw Error('Documento no válido.');
+ if(!preview&&!document?.existing_document||!['receipt','gift','credit-note'].includes(document?.kind)||document.currency!=='EUR'||!Array.isArray(document.lines))throw Error('Documento no válido.');
  const gift=document.kind==='gift',merchant=document.merchant,o=receiptOptions(options),giftDiscounts=gift&&o.showGiftDiscounts?giftDiscountState(document):null,logo=ticketLogoData(options?.logoData||'')||receiptLogoUrl(document.merchant_logo_origin,merchant.logo_path);
  const number=receiptNumber(document.ticket_number),numberHtml=number?`<p class="tpv-ticket-number"><strong>Ticket ${esc(number.label)}</strong></p>`:'';
  let date=document.created_at;if(o.dateFormat!=='native'){const parsed=new Date(String(date).replace(' ','T'));if(Number.isFinite(parsed.getTime()))date=new Intl.DateTimeFormat('es-ES',{dateStyle:o.dateFormat==='long'?'long':'short',timeStyle:o.dateFormat==='long'?'medium':'short'}).format(parsed);}

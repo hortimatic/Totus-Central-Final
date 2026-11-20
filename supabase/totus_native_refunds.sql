@@ -41,7 +41,7 @@ begin
   select coalesce(sum((l->>'qty')::numeric),0) into prior_qty from private.totus_tpv_local_refunds x cross join lateral jsonb_array_elements(x.lines) l where x.sale_id=s.id and x.status='confirmed' and l->>'productId'=line->>'productId';
   left_lines:=left_lines||jsonb_build_array(line||jsonb_build_object('remainingQty',(line->>'qty')::numeric-prior_qty));
  end loop;
- if p_action='returnable' then return jsonb_build_object('saleId',s.id,'reference','Venta '||left(s.id::text,8),'lines',left_lines,'allowPartial',coalesce((policy->>'allowPartial')::boolean,true),'requireOriginalPayment',true,'availablePayments',coalesce((select jsonb_object_agg(method,amount) from (select p.method,sum(p.amount_cents) amount from private.totus_tpv_local_payments p where p.sale_id=s.id group by p.method) paid),'{}'));end if;
+ if p_action='returnable' then return jsonb_build_object('saleId',s.id,'reference','Venta '||left(s.id::text,8),'lines',left_lines,'allowPartial',coalesce((policy->>'allowPartial')::boolean,true),'requireOriginalPayment',true,'availablePayments',coalesce((select jsonb_object_agg(payment_amounts.method,payment_amounts.amount) from (select p.method,sum(p.amount_cents) amount from private.totus_tpv_local_payments p where p.sale_id=s.id group by p.method) payment_amounts),'{}'));end if;
  if p_action='prepare' then
   if p_id is null or s.paid_cents<>s.total_cents or s.total_cents<=0 then raise exception 'Liquida el saldo pendiente antes de preparar el reintegro.';end if;
   intent:=jsonb_build_object('sale',s.id,'session',p_session,'data',p_data);
