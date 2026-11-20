@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {PGlite} from '@electric-sql/pglite';
+import {readNativeCatalogueBatch} from '../supabase/functions/totus-web-sync/native-catalogue.js';
+const connection={endpoint:'https://shop.example/api',protocol:'prestashop',secret:'fiction',auth_kind:'basic'};
+const fixture={verified:true,shop_id:1,currency:'EUR',language_id:1};let observed;
+const scope={job:{phase:'profile',shop_id:1,page:0}};
+assert.deepEqual(await readNativeCatalogueBatch(connection,scope,{resolve:async()=>['8.8.8.8'],request:async(url,options)=>{observed={url,options};return Response.json(fixture);}}),fixture);
+assert.equal(new URL(observed.url).searchParams.get('id_shop'),'1');assert.equal(observed.options.method,'GET');assert.equal(observed.options.redirect,'error');
+await assert.rejects(()=>readNativeCatalogueBatch(connection,scope,{resolve:async()=>['8.8.8.8'],request:async()=>Response.json({...fixture,shop_id:2})}),/coincide/);
+const item={product_id:1,attribute_id:0,preview_cents:1999,unit_tax_incl:'19.990000',unit_tax_excl:'16.520661',stock:-1};
+const data={items:[item],has_more:false,page:0,currency:'EUR'};
+assert.equal((await readNativeCatalogueBatch(connection,{job:{...scope.job,phase:'products',profile:fixture}},{resolve:async()=>['8.8.8.8'],request:async()=>Response.json(data)})).items[0].stock,-1);
+await assert.rejects(()=>readNativeCatalogueBatch(connection,{job:{...scope.job,phase:'products',profile:fixture}},{resolve:async()=>['8.8.8.8'],request:async()=>Response.json({...data,currency:'USD'})}),/coincide/);
+const db=new PGlite();const job='00000000-0000-4000-8000-000000000001',actor='00000000-0000-4000-8000-000000000002';
+try{
+ await db.exec(`create schema private;create schema auth;create role anon;create role authenticated;create role service_role;create table auth.users(id uuid primary key);insert into auth.users values('${actor}');
+ create function auth.uid() returns uuid language sql as $$select nullif(current_setting('test.actor',true),'')::uuid$$;
+ create function private.totus_api_admin() returns void language plpgsql as $$begin if auth.uid() is null then raise exception 'Forbidden';end if;end$$;
+ create function private.totus_local_store_access(uuid) returns boolean language sql as $$select true$$;
+ create table private.totus_api_connections(id uuid primary key,enabled boolean,revision bigint,verified_revision bigint,real_data_authorized boolean);
+ create table private.totus_websites(key text primary key,connection_id uuid,business_id uuid,status text,origin text);
+ create table private.totus_web_source_records(website_key text,resource text,source_id bigint,data jsonb);
+ create table private.totus_web_import_jobs(website_key text,state text);
+ insert into private.totus_api_connections values('${job}',true,1,1,true);
+ insert into private.totus_websites values('web-a','${job}','${job}','active','https://shop.example');
+ insert into private.totus_web_source_records values('web-a','shops',1,'{"name":"Shop"}'),('web-a','combinations',1,'{"id_product":"1"}');`);
+ await db.exec(await readFile(new URL('../supabase/totus_web_native_catalogue.sql',import.meta.url),'utf8'));
+ const call=action=>db.query('select public.totus_web_native_catalogue($1,$2,$3,$4) result',['web-a',action,job,1]).then(r=>r.rows[0].result);
+ await assert.rejects(()=>call('start'),/sesión/);await db.exec(`set test.actor='${actor}'`);
+ assert.equal((await call('status')).job,null);assert.equal((await call('start')).job.phase,'profile');assert.equal((await call('start')).job.id,job);
+ const commit=(phase,page,cursor,product,payload)=>db.query('select public.totus_web_native_catalogue_commit($1,$2,$3,$4,$5,$6,$7) result',[job,actor,phase,page,cursor,product,payload]).then(r=>r.rows[0].result);
+ await commit('profile',0,0,null,fixture);assert.equal((await call('context')).job.phase,'products');
+ assert.equal((await commit('profile',0,0,null,fixture)).retry,true);
+ await commit('products',0,0,null,data);assert.equal((await call('context')).productId,1);
+ await commit('variants',0,0,1,{...data,items:[{...item,attribute_id:1}]});assert.equal((await call('context')).productId,null);
+ await commit('variants',0,1,null,null);assert.equal((await call('status')).job.state,'completed');
+ assert.equal((await db.query('select count(*)::int n from private.totus_web_native_catalogue_items')).rows[0].n,2);
+ console.log('Isolated native catalogue: GET scope, exact price strings/cents, negative stock, currency guard, resumable phases, cursor replay and final completion passed. No live data created.');
+}finally{await db.close();}

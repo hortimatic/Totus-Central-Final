@@ -259,7 +259,8 @@
         "supabase/functions/totus-connections/transport.js",
         "supabase/functions/totus-ai/cloudflare.js",
         "src/api-presets.js",
-        "supabase/functions/totus-web-sync/source-reader.js"
+        "supabase/functions/totus-web-sync/source-reader.js",
+        "supabase/functions/totus-web-sync/native-catalogue.js"
       ]
     }
   ]

@@ -4,6 +4,7 @@ import {createClient} from 'npm:@supabase/supabase-js@2.118.0';
 import {withApplicationCors} from '../../../src/application-cors.js';
 import {WEBSITE_IMPORT_RESOURCES,importBatchRows} from '../../../src/website-import-contract.js';
 import {boundedJson} from '../totus-connections/transport.js';
+import {readNativeCatalogueBatch} from './native-catalogue.js';
 const headers={'Content-Type':'application/json','Cache-Control':'no-store','Access-Control-Allow-Headers':'authorization,apikey,x-client-info,content-type','Access-Control-Allow-Methods':'POST,OPTIONS'};
 const result=(value:any)=>{if(value.error)throw Error(value.error.message);return value.data;};
 export async function handle(req:Request,env=Deno.env,factory:any=createClient,request:any=fetch){
@@ -12,18 +13,24 @@ export async function handle(req:Request,env=Deno.env,factory:any=createClient,r
  let admin:any,call:any;
  try{
   const input=await boundedJson(req,4096);
-  if(Object.keys(input).some(k=>!['website','job'].includes(k))||!websiteKey(input.website)||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(input.job||''))throw Error('Selecciona una importación válida.');
+  if(Object.keys(input).some(k=>!['website','job','mode'].includes(k))||input.mode!==undefined&&input.mode!=='catalogue'||!websiteKey(input.website)||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(input.job||''))throw Error('Selecciona una importación válida.');
   const url=env.get('SUPABASE_URL')||'',key=JSON.parse(env.get('SUPABASE_PUBLISHABLE_KEYS')||'{}').default||env.get('SUPABASE_ANON_KEY')||'',secret=JSON.parse(env.get('SUPABASE_SECRET_KEYS')||'{}').default||env.get('SUPABASE_SERVICE_ROLE_KEY')||'';
   const bearer=req.headers.get('authorization');if(!bearer?.startsWith('Bearer '))return send({error:'Inicia sesión.'},401);
   const auth=factory(url,key,{global:{headers:{Authorization:bearer}},auth:{persistSession:false,autoRefreshToken:false}});
   const user=result(await auth.auth.getUser(bearer.slice(7))).user;if(!user)return send({error:'Sesión no válida.'},401);
-  const scope=()=>auth.rpc('totus_web_import',{p_website:input.website,p_action:'step_context',p_job:input.job});
+  const scope=()=>auth.rpc(input.mode==='catalogue'?'totus_web_native_catalogue':'totus_web_import',{p_website:input.website,p_action:input.mode==='catalogue'?'context':'step_context',p_job:input.job});
   const context=result(await scope()),job=context.job;
   if(job.actor_id!==user.id)throw Error('Reanuda la importación con la cuenta que la inició.');
-  const resource=job.resources[job.resource_index-1];if(!WEBSITE_IMPORT_RESOURCES.includes(resource))throw Error('Recurso no admitido.');
+  const resource=input.mode==='catalogue'?null:job.resources[job.resource_index-1];if(input.mode!=='catalogue'&&!WEBSITE_IMPORT_RESOURCES.includes(resource))throw Error('Recurso no admitido.');
   admin=factory(url,secret,{auth:{persistSession:false,autoRefreshToken:false}});
   const connection=result(await admin.rpc('totus_api_server',{p_id:context.connectionId,p_revision:context.connectionRevision}));
   if(connection.protocol!=='prestashop'||new URL(connection.endpoint).origin!==context.origin)throw Error('El destino de la importación ha cambiado.');
+  if(input.mode==='catalogue'){
+   call={p_id:context.connectionId,p_revision:context.connectionRevision,p_call:crypto.randomUUID()};result(await admin.rpc('totus_api_call',call));
+   const data=await readNativeCatalogueBatch(connection,context,{request});result(await scope());
+   const commit=result(await admin.rpc('totus_web_native_catalogue_commit',{p_job:input.job,p_actor:user.id,p_phase:context.job.phase,p_page:context.job.page,p_cursor:context.job.cursor_id,p_product:context.productId,p_data:data}));
+   result(await admin.rpc('totus_api_call',{...call,p_result:{ok:true,resource:'native-catalogue',rows_count:data?.items?.length||0}}));call=null;return send({ok:true,...commit});
+  }
   const pageSize=({products:25,stock_movements:1000,stock_availables:1000,product_suppliers:1000,specific_prices:1000,order_histories:1000,order_details:500,orders:250,order_payments:500,tax_rules:1000,order_invoices:1000,order_carriers:1000,supply_order_histories:1000,supply_order_details:1000} as Record<string,number>)[resource]||500;call={p_id:context.connectionId,p_revision:context.connectionRevision,p_call:crypto.randomUUID()};result(await admin.rpc('totus_api_call',call));
   const batch=await readWebsiteSourceBatch(connection,{resource,cursor:job.cursor_id,pageSize},{request});const rows=batch.rows;
   result(await scope()); // Recheck current user permissions after the remote response.

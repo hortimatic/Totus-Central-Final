@@ -184,16 +184,17 @@
     },
     {
       "name": "totus-web-sync",
-      "version": 7,
+      "version": 8,
       "files": {
-        "supabase/functions/totus-web-sync/index.ts": "75c52406c3e1e134e45774fd71dd021955cbd96509d5ea81593cfd54fa2a2dc4",
+        "supabase/functions/totus-web-sync/index.ts": "8cb26bb257ac3a337e37e0d62e0cea267af379d30b84963504c3172ada915c3f",
         "supabase/functions/totus-web-sync/source-reader.js": "e447bf17a57673b7a99f7e57528f6333f2a8ba684d15d901a67400fb80dcd197",
         "supabase/functions/totus-connections/transport.js": "dbeef702d3e054ab9b940eecbb02195fe6048107a633f5a6289a8e953ebbe619",
         "supabase/functions/totus-ai/cloudflare.js": "075fd3891dbd0c709821bf104c58440210375015b043cf2b626df207a4c05959",
         "src/api-presets.js": "2620900d25970e35db4f129f1ca5324b38759421b9a7ebdbc9cd7853a76f080a",
         "src/website-import-contract.js": "9c808d5849ad73039bf934e5c45bf95bfc916047cce00e7f9953bb9ed57b9bc9",
         "src/website-registry.js": "4bae099b5598ae30cb206123c26c630eb38738fa6638eb04c44d2d18a0d80fe1",
-        "src/application-cors.js": "69ce625fa39db66eb06075e69fe5c6e579f00ea7dd00d9b80a2b1cb4c4d489a4"
+        "src/application-cors.js": "69ce625fa39db66eb06075e69fe5c6e579f00ea7dd00d9b80a2b1cb4c4d489a4",
+        "supabase/functions/totus-web-sync/native-catalogue.js": "a667adce920d78ff16aedae0ad711b9769b50592befdfe8f2bffe3d702da1529"
       }
     }
   ]
