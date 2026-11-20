@@ -1,4 +1,4 @@
-import {sourceCents,ticketSourceKey} from './prestashop-insights.js?v=f5e7ab1e0b2c684c8e7582a9af7e47822ebac8af';
+import {sourceCents,ticketSourceKey} from './prestashop-insights.js?v=2f75e2627eb4533ce333dc5aa04386b8e9820e89';
 const decimal=value=>typeof value==='string'&&/^\d{1,10}(?:\.\d{1,6})?$/.test(value)?Number(value):null;
 export function prestashopInvoiceLineAmounts(line){
  const round=v=>Math.sign(v)*Math.round((Math.abs(v)+Number.EPSILON)*100)/100;
