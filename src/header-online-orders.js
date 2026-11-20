@@ -1,5 +1,5 @@
-import {esc} from './utils.js?v=08c32cf71e215c33a16a9cdafee4d4e0f9ffec36';
-import {headerWatchHtml,headerWatchData} from './header-order-watch.js?v=08c32cf71e215c33a16a9cdafee4d4e0f9ffec36';
+import {esc} from './utils.js?v=1d307c6939e047aa126bca5b0cd79a3a483534c0';
+import {headerWatchHtml,headerWatchData} from './header-order-watch.js?v=1d307c6939e047aa126bca5b0cd79a3a483534c0';
 
 // Header consumes the scheduler's confirmed online deliveries. No additional
 // catalogue polling and no classification based on the payment description.
