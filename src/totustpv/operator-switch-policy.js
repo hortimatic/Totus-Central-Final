@@ -3,3 +3,13 @@ export function operatorSwitchPolicy(value={requireBeforeSwitch:false,revision:0
  return {...value};
 }
 export function operatorSwitchPolicyHtml(value,canEdit,draft){const rules=operatorSwitchPolicy(value);return `<section class="tpv-operator-auth-settings"><h4>Contraseña al cambiar de operador</h4><form data-tpv-form="operator-auth-settings"><label class="tpv-check"><input type="checkbox" name="requireBeforeSwitch" ${(draft?draft.requireBeforeSwitch==='on':rules.requireBeforeSwitch)?'checked':''} ${canEdit?'':'disabled'}> Pedir la contraseña del operador que entra</label><details class="tpv-info-help"><summary aria-label="Ayuda: cambio de operador">i</summary><div role="note">La siguiente persona siempre accede con su propia cuenta de Central. Esta opción permite entrar directamente desde el selector, sin cerrar la caja ni cambiar sus ventas. El acceso general de Central sigue disponible.</div></details><div class="inline-actions">${canEdit?'<button type="submit" class="btn primary">Guardar contraseña de cambio</button>':''}<button type="button" class="btn secondary" data-tpv-action="refresh-operator-auth">Volver a consultar</button></div></form></section>`;}
+
+/** Verify the persisted response before the workspace adopts a security setting. */
+export async function saveOperatorSwitchPolicy({current,requested,save,isCurrent=()=>true}){
+ const before=operatorSwitchPolicy(current);
+ if(typeof requested!=='boolean'||typeof save!=='function')throw Error('Revisa la configuración del cambio de operador.');
+ const guard=()=>{if(!isCurrent())throw Error('La sesión o la caja han cambiado. Vuelve a consultar su configuración.');};
+ guard();const observed=operatorSwitchPolicy(await save({requireBeforeSwitch:requested,expectedRevision:before.revision}));guard();
+ if(observed.requireBeforeSwitch!==requested||observed.revision<before.revision||requested!==before.requireBeforeSwitch&&observed.revision===before.revision)throw Error('No se ha confirmado la contraseña del cambio de operador. Conserva el formulario y vuelve a consultarla.');
+ return observed;
+}

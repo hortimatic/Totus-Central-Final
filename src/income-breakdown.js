@@ -1,4 +1,4 @@
-import {closingIncomeAmount,closingContributesIncome} from './calculations.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {closingIncomeAmount,closingContributesIncome} from './calculations.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
 const sum=(rows,key)=>rows.reduce((s,r)=>s+Number(typeof key==='function'?key(r):r[key]||0),0);
 const cents=v=>Math.round((v+Number.EPSILON)*100)/100;
 export function incomeBreakdown(closings=[],additional=0){

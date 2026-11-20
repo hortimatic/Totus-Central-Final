@@ -1,7 +1,7 @@
-import {recurringExpenseNotice} from './recurring-expenses.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
-import {esc} from './utils.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
-import {fieldHelp} from './components.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
-import {AUTOMATION_RECIPES,validatePrestaAutomation,orderOriginSamples,automationResult} from './prestashop-automation-core.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {recurringExpenseNotice} from './recurring-expenses.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {esc} from './utils.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {fieldHelp} from './components.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {AUTOMATION_RECIPES,validatePrestaAutomation,orderOriginSamples,automationResult} from './prestashop-automation-core.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
 
 const recipeChoices=AUTOMATION_RECIPES.filter((recipe,index,rows)=>rows.findIndex(row=>row.id===recipe.id)===index);
 const initial=()=>({name:'',message:'',recipe:'online_orders',stores:['hortimatic'],interval_hours:2,frequency:'interval',at_time:'09:00',weekdays:[1,2,3,4,5],period_days:1,min_count:1,daily_start:'00:00',daily_end:'23:59',online_modules:{},channel_id:'',enabled:false,sharing_confirmed:false});

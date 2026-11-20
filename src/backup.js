@@ -1,10 +1,10 @@
-import {readSelectedBackupSet,SET_FORMAT,SET_INDEX_BYTES} from './backup-set.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
-import {rpc,downloadFile} from './api.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
-import {SUPABASE_URL} from './config.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
-import {RECOVERY_TABLES,buildRecoveryArchive,readRecoveryArchive,loadBoundedRecoveryZip} from './recovery-core.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
-import {download} from './utils.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
-import {ensureZip} from './office-libs.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
-import {state} from './state.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {readSelectedBackupSet,SET_FORMAT,SET_INDEX_BYTES} from './backup-set.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {rpc,downloadFile} from './api.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {SUPABASE_URL} from './config.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {RECOVERY_TABLES,buildRecoveryArchive,readRecoveryArchive,loadBoundedRecoveryZip} from './recovery-core.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {download} from './utils.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {ensureZip} from './office-libs.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
+import {state} from './state.js?v=339b4b81dca246a39b4f135ffae6345e171374f4';
 
 // ZIP is resolved when each backup action starts, not when this module loads.
 export const BACKUP_TABLES=RECOVERY_TABLES;
