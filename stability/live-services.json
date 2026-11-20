@@ -184,10 +184,10 @@
     },
     {
       "name": "totus-web-sync",
-      "version": 5,
+      "version": 7,
       "files": {
-        "supabase/functions/totus-web-sync/index.ts": "9ac3a41111ecfbf5245df151e14535b7fae6b66344a686e4229693f2284c2f87",
-        "supabase/functions/totus-web-sync/source-reader.js": "2ac43a686ad0678fe81237ab9c655e211aa51339d6e3bc61db4715c00bf7aa52",
+        "supabase/functions/totus-web-sync/index.ts": "75c52406c3e1e134e45774fd71dd021955cbd96509d5ea81593cfd54fa2a2dc4",
+        "supabase/functions/totus-web-sync/source-reader.js": "e447bf17a57673b7a99f7e57528f6333f2a8ba684d15d901a67400fb80dcd197",
         "supabase/functions/totus-connections/transport.js": "dbeef702d3e054ab9b940eecbb02195fe6048107a633f5a6289a8e953ebbe619",
         "supabase/functions/totus-ai/cloudflare.js": "075fd3891dbd0c709821bf104c58440210375015b043cf2b626df207a4c05959",
         "src/api-presets.js": "2620900d25970e35db4f129f1ca5324b38759421b9a7ebdbc9cd7853a76f080a",

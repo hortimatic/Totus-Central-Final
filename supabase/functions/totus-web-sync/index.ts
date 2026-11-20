@@ -24,10 +24,10 @@ export async function handle(req:Request,env=Deno.env,factory:any=createClient,r
   admin=factory(url,secret,{auth:{persistSession:false,autoRefreshToken:false}});
   const connection=result(await admin.rpc('totus_api_server',{p_id:context.connectionId,p_revision:context.connectionRevision}));
   if(connection.protocol!=='prestashop'||new URL(connection.endpoint).origin!==context.origin)throw Error('El destino de la importación ha cambiado.');
-  const pageSize=resource==='products'?25:100;call={p_id:context.connectionId,p_revision:context.connectionRevision,p_call:crypto.randomUUID()};result(await admin.rpc('totus_api_call',call));
-  const rows=await readWebsiteSourceBatch(connection,{resource,cursor:job.cursor_id,pageSize},{request});
+  const pageSize=({products:25,stock_movements:1000,stock_availables:1000,product_suppliers:1000,specific_prices:1000,order_histories:1000,order_details:500,orders:250,order_payments:500,tax_rules:1000,order_invoices:1000,order_carriers:1000,supply_order_histories:1000,supply_order_details:1000} as Record<string,number>)[resource]||500;call={p_id:context.connectionId,p_revision:context.connectionRevision,p_call:crypto.randomUUID()};result(await admin.rpc('totus_api_call',call));
+  const batch=await readWebsiteSourceBatch(connection,{resource,cursor:job.cursor_id,pageSize},{request});const rows=batch.rows;
   result(await scope()); // Recheck current user permissions after the remote response.
-  const commit=result(await admin.rpc('totus_web_import_commit',{p_job:input.job,p_actor:user.id,p_resource:resource,p_cursor:job.cursor_id,p_rows:rows,p_more:rows.length===pageSize}));
+  const commit=result(await admin.rpc('totus_web_import_commit',{p_job:input.job,p_actor:user.id,p_resource:resource,p_cursor:job.cursor_id,p_rows:rows,p_more:rows.length===batch.pageSize}));
   result(await admin.rpc('totus_api_call',{...call,p_result:{ok:true,resource,rows_count:rows.length}}));call=null;
   return send({ok:true,...commit});
  }catch(error){if(admin&&call)try{await admin.rpc('totus_api_call',{...call,p_result:{ok:false}});}catch{}return send({error:error instanceof Error?error.message:'No se pudo completar el lote.'},400);}

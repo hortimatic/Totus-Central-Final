@@ -1,7 +1,7 @@
-import {sb} from './api.js?v=89ec83abe02f359b7ce50cfdf284ebc99ec7421a';
-import {esc} from './utils.js?v=89ec83abe02f359b7ce50cfdf284ebc99ec7421a';
-import {fieldHelp} from './components.js?v=89ec83abe02f359b7ce50cfdf284ebc99ec7421a';
-import {WEBSITE_IMPORT_GROUPS} from './website-import-contract.js?v=89ec83abe02f359b7ce50cfdf284ebc99ec7421a';
+import {sb} from './api.js?v=1c9496485c67f761a29b486587df30ecedc00e3e';
+import {esc} from './utils.js?v=1c9496485c67f761a29b486587df30ecedc00e3e';
+import {fieldHelp} from './components.js?v=1c9496485c67f761a29b486587df30ecedc00e3e';
+import {WEBSITE_IMPORT_GROUPS} from './website-import-contract.js?v=1c9496485c67f761a29b486587df30ecedc00e3e';
 export async function openWebsiteImport({rpc,website,name,resources,current=()=>true}){
  const readable=new Set(resources.filter(r=>r.readable).map(r=>r.name));
  const dialog=document.createElement('dialog');dialog.className='api-user-dialog';
@@ -9,7 +9,7 @@ export async function openWebsiteImport({rpc,website,name,resources,current=()=>
  const rpcArgs=action=>({p_website:website,p_action:action,p_job:status?.job?.id});
  const transient=error=>/fetch|network|timeout|timed out|connection closed|HTTP (502|503|504)/i.test(error?.message||String(error));
  const retryRead=async task=>{for(let attempt=0;attempt<3;attempt++)try{return await task();}catch(error){if(!transient(error)||attempt===2)throw error;await new Promise(resolve=>setTimeout(resolve,500*(attempt+1)));}};
- const load=async()=>{status=await retryRead(()=>rpc('totus_web_import',{p_website:website,p_action:'status'}));};
+ const load=async()=>{status=await retryRead(()=>rpc('totus_web_import',{p_website:website,p_action:status?'progress':'status'}));};
  const active=()=>dialog.isConnected&&current();
  const mapping=()=>{const web=registry?.websites?.find(w=>w.key===website);return web?'<section><h4>Establecimiento de Central</h4><p>El catálogo importado y las nuevas ventas se asignarán al establecimiento elegido.</p><label>Establecimiento<select data-import-store '+(busy?'disabled':'')+'><option value="">Selecciona un establecimiento</option>'+registry.businesses.map(b=>'<option value="'+esc(b.id)+'" '+(web.business_id===b.id?'selected':'')+'>'+esc(b.name)+'</option>').join('')+'</select></label><button type="button" class="btn secondary" data-import-bind '+(busy?'disabled':'')+'>Guardar correspondencia</button><a class="btn link" href="/administracion?section=negocio" target="_blank" rel="noopener">Crear establecimiento</a></section>':'';};
  const paint=()=>{

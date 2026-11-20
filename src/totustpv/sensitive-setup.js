@@ -1,4 +1,4 @@
-import {sensitiveSettings} from './sensitive-actions.js?v=89ec83abe02f359b7ce50cfdf284ebc99ec7421a';
+import {sensitiveSettings} from './sensitive-actions.js?v=1c9496485c67f761a29b486587df30ecedc00e3e';
 export function createSensitiveSetupPanel({store}){
  let scope=null,saved=null,draft=null;
  const normalize=value=>{if(value?.drawerId!==scope?.id||typeof value.connected!=='boolean')throw Error('No se han podido comprobar las confirmaciones de esta caja.');return {...value,...sensitiveSettings({...value.settings,revision:value.revision})};};

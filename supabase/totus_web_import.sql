@@ -49,11 +49,11 @@ begin
    if j.state<>'running' or w.status<>'active' or not c.enabled or c.verified_revision is distinct from c.revision or j.connection_revision<>c.revision then raise exception 'La importación no está activa o ha cambiado la conexión.';end if;
   end if;
   select * into strict j from private.totus_web_import_jobs where id=p_job and website_key=p_website;
- elsif p_action='status' then
+ elsif p_action in ('status','progress') then
   select * into j from private.totus_web_import_jobs where website_key=p_website order by created_at desc limit 1;
  else raise exception 'Acción de importación no válida.';end if;
  return jsonb_build_object('website',w.key,'name',w.name,'origin',w.origin,'connectionId',c.id,'connectionRevision',c.revision,'job',case when j.id is null then null else to_jsonb(j) end,
- 'counts',coalesce((select jsonb_object_agg(resource,n) from(select resource,count(*) n from private.totus_web_source_records where website_key=w.key group by resource) q),'{}'));
+ 'counts',case when p_action in ('step_context','progress') then '{}'::jsonb else coalesce((select jsonb_object_agg(resource,n) from(select resource,count(*) n from private.totus_web_source_records where website_key=w.key group by resource) q),'{}') end);
 end $$;
 revoke all on function private.totus_web_import(text,text,uuid,text[]) from public,anon;
 grant execute on function private.totus_web_import(text,text,uuid,text[]) to authenticated;
@@ -70,7 +70,7 @@ begin
  select * into strict c from private.totus_api_connections where id=w.connection_id;
  if j.actor_id<>p_actor or j.state<>'running' or w.status<>'active' or not c.enabled or c.verified_revision is distinct from c.revision or j.connection_revision<>c.revision then raise exception 'La importación o sus permisos han cambiado.';end if;
  if p_cursor<>j.cursor_id or p_resource is distinct from j.resources[j.resource_index] then return jsonb_build_object('retry',true);end if;
- if jsonb_typeof(p_rows) is distinct from 'array' or jsonb_array_length(p_rows)>100 or p_more is null then raise exception 'Lote no válido.';end if;
+ if jsonb_typeof(p_rows) is distinct from 'array' or jsonb_array_length(p_rows)>1000 or p_more is null then raise exception 'Lote no válido.';end if;
  for row_data in select value from jsonb_array_elements(p_rows) loop
   if coalesce(row_data->>'id','') !~ '^[1-9][0-9]{0,14}$' then raise exception 'Registro sin identidad de origen.';end if;
   v_source_id:=(row_data->>'id')::bigint;
