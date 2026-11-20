@@ -1,6 +1,6 @@
-import {concurrentRead} from './concurrent-read.js?v=4d1e222c59b34074ae7f2b6fa27f011c42b42f90';
-import {DIRECTORY_RESOURCES,joinDirectoryAddresses} from './contact-directory-core.js?v=4d1e222c59b34074ae7f2b6fa27f011c42b42f90';
-import {createDirectorySession} from './contact-directory-session.js?v=4d1e222c59b34074ae7f2b6fa27f011c42b42f90';
+import {concurrentRead} from './concurrent-read.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
+import {DIRECTORY_RESOURCES,joinDirectoryAddresses} from './contact-directory-core.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
+import {createDirectorySession} from './contact-directory-session.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
 
 // One read path for individual and combined directories; never merges native IDs.
 export async function readDirectorySnapshot(session,kind,{languageTask=null,current=()=>true,onRows=()=>{}}={}){

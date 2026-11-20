@@ -1,7 +1,7 @@
-import {approximateOrderGain} from './prestashop-margin.js?v=4d1e222c59b34074ae7f2b6fa27f011c42b42f90';
-import {esc,money} from './utils.js?v=4d1e222c59b34074ae7f2b6fa27f011c42b42f90';
-import {homeMarginTotal} from './home-order-enrichment.js?v=4d1e222c59b34074ae7f2b6fa27f011c42b42f90';
-import {sourceCents} from './prestashop-insights.js?v=4d1e222c59b34074ae7f2b6fa27f011c42b42f90';
+import {approximateOrderGain} from './prestashop-margin.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
+import {esc,money} from './utils.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
+import {homeMarginTotal} from './home-order-enrichment.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
+import {sourceCents} from './prestashop-insights.js?v=f79adea4d40c8aed7cf11d8db235472327847c37';
 const signedCents=value=>{if(!Number.isFinite(value))return null;const cents=sourceCents(Math.abs(value).toFixed(6));return cents===null?null:(value<0?-1:1)*cents;};
 
 export function commercialMarginSummary(data,{from,to}={}){
