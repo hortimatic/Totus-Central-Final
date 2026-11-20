@@ -1,6 +1,6 @@
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=d40925f290fc696bbf08f3479985a755624972a0';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=ad0b4c1ed008836df3354ae4eebc4e499db112ff';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=d40925f290fc696bbf08f3479985a755624972a0';
+import {catalogueSearchFields} from './search-preferences.js?v=ad0b4c1ed008836df3354ae4eebc4e499db112ff';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
@@ -62,7 +62,6 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
   async abandonDraft(){if(!activeDraft)return;const row=await draftCommand('archive',{draftId:activeDraft.id,version:activeDraft.version});need(row.status==='archived','No se ha confirmado el archivo.');activeDraft=null;},
   async orders({orderId,reference}={}){const rows=await this.history();return rows.filter(row=>(!orderId||row.orderId===orderId)&&(!reference||row.reference.toUpperCase()===reference.toUpperCase())).slice(0,100);},
   async history({sessionId}={}){const rows=await page('sales'),refunds=await call('totus_tpv_local_refund',{p_drawer:station().id});return rows.map(row=>({...sale(row),refunds:refunds.items.filter(r=>r.sale_id===row.id).map(r=>({...r,totalCents:r.total_cents}))}));},
-  async orders(){return (await page('sales')).map(sale);},
   async credits(){return (await page('credits')).map(sale);},
   async creditSale(saleId){return sale(await call('totus_tpv_local_read',{p_drawer:station().id,p_kind:'sale',p_id:saleId}));},
   async pendingCreditCollection(){station();const value=JSON.parse(storage.getItem(key('pending-credit-'+selected.id))||'null');if(!value)return null;need(value.drawerId===selected.id&&typeof value.operationId==='string'&&value.request?.p_id===value.operationId,'No se puede leer el cobro pendiente. Conserva este dispositivo.');return copy(value);},
