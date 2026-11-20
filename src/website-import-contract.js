@@ -15,7 +15,10 @@ export function safeImportedRecord(value,depth=0){
 }
 export function importBatchRows(body,resource,cursor,pageSize){
  if(!WEBSITE_IMPORT_RESOURCES.includes(resource))throw Error('Recurso no admitido para importar.');
- const rows=Array.isArray(body?.[resource])?body[resource]:body?.[resource]===''||body?.[resource]==null&&body&&Object.keys(body).length===0?[]:null;
+ const alias={stock_movements:'stock_mvts',stock_movement_reasons:'stock_mvt_reasons',order_slip:'order_slips'}[resource];
+ if(alias&&body?.[resource]!==undefined&&body?.[alias]!==undefined)throw Error('Respuesta ambigua del recurso '+resource+'.');
+ const values=body?.[resource]??(alias?body?.[alias]:undefined);
+ const rows=Array.isArray(body)&&body.length===0?[]:Array.isArray(values)?values:null;
  if(!rows||rows.length>pageSize)throw Error('Respuesta incompleta del recurso '+resource+'.');
  let previous=BigInt(cursor||'0');
  return rows.map(row=>{const id=String(row?.id||'');if(!/^[1-9]\d{0,14}$/.test(id)||BigInt(id)<=previous)throw Error('La API no ha respetado el orden del recurso '+resource+'.');previous=BigInt(id);return safeImportedRecord({...row,id});});
