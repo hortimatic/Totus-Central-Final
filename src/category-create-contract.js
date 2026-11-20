@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
+import {websiteKey} from './website-registry.js?v=e4a5ce4b5b8ab2db429d7d2d0cdee3f89c3c6105';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);
 export function categoryCreationDraft(input){

@@ -1,11 +1,11 @@
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=e4a5ce4b5b8ab2db429d7d2d0cdee3f89c3c6105';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
+import {catalogueSearchFields} from './search-preferences.js?v=e4a5ce4b5b8ab2db429d7d2d0cdee3f89c3c6105';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
-export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,uuid=()=>crypto.randomUUID()}){
+export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,provePrice,uuid=()=>crypto.randomUUID()}){
  need(typeof invoke==='function'&&actorId&&typeof currentActor==='function'&&storage,'Falta la sesión de Central.');
  let context=null,selected=null,session=null,customer=null,workspace=null,activeDraft=null;
  const guard=()=>need(currentActor()===actorId,'La cuenta ha cambiado. Vuelve a abrir el mostrador.');
@@ -22,6 +22,8 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,uuid=
 
  async function draftCommand(action,{draftId=null,version=null,data={}}={}){const s=active(),markerKey=key('pending-draft-'+station().id),pending=JSON.parse(storage.getItem(markerKey)||'null');const fresh={p_id:uuid(),p_session:s.id,p_action:action,p_draft:draftId,p_version:version,p_data:data};if(pending)need(pending.p_session===s.id&&pending.p_action===action&&pending.p_draft===draftId&&(action!=='save'||same(pending.p_data,data)),'Recupera primero la operación pendiente del ticket aparcado.');const request=pending||fresh;storage.setItem(markerKey,JSON.stringify(request));try{const result=await call('totus_tpv_local_draft',request);need(result?.id===(draftId||request.p_id)&&Number.isSafeInteger(result.version),'No se ha verificado el ticket aparcado.');storage.removeItem(markerKey);return result;}catch(error){if(/^TPV_LOCAL_(DRAFT_|PARKING_DISABLED|CUSTOMER_INVALID|FORBIDDEN)/.test(error.message))storage.removeItem(markerKey);throw error;}}
  return Object.freeze({mode:'central',workspaceOptions,
+  async priceChallenge({operationId}){const value=await call('totus_tpv_local_price_challenge',{p_quote:operationId});need(value?.quoteId===operationId&&typeof value.required==='boolean'&&typeof value.approved==='boolean','No se ha podido comprobar la confirmación de este precio.');return value;},
+  async approvePrice({operationId,proofJwt}){guard();need(typeof provePrice==='function','No se ha preparado la confirmación de identidad. Conserva el ticket.');try{const value=await provePrice({quoteId:operationId,proofJwt});guard();need(value?.quoteId===operationId&&value.approved===true,'No se ha confirmado la identidad para este cobro.');return value;}finally{proofJwt='';}},
   async commercialPolicy(){const value=await workspaceOptions();need(value.commercial&&typeof value.commercial.credit?.enabled==='boolean','No se han podido leer las condiciones comerciales de esta tienda.');return copy(value.commercial);},
   async paymentOptions(){const settings=await workspaceOptions();return {options:normalizeLocalPayments(settings.payments,LOCAL_PAYMENT_METHODS),available:[...LOCAL_PAYMENT_METHODS]};},
   async pendingSale(){station();const pending=JSON.parse(storage.getItem(pendingKey())||'null');return pending?.sessionId===session?.id?pending.id:null;},

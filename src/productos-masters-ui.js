@@ -1,8 +1,8 @@
-import {esc} from './utils.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
-import {textValue} from './productos-core.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
-import {PRODUCT_WRITE_FIELDS,isLocalizedWriteField} from './productos-write-contract.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
-import {showProductDialog} from './productos-dialogs.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
-import {fieldHelp} from './components.js?v=3f8a42ac7a93f4db74ea20a80842d9ff28911b5e';
+import {esc} from './utils.js?v=e4a5ce4b5b8ab2db429d7d2d0cdee3f89c3c6105';
+import {textValue} from './productos-core.js?v=e4a5ce4b5b8ab2db429d7d2d0cdee3f89c3c6105';
+import {PRODUCT_WRITE_FIELDS,isLocalizedWriteField} from './productos-write-contract.js?v=e4a5ce4b5b8ab2db429d7d2d0cdee3f89c3c6105';
+import {showProductDialog} from './productos-dialogs.js?v=e4a5ce4b5b8ab2db429d7d2d0cdee3f89c3c6105';
+import {fieldHelp} from './components.js?v=e4a5ce4b5b8ab2db429d7d2d0cdee3f89c3c6105';
 
 const resources={manufacturers:'Marcas',suppliers:'Proveedores',product_options:'Atributos',product_option_values:'Valores de atributo',product_features:'Características',product_feature_values:'Valores de característica'};
 const captions={value:'Valor',name:'Nombre',public_name:'Nombre público',active:'Activo',description:'Descripción',short_description:'Resumen',meta_title:'Título SEO',meta_description:'Descripción SEO',meta_keywords:'Palabras clave',group_type:'Representación',position:'Posición',color:'Color'};
