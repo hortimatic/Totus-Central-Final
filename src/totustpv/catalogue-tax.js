@@ -23,16 +23,14 @@ export function createCatalogueTaxChange({storage,actor,can,connect}){
  }
  return {
   async review(scope,productId){
-   const c=await context(scope,productId),product=await c.read(),groups=[];
+   const c=await context(scope,productId),product=await c.read(),groups=[],seen=new Set();
    for(let page=0;page<50;page++){
     const result=await c.call('prestashop_read',{resource:'tax_rule_groups',page,page_size:100});
     if(!Array.isArray(result.rows)||result.rows.length>100||result.possibly_more&&!result.rows.length)throw Error('No se han podido consultar los grupos fiscales.');
-    for(const row of result.rows){if(!id(row.id)||typeof row.name!=='string')throw Error('Grupo fiscal no válido.');if(String(row.active)==='1'&&String(row.deleted??'0')!=='1')groups.push({id:String(row.id),name:row.name});}
+    for(const row of result.rows){if(!id(row.id)||Number(row.id)<1||typeof row.name!=='string')throw Error('Grupo fiscal no válido.');if(!seen.has(String(row.id))&&String(row.active)==='1'&&String(row.deleted??'0')==='0'){seen.add(String(row.id));groups.push({id:String(row.id),name:row.name});}}
     if(!result.possibly_more)break;
     if(page===49)throw Error('El listado de grupos fiscales no está completo.');
-    if(!Array.isArray(result.rows)||result.possibly_more&&!result.rows.length)throw Error('No se han podido consultar los grupos fiscales.');
-    groups.push(...result.rows.filter(row=>id(row.id)&&Number(row.id)>0&&String(row.active)==='1'&&String(row.deleted??'0')==='0').map(row=>({id:String(row.id),name:String(row.name||'Grupo '+row.id)})));
-    if(!result.possibly_more)break;if(page===49)throw Error('Demasiados grupos fiscales para comprobarlos.');
+
    }
    const raw=storage.getItem(c.key),pending=raw?JSON.parse(raw):null;
    return {productId:String(productId),before:String(product.id_tax_rules_group),groups:[{id:'0',name:'Sin grupo de impuestos'},...groups],pending:pending?.sent&&!pending.done?pending.group:null};

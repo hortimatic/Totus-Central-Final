@@ -1,6 +1,6 @@
-import {inRange} from './utils.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
-import {matchesText} from './report-period.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
-import {isExpensePaymentEvidence} from './calculations.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {inRange} from './utils.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {matchesText} from './report-period.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {isExpensePaymentEvidence} from './calculations.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
 
 // Keep the expense list and its download on the same scope.
 export function selectExpenses(data,filters={}, {invoices=false}={}){

@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {workstationIcon} from './workstation-visual.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
@@ -49,7 +49,7 @@ function preferenceGroupsHtml(section,fields,settings,editable,draft,categories)
  const other=fields.filter(f=>!used.has(f.id));if(other.length)blocks.unshift(`<div class="tpv-settings-group-extra">${other.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('')}</div>`);
  return blocks.join('');
 }
-export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml='',brandingHtml=''}={}){
+export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml='',brandingHtml='',administrationHtml=''}={}){
  const settings=normalizeReferencePreferences(values);
  const original=REFERENCE_SETTINGS.find(g=>g.name===section)||REFERENCE_SETTINGS[0];
  const fields=(section==='Interfaz'?[{id:'UI-VIEW-MODE',label:'Vista del catálogo al iniciar'},...original.fields]:section==='Ticket'?[...original.fields,{id:'UI-CUSTOMER-EXTRA-FIELD',label:'Dato adicional que se imprime'},{id:'UI-CUSTOMER-EXTRA-LABEL',label:'Título del dato adicional'}]:original.fields).filter(f=>!coveredIds.includes(f.id)&&(!connectedHtml||!f.id.startsWith('CFG-13-')));
@@ -62,7 +62,7 @@ export function referenceSettingsHtml(section='General',{values={},editable=fals
  ${section==='Ticket'&&brandingHtml?`<div class="tpv-settings-card">${brandingHtml}</div>`:''}
  ${supported.length?`<form data-tpv-form="reference-preferences" class="tpv-settings-card"><header><h5>Presentación y uso</h5></header>${preferenceGroupsHtml(section,supported,settings,editable,draft,categories)}<footer><button type="submit" class="btn primary" ${!editable?'disabled':''}>Guardar cambios</button></footer></form>`:''}
  ${connectedHtml?`<div class="tpv-reference-connected">${connectedHtml}</div>`:''}
- ${pending.length?`<details class="tpv-settings-card tpv-settings-pending" ${!supported.length&&!connectedHtml?'open':''}><summary>Opciones todavía no disponibles aquí <span>${pending.length}</span></summary><p>${practice?'La práctica no permite configurar las funciones administrativas de una tienda.':'Estas opciones todavía no están conectadas en este puesto.'}</p>${pending.map(f=>fieldHtml(f,settings,false,draft,categories)).join('')}</details>`:''}
+ ${pending.length?`<details class="tpv-settings-card tpv-settings-pending" ${!supported.length&&!connectedHtml?'open':''}><summary>${practice&&section==='General'?'Ajustes administrativos de la tienda':'Opciones todavía no disponibles aquí'} <span>${pending.length}</span></summary><p>${practice?'La práctica no configura los permisos ni las reglas de una tienda real. Selecciona un puesto conectado para administrar sus ajustes.':'Estas opciones todavía no están conectadas en este puesto.'}</p>${practice?administrationHtml:''}${pending.map(f=>fieldHtml(f,settings,false,draft,categories)).join('')}</details>`:''}
  </div>${section==='Ticket'&&preview?`<aside class="tpv-settings-ticket-preview"><h5>Vista previa del ticket</h5><p>Ejemplo de impresión</p><div data-tpv-reference-preview>${preview}</div><p data-tpv-reference-preview-feedback role="status"></p></aside>`:''}</div></article></div></section>`;
 }
 

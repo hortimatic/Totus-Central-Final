@@ -1,7 +1,7 @@
-import {esc} from './utils.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
-import {websiteKey} from './website-registry.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
-import {textValue} from './productos-core.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
-import {showProductDialog} from './productos-dialogs.js?v=5b0474ba65a8a214c07ea3f8964735c96ba5cd4a';
+import {esc} from './utils.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {websiteKey} from './website-registry.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {textValue} from './productos-core.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
+import {showProductDialog} from './productos-dialogs.js?v=d47e34c2d67e487ec2626ace136c084d5cbbe674';
 
 const nativeDate=value=>{
  if(!value)return '0000-00-00 00:00:00';
