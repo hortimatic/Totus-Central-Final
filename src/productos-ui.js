@@ -1,36 +1,36 @@
-import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {openAttributeRecord} from './productos-attribute-editor.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {createProductMovementsUI} from './productos-movements-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {normalizeProductImage} from './productos-image-editor.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {openTableViewProfiles} from './table-view-profiles.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {openProductMasters} from './productos-masters-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {attachProductTableLayout} from './productos-table-layout.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {adaptProductTexts} from './productos-copy-text.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {showProductDialog} from './productos-dialogs.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {enhanceProductSelects} from './productos-controls.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {createProductTableEditor} from './productos-table-editor.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {openCatalogPriceBatch} from './catalog-price-batch.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,productCatalogCsv} from './productos-catalog.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {productStockSummary} from './product-stock-summary.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {readPool} from './read-pool.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {storeConnection} from './prestashop-readonly.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {createProductWizard} from './productos-create-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {esc} from './utils.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {fieldHelp} from './components.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {productDraftStore} from './productos-draft-store.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {productPriceStudy} from './pricing-core.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
+import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {openAttributeRecord} from './productos-attribute-editor.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {createProductMovementsUI} from './productos-movements-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {normalizeProductImage} from './productos-image-editor.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {openTableViewProfiles} from './table-view-profiles.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {openProductMasters} from './productos-masters-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {attachProductTableLayout} from './productos-table-layout.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {adaptProductTexts} from './productos-copy-text.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {showProductDialog} from './productos-dialogs.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {enhanceProductSelects} from './productos-controls.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {createProductTableEditor} from './productos-table-editor.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {openCatalogPriceBatch} from './catalog-price-batch.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,productCatalogCsv} from './productos-catalog.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {productStockSummary} from './product-stock-summary.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {readPool} from './read-pool.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {storeConnection} from './prestashop-readonly.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {createProductWizard} from './productos-create-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {esc} from './utils.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {fieldHelp} from './components.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {productDraftStore} from './productos-draft-store.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {productPriceStudy} from './pricing-core.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
 
 export const productosWorkspacePage=(workspace='products')=>'<div class="page productos-page"><section id="productosRoot" data-pr-workspace="'+workspace+'" aria-label="'+(workspace==='pricing'?'Precios y ofertas':'Gestión de productos')+'"><p role="status">Cargando Productos…</p></section></div>';
 const h=x=>esc(String(x??''));
@@ -50,17 +50,17 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  let draftPhotos=[],publicationScope='all',requestedProduct=null;
  let organization=null,galleryDraft={},inlineStage=false,directLanguage='',operationHistory=[];
  let copyQueue=[],catalogViews=[],catalogViewName='';
- let requestBrief={operation:'url',store:'hortimatic'},requestOutput='',requestOwner=null;
+ let requestBrief={operation:'url',store:''},requestOutput='',requestOwner=null;
  let storageReady=false,storageQueue=Promise.resolve(),storageError=null;
  let priceOptions={vat:'21',re:'5.2',discount:'0'};
- let catalogScope='hortimatic',catalogMore=new Map(),catalogMeta=new Map();
+ let catalogScope='',catalogMore=new Map(),catalogMeta=new Map();
  let catalogTaxContext={countries:[],rules:[],taxes:[]};
  const catalogKey=p=>catalogProductKey(p,store);
  let catalogColumns=[...DEFAULT_PRODUCT_COLUMNS],catalogSelected=new Set(),catalogFilters={category:'',brand:'',active:''},catalogCategories=[],catalogBrands=[],catalogStock=new Map(),editorSection='general';
  let productPickerQuery='',productPickerPage=0;
  let listSize=20,listPage=0,parallelSection='general',bulkField='price',bulkValue='',bulkItems=[],bulkConfirm='';
  let photoCleanup=()=>{},controlsCleanup=()=>{},layoutCleanup=()=>{};let columnWidths={},layoutSaveState='',layoutQueue=Promise.resolve(),layoutVersion=0,replacingDOM=false,renderAfterResize=false;
- let root=null,owner=null,epoch=0,mode='catalogo',store='hortimatic',pending=false,status='Selecciona una tienda y consulta su catálogo.',connections=[],rows=[],hasMore=false,page=0,query='',record=null,variants=[],fields=new Set(),overrides={},variantFields=new Map(),variantOverrides=new Map(),targets=new Set(['newoldsmok']),comparison=new Map(),preview=[],selection=new Set(),targetOverrides=new Map(),preflight=new Map(),targetRaw=new Map(),targetLanguages=new Map(),targetIds=new Map(),variantPreflight=new Map();
+ let root=null,owner=null,epoch=0,mode='catalogo',store='',pending=false,status='Selecciona una tienda y consulta su catálogo.',connections=[],rows=[],hasMore=false,page=0,query='',record=null,variants=[],fields=new Set(),overrides={},variantFields=new Map(),variantOverrides=new Map(),targets=new Set(),comparison=new Map(),preview=[],selection=new Set(),targetOverrides=new Map(),preflight=new Map(),targetRaw=new Map(),targetLanguages=new Map(),targetIds=new Map(),variantPreflight=new Map();
  const connection=shop=>storeConnection(connections,shop);
  const catalogCache=new Map();let cacheOwner=null;
  const creationMetadata=new Map();
@@ -352,6 +352,9 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  const attributesUI=createAttributesWorkspace({invoke:invokeShop,actor,contextKey:shop=>{const c=connection(shop);return shop+'|'+c?.id+'|'+c?.revision;},canEdit,canCreate,hasProduct:()=>!!record?.id,onEdit:(resource,id,trigger)=>void editAttribute(resource,id,null,trigger),onCreate:(resource,parentId)=>void editAttribute(resource,null,parentId),onProduct:id=>{void work(()=>openProduct(id,store));}});
  function render(){
   if(!current())return;
+  if(!PRODUCT_STORES.length){root.innerHTML='<section class="card card-pad"><h2>Sin catálogos de webs</h2><p>No hay webs conectadas. Tus productos propios se gestionan desde el catálogo local de Totus Central.</p></section>';return;}
+  if(!PRODUCT_STORES.some(s=>s.key===store))store=PRODUCT_STORES[0].key;
+  if(!catalogScope)catalogScope=store;
   if(root.querySelector('.prd-quick-edit[open]'))return;
   if(root.classList.contains('prd-column-resizing')){renderAfterResize=true;return;}renderAfterResize=false;
   const active=document.activeElement,focus=root.contains(active)&&active.matches('input,select,textarea,button,summary')?{selector:active.id?'#'+CSS.escape(active.id):[...active.attributes].filter(a=>a.name.startsWith('data-pr-')).map(a=>'['+a.name+'="'+CSS.escape(a.value)+'"]').join(''),start:active.selectionStart,end:active.selectionEnd}:null;
@@ -359,7 +362,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   const openCopyDetails=[...root.querySelectorAll('details[data-pr-copy-details][open]')].map(el=>el.dataset.prCopyDetails);
   const columnsOpen=!!root.querySelector('.prd-columns[open]'),columnSearch=root.querySelector('[data-pr-columns-search]')?.value||'';
   const tableOffset=root.querySelector('.prd-catalog-table')?.scrollLeft||0,columnMenuOffset=root.querySelector('.prd-columns>div')?.scrollTop||0;
-  const content=mode==='atributos'?(catalogScope==='both'?empty('Elige una tienda','Los atributos y características pertenecen a cada PrestaShop. Selecciona Hortimatic o NewOldSmok en Tienda de trabajo.'):'<div data-pr-attributes-host></div>'):mode==='catalogo'?catalog():mode==='ficha'?editor():mode==='variantes'?variantsPanel():mode==='comparar'?productPicker()+(record?stitchCopy({store,record,canUpload:createWizard.canCommit(store==='hortimatic'?'newoldsmok':'hortimatic')||preflight.get(store==='hortimatic'?'newoldsmok':'hortimatic')?.can_commit===true,copyCreated:!!createWizard.result(store==='hortimatic'?'newoldsmok':'hortimatic')&&!createWizard.result(store==='hortimatic'?'newoldsmok':'hortimatic')?.existing_product,copyPublished:!!targetRaw.get(store==='hortimatic'?'newoldsmok':'hortimatic')?.__copyCompleted,copyImages:createWizard.copyImagesSelected(store==='hortimatic'?'newoldsmok':'hortimatic'),copyLocked:createWizard.hasAttempted(store==='hortimatic'?'newoldsmok':'hortimatic'),targetRecord:targetRaw.get(store==='hortimatic'?'newoldsmok':'hortimatic'),legacyHtml:comparisonPanel()}):comparisonPanel()):mode==='encargo'?stitchRequest({legacyHtml:renderProductRequestForm(requestBrief,requestOutput),output:requestOutput}):mode==='guardado'?stitchSaved({record,legacyHtml:record?historyPanel():'',queue:copyQueue,drafts:savedDraftCards()}):bulk();
+  const content=mode==='atributos'?(catalogScope==='both'?empty('Elige una tienda','Los atributos y características pertenecen a cada PrestaShop. Selecciona una web conectada en Tienda de trabajo.'):'<div data-pr-attributes-host></div>'):mode==='catalogo'?catalog():mode==='ficha'?editor():mode==='variantes'?variantsPanel():mode==='comparar'?productPicker()+(record?stitchCopy({store,record,canUpload:createWizard.canCommit((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))||preflight.get((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))?.can_commit===true,copyCreated:!!createWizard.result((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))&&!createWizard.result((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))?.existing_product,copyPublished:!!targetRaw.get((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))?.__copyCompleted,copyImages:createWizard.copyImagesSelected((PRODUCT_STORES.find(s=>s.key!==store)?.key||'')),copyLocked:createWizard.hasAttempted((PRODUCT_STORES.find(s=>s.key!==store)?.key||'')),targetRecord:targetRaw.get((PRODUCT_STORES.find(s=>s.key!==store)?.key||'')),legacyHtml:comparisonPanel()}):comparisonPanel()):mode==='encargo'?stitchRequest({legacyHtml:renderProductRequestForm(requestBrief,requestOutput),output:requestOutput}):mode==='guardado'?stitchSaved({record,legacyHtml:record?historyPanel():'',queue:copyQueue,drafts:savedDraftCards()}):bulk();
   attributesUI.dispose();controlsCleanup();photoCleanup();layoutCleanup();
   replacingDOM=true;try{root.innerHTML='<div class="prd-shell prd-stitch prd-professional">'+stitchHeader({pricingMode:pricingMode(),store:catalogScope,mode,status,count:rows.length,product:text(record?.name),draftCount:savedDraftCards().length,pending,connected:catalogScope==='both'?PRODUCT_STORES.every(s=>ready(s.key)):ready(store)})+'<div class="prd-body">'+content+'</div></div>';}finally{replacingDOM=false;}
 
@@ -387,7 +390,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   return r;
  }
  async function switchStore(next){
-  if(!['hortimatic','newoldsmok','both'].includes(next)||next===catalogScope)return;
+  if(!['both',...PRODUCT_STORES.map(s=>s.key)].includes(next)||next===catalogScope)return;
   const requestedMode=mode;
   rememberProductDraft();if(record||requestBrief.url||requestBrief.product_id)draftsByShop.set(store,structuredClone(snapshotDraft()));
   resetDraft();catalogScope=next;if(next!=='both')store=next;
@@ -520,7 +523,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   targets=new Set([store]);mode='ficha';status='Borrador nuevo. Prepara los campos y después selecciona la tienda de destino.';
  }
  async function prepare(){
-  if(mode==='comparar'&&record?.id)targets=new Set([store==='hortimatic'?'newoldsmok':'hortimatic']);
+  if(mode==='comparar'&&record?.id)targets=new Set([(PRODUCT_STORES.find(s=>s.key!==store)?.key||'')]);
   if(!record)throw Error('Abre una ficha o prepara un producto nuevo.');
   if(!targets.size)throw Error('Selecciona alguna tienda de destino.');
   const plans=[],readTargets=new Map(),copyNotices=[];
@@ -642,7 +645,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  }
  async function mount(node){
   ensureStitchProductFonts();
-  dispose();tableEditor.restore([]);draftsByShop.clear();draftsByProduct.clear();copyQueue=[];storageReady=false;root=node;productPickerQuery='';productPickerPage=0;owner=actor();if(cacheOwner!==owner){catalogCache.clear();cacheOwner=owner;}if(requestOwner!==owner){requestBrief={operation:'url',store:'hortimatic'};requestOutput='';requestOwner=owner;}const gen=++epoch;root.dataset.prEpoch=String(gen);mode='catalogo';store='hortimatic';catalogScope='hortimatic';catalogMeta.clear();creationMetadata.clear();productLanguages.clear();catalogMore.clear();catalogSelected.clear();catalogStock.clear();catalogFilters={category:'',brand:'',active:''};try{catalogColumns=productColumns(JSON.parse(localStorage.getItem(layoutPrefix()+'columns:'+owner)||JSON.stringify(defaultColumns())));}catch{catalogColumns=defaultColumns();}try{columnWidths=productColumnWidths(JSON.parse(localStorage.getItem(layoutPrefix()+'widths:'+owner)||'null'));}catch{columnWidths={};}layoutSaveState='Distribución personal: los cambios se guardan automáticamente.';catalogViewName='';try{catalogViews=JSON.parse(localStorage.getItem(layoutPrefix()+'views:'+owner)||'[]').filter(v=>v&&typeof v.name==='string'&&Array.isArray(v.columns)&&[10,20,50,100,Number.MAX_SAFE_INTEGER].includes(v.size)).map(v=>({...v,columns:productColumns(v.columns),filters:{category:v.filters?.category||'',brand:v.filters?.brand||'',active:['0','1'].includes(v.filters?.active)?v.filters.active:''}}));}catch{catalogViews=[];}offerBatch.reset();status='Comprobando conexiones. Ningún dato se modifica.';rows=[];page=0;hasMore=false;resetDraft();
+  dispose();tableEditor.restore([]);draftsByShop.clear();draftsByProduct.clear();copyQueue=[];storageReady=false;root=node;productPickerQuery='';productPickerPage=0;owner=actor();if(cacheOwner!==owner){catalogCache.clear();cacheOwner=owner;}if(requestOwner!==owner){requestBrief={operation:'url',store:''};requestOutput='';requestOwner=owner;}const gen=++epoch;root.dataset.prEpoch=String(gen);mode='catalogo';store='';catalogScope='';catalogMeta.clear();creationMetadata.clear();productLanguages.clear();catalogMore.clear();catalogSelected.clear();catalogStock.clear();catalogFilters={category:'',brand:'',active:''};try{catalogColumns=productColumns(JSON.parse(localStorage.getItem(layoutPrefix()+'columns:'+owner)||JSON.stringify(defaultColumns())));}catch{catalogColumns=defaultColumns();}try{columnWidths=productColumnWidths(JSON.parse(localStorage.getItem(layoutPrefix()+'widths:'+owner)||'null'));}catch{columnWidths={};}layoutSaveState='Distribución personal: los cambios se guardan automáticamente.';catalogViewName='';try{catalogViews=JSON.parse(localStorage.getItem(layoutPrefix()+'views:'+owner)||'[]').filter(v=>v&&typeof v.name==='string'&&Array.isArray(v.columns)&&[10,20,50,100,Number.MAX_SAFE_INTEGER].includes(v.size)).map(v=>({...v,columns:productColumns(v.columns),filters:{category:v.filters?.category||'',brand:v.filters?.brand||'',active:['0','1'].includes(v.filters?.active)?v.filters.active:''}}));}catch{catalogViews=[];}offerBatch.reset();status='Comprobando conexiones. Ningún dato se modifica.';rows=[];page=0;hasMore=false;resetDraft();
   if(!allowed()){root.textContent='No tienes permiso de consulta de PrestaShop.';return;}
   root.ondblclick=e=>{const cell=e.target.closest('[data-pr-quick-field]');if(cell&&!e.target.closest('input,select,textarea,button,a'))openQuickCell(cell);};
   root.ondragover=e=>{if(e.target.closest('[data-pr-image-drop]')){e.preventDefault();if(e.dataTransfer)e.dataTransfer.dropEffect='copy';}};
@@ -685,7 +688,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
    if(e.target.matches('[data-pr-org]')&&organization){organization.fields[e.target.dataset.prOrg]=e.target.value;if(e.target.dataset.prOrg==='id_category_default'&&!organization.categories.includes(e.target.value))organization.categories.push(e.target.value);persistDraft();render();return;}
    if(e.target.matches('[data-pr-org-category]')&&organization){const id=e.target.dataset.prOrgCategory;organization.categories=e.target.checked?[...new Set([...organization.categories,id])]:organization.categories.filter(x=>x!==id);if(!e.target.checked&&organization.fields.id_category_default===id)organization.fields.id_category_default='0';persistDraft();render();return;}
    if(e.target.matches('[data-pr-view-name]')){catalogViewName=e.target.value.trim().slice(0,60);return;}
-   if(e.target.matches('[data-pr-catalog-view]')){const v=catalogViews.find(v=>v.name===e.target.value);if(v){void work(async()=>{if(['hortimatic','newoldsmok','both'].includes(v.scope)&&v.scope!==catalogScope)await switchStore(v.scope);catalogColumns=productColumns(v.columns);if(v.widths)columnWidths=productColumnWidths(v.widths);catalogFilters={...v.filters};query=v.query||'';listSize=v.size;listPage=0;catalogViewName=v.name;saveCatalogPreferences();await loadCatalogStock();});}return;}
+   if(e.target.matches('[data-pr-catalog-view]')){const v=catalogViews.find(v=>v.name===e.target.value);if(v){void work(async()=>{if(['both',...PRODUCT_STORES.map(s=>s.key)].includes(v.scope)&&v.scope!==catalogScope)await switchStore(v.scope);catalogColumns=productColumns(v.columns);if(v.widths)columnWidths=productColumnWidths(v.widths);catalogFilters={...v.filters};query=v.query||'';listSize=v.size;listPage=0;catalogViewName=v.name;saveCatalogPreferences();await loadCatalogStock();});}return;}
    if(e.target.matches('[data-pr-request]')){requestBrief[e.target.dataset.prRequest]=e.target.value;requestOutput='';if(['operation','store'].includes(e.target.dataset.prRequest))render();else persistDraft();return;}
    if(e.target.matches('[data-pr-price-option]')){priceOptions[e.target.dataset.prPriceOption]=e.target.value;render();return;}
    if(pending||!current())return;
@@ -719,7 +722,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
    const cell=e.target.closest('.prd-catalog-table td,.prd-catalog-table th,.prd-table-viewport td,.prd-table-viewport th');if(cell&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)&&(!e.target.matches('input,textarea,select')||e.altKey)&&!e.ctrlKey&&!e.metaKey){const row=cell.parentElement,table=row.closest('table'),rs=[...table.rows],cells=[...row.cells];let y=rs.indexOf(row),x=cells.indexOf(cell);if(e.key==='ArrowLeft')x--;if(e.key==='ArrowRight')x++;if(e.key==='ArrowUp')y--;if(e.key==='ArrowDown')y++;if(e.key==='Home')x=0;if(e.key==='End')x=cells.length-1;const target=rs[Math.max(0,Math.min(y,rs.length-1))]?.cells[Math.max(0,Math.min(x,cells.length-1))];if(target){e.preventDefault();target.focus();target.scrollIntoView({block:'nearest',inline:'nearest'});if(['Home','End'].includes(e.key)){const viewport=table.closest('.prd-catalog-table,.prd-table-viewport');if(viewport){if(e.key==='Home')viewport.scrollLeft=0;else if(viewport.matches('.prd-catalog-table'))viewport.scrollLeft+=(target.querySelector('button,a,input,select')||target).getBoundingClientRect().left-viewport.getBoundingClientRect().left;}}}return;}
 if(['Enter',' '].includes(e.key)&&e.target.matches('[data-pr-action="photo-zoom"], [data-pr-image-drop]')){e.preventDefault();e.target.click();return;}if(e.key==='Escape'){for(const panel of root.querySelectorAll('.prd-columns[open],.prd-row-menu[open]')){panel.open=false;panel.querySelector('summary')?.focus();}}};
   root.onclick=e=>{if(!e.target.closest('.prd-columns,.prd-row-menu'))root.querySelectorAll('.prd-columns[open],.prd-row-menu[open]').forEach(d=>d.open=false);const b=e.target.closest('[data-pr-action]');if(!b||!current())return;const a=b.dataset.prAction;
-   if(a==='backend-config'){const shop=b.dataset.prShop,id=b.dataset.prId,dialog=document.createElement('dialog');dialog.className='prd-photo-dialog prd-backoffice-dialog';dialog.innerHTML='<form><h3>Administración · '+h(PRODUCT_STORES.find(s=>s.key===shop).label)+'</h3><p>PrestaShop protege sus enlaces de edición con un token de navegación. Abre Catálogo → Productos en su administración y pega la dirección completa. El enlace de Inicio no sirve.</p><label>Enlace del catálogo o de una ficha<input type="url" name="link" required autocomplete="off" placeholder="https://'+(shop==='hortimatic'?'hortimatic.com':'newoldsmok.com')+'/admin777/index.php/sell/catalog/products?..."></label><p>Se conserva solo en esta sesión del navegador y esta cuenta. No se guarda en los productos, el servidor ni las exportaciones. Al caducar tu sesión de PrestaShop, actualízalo aquí.</p><p role="status" data-link-error></p><div class="inline-actions"><button type="button" data-cancel>Cancelar</button><button type="submit">Guardar enlace de esta sesión</button></div></form>';dialog.querySelector('[data-cancel]').onclick=()=>dialog.close();dialog.querySelector('form').onsubmit=event=>{event.preventDefault();try{saveBackofficeLink(new FormData(event.target).get('link'),shop,owner);dialog.close();status='Acceso de administración vinculado para esta sesión. Pulsa de nuevo Abrir en administración.';render();}catch(error){dialog.querySelector('[data-link-error]').textContent=error.message;}};showProductDialog(root,dialog,{label:'Acceso a la administración de '+shop,trigger:b});return;}
+   if(a==='backend-config'){const shop=b.dataset.prShop,id=b.dataset.prId,dialog=document.createElement('dialog');dialog.className='prd-photo-dialog prd-backoffice-dialog';dialog.innerHTML='<form><h3>Administración · '+h(PRODUCT_STORES.find(s=>s.key===shop).label)+'</h3><p>PrestaShop protege sus enlaces de edición con un token de navegación. Abre Catálogo → Productos en su administración y pega la dirección completa. El enlace de Inicio no sirve.</p><label>Enlace del catálogo o de una ficha<input type="url" name="link" required autocomplete="off" placeholder="https://'+'tu-web.example'+'/admin777/index.php/sell/catalog/products?..."></label><p>Se conserva solo en esta sesión del navegador y esta cuenta. No se guarda en los productos, el servidor ni las exportaciones. Al caducar tu sesión de PrestaShop, actualízalo aquí.</p><p role="status" data-link-error></p><div class="inline-actions"><button type="button" data-cancel>Cancelar</button><button type="submit">Guardar enlace de esta sesión</button></div></form>';dialog.querySelector('[data-cancel]').onclick=()=>dialog.close();dialog.querySelector('form').onsubmit=event=>{event.preventDefault();try{saveBackofficeLink(new FormData(event.target).get('link'),shop,owner);dialog.close();status='Acceso de administración vinculado para esta sesión. Pulsa de nuevo Abrir en administración.';render();}catch(error){dialog.querySelector('[data-link-error]').textContent=error.message;}};showProductDialog(root,dialog,{label:'Acceso a la administración de '+shop,trigger:b});return;}
    if(a==='catalog-columns-prices'||a==='catalog-columns-default'||a==='catalog-columns-all'){catalogColumns=a==='catalog-columns-all'?PRODUCT_COLUMNS.map(([key])=>key):a==='catalog-columns-prices'?['image','name','id','reference','cost','costVat','costTotal','price','gross','marginTotal','margin']:[...DEFAULT_PRODUCT_COLUMNS];saveCatalogPreferences();render();if(catalogColumns.includes('creator'))void work(loadCreationMetadata);return;}
    if(a==='picker-focus'){root.querySelector('[data-pr-picker-search]')?.focus();return;}
    if(a==='picker-clear'){clearTimeout(catalogSearchTimer);productPickerQuery='';query='';productPickerPage=0;catalogSearchTerm='';void work(()=>loadCatalog(false));root.querySelector('[data-pr-picker-search]')?.focus();return;}
@@ -822,8 +825,8 @@ if(['Enter',' '].includes(e.key)&&e.target.matches('[data-pr-action="photo-zoom"
 
    if(a==='editor-section'){editorSection=b.dataset.prSection;render();return;}
    if(a==='copy-variants-all'||a==='copy-variants-none'){for(const variant of variants)variantFields.set(keyFor(variant),new Set(a==='copy-variants-all'?VARIANT_FIELDS.filter(f=>variant[f]!==undefined&&variant[f]!==null):[]));invalidate();render();persistDraft();return;}
-   if(a==='copy-open'){void work(async()=>{const dest=store==='hortimatic'?'newoldsmok':'hortimatic';await openProduct(createWizard.result(dest).record_id,dest);});return;}
-   if(a==='copy-upload'){void work(async()=>{if(!fields.size&&!variants.some(v=>variantFields.get(keyFor(v))?.size))throw Error('Selecciona los datos que quieres copiar o pulsa Seleccionar Todo.');const dest=store==='hortimatic'?'newoldsmok':'hortimatic',source={...record,__sourceStore:store,__copyCatalog:organization?.store===store?organization.catalog:null};targets=new Set([dest]);if(!comparison.has(dest))await prepare();const plan=comparison.get(dest);mode='comparar';if(plan.operation!=='create'){
+   if(a==='copy-open'){void work(async()=>{const dest=(PRODUCT_STORES.find(s=>s.key!==store)?.key||'');await openProduct(createWizard.result(dest).record_id,dest);});return;}
+   if(a==='copy-upload'){void work(async()=>{if(!fields.size&&!variants.some(v=>variantFields.get(keyFor(v))?.size))throw Error('Selecciona los datos que quieres copiar o pulsa Seleccionar Todo.');const dest=(PRODUCT_STORES.find(s=>s.key!==store)?.key||''),source={...record,__sourceStore:store,__copyCatalog:organization?.store===store?organization.catalog:null};targets=new Set([dest]);if(!comparison.has(dest))await prepare();const plan=comparison.get(dest);mode='comparar';if(plan.operation!=='create'){
     if(!preflight.get(dest)?.can_commit){await createWizard.openExisting(dest,targetRaw.get(dest));await createWizard.perform('create-copy-config',dest,plan,source);if(plan.changes.some(change=>change.changed))await previewXml(dest);else preflight.set(dest,{can_commit:true,changes:[],noFields:true});status='Aplicando la copia revisada y sus asociaciones.';}
     if(preflight.get(dest).changes?.length){editConfirm.set(dest,'GUARDAR');await commitEdit(dest);}
     for(const variant of plan.variants.filter(row=>row.target_id&&row.changes.some(change=>change.changed))){await previewVariant(dest,variant.target_id);editConfirm.set(dest+'|'+variant.target_id,'GUARDAR');await commitVariant(dest,variant.target_id);}

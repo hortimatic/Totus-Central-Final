@@ -2,13 +2,10 @@
 // Construct one registry per authorized context; never share mutable credentials
 // or a request's website configuration through a process-global registry.
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const legacy=Object.freeze([
- Object.freeze({key:'hortimatic',name:'Hortimatic',label:'Hortimatic',connectionName:'PrestaShop · Hortimatic',origin:'https://hortimatic.com',include_in_totals:true}),
- Object.freeze({key:'newoldsmok',name:'NewOldSmok',label:'NewOldSmok',connectionName:'PrestaShop · NewOldSmok',origin:'https://newoldsmok.com',include_in_totals:true})
-]);
+const emptyWebsites=Object.freeze([]);
 // Browser presentation only. Server adapters resolve their own connection below;
 // they never change this list or derive authorization from browser state.
-export let WEBSITE_CHOICES=legacy;
+export let WEBSITE_CHOICES=emptyWebsites;
 export function websiteName(key){return WEBSITE_CHOICES.find(site=>site.key===key)?.name||String(key||'');}
 export function websiteBusinessId(key,businesses=[]){
  const site=WEBSITE_CHOICES.find(s=>s.key===key);
@@ -16,7 +13,7 @@ export function websiteBusinessId(key,businesses=[]){
  if(Object.hasOwn(site,'business_id'))return businesses.some(b=>b.id===site.business_id&&b.active!==false)?site.business_id:null;
  return businesses.find(b=>b.active!==false&&String(b.name||'').trim().toLowerCase()===key)?.id||null;
 }
-export function resetWebsiteChoices(){WEBSITE_CHOICES=legacy;}
+export function resetWebsiteChoices(){WEBSITE_CHOICES=emptyWebsites;}
 export function installWebsiteContext(context){
  if(!context||!Array.isArray(context.websites))return;
  const registry=createWebsiteRegistry(context.websites);

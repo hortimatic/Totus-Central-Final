@@ -1,6 +1,7 @@
-import {esc} from './utils.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {textValue} from './productos-core.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {showProductDialog} from './productos-dialogs.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {esc} from './utils.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {textValue} from './productos-core.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {showProductDialog} from './productos-dialogs.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
 
 const decimal=(value,places,signed=false)=>{
  const raw=String(value??'').trim().replace(',','.');
@@ -18,7 +19,7 @@ export function catalogPriceBatchPlan(rows,{mode,value,field='price'}){
  if(mode==='percent'&&(input< -1000000n||input>10000000n))throw Error('El porcentaje debe estar entre −100 y 1000.');
  const seen=new Set();return rows.map(row=>{
   const shop=row.__store,id=String(row.id),key=shop+'|'+id;
-  if(!['hortimatic','newoldsmok'].includes(shop)||!/^\d{1,15}$/.test(id)||seen.has(key))throw Error('El lote contiene un origen o identificador inválido o repetido.');seen.add(key);
+  if(!WEBSITE_CHOICES.map(s=>s.key).includes(shop)||!/^\d{1,15}$/.test(id)||seen.has(key))throw Error('El lote contiene un origen o identificador inválido o repetido.');seen.add(key);
   const before=decimal(row[field],6),after=mode==='fixed'?input:(before*(1000000n+input)+500000n)/1000000n;
   if(after<0n||after>9999999999999n)throw Error('Precio fuera del intervalo permitido.');
   return {shop,id,key,field,name:textValue(row.name),before:amount(before),after:amount(after)};
@@ -50,7 +51,7 @@ export function openCatalogPriceBatch({root,trigger,rows,editor,canEdit,current,
    if(!result.can_commit||!change||amount(decimal(change.before,6))!==item.before)throw Error('El precio de '+item.name+' ha cambiado en la tienda o no se puede publicar. Actualiza el catálogo y revisa de nuevo.');
   }
   await persist();if(!current())return;
-  review.innerHTML='<p>'+esc(plan[0]?.field==='wholesale_price'?'Coste de compra base sin IVA ni RE':'Precio de venta base sin IVA')+'</p><div class="table-wrap"><table class="data-table"><thead><tr><th>Tienda</th><th>Producto</th><th>Base anterior</th><th>Base nueva</th></tr></thead><tbody>'+plan.map(item=>'<tr><td>'+esc(item.shop==='hortimatic'?'Hortimatic':'NewOldSmok')+'</td><td>'+esc(item.name)+' · #'+item.id+'</td><td>'+item.before+'</td><td>'+item.after+'</td></tr>').join('')+'</tbody></table></div>';
+  review.innerHTML='<p>'+esc(plan[0]?.field==='wholesale_price'?'Coste de compra base sin IVA ni RE':'Precio de venta base sin IVA')+'</p><div class="table-wrap"><table class="data-table"><thead><tr><th>Tienda</th><th>Producto</th><th>Base anterior</th><th>Base nueva</th></tr></thead><tbody>'+plan.map(item=>'<tr><td>'+esc(item.websiteName(shop))+'</td><td>'+esc(item.name)+' · #'+item.id+'</td><td>'+item.before+'</td><td>'+item.after+'</td></tr>').join('')+'</tbody></table></div>';
   output.textContent='Lote revisado sin escribir. Comprueba todos los precios antes de publicar.';save.hidden=false;
  }catch(error){plan=[];clean();review.replaceChildren();output.textContent=error.message;}finally{lock(false);}};
  save.onclick=async()=>{if(busy||!plan.length||!current()||!canEdit())return;lock(true);retain=true;let completed=0;try{

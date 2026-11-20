@@ -1,3 +1,4 @@
+import {websiteKey} from './website-registry.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
 // Public routes are Spanish paths. Internal permission/database IDs stay stable.
 export const MODULE_PATHS={totustpv:'tpv',inicio:'inicio',pricing:'precio',ventas:'ventas',productos:'productos',prestashop:'prestashop',clientes:'clientes',proveedores:'proveedores',marcas:'marcas',cajas:'cajas',gastos:'gastos',facturacion:'facturacion',documentos:'documentos',fiscalidad:'fiscalidad',informes:'informes',tareas:'tareas',equipo:'chat',administracion:'administracion',configuracion:'configuracion',automatizaciones:'automatizaciones',apis:'apis',cotejos:'cotejos'};
 const moduleId=value=>Object.entries(MODULE_PATHS).find(([,path])=>path===value)?.[0]||value;
@@ -19,7 +20,7 @@ export function moduleNavigationState(href,module,previous={}){
  const state=previous?.totusModuleNavigation?{totusModuleNavigation:true}:{},params=new URL(href).searchParams;
  if(module==='ventas'||module==='prestashop'){
   const link=Object.fromEntries(['ps_store','ps_order','ps_date'].map(key=>[key,params.get(key)||previous?.totusOrderLink?.[key]||'']));
-  if(['hortimatic','newoldsmok'].includes(link.ps_store)&&/^\d{1,15}$/.test(link.ps_order)&&/^\d{4}-\d{2}-\d{2}$/.test(link.ps_date))state.totusOrderLink=link;
+  if(websiteKey(link.ps_store)&&/^\d{1,15}$/.test(link.ps_order)&&/^\d{4}-\d{2}-\d{2}$/.test(link.ps_date))state.totusOrderLink=link;
  }
  return state;
 }

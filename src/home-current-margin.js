@@ -1,7 +1,8 @@
-import {approximateOrderGain} from './prestashop-margin.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {esc,money} from './utils.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {homeMarginTotal} from './home-order-enrichment.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {sourceCents} from './prestashop-insights.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {approximateOrderGain} from './prestashop-margin.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {esc,money} from './utils.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {homeMarginTotal} from './home-order-enrichment.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {sourceCents} from './prestashop-insights.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
 const signedCents=value=>{if(!Number.isFinite(value))return null;const cents=sourceCents(Math.abs(value).toFixed(6));return cents===null?null:(value<0?-1:1)*cents;};
 
 export function commercialMarginSummary(data,{from,to}={}){
@@ -26,7 +27,7 @@ export function commercialMarginSummary(data,{from,to}={}){
 }
 export function commercialMarginChart(summary){
  if(!summary.complete||!summary.series.length)return '';
- const rows=summary.series,series=[{key:'margin-total',label:'Total',color:'#7c3aed',points:rows},...summary.stores.map((store,i)=>({key:'margin-shop-'+i,label:store.shop==='hortimatic'?'Hortimatic':store.shop==='newoldsmok'?'NewOldSmok':store.shop,color:['#0369a1','#db2777','#16a34a'][i%3],points:store.series||[]}))];
+ const rows=summary.series,series=[{key:'margin-total',label:'Total',color:'#7c3aed',points:rows},...summary.stores.map((store,i)=>({key:'margin-shop-'+i,label:websiteName(store.shop),color:['#0369a1','#db2777','#16a34a'][i%3],points:store.series||[]}))];
  const values=series.flatMap(s=>s.points.map(p=>p.value)),min=Math.min(0,...values),max=Math.max(0,...values),span=max-min||1;
  const x=i=>24+(rows.length===1?236:i/(rows.length-1)*472),y=n=>140-(n-min)/span*120;
  const lines=series.map(s=>{const values=new Map(s.points.map(p=>[p.date,p.value]));const points=rows.map((r,i)=>x(i).toFixed(2)+','+y(values.get(r.date)||0).toFixed(2)).join(' ');return '<g data-activity-series="'+s.key+'"><polyline fill="none" stroke="'+s.color+'" stroke-width="2" points="'+points+'"/>'+rows.map((r,i)=>'<circle cx="'+x(i)+'" cy="'+y(values.get(r.date)||0)+'" r="3" fill="'+s.color+'"><title>'+esc(s.label+' · '+r.date+' · '+money(values.get(r.date)||0))+'</title></circle>').join('')+'</g>';}).join('');
@@ -34,7 +35,7 @@ export function commercialMarginChart(summary){
 }
 export function commercialMarginWidget(data,{id,from,to}){
  const s=commercialMarginSummary(data,{from,to}),label=s.complete?money(s.amount):s.covered?money(s.amount)+' · parcial':'Pendiente de consulta o costes';
- return '<section class="home-commercial-margin" aria-label="Margen comercial"><p class="small muted">'+esc(from)+' — '+esc(to)+'</p><strong class="home-commercial-total">'+esc(label)+'</strong><p class="small">'+s.covered+'/'+s.count+' pedidos válidos con coste calculable'+(s.pending?' · '+s.pending+' tiendas pendientes':'')+'</p><p class="small muted">Ventas de producto sin impuestos menos coste de compra sin impuestos, usando el coste de producto o combinación disponible en PrestaShop. No es beneficio neto ni resta gastos generales.</p><div class="home-commercial-shops">'+s.stores.map(r=>'<div><span>'+esc(r.shop==='hortimatic'?'Hortimatic':'NewOldSmok')+'</span><b>'+esc(r.pending?r.error||'Sin consulta':r.complete?money(r.amount):r.covered?money(r.amount)+' · parcial':'Costes pendientes')+'</b></div>').join('')+'</div>'+commercialMarginChart(s)+'<button type="button" class="btn secondary" data-home-command="fetch" data-id="'+esc(id)+'">Actualizar margen</button></section>';
+ return '<section class="home-commercial-margin" aria-label="Margen comercial"><p class="small muted">'+esc(from)+' — '+esc(to)+'</p><strong class="home-commercial-total">'+esc(label)+'</strong><p class="small">'+s.covered+'/'+s.count+' pedidos válidos con coste calculable'+(s.pending?' · '+s.pending+' tiendas pendientes':'')+'</p><p class="small muted">Ventas de producto sin impuestos menos coste de compra sin impuestos, usando el coste de producto o combinación disponible en PrestaShop. No es beneficio neto ni resta gastos generales.</p><div class="home-commercial-shops">'+s.stores.map(r=>'<div><span>'+esc(websiteName(r.shop))+'</span><b>'+esc(r.pending?r.error||'Sin consulta':r.complete?money(r.amount):r.covered?money(r.amount)+' · parcial':'Costes pendientes')+'</b></div>').join('')+'</div>'+commercialMarginChart(s)+'<button type="button" class="btn secondary" data-home-command="fetch" data-id="'+esc(id)+'">Actualizar margen</button></section>';
 }
 
 /** Compact companion to the accounting result; no accounting data is rewritten. */
@@ -44,7 +45,7 @@ export function commercialMarginCompact(data,range,settings={}){
  const pending=Object.entries(data).filter(([,read])=>read?.loading),failures=Object.entries(data).filter(([,read])=>read?.error),s=commercialMarginSummary(estimated,range);
  const measured=Object.values(estimated).flatMap(r=>r?.rows||[]).filter(r=>String(r.valid)==='1'&&r.currency_code==='EUR'&&Number.isFinite(r.margin_value));
  const revenue=measured.reduce((n,r)=>n+r.margin_revenue,0),percent=s.complete&&revenue>0?s.amount/revenue*100:null;
- const shops='<dl class="home-gain-stores">'+s.stores.map(store=>{const loading=data[store.shop]?.loading,amount=store.complete?money(store.amount):store.covered?money(store.amount)+' · parcial':loading?'Calculando…':store.error?'Consulta fallida':'Pendiente de costes';return '<div><dt>'+esc(store.shop==='hortimatic'?'Hortimatic':store.shop==='newoldsmok'?'NewOldSmok':store.shop)+'</dt><dd>'+esc(amount)+'</dd></div>';}).join('')+'</dl>';
+ const shops='<dl class="home-gain-stores">'+s.stores.map(store=>{const loading=data[store.shop]?.loading,amount=store.complete?money(store.amount):store.covered?money(store.amount)+' · parcial':loading?'Calculando…':store.error?'Consulta fallida':'Pendiente de costes';return '<div><dt>'+esc(websiteName(store.shop))+'</dt><dd>'+esc(amount)+'</dd></div>';}).join('')+'</dl>';
  const label=s.complete?money(s.amount):s.covered?money(s.amount)+' · parcial':pending.length?'Calculando…':failures.length?'Consulta fallida':'Pendiente de costes';
  return '<section class="home-financial-margin kpi" aria-label="Ganancia estimada de las ventas" aria-busy="'+!!pending.length+'"><span class="home-financial-margin-title">GANANCIA ESTIMADA</span><b>'+esc(label)+'</b><small>'+esc(range.from)+' — '+esc(range.to)+(percent===null?'':' · '+esc(percent.toLocaleString('es-ES',{maximumFractionDigits:1}))+' %')+'</small>'+shops+'<div class="home-gain-actions"><details><summary aria-label="Ver cálculo de ganancia">ⓘ Cálculo</summary><div role="status">'+esc(s.covered+'/'+s.count+' pedidos con coste. Ingresos cobrados con IVA menos coste neto × (1 + IVA compra '+String(vat??'sin configurar')+' % + RE '+String(re??'sin configurar')+' %). Incluye portes cobrados; no descuenta gastos generales, internos ni coste de transporte. IVA de compra '+(settings.purchase_vat_rate==null?'estimado con el tipo general configurado en Totus.':'configurado.'))+pending.map(([shop,read])=>'<p>'+esc(shop+': '+read.progress)+'</p>').join('')+failures.map(([shop,read])=>'<p>'+esc(shop+': '+read.error)+'</p>').join('')+'</div></details><button type="button" class="btn link" data-home-command="financial-margin-refresh" '+(pending.length?'disabled':'')+'>'+(pending.length?'Calculando…':'Actualizar')+'</button></div></section>';
 }

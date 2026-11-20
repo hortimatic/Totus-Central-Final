@@ -1,36 +1,36 @@
-import {directoryPageHtml} from '../contact-directory-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {apiManagerHtml} from '../api-manager.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {automationsPage} from '../automations-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {prestashopWorkspacePage} from '../prestashop-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {productosWorkspacePage} from '../productos-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {appearancePage} from '../appearance-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {discountScenarios} from '../pricing-discounts.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {draftVariantRow} from '../pricing-drafts.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {stockPage} from '../stock-ui.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {normalizeReportOrder} from '../report-layout.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {taxExpenseRecord} from '../tax-expense.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {incomeBreakdown} from '../income-breakdown.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {planStorage} from '../storage-planning.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {SUPABASE_URL} from '../config.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {expenseAttachedInvoices} from '../expense-register.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {selectExpenses} from '../expense-selection.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
+import {directoryPageHtml} from '../contact-directory-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {apiManagerHtml} from '../api-manager.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {automationsPage} from '../automations-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {prestashopWorkspacePage} from '../prestashop-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {productosWorkspacePage} from '../productos-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {appearancePage} from '../appearance-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {discountScenarios} from '../pricing-discounts.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {draftVariantRow} from '../pricing-drafts.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {stockPage} from '../stock-ui.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {normalizeReportOrder} from '../report-layout.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {taxExpenseRecord} from '../tax-expense.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {incomeBreakdown} from '../income-breakdown.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {planStorage} from '../storage-planning.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {SUPABASE_URL} from '../config.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {expenseAttachedInvoices} from '../expense-register.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {selectExpenses} from '../expense-selection.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
 
 const stores=()=>state.data.stores.filter(x=>x.active!==false);
 const storeName=id=>state.data.stores.find(x=>x.id===id)?.name||'—';
@@ -505,7 +505,7 @@ function incomeBreakdownHtml(closings,additional){
  return `<section class="card card-pad"><div class="income-breakdown-heading"><h2>De dónde salen los ingresos</h2>${fieldHelp('De dónde salen los ingresos','Este desglose explica los ingresos ya registrados; no añade ventas. Las retiradas de caja son movimientos de dinero y solo se muestran para comprobar el efectivo. No se suman otra vez a las ventas.')}</div>
  ${row('Cobros con tarjeta de los cierres',b.card,'Ventas cobradas con tarjeta el día de la venta. El ingreso del banco puede llegar al día siguiente; no es una segunda venta.')}
  ${row('Efectivo retirado de las cajas',b.withdrawals,'Dinero sacado de las cajas durante el periodo. No equivale por sí solo a las ventas en efectivo: también hay que considerar lo que quedó en las cajas y lo que había al abrir.')}
- ${row('Variación del dinero que queda en caja',b.cashChange,'Es la suma del dinero que quedó al cerrar menos el dinero que había al abrir cada cierre del periodo. Ejemplo: abrir con 100 € y dejar 120 € supone +20 €. Ese efectivo vendido sigue dentro de la caja. Si se dejan 90 €, la variación es −10 €. No es un gasto adicional. En Hortimatic el cierre puede sumar las dos cajas; el detalle de cada caja se consulta en Cajas.')}
+ ${row('Variación del dinero que queda en caja',b.cashChange,'Es la suma del dinero que quedó al cerrar menos el dinero que había al abrir cada cierre del periodo. Ejemplo: abrir con 100 € y dejar 120 € supone +20 €. Ese efectivo vendido sigue dentro de la caja. Si se dejan 90 €, la variación es −10 €. No es un gasto adicional. El cierre puede agrupar las cajas del establecimiento; el detalle de cada caja se consulta en Cajas.')}
  ${b.cashMovements?row('Pagos y otras entradas o salidas de efectivo',b.cashMovements,'Suma pagos realizados desde caja y otras salidas, y resta aportaciones de dinero ajenas a ventas. Se utiliza para reconstruir los cobros en efectivo, sin convertir una aportación del titular en una venta.'):''}
  ${b.other?row('Otros cobros de los cierres',b.other,'Cobros por Bizum, internet y otros medios registrados en los cierres. No incluye la tarjeta ni el efectivo mostrado en las otras filas.'):''}
  ${b.difference?row('Diferencias de cierre por comprobar',b.difference,'Parte de las ventas registradas que no queda explicada por los cobros y movimientos anteriores. Una diferencia debe revisarse en el cierre; no se corrige automáticamente.'):''}
@@ -685,7 +685,7 @@ function adminBusinessHtml(){
  const storeRows=state.data.stores.map(st=>`<div class="admin-entity"><div><b>${esc(st.name)}</b><div class="small muted">${esc(st.code||'')} · ${st.active?'Activo':'Inactivo'}</div></div><div class="inline-actions">${isAdmin()?btn('Editar','store-edit','secondary',`data-id="${st.id}"`):''}</div><div class="entity-children">${state.data.drawers.filter(d=>d.store_id===st.id).map(d=>`<div class="summary-row"><span>${esc(d.name)} ${d.active?'':'(inactiva)'}</span>${isAdmin()?btn('Editar caja','drawer-edit','secondary',`data-id="${d.id}" data-store="${st.id}"`):''}</div>`).join('')||'<div class="small muted">Sin cajas</div>'}${isAdmin()?btn('+ Añadir caja','drawer-new','secondary',`data-store="${st.id}"`):''}</div></div>`).join('');
  return `<div class="split business-layout">
   <section class="card card-pad"><div class="section-head"><div><h2>Titular autónomo y domicilio fiscal</h2><p>Un único emisor para las dos tiendas. Tus facturas de venta y las compras deben identificar al titular con su nombre, NIF y domicilio fiscal. La tienda determina el logo y el control interno.</p></div></div><div class="form-grid" style="margin-top:14px">${formField('Nombre y apellidos del titular','cfgBusiness',s.business_name||'','text',locked)}${formField('NIF','cfgTax',s.tax_id||'','text',locked)}${formField('Domicilio fiscal','cfgAddress',s.business_address||'','text',locked)}${formField('Email','cfgEmail',s.business_email||'','email',locked)}${formField('Teléfono','cfgPhone',s.business_phone||'','text',locked)}</div>${isAdmin()?`<div class="form-actions">${btn('Guardar datos','config-save','primary')}</div>`:''}</section>
-  <section class="card card-pad business-stores"><div class="section-head business-stores-head"><div><h2>Establecimientos y cajas</h2><p>Dos tiendas del mismo titular: Hortimatic (Azuqueca) y NewOldSmok (Alcalá). Cajas y gastos se asignan a cada tienda; la identidad fiscal es común.</p></div>${isAdmin()?btn('+ Establecimiento','store-new','primary'):''}</div><div class="stack" style="margin-top:14px">${storeRows}</div></section>
+  <section class="card card-pad business-stores"><div class="section-head business-stores-head"><div><h2>Establecimientos y cajas</h2><p>Crea tus establecimientos y sus cajas. Los datos se asignan al establecimiento correspondiente.</p></div>${isAdmin()?btn('+ Establecimiento','store-new','primary'):''}</div><div class="stack" style="margin-top:14px">${storeRows}</div></section>
  </div>`;
 }
 function adminFiscalHtml(){

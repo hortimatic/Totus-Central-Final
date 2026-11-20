@@ -1,6 +1,7 @@
-import {concurrentRead} from './concurrent-read.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {DIRECTORY_RESOURCES,joinDirectoryAddresses} from './contact-directory-core.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
-import {createDirectorySession} from './contact-directory-session.js?v=7d97ca64013c9c9215c736033e826690c8604d21';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {concurrentRead} from './concurrent-read.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {DIRECTORY_RESOURCES,joinDirectoryAddresses} from './contact-directory-core.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
+import {createDirectorySession} from './contact-directory-session.js?v=c34ef0d48641df6dced049ad909d66dd6b8b3cdb';
 
 // One read path for individual and combined directories; never merges native IDs.
 export async function readDirectorySnapshot(session,kind,{languageTask=null,current=()=>true,onRows=()=>{}}={}){
@@ -23,7 +24,7 @@ export async function readDirectorySnapshot(session,kind,{languageTask=null,curr
 export async function readCombinedCustomers({actor,can,rpc,invoke,current=()=>true,onProgress=()=>{}}){
  const owner=actor(),valid=()=>!!owner&&actor()===owner&&current()&&can('view');
  if(!valid())throw Error('No tienes acceso al directorio.');
- return concurrentRead(['hortimatic','newoldsmok'],async store=>{
+ return concurrentRead(WEBSITE_CHOICES.map(s=>s.key),async store=>{
   const session=createDirectorySession({kind:'clientes',actor,can,rpc,invoke,onProgress:progress=>{if(valid())onProgress({...progress,store});}});
   try{await session.enter(store);if(!valid())throw Error('La cuenta ha cambiado.');const result=await readDirectorySnapshot(session,'clientes',{current:valid});return {...result,store,rows:result.rows.map(row=>({...row,_shop:store,_key:store+':'+row.id}))};}
   catch(error){if(!valid())throw error;return {store,rows:[],error:error.message};}

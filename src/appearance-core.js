@@ -7,7 +7,7 @@ const image=label=>({label,value:'',type:'image',max:350000});
 export const APPEARANCE_FIELDS={
  interfaz:{
   brandName:text('Nombre de la herramienta','Totus Central',32),brandSubtitle:text('Subtítulo','Gestión diaria'),
-  logoMode:choice('Logotipo','tf','tf:Totus Central|hortimatic:Hortimatic|newoldsmok:NewOldSmok|uploaded:Mi logotipo'),
+  logoMode:choice('Logotipo','tf','tf:Totus Central|uploaded:Mi logotipo'),
   customLogoData:image('Subir logotipo de la herramienta'),logoHeight:range('Tamaño del logotipo · px',38,28,64),
   backgroundMode:choice('Fondo general','color','color:Color|image:Mi imagen'),customBackgroundData:image('Subir fondo de la herramienta'),backgroundDim:range('Capa de color sobre el fondo · %',20,0,90),
   theme:choice('Tema','light','light:Claro|dark:Oscuro'),
@@ -79,8 +79,8 @@ export function appearanceValues(section,input={}){
 export const APPEARANCE_PRESETS={
  stitch:{primary:'#006591',secondary:'#004e70',accent:'#00aac6',bg:'#f8f9ff',surface:'#ffffff',card:'#ffffff',text:'#0b1c30',muted:'#545d70',theme:'light',borderColor:'#dfe6ef',borderWidth:1,borderStrength:20,cardGlow:0,buttonGlow:0,hoverEffect:'none',buttonFinish:'flat',shadow:'none',radius:8,buttonRadius:5,sidebarWidth:240,topbarHeight:56,fontSize:13,pagePad:24,gap:18,cardPadding:18,tableRowHeight:42,density:'compact',backgroundMode:'color',customBackgroundData:''},
  totus:{primary:'#2563eb',secondary:'#d6a447',accent:'#0ea5e9',bg:'#f5f7fb',surface:'#ffffff',card:'#ffffff',text:'#0f172a',muted:'#64748b',theme:'light',logoMode:'tf',brandName:'Totus Central',brandSubtitle:'Gestión diaria'},
- hortimatic:{primary:'#111827',secondary:'#d6a447',accent:'#f2c56b',bg:'#f5f1e8',surface:'#fffaf0',card:'#ffffff',text:'#111827',muted:'#6b5b3e',theme:'light',logoMode:'hortimatic',brandName:'Totus Central',brandSubtitle:'Hortimatic · Gestión diaria'},
- newoldsmok:{primary:'#0493ff',secondary:'#101827',accent:'#14f1ff',bg:'#061020',surface:'#0b1729',card:'#0f1d33',text:'#e8f5ff',muted:'#9bb6cf',theme:'dark',logoMode:'newoldsmok',brandName:'Totus Central',brandSubtitle:'NewOldSmok · Gestión diaria'}
+ classic:{primary:'#111827',secondary:'#d6a447',accent:'#f2c56b',bg:'#f5f1e8',surface:'#fffaf0',card:'#ffffff',text:'#111827',muted:'#6b5b3e',theme:'light',logoMode:'tf',brandName:'Totus Central',brandSubtitle:'Gestión diaria'},
+ dark:{primary:'#0493ff',secondary:'#101827',accent:'#14f1ff',bg:'#061020',surface:'#0b1729',card:'#0f1d33',text:'#e8f5ff',muted:'#9bb6cf',theme:'dark',logoMode:'tf',brandName:'Totus Central',brandSubtitle:'Gestión diaria'}
 };
 export function contrastText(color){
  const rgb=color.slice(1).match(/../g).map(x=>parseInt(x,16)/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4),luminance=.2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];
