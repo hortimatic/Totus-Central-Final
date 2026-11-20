@@ -142,3 +142,33 @@ begin
 end $function$
 ;
 commit;
+begin;
+create or replace function totus_tpv_internal.local_record_promotion() returns trigger language plpgsql security definer set search_path='' as $record$
+declare config private.totus_tpv_promotion_settings;voucher private.totus_tpv_local_promotions;amount bigint;remaining bigint;
+begin
+ if tg_table_name='totus_tpv_local_sales' then
+ if new.snapshot?'couponCode' then
+ select * into voucher from private.totus_tpv_local_promotions where code=new.snapshot->>'couponCode' and store_id=new.store_id for update;
+ if found and voucher.used_sale=new.id then return new;end if;
+ if not found or voucher.used_sale is not null or voucher.reserved_quote is distinct from new.id or voucher.expires_at<=now() or voucher.available_cents<>(new.snapshot->>'discountCents')::bigint then raise exception 'El vale ha cambiado. No repitas el cobro: consulta su resultado y recalcula si no se registró.';end if;
+ update private.totus_tpv_local_promotions set used_sale=new.id,used_cents=available_cents,available_cents=0,reserved_quote=null where id=voucher.id;
+ return new;end if;
+ select * into config from private.totus_tpv_promotion_settings where store_id=new.store_id;
+ if not found or not config.enabled or new.paid_cents<new.total_cents then return new;end if;
+ amount:=case when config.mode='fixed' then config.value else round(new.total_cents::numeric*config.value/10000)::bigint end;
+ if amount>0 then insert into private.totus_tpv_local_promotions(source_sale,store_id,issued_cents,available_cents,minimum_cents,expires_at,settings_snapshot)
+ values(new.id,new.store_id,amount,amount,config.minimum_cents,now()+make_interval(days=>config.valid_days),to_jsonb(config)) on conflict(source_sale) do nothing;end if;
+ else
+ if new.status<>'confirmed' or old.status='confirmed' then return new;end if;
+ select * into voucher from private.totus_tpv_local_promotions where source_sale=new.sale_id for update;
+ if not found then return new;end if;
+ select greatest(0,s.total_cents-coalesce((select sum(total_cents) from private.totus_tpv_local_refunds where sale_id=s.id and status='confirmed'),0)) into remaining from private.totus_tpv_local_sales s where s.id=new.sale_id;
+ amount:=case when remaining=0 then 0 when voucher.settings_snapshot->>'mode'='fixed' then voucher.issued_cents else least(voucher.issued_cents,round(remaining::numeric*(voucher.settings_snapshot->>'value')::int/10000)::bigint) end;
+ if voucher.used_sale is not null then update private.totus_tpv_local_promotions set review_required=true where id=voucher.id;
+ else update private.totus_tpv_local_promotions set available_cents=amount,reserved_quote=null where id=voucher.id;end if;
+ end if;return new;
+end $record$;
+;
+drop trigger if exists x_native_credit_promotion on private.totus_tpv_local_sales;
+create trigger x_native_credit_promotion after update of paid_cents on private.totus_tpv_local_sales for each row execute function totus_tpv_internal.local_record_promotion();
+commit;

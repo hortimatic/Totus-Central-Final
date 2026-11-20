@@ -1,6 +1,6 @@
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=b1df092ac94bbc9feae604eddc2c2a73302aa955';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=b1df092ac94bbc9feae604eddc2c2a73302aa955';
+import {catalogueSearchFields} from './search-preferences.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
@@ -10,7 +10,7 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
  need(typeof invoke==='function'&&actorId&&typeof currentActor==='function'&&storage,'Falta la sesión de Central.');
  let context=null,selected=null,session=null,customer=null,workspace=null,activeDraft=null;
  const guard=()=>need(currentActor()===actorId,'La cuenta ha cambiado. Vuelve a abrir el mostrador.');
- const call=async(name,args={})=>{guard();const result=await invoke(name,copy(args));guard();return result;};
+ const call=async(name,args={})=>{guard();let result;try{result=await invoke(name,copy(args));}catch(error){if(typeof error?.message==='string'&&error.message.startsWith(name+': '))error.message=error.message.slice(name.length+2);throw error;}guard();return result;};
  const station=()=>{guard();need(selected,'Selecciona una caja de Central.');return selected;};
  const active=()=>{station();need(session?.status==='open','Abre una caja de Central.');return session;};
  const key=id=>'totus:tpv:central-operation:'+actorId+':'+id;

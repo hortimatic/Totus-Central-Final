@@ -1,6 +1,6 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=b1df092ac94bbc9feae604eddc2c2a73302aa955';
-import {textValue,associationIds} from './productos-core.js?v=b1df092ac94bbc9feae604eddc2c2a73302aa955';
-import {csvCell} from './utils.js?v=b1df092ac94bbc9feae604eddc2c2a73302aa955';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
+import {textValue,associationIds} from './productos-core.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
+import {csvCell} from './utils.js?v=43436f5f65baaf44819127982fbdfe96c3ff9576';
 export const PRODUCT_COLUMNS=Object.freeze([
  ['image','Foto'],['name','Producto'],['id','ID'],['reference','Ref.'],['ean13','EAN'],['brand','Marca'],['supplier','Proveedor'],['category','Categoría'],['store','Tienda'],['cost','Coste neto'],['costVat','Coste +IVA'],['costTotal','Coste total'],['price','PVP neto'],['gross','PVP final'],['margin','Margen %'],['marginTotal','Margen €'],['stock','Stock'],['variants','Variantes'],['active','Estado'],['weight','Peso'],['width','Ancho'],['height','Alto'],['depth','Fondo'],['date_add','Creado'],['creator','Autor'],['date_upd','Actualizado']
 ]);
