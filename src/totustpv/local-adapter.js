@@ -1,11 +1,11 @@
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=3285e2076261036c4b7d62728b54465f824faedc';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=f280cfc359a44de55ee2eb7c66f1f5311311629e';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=3285e2076261036c4b7d62728b54465f824faedc';
+import {catalogueSearchFields} from './search-preferences.js?v=f280cfc359a44de55ee2eb7c66f1f5311311629e';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
-export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,provePrice,uuid=()=>crypto.randomUUID()}){
+export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,provePrice,proveOperator,uuid=()=>crypto.randomUUID()}){
  need(typeof invoke==='function'&&actorId&&typeof currentActor==='function'&&storage,'Falta la sesión de Central.');
  let context=null,selected=null,session=null,customer=null,workspace=null,activeDraft=null;
  const guard=()=>need(currentActor()===actorId,'La cuenta ha cambiado. Vuelve a abrir el mostrador.');
@@ -22,6 +22,8 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
 
  async function draftCommand(action,{draftId=null,version=null,data={}}={}){const s=active(),markerKey=key('pending-draft-'+station().id),pending=JSON.parse(storage.getItem(markerKey)||'null');const fresh={p_id:uuid(),p_session:s.id,p_action:action,p_draft:draftId,p_version:version,p_data:data};if(pending)need(pending.p_session===s.id&&pending.p_action===action&&pending.p_draft===draftId&&(action!=='save'||same(pending.p_data,data)),'Recupera primero la operación pendiente del ticket aparcado.');const request=pending||fresh;storage.setItem(markerKey,JSON.stringify(request));try{const result=await call('totus_tpv_local_draft',request);need(result?.id===(draftId||request.p_id)&&Number.isSafeInteger(result.version),'No se ha verificado el ticket aparcado.');storage.removeItem(markerKey);return result;}catch(error){if(/^TPV_LOCAL_(DRAFT_|PARKING_DISABLED|CUSTOMER_INVALID|FORBIDDEN)/.test(error.message))storage.removeItem(markerKey);throw error;}}
  return Object.freeze({mode:'central',workspaceOptions,
+  async operatorSwitchPolicy(){return call('totus_tpv_local_operator_policy',{p_drawer:station().id});},
+  async verifyOperatorSwitch({requestId,targetId=null,proofJwt}){const drawerId=station().id;try{const value=await call('totus_tpv_local_operator_switch',{p_id:requestId,p_drawer:drawerId,p_target:targetId});if(value.requiresPassword){need(typeof proveOperator==='function'&&proofJwt,'Selecciona una persona autorizada e introduce su contraseña. Tu sesión sigue abierta.');const verified=await proveOperator({requestId,proofJwt});guard();need(station().id===drawerId,'La caja ha cambiado.');return verified;}return value;}catch(error){if(/TPV_LOCAL_OPERATOR_SELECT_ACCOUNT/.test(error.message))throw Error('Esta caja pide la contraseña antes de cambiar. Selecciona una persona asignada a la caja; tu sesión sigue abierta.');if(/TPV_LOCAL_OPERATOR_(UNAVAILABLE|REQUEST_CHANGED)/.test(error.message))throw Error('El acceso de esa persona ha cambiado. Vuelve a elegir un operador; tu sesión sigue abierta.');if(/TPV_LOCAL_OPERATOR_SWITCH_DISABLED/.test(error.message))throw Error('El cambio de operador está desactivado en General. Tu sesión sigue abierta.');throw error;}finally{proofJwt='';}},
   async operatorCheckout({operationId,accepted=false}){const value=await call('totus_tpv_local_operator_checkout',{p_quote:operationId,p_accept:accepted});need(value?.quoteId===operationId&&value.actorId===actorId&&typeof value.required==='boolean'&&typeof value.confirmed==='boolean','No se ha verificado el operador de este cobro.');return value;},
   async operatorChoices(){return call('totus_tpv_local_operator_choices',{p_drawer:station().id});},
 

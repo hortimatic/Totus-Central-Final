@@ -12,3 +12,14 @@ export function createLocalPriceProof({url,key,actorId,currentActor,fetchImpl=gl
   }finally{proofJwt='';}
  };
 }
+
+/** The incoming proof stays in memory and is sent only to Final's own RPC. */
+export function createLocalOperatorProof({url,key,actorId,currentActor,fetchImpl=globalThis.fetch}){
+ const origin=new URL(url);if(origin.protocol!=='https:'||origin.pathname!=='/'||origin.search||origin.hash||origin.username||origin.password||typeof key!=='string'||!key||typeof currentActor!=='function')throw Error('No se ha preparado el cambio de operador.');
+ return async function proveOperator({requestId,proofJwt}){try{
+  if(currentActor()!==actorId||typeof requestId!=='string'||!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(requestId)||typeof proofJwt!=='string'||proofJwt.length<10||proofJwt.length>16384)throw Error('La sesión ha cambiado.');
+  const response=await fetchImpl(origin.origin+'/rest/v1/rpc/totus_tpv_local_operator_proof',{method:'POST',headers:{apikey:key,Authorization:'Bearer '+proofJwt,'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({p_id:requestId}),credentials:'omit',cache:'no-store',redirect:'error'});
+  if(currentActor()!==actorId)throw Error('La cuenta ha cambiado.');
+  const value=await response.json();if(!response.ok||value?.requestId!==requestId||value.actorId!==actorId||value.verified!==true)throw Error('No se ha verificado el acceso de la persona seleccionada. Tu sesión sigue abierta.');return value;
+ }finally{proofJwt='';}};
+}
