@@ -1,6 +1,6 @@
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=603281a068b6e6a22323154e4de1692de7470f18';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=310ced609296f2ed6b055f79f08973afc7a8417a';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=603281a068b6e6a22323154e4de1692de7470f18';
+import {catalogueSearchFields} from './search-preferences.js?v=310ced609296f2ed6b055f79f08973afc7a8417a';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
@@ -22,6 +22,7 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
 
  async function draftCommand(action,{draftId=null,version=null,data={}}={}){const s=active(),markerKey=key('pending-draft-'+station().id),pending=JSON.parse(storage.getItem(markerKey)||'null');const fresh={p_id:uuid(),p_session:s.id,p_action:action,p_draft:draftId,p_version:version,p_data:data};if(pending)need(pending.p_session===s.id&&pending.p_action===action&&pending.p_draft===draftId&&(action!=='save'||same(pending.p_data,data)),'Recupera primero la operación pendiente del ticket aparcado.');const request=pending||fresh;storage.setItem(markerKey,JSON.stringify(request));try{const result=await call('totus_tpv_local_draft',request);need(result?.id===(draftId||request.p_id)&&Number.isSafeInteger(result.version),'No se ha verificado el ticket aparcado.');storage.removeItem(markerKey);return result;}catch(error){if(/^TPV_LOCAL_(DRAFT_|PARKING_DISABLED|CUSTOMER_INVALID|FORBIDDEN)/.test(error.message))storage.removeItem(markerKey);throw error;}}
  return Object.freeze({mode:'central',workspaceOptions,
+  async operatorCheckout({operationId,accepted=false}){const value=await call('totus_tpv_local_operator_checkout',{p_quote:operationId,p_accept:accepted});need(value?.quoteId===operationId&&value.actorId===actorId&&typeof value.required==='boolean'&&typeof value.confirmed==='boolean','No se ha verificado el operador de este cobro.');return value;},
   async operatorChoices(){return call('totus_tpv_local_operator_choices',{p_drawer:station().id});},
 
   async reviewCatalogueTax(itemId){const value=await call('totus_tpv_local_tax_review',{p_drawer:station().id,p_item:itemId});need(value?.itemId===itemId&&Array.isArray(value.rows)&&value.rows.length&&Array.isArray(value.groups),'No se ha podido verificar el impuesto del producto.');const pending=JSON.parse(storage.getItem(key('tax-'+station().id+':'+value.productId))||'null');return pending?{...value,...pending.p_review,pending:String(pending.p_tax)}:value;},
