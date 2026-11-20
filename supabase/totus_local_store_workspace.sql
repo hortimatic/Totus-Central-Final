@@ -4,6 +4,8 @@ alter table public.brands add column if not exists store_id uuid references publ
 alter table public.ops_customers add column if not exists store_id uuid references public.ops_stores(id) on delete restrict;
 alter table public.ops_suppliers add column if not exists store_id uuid references public.ops_stores(id) on delete restrict;
 alter table public.products add column if not exists brand_id uuid references public.brands(id) on delete set null;
+alter table public.products add column if not exists details jsonb not null default '{}';
+alter table public.products add column if not exists supplier_id uuid references public.ops_suppliers(id) on delete set null;
 create index if not exists products_store_idx on public.products(store_id);
 create index if not exists customers_store_idx on public.ops_customers(store_id);
 create index if not exists suppliers_store_idx on public.ops_suppliers(store_id);
@@ -25,7 +27,7 @@ begin
   select coalesce(jsonb_agg(jsonb_build_object('id',s.id,'name',s.name,'code',s.code) order by s.sort_order,s.name),'[]') into items from public.ops_stores s where private.totus_local_store_access(s.id);
   return jsonb_build_object('stores',items);
  end if;
- module_name:=case p_kind when 'products' then 'productos' when 'customers' then 'clientes' when 'suppliers' then 'proveedores' when 'brands' then 'marcas' when 'summary' then 'inicio' else null end;
+ module_name:=case p_kind when 'products' then 'productos' when 'customers' then 'facturacion' when 'suppliers' then 'gastos' when 'brands' then 'pricing' when 'summary' then 'inicio' else null end;
  if module_name is null or p_action not in('list','save','delete') or private.totus_can(module_name,case p_action when 'list' then 'view' when 'delete' then 'delete' else case when p_id is null then 'create' else 'edit' end end) is not true or private.totus_local_store_access(p_store) is not true then raise exception 'No tienes acceso a esta tienda o a esta operación.';end if;
  perform 1 from public.ops_stores where id=p_store for key share;
  if p_kind='summary' and p_action='list' then
@@ -60,18 +62,22 @@ begin
   if price<0 or price>999999999 or tax<0 or tax>10000 or qty<0 or qty>999999999.999 or qty<>round(qty,case when unit='unit' then 0 else 3 end) then raise exception 'Revisa precio, IVA y existencias.';end if;
   if nullif(p_data->>'brandId','') is not null and not exists(select 1 from public.brands where id=(p_data->>'brandId')::uuid and store_id=p_store) then raise exception 'La marca no pertenece a esta tienda.';end if;
   variant_count:=jsonb_array_length(coalesce(p_data->'variants','[]'));if variant_count>100 then raise exception 'Máximo 100 variantes por guardado.';end if;
-  if p_id is not null and ((select count(*) from public.product_variants where product_id=p_id)>0 or variant_count>0) then raise exception 'La edición de combinaciones requiere conservar sus identidades. Abre cada combinación desde el catálogo.';end if;
-  insert into public.products(id,store_id,sku,name,product_type,status,current_pvp,brand_id,created_by) values(row_id,p_store,btrim(p_data->>'reference'),btrim(p_data->>'name'),case when variant_count>0 then 'variants' else 'simple' end,'ACEPTADO',price/100.0,nullif(p_data->>'brandId','')::uuid,actor)
-  on conflict(id) do update set name=excluded.name,sku=excluded.sku,current_pvp=excluded.current_pvp,brand_id=excluded.brand_id,updated_at=now() returning * into product_row;
+  if p_id is not null and exists(select 1 from public.product_variants v where v.product_id=p_id and not exists(select 1 from jsonb_array_elements(p_data->'variants') x where x->>'id'=v.id::text)) then raise exception 'Conserva todas las combinaciones existentes para proteger su stock e historial.';end if;
+  if p_id is not null and p_data->>'expectedRevision' is distinct from (select updated_at::text from public.products where id=p_id) and (p_data->>'expectedRevision')::timestamptz is distinct from (select updated_at from public.products where id=p_id) then raise exception 'La ficha ha cambiado. Vuelve a abrirla antes de guardar.';end if;
+  if nullif(p_data->>'supplierId','') is not null and not exists(select 1 from public.ops_suppliers where id=(p_data->>'supplierId')::uuid and store_id=p_store) then raise exception 'El proveedor no pertenece a esta tienda.';end if;
+  insert into public.products(id,store_id,sku,name,product_type,status,current_pvp,brand_id,supplier_id,details,created_by) values(row_id,p_store,btrim(p_data->>'reference'),btrim(p_data->>'name'),case when variant_count>0 then 'variants' else 'simple' end,'ACEPTADO',price/100.0,nullif(p_data->>'brandId','')::uuid,nullif(p_data->>'supplierId','')::uuid,p_data-array['variants','expectedRevision'],actor)
+  on conflict(id) do update set name=excluded.name,sku=excluded.sku,current_pvp=excluded.current_pvp,brand_id=excluded.brand_id,supplier_id=excluded.supplier_id,details=excluded.details,updated_at=now() returning * into product_row;
   if variant_count=0 then
-   select * into catalogue_row from private.totus_tpv_local_catalogue where store_id=p_store and product_id=row_id and variant_id is null for update;
+   select * into catalogue_row from private.totus_tpv_local_catalogue c where c.store_id=p_store and c.product_id=row_id and c.variant_id is null for update;
    perform public.totus_tpv_local_catalogue_save(gen_random_uuid(),p_store,coalesce(catalogue_row.id,row_id),row_id,null,jsonb_build_object('name',product_row.name,'reference',product_row.sku,'ean',coalesce(p_data->>'ean',''),'priceCents',price,'taxBasisPoints',tax,'stock',qty,'quantityUnit',unit,'metadata',jsonb_build_object('brandId',product_row.brand_id),'active',coalesce((p_data->>'active')::boolean,true)),coalesce(catalogue_row.revision,0));
   else
    for variant in select value from jsonb_array_elements(p_data->'variants') loop
     attributes:=variant->'attributes';if jsonb_typeof(attributes)<>'object' or attributes='{}' or length(attributes::text)>2000 or btrim(coalesce(variant->>'reference',''))='' then raise exception 'Cada variante necesita referencia y atributos.';end if;
-    variant_id:=gen_random_uuid();
-    insert into public.product_variants(id,product_id,sku,name,attributes,pvp) values(variant_id,row_id,btrim(variant->>'reference'),(select string_agg(key||': '||value,' · ' order by key) from jsonb_each_text(attributes)),attributes,(variant->>'priceCents')::bigint/100.0);
-    perform public.totus_tpv_local_catalogue_save(gen_random_uuid(),p_store,variant_id,row_id,variant_id,jsonb_build_object('name',product_row.name||' · '||(select name from public.product_variants where id=variant_id),'reference',variant->>'reference','ean',coalesce(variant->>'ean',''),'priceCents',(variant->>'priceCents')::bigint,'taxBasisPoints',tax,'stock',(variant->>'stock')::numeric,'quantityUnit',unit,'metadata',jsonb_build_object('attributes',attributes,'brandId',product_row.brand_id),'active',true),0);
+    variant_id:=coalesce(nullif(variant->>'id','')::uuid,gen_random_uuid());
+    if variant?'id' and not exists(select 1 from public.product_variants v where v.id=variant_id and v.product_id=row_id) then raise exception 'La combinación no pertenece al producto.';end if;
+    insert into public.product_variants(id,product_id,sku,name,attributes,pvp) values(variant_id,row_id,btrim(variant->>'reference'),(select string_agg(key||': '||value,' · ' order by key) from jsonb_each_text(attributes)),attributes,(variant->>'priceCents')::bigint/100.0) on conflict(id) do update set sku=excluded.sku,name=excluded.name,attributes=excluded.attributes,pvp=excluded.pvp;
+    select * into catalogue_row from private.totus_tpv_local_catalogue c where c.store_id=p_store and c.id=variant_id for update;
+    perform public.totus_tpv_local_catalogue_save(gen_random_uuid(),p_store,variant_id,row_id,variant_id,jsonb_build_object('name',product_row.name||' · '||(select name from public.product_variants where id=variant_id),'reference',variant->>'reference','ean',coalesce(variant->>'ean',''),'priceCents',(variant->>'priceCents')::bigint,'taxBasisPoints',tax,'stock',(variant->>'stock')::numeric,'quantityUnit',unit,'metadata',jsonb_build_object('attributes',attributes,'brandId',product_row.brand_id),'active',true),coalesce(catalogue_row.revision,0));
    end loop;
   end if;
   result:=jsonb_build_object('id',row_id,'storeId',p_store,'saved',true);
@@ -93,7 +99,7 @@ grant execute on function public.totus_local_store_workspace(uuid,text,text,uuid
 create or replace function public.totus_tpv_local_customers(p_drawer uuid,p_search text default '',p_offset integer default 0,p_customer uuid default null) returns jsonb language plpgsql security definer set search_path='' as $$
 declare actor uuid:=totus_tpv_internal.local_authorize(p_drawer,'view');rows jsonb;shop uuid;
 begin
- if private.totus_can('clientes','view') is not true then raise exception 'TPV_LOCAL_CUSTOMER_FORBIDDEN';end if;
+ if private.totus_can('facturacion','view') is not true then raise exception 'TPV_LOCAL_CUSTOMER_FORBIDDEN';end if;
  if p_search is null or char_length(p_search)>150 or p_offset is null or p_offset<0 or p_offset>1000000 then raise exception 'TPV_LOCAL_QUERY_INVALID';end if;
  select store_id into shop from public.ops_cash_drawers where id=p_drawer;
  select coalesce(jsonb_agg(x.data order by x.name,x.id),'[]'::jsonb) into rows from (select c.id,c.name,jsonb_build_object('id',c.id,'name',c.name,'addressLabel',concat_ws(', ',nullif(c.address,''),nullif(c.city,''))) data from public.ops_customers c where c.active and c.store_id=shop and (p_customer is null or c.id=p_customer) and (p_search='' or position(lower(p_search) in lower(c.name||' '||coalesce(c.tax_id,'')||' '||coalesce(c.email,'')))>0) order by c.name,c.id limit 51 offset p_offset)x;

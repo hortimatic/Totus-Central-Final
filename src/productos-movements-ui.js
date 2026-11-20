@@ -1,7 +1,7 @@
-import {esc,csv,download} from './utils.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
-import {columnSettingsRow,standardizeColumnPanel} from './column-settings.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
-import {attachProductTableLayout} from './productos-table-layout.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
-import {MOVEMENT_COLUMNS,DEFAULT_MOVEMENT_COLUMNS,movementLayout,createMovementReader} from './productos-movements.js?v=d05df74525faeaf4a466e12ac38f433d8c01c702';
+import {esc,csv,download} from './utils.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
+import {columnSettingsRow,standardizeColumnPanel} from './column-settings.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
+import {attachProductTableLayout} from './productos-table-layout.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
+import {MOVEMENT_COLUMNS,DEFAULT_MOVEMENT_COLUMNS,movementLayout,createMovementReader} from './productos-movements.js?v=412cce6855be752f16bb5fdc509e574662929cb2';
 
 export function createProductMovementsUI({invoke,rpc,actor,canExport=()=>false}){
  let root=null,context=null,key='',owner='',generation=0,busy=false,ready=false,rows=[],hasMore=false,page=0,query='',from='',to='',message='Consulta los movimientos reales de esta ficha.',layout=movementLayout(),layoutMessage='',saveQueue=Promise.resolve(),layoutRevision=0,removeLayout=()=>{};
