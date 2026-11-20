@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=8ad483537c8fcd1f8720845c185ee337277325a8';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=8ad483537c8fcd1f8720845c185ee337277325a8';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=8ad483537c8fcd1f8720845c185ee337277325a8';
+import {workstationIcon} from './workstation-visual.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=61be05a1dc5bb4d581828819752ba87ab4a46426';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
@@ -49,7 +49,7 @@ function preferenceGroupsHtml(section,fields,settings,editable,draft,categories)
  const other=fields.filter(f=>!used.has(f.id));if(other.length)blocks.unshift(`<div class="tpv-settings-group-extra">${other.map(f=>fieldHtml(f,settings,editable,draft,categories)).join('')}</div>`);
  return blocks.join('');
 }
-export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml='',brandingHtml='',administrationHtml=''}={}){
+export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml='',brandingHtml='',administrationHtml='',generalSetupHtml=''}={}){
  const settings=normalizeReferencePreferences(values);
  const original=REFERENCE_SETTINGS.find(g=>g.name===section)||REFERENCE_SETTINGS[0];
  const fields=(section==='Interfaz'?[{id:'UI-VIEW-MODE',label:'Vista del catálogo al iniciar'},...original.fields]:section==='Ticket'?[...original.fields,{id:'UI-CUSTOMER-EXTRA-FIELD',label:'Dato adicional que se imprime'},{id:'UI-CUSTOMER-EXTRA-LABEL',label:'Título del dato adicional'}]:original.fields).filter(f=>!coveredIds.includes(f.id)&&(!connectedHtml||!f.id.startsWith('CFG-13-')));
@@ -57,12 +57,13 @@ export function referenceSettingsHtml(section='General',{values={},editable=fals
  return `<section class="tpv-reference-settings" aria-label="Configuración de TotusTPV">
  <header><div><small>TOTUSTPV · AJUSTES</small><h3>Configuración</h3></div><button type="button" class="btn secondary" data-tpv-action="sale">Volver al mostrador</button></header>${scopeHtml}
  <div class="tpv-reference-settings-layout"><nav aria-label="Apartados de configuración"><label class="tpv-settings-search">Buscar un ajuste<input type="search" data-tpv-settings-search placeholder="Logo, permisos, stock…" autocomplete="off"></label><p class="tpv-settings-search-status" data-tpv-settings-search-status role="status" hidden></p>${REFERENCE_SETTINGS.map(g=>`<button type="button" class="${g===original?'active':''}" data-tpv-reference-section="${esc(g.name)}" data-tpv-settings-keywords="${esc([g.name,...g.fields.map(f=>f.label)].join(' '))}" aria-current="${g===original?'page':'false'}">${esc(g.name)}</button>`).join('')}</nav>
- <article><header class="tpv-settings-section-head"><h4>${esc(original.name)}</h4><p class="tpv-reference-status">${practice?'Modo práctica · cambios guardados en este navegador.':'Ajustes del puesto seleccionado · sujetos a tus permisos.'}</p></header>
+ <article><header class="tpv-settings-section-head"><h4>${esc(original.name)}</h4><p class="tpv-reference-status">${generalSetupHtml?'Ajustes guardados en Central · no requieren una web.':practice?'Modo práctica · cambios guardados en este navegador.':'Ajustes del puesto seleccionado · sujetos a tus permisos.'}</p></header>
  <div class="tpv-settings-editor"><div class="tpv-settings-fields">
- ${section==='Ticket'&&brandingHtml?`<div class="tpv-settings-card">${brandingHtml}</div>`:''}
+ ${generalSetupHtml||` ${section==='Ticket'&&brandingHtml?`<div class="tpv-settings-card">${brandingHtml}</div>`:''}
  ${supported.length?`<form data-tpv-form="reference-preferences" class="tpv-settings-card"><header><h5>Presentación y uso</h5></header>${preferenceGroupsHtml(section,supported,settings,editable,draft,categories)}<footer><button type="submit" class="btn primary" ${!editable?'disabled':''}>Guardar cambios</button></footer></form>`:''}
  ${connectedHtml?`<div class="tpv-reference-connected">${connectedHtml}</div>`:''}
  ${pending.length?`<details class="tpv-settings-card tpv-settings-pending" ${!supported.length&&!connectedHtml?'open':''}><summary>${practice&&section==='General'?'Ajustes administrativos de la tienda':'Opciones todavía no disponibles aquí'} <span>${pending.length}</span></summary><p>${practice?'La práctica no configura los permisos ni las reglas de una tienda real. Selecciona un puesto conectado para administrar sus ajustes.':'Estas opciones todavía no están conectadas en este puesto.'}</p>${practice?administrationHtml:''}${pending.map(f=>fieldHtml(f,settings,false,draft,categories)).join('')}</details>`:''}
+`}
  </div>${section==='Ticket'&&preview?`<aside class="tpv-settings-ticket-preview"><h5>Vista previa del ticket</h5><p>Ejemplo de impresión</p><div data-tpv-reference-preview>${preview}</div><p data-tpv-reference-preview-feedback role="status"></p></aside>`:''}</div></article></div></section>`;
 }
 
