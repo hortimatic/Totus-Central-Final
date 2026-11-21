@@ -35,6 +35,7 @@ begin
  select * into strict c from private.totus_api_connections where id=w.connection_id;
  if w.business_id is null or private.totus_local_store_access(w.business_id) is not true then raise exception 'Asigna un establecimiento accesible.';end if;
  perform pg_advisory_xact_lock(hashtextextended('web-native-catalogue:'||w.key,0));
+ perform pg_advisory_xact_lock(hashtextextended('web-import:'||w.key,0));
  if p_action='start' then
   if w.status<>'active' or not c.enabled or c.verified_revision is distinct from c.revision or not c.real_data_authorized then raise exception 'Verifica y activa la conexión.';end if;
   if p_job is null or p_shop is null or not exists(select 1 from private.totus_web_source_records where website_key=w.key and resource='shops' and source_id=p_shop) then raise exception 'Selecciona la tienda de la web importada.';end if;
@@ -53,6 +54,7 @@ begin
  elsif p_action='status' then select * into j from private.totus_web_native_catalogue_jobs where website_key=w.key order by created_at desc limit 1;
  else raise exception 'Acción de catálogo no válida.';end if;
  if j.phase in ('variants','remaining') then next_product:=private.totus_web_next_catalogue_product(w.key,j.phase,j.cursor_id,j.shop_id);end if;
+ if p_action in ('start','resume','context') and not private.totus_web_native_source_current(j.id) then raise exception 'La importación ha cambiado. Inicia una nueva preparación de precios.';end if;
  if p_action='context' and j.phase in ('variants','remaining') and next_product is not null then
   select data into parent from private.totus_web_source_records where website_key=w.key and resource='products' and source_id=next_product;
   parent:=parent||jsonb_build_object('_stock',coalesce((select nullif(s.data->>'quantity','')::numeric from private.totus_web_source_records s where s.website_key=w.key and s.resource='stock_availables' and s.data->>'id_product'=next_product::text and s.data->>'id_product_attribute'='0' order by (s.data->>'id_shop'=j.shop_id::text) desc,s.source_id limit 1),0));
@@ -62,7 +64,7 @@ begin
   select coalesce(jsonb_agg(jsonb_build_object('id',v.source_id,'data',v.data,'stock',coalesce((select (s.data->>'quantity')::numeric from private.totus_web_source_records s where s.website_key=w.key and s.resource='stock_availables' and s.data->>'id_product'=next_product::text and s.data->>'id_product_attribute'=v.source_id::text order by (s.data->>'id_shop'=j.shop_id::text) desc,s.source_id limit 1),0)) order by v.source_id),'[]') into variants from private.totus_web_source_records v where v.website_key=w.key and v.resource='combinations' and v.data->>'id_product'=next_product::text;
  end if;
  if p_action<>'context' then select coalesce(jsonb_agg(jsonb_build_object('id',source_id,'name',data->>'name') order by source_id),'[]') into shops from private.totus_web_source_records where website_key=w.key and resource='shops';end if;
- return jsonb_build_object('website',w.key,'origin',w.origin,'connectionId',c.id,'connectionRevision',c.revision,'job',case when j.id is null then null else to_jsonb(j) end,'productId',next_product,'shops',shops,'pricing',pricing,'product',parent,'variants',variants);
+ return jsonb_build_object('sourceCurrent',private.totus_web_native_source_current(j.id),'website',w.key,'origin',w.origin,'connectionId',c.id,'connectionRevision',c.revision,'job',case when j.id is null then null else to_jsonb(j) end,'productId',next_product,'shops',shops,'pricing',pricing,'product',parent,'variants',variants);
 end $$;
 revoke all on function private.totus_web_native_catalogue(text,text,uuid,bigint) from public,anon;
 grant execute on function private.totus_web_native_catalogue(text,text,uuid,bigint) to authenticated;
@@ -74,10 +76,14 @@ create or replace function public.totus_web_native_catalogue_commit(p_job uuid,p
 language plpgsql security definer set search_path='' as $$
 declare j private.totus_web_native_catalogue_jobs;w private.totus_websites;c private.totus_api_connections;item jsonb;next_product bigint;n integer:=0;
 begin
+ select * into strict j from private.totus_web_native_catalogue_jobs where id=p_job;
+ perform pg_advisory_xact_lock(hashtextextended('web-native-catalogue:'||j.website_key,0));
+ perform pg_advisory_xact_lock(hashtextextended('web-import:'||j.website_key,0));
  select * into strict j from private.totus_web_native_catalogue_jobs where id=p_job for update;
  select * into strict w from private.totus_websites where key=j.website_key;
  select * into strict c from private.totus_api_connections where id=w.connection_id;
  if j.actor_id is distinct from p_actor or j.state<>'running' or w.status<>'active' or not c.enabled or c.verified_revision is distinct from c.revision or j.connection_revision<>c.revision then raise exception 'La preparación ha cambiado.';end if;
+ if not private.totus_web_native_source_current(j.id) then raise exception 'La importación ha cambiado. Inicia una nueva preparación de precios.';end if;
  if j.phase is distinct from p_phase or j.page is distinct from p_page or j.cursor_id is distinct from p_cursor then return jsonb_build_object('retry',true);end if;
  if j.phase='profile' then
   if p_data->>'verified' is distinct from 'true' or (p_data->>'shop_id')::bigint is distinct from j.shop_id or p_data->>'currency' is null or p_data->>'language_id' is null then raise exception 'El perfil nativo no coincide con la tienda.';end if;

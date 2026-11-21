@@ -27,11 +27,13 @@ try{
  create table private.totus_web_source_records(website_key text references private.totus_websites,resource text,source_id bigint,data jsonb,job_id uuid references private.totus_web_import_jobs,imported_at timestamptz default now(),primary key(website_key,resource,source_id));
  insert into private.totus_web_source_records select 'web-a','products',n,jsonb_build_object('id',n,'description',repeat('x',1000)),'${id}',now() from generate_series(1,20000)n;
  insert into private.totus_web_source_records values('web-a','customers',1,'{}','${id}',now()),('web-b','products',1,'{}','${other}',now());
- create table private.totus_web_native_catalogue_jobs(id uuid primary key,website_key text references private.totus_websites,state text);insert into private.totus_web_native_catalogue_jobs values('${id}','web-a','completed');
- create table private.totus_web_native_catalogue_items(job_id uuid references private.totus_web_native_catalogue_jobs,data jsonb);insert into private.totus_web_native_catalogue_items values('${id}','{}');
+ create table private.totus_web_native_catalogue_jobs(id uuid primary key,website_key text references private.totus_websites,state text);
+ create table private.totus_web_native_catalogue_items(job_id uuid references private.totus_web_native_catalogue_jobs,data jsonb);
  create table private.totus_web_directory_projection(website_key text references private.totus_websites,resource text,source_id bigint);
  `);
  await db.exec(await readFile('supabase/totus_web_source_counters.sql','utf8'));
+ await db.exec(await readFile('supabase/totus_web_native_source_snapshot.sql','utf8'));
+ await db.exec(`insert into private.totus_web_native_catalogue_jobs values('${id}','web-a','completed');insert into private.totus_web_native_catalogue_items values('${id}','{}');`);
  await db.exec(await readFile('supabase/totus_business_cleanup.sql','utf8'));
  await db.exec(`insert into private.totus_web_source_records values('web-a','products',20001,'{}','${id}',now()),('web-a','products',20002,'{}','${id}',now()) on conflict(website_key,resource,source_id) do update set data=excluded.data;`);
  assert.equal((await db.query("select records from private.totus_web_source_counters where website_key='web-a' and resource='products'")).rows[0].records,20002);
@@ -41,7 +43,7 @@ try{
  assert.equal((await db.query("select records from private.totus_web_source_counters where website_key='web-a' and resource='products'")).rows[0].records,20000);
  const call=(groups,remove=false,execute=false,fingerprint=null)=>db.query('select public.totus_business_cleanup($1,null,$2,$3,$4,$5,$6) p',[id,groups,remove,execute,fingerprint,'ELIMINAR A']).then(r=>r.rows[0].p);
  let plan=await call(['catalogue']);assert.equal(plan.sourceResources[0].records,20000);assert.equal(plan.sourceResources[0].resource,'products');
- assert.equal(plan.total,20004); // product, catalogue, price job and price item + sources
+ assert.equal(plan.total,20005); // product, catalogue, price job and price item + sources
  await assert.rejects(()=>call(['catalogue'],false,true,'stale'),/Los datos han cambiado/);
  await db.exec("update private.totus_web_source_records set data='{\"changed\":true}' where website_key='web-a' and resource='products' and source_id=1");
  await assert.rejects(()=>call(['catalogue'],false,true,plan.fingerprint),/Los datos han cambiado/);
@@ -50,6 +52,7 @@ try{
  await assert.rejects(()=>call(['catalogue'],false,true,plan.fingerprint),/Los datos han cambiado/);
  plan=await call(['catalogue']);
  await call(['catalogue'],false,true,plan.fingerprint);
+ assert.equal((await db.query('select count(*) n from private.totus_web_native_source_snapshots')).rows[0].n,0);
  assert.equal((await db.query("select records from private.totus_web_source_counters where website_key='web-a' and resource='products'")).rows[0].records,0);
  assert.equal((await db.query("select count(*) n from private.totus_web_source_records where website_key='web-a' and resource='products'")).rows[0].n,0);
  assert.equal((await db.query("select count(*) n from private.totus_web_source_records where resource='customers'")).rows[0].n,1);

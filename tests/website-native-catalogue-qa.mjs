@@ -26,7 +26,7 @@ try{
  insert into private.totus_api_connections values('${job}',true,1,1,true);
  insert into private.totus_websites values('web-a','${job}','${job}','active','https://shop.example');
  insert into private.totus_web_source_records values('web-a','shops',1,'{"name":"Shop"}'),('web-a','products',1,'{"id":"1","name":"Product"}'),('web-a','combinations',1,'{"id_product":"1"}'),('web-a','combinations',2,'{"id_product":"0"}');`);
- await db.exec(await readFile(new URL('../supabase/totus_web_native_catalogue.sql',import.meta.url),'utf8'));await db.exec(await readFile(new URL('../supabase/totus_web_native_catalogue_batches.sql',import.meta.url),'utf8'));
+ await db.exec(await readFile(new URL('../supabase/totus_web_native_catalogue.sql',import.meta.url),'utf8'));await db.exec(await readFile(new URL('../supabase/totus_web_source_counters.sql',import.meta.url),'utf8'));await db.exec(await readFile(new URL('../supabase/totus_web_native_source_snapshot.sql',import.meta.url),'utf8'));await db.exec(await readFile(new URL('../supabase/totus_web_native_catalogue_batches.sql',import.meta.url),'utf8'));
  const call=action=>db.query('select public.totus_web_native_catalogue($1,$2,$3,$4) result',['web-a',action,job,1]).then(r=>r.rows[0].result);
  await assert.rejects(()=>call('start'),/sesión/);await db.exec(`set test.actor='${actor}'`);
  assert.equal((await call('status')).job,null);assert.equal((await call('start')).job.phase,'profile');assert.equal((await call('start')).job.id,job);
@@ -37,5 +37,14 @@ try{
  await commit('variants',0,0,1,{...data,items:[{...item,attribute_id:1}]});assert.equal((await call('context')).productId,null);
  await commit('variants',0,1,null,null);assert.equal((await call('status')).job.phase,'remaining');await commit('remaining',0,0,null,null);assert.equal((await call('status')).job.state,'completed');
  assert.equal((await db.query('select count(*)::int n from private.totus_web_native_catalogue_items')).rows[0].n,1);
+ assert.equal((await db.query('select private.totus_web_native_source_current($1) ok',[job])).rows[0].ok,true);
+ await db.exec(`update private.totus_web_source_records set data=data||'{"changed":"yes"}' where resource='products';`);
+ assert.equal((await db.query('select private.totus_web_native_source_current($1) ok',[job])).rows[0].ok,false);
+ const changedJob='00000000-0000-4000-8000-000000000003';
+ await db.query("insert into private.totus_web_native_catalogue_jobs(id,website_key,actor_id,connection_revision,shop_id) values($1,'web-a',$2,1,1)",[changedJob,actor]);
+ await db.exec(`update private.totus_web_source_records set data=data||'{"changed":"again"}' where resource='products';`);
+ await assert.rejects(()=>db.query('select public.totus_web_native_catalogue($1,$2,$3,$4)',['web-a','context',changedJob,1]),/importación ha cambiado/);
+ await assert.rejects(()=>db.query('select public.totus_web_native_catalogue_commit($1,$2,$3,0,0,null,$4)',[changedJob,actor,'profile',fixture]),/importación ha cambiado/);
+ assert.equal((await db.query("select has_function_privilege('anon','private.totus_web_native_source_current(uuid)','execute') allowed")).rows[0].allowed,false);
  console.log('Isolated native catalogue: GET scope, exact price strings/cents, negative stock, currency guard, resumable phases, cursor replay and final completion passed. No live data created.');
 }finally{await db.close();}

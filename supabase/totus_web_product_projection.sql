@@ -35,12 +35,13 @@ begin
   'orphanDirectoryProducts',(select count(*) from private.totus_web_source_records p where p.website_key=w.key and p.resource='products' and (
     (coalesce(nullif(p.data->>'id_manufacturer',''),'0')::bigint>0 and not exists(select 1 from private.totus_web_source_records d where d.website_key=w.key and d.resource='manufacturers' and d.source_id=(p.data->>'id_manufacturer')::bigint)) or
     (coalesce(nullif(p.data->>'id_supplier',''),'0')::bigint>0 and not exists(select 1 from private.totus_web_source_records d where d.website_key=w.key and d.resource='suppliers' and d.source_id=(p.data->>'id_supplier')::bigint)))),
-  'pricesReady',coalesce(j.state='completed',false),'orphanCombinations',(select count(*) from private.totus_web_source_records v where v.website_key=w.key and v.resource='combinations' and not exists(select 1 from private.totus_web_source_records p where p.website_key=w.key and p.resource='products' and p.source_id=nullif(v.data->>'id_product','')::bigint)));end if;
+  'pricesReady',coalesce(j.state='completed' and private.totus_web_native_source_current(j.id),false),'orphanCombinations',(select count(*) from private.totus_web_source_records v where v.website_key=w.key and v.resource='combinations' and not exists(select 1 from private.totus_web_source_records p where p.website_key=w.key and p.resource='products' and p.source_id=nullif(v.data->>'id_product','')::bigint)));end if;
  if p_cursor is null or p_cursor<0 or private.totus_can('productos','create') is not true or private.totus_can('productos','edit') is not true then raise exception 'No tienes permiso para incorporar el catálogo.';end if;
  if j.id is null or j.state<>'completed' then raise exception 'Termina la preparación de precios y combinaciones antes de incorporar el catálogo.';end if;
  if exists(select 1 from private.totus_web_import_jobs where website_key=w.key and state in ('running','paused')) then raise exception 'Termina o cancela la importación activa.';end if;
  perform pg_advisory_xact_lock(hashtextextended('web-products:'||w.key,0));
  perform pg_advisory_xact_lock(hashtextextended('web-import:'||w.key,0));
+ if not private.totus_web_native_source_current(j.id) then raise exception 'La importación ha cambiado. Prepara los precios de nuevo antes de incorporar el catálogo.';end if;
  perform 1 from public.ops_stores where id=w.business_id for key share;
  for r in select * from private.totus_web_source_records where website_key=w.key and resource='products' and source_id>p_cursor order by source_id limit 25 loop
   last_id:=r.source_id;

@@ -27,22 +27,34 @@ try{
  insert into private.totus_web_native_catalogue_items values
  ('web-a',1,1,0,'${id}','{"preview_cents":1210,"unit_tax_incl":"12.100000","unit_tax_excl":"10.000000","stock":-2,"reference":"REPEAT"}'),
  ('web-a',1,2,11,'${id}','{"preview_cents":2420,"unit_tax_incl":"24.200000","unit_tax_excl":"20.000000","stock":3,"reference":"","enabled_for_sale":true}');`);
+ await db.exec(await readFile(new URL('../supabase/totus_web_source_counters.sql',import.meta.url),'utf8'));
+ await db.exec(await readFile(new URL('../supabase/totus_web_native_source_snapshot.sql',import.meta.url),'utf8'));
  await db.exec(await readFile(new URL('../supabase/totus_web_product_projection.sql',import.meta.url),'utf8'));
+ const repriceFixture=async()=>{const next=(await db.query("insert into private.totus_web_native_catalogue_jobs(id,website_key,state,shop_id,profile,created_at) values(gen_random_uuid(),'web-a','completed',1,'{\"currency\":\"EUR\",\"pricing_context\":{\"countryId\":6}}',clock_timestamp()) returning id")).rows[0].id;await db.query("update private.totus_web_native_catalogue_items set job_id=$1 where website_key='web-a'",[next]);};
  const call=apply=>db.query('select public.totus_web_product_projection($1,0,$2) result',['web-a',apply]).then(r=>r.rows[0].result);
  await assert.rejects(()=>call(true),/sesión/);await db.exec(`set test.actor='${id}'`);
+ assert.equal((await call(false)).pricesReady,false); // no retroactive certification of old jobs
  await db.exec(`update private.totus_web_source_records set data=data||'{"id_supplier":"777","id_manufacturer":"888"}' where resource='products' and source_id=1;`);
+ await repriceFixture();
  assert.equal((await call(false)).orphanDirectoryProducts,1);
  assert.equal((await call(false)).orphanCombinations,1);assert.equal((await call(true)).processed,2);
  const orphan=(await db.query('select details,supplier_id,brand_id from products where source_id=1')).rows[0];
  assert.equal(orphan.details.sourceData.id_supplier,'777');assert.equal(orphan.supplier_id,null);assert.equal(orphan.brand_id,null);
  await db.exec(`insert into private.totus_web_source_records values('web-a','suppliers',777,'{"id":"777"}');`);
+ assert.equal((await call(false)).pricesReady,false);
+ await assert.rejects(()=>call(true),/importación ha cambiado/);
+ await repriceFixture();
  await assert.rejects(()=>call(true),/Incorpora las marcas y proveedores/);
  await db.exec(`delete from private.totus_web_source_records where resource='suppliers' and source_id=777;`);
+ await repriceFixture();
  let rows=(await db.query('select * from products order by source_id')).rows;assert.equal(rows.length,2);assert.equal(rows[0].details.metaTitle,'SEO Uno');assert.equal(rows[0].details.images.length,2);assert.equal(rows[0].sku,rows[1].sku);
  const variants=(await db.query('select * from product_variants')).rows;assert.deepEqual(variants[0].attributes,{Color:'Azul',Talla:'M'});assert.equal(variants[0].sku,'');
  assert.equal((await db.query('select stock from private.totus_tpv_local_catalogue order by stock')).rows[0].stock,'-2');
  const ids=rows.map(r=>r.id);await call(true);assert.deepEqual((await db.query('select id from products order by source_id')).rows.map(r=>r.id),ids);
  await db.exec(`update private.totus_tpv_local_catalogue set stock=stock-1 where product_id='${ids[0]}';update private.totus_web_source_records set data=data||'{"meta_title":"Remote SEO"}' where resource='products' and source_id=1;`);
+ assert.equal((await call(false)).pricesReady,false);
+ await assert.rejects(()=>call(true),/importación ha cambiado/);
+ await repriceFixture();
  assert.equal((await call(true)).conflicts,1);assert.equal((await db.query('select stock from private.totus_tpv_local_catalogue where product_id=$1',[ids[0]])).rows[0].stock,'-3');
  assert.equal((await db.query("select has_function_privilege('anon','public.totus_web_product_projection(text,bigint,boolean)','execute') allowed")).rows[0].allowed,false);
  await db.exec(`alter table ops_stores add column active boolean default true;create table profiles(id uuid,active boolean);insert into profiles values('${id}',true);
