@@ -20,7 +20,7 @@ try{
  create table ops_sales_invoices(store_id uuid,customer_id uuid references ops_customers);
  create table private.totus_tpv_local_sessions(store_id uuid,drawer_id uuid,closed_at timestamptz);
  create table ops_documents(store_id uuid,storage_path text);
- create table private.totus_tpv_local_audit(record_id uuid,previous jsonb,current jsonb);create table ops_audit_log(detail jsonb);create table vault.secrets(name text);
+ create table private.totus_tpv_local_audit(record_id uuid,previous jsonb,current jsonb);create table ops_audit_log(detail jsonb);insert into ops_audit_log select jsonb_build_object('retained_record','${id}','sequence',n) from generate_series(1,8964)n;create table vault.secrets(name text);
  create table private.totus_web_import_jobs(id uuid primary key,website_key text references private.totus_websites,state text,resources text[],resource_index int,cursor_id bigint,imported bigint,progress jsonb);
  insert into private.totus_web_import_jobs values('${id}','web-a','completed',array['products','customers'],3,0,20001,'{}'),('${other}','web-b','completed',array['products'],2,0,1,'{}');
  alter table private.totus_web_import_jobs add column updated_at timestamptz default now();
@@ -53,6 +53,7 @@ try{
  plan=await call(['catalogue']);
  await call(['catalogue'],false,true,plan.fingerprint);
  assert.equal((await db.query('select count(*) n from private.totus_web_native_source_snapshots')).rows[0].n,0);
+ assert.equal((await db.query('select count(*) n from ops_audit_log')).rows[0].n,8964);
  assert.equal((await db.query("select records from private.totus_web_source_counters where website_key='web-a' and resource='products'")).rows[0].records,0);
  assert.equal((await db.query("select count(*) n from private.totus_web_source_records where website_key='web-a' and resource='products'")).rows[0].n,0);
  assert.equal((await db.query("select count(*) n from private.totus_web_source_records where resource='customers'")).rows[0].n,1);

@@ -142,8 +142,8 @@ begin
    resource_index=(select count(distinct resource)+1 from private.totus_web_source_records where job_id=j.id),cursor_id=0,updated_at=clock_timestamp()
   where j.website_key in(select key from private.totus_websites where business_id=p_store) and exists(select 1 from pg_temp.totus_business_cleanup_source_scope x where x.website_key=j.website_key);
  end if;
- delete from private.totus_tpv_local_audit a where exists(select 1 from pg_temp.totus_business_cleanup_rows r where r.data->>'id'=a.record_id::text) or (p_remove and p_drawer is null and (a.previous->>'store_id'=p_store::text or a.current->>'store_id'=p_store::text));
- delete from public.ops_audit_log a where exists(select 1 from pg_temp.totus_business_cleanup_rows r where r.data?'id' and position(r.data->>'id' in a.detail::text)>0);
+ -- Audit records are retained unless explicitly included in the reviewed plan.
+ -- Never perform an unpreviewed substring purge of global audit history.
  if p_remove and p_drawer is null and exists(select 1 from public.ops_stores where id=p_store) then raise exception 'No se ha podido retirar el establecimiento. La operación se ha revertido.';end if;
  if p_remove and p_drawer is not null and exists(select 1 from public.ops_cash_drawers where id=p_drawer) then raise exception 'No se ha podido retirar la caja. La operación se ha revertido.';end if;
  return jsonb_build_object('removed',total_removed,'storeRemoved',p_remove and p_drawer is null,'drawerRemoved',p_remove and p_drawer is not null);
