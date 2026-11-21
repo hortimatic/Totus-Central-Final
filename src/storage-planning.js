@@ -1,4 +1,4 @@
-import {DEFAULT_SAVED_BACKUPS} from './backup-retention.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
+import {DEFAULT_SAVED_BACKUPS} from './backup-retention.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
 const DAY_MONTH=30.4375;
 const nonnegative=v=>typeof v==='number'&&Number.isFinite(v)&&v>=0;
 export function planStorage({usage,reference,runs=[],protectedPaths=[],keep=DEFAULT_SAVED_BACKUPS,archiveLimit=120*1048576,horizonDays=3650,activeOriginalBytes}={}){

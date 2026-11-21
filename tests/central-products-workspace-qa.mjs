@@ -20,6 +20,8 @@ try{
   const rpc=async(name,args)=>{
    if(typeof name!=='string'||!args||typeof args!=='object')throw Error('RPC contract mismatch');centralProductsQA.calls.push({name,args});
    if(args.p_kind==='context')return {stores};
+   if(name==='totus_central_product_sync_status')return {storeId:args.p_store,items:centralProductsQA.cancelled?[]:[{id:'00000000-0000-0000-0000-000000000070',productId:records.get(args.p_store)[0].id,status:'conflict',notice:'Cambio en la web',updatedAt:'2026-11-21T10:00:00Z'}]};
+   if(name==='totus_central_product_sync_control'){centralProductsQA.cancelled=true;return {storeId:args.p_store,id:args.p_job,status:'cancelled'};}
    if(name==='totus_central_attribute_save'){const key=args.p_store+'|'+args.p_resource,list=nativeMasters.get(key)||[];const row={...args.p_fields,id:crypto.randomUUID(),__revision:'own-1'};list.push(row);nativeMasters.set(key,list);return {storeId:args.p_store,resource:args.p_resource,recordId:row.id,saved:true};}
    if(name==='totus_central_attribute_catalogue'&&nativeMasters.has(args.p_store+'|'+args.p_resource))return {storeId:args.p_store,resource:args.p_resource,items:nativeMasters.get(args.p_store+'|'+args.p_resource)};
    if(name==='totus_central_attribute_catalogue')return {storeId:args.p_store,resource:args.p_resource,items:args.p_store!==a?[]:(({product_options:[{id:'5',name:'Color',public_name:'Color',__revision:'r1'}],product_option_values:[{id:'7',id_attribute_group:'5',name:'Rojo',__revision:'r1'}]})[args.p_resource]||[])};
@@ -39,6 +41,17 @@ try{
  });
  await page.getByRole('cell',{name:'Producto online',exact:true}).first().waitFor();
  assert.equal(await page.locator('#productosRoot').count(),1);
+ await page.getByRole('tab',{name:'5. Historial de cambios',exact:true}).click();
+ await page.getByText('Conflicto: revisar',{exact:true}).waitFor();
+ assert.equal(await page.getByRole('button',{name:'Actualizar envíos',exact:true}).count(),1);
+ await page.getByRole('button',{name:'Retirar este envío',exact:true}).click();
+ await page.getByRole('dialog',{name:'Retirar envío pendiente'}).getByRole('button',{name:'Volver',exact:true}).click();
+ assert.equal(await page.evaluate(()=>centralProductsQA.calls.filter(x=>x.name==='totus_central_product_sync_control').length),0,'Cancelling the confirmation makes no mutation');
+ await page.getByRole('button',{name:'Retirar este envío',exact:true}).click();
+ await page.getByRole('dialog',{name:'Retirar envío pendiente'}).getByRole('button',{name:'Retirar este envío',exact:true}).click();
+ await page.getByText('No hay envíos registrados para esta tienda.',{exact:true}).waitFor();
+ assert.equal(await page.evaluate(()=>centralProductsQA.records.values().next().value[0].name),'Producto online','Withdrawing an outgoing review preserves the product');
+ await page.getByRole('tab',{name:'1. Catálogo General',exact:true}).click();
  assert.ok(await page.getByRole('option',{name:'Categoría guardada',exact:true}).count()>0,'Saved categories populate the existing filter');
  await page.getByRole('tab',{name:'Atributos y características',exact:true}).click();
  await page.locator('[data-attr-action="select"]').filter({hasText:'Color'}).waitFor();
