@@ -20,11 +20,14 @@ assert.throws(()=>centralProductRecord({...p,catalogue:[{price_cents:1.5,tax_bas
 console.log('Variant copy prices: verified default, signed net impacts, separate parent barcode, original image/attribute/measure metadata, exact integer roundtrips and invalid price rejection verified.');
 const store='00000000-0000-0000-0000-000000000099';
 const imported={...p,store_id:store,source_id:42,source_website:'web-a',variants:variants.map(v=>({...v,source_website:'web-a'}))};
-let foreign=false;
+let foreign=false,wholeCombinationReads=0;
 const adapter=createCentralProductAdapter({actor:()=> 'owner',rpc:async(name,args)=>{
  if(args.p_kind==='context')return {stores:[{id:store,name:'Online'}]};
  if(name==='totus_local_store_workspace')return {storeId:store,items:[imported]};
+ if(name==='totus_central_product_variant_detail')return {storeId:store,variantId:args.p_variant,product:imported,original:{id:'10',id_product:foreign?'999':'42',...original}};
+ wholeCombinationReads++;
  return {storeId:store,resource:'combinations',revision:1,website:'web-a',items:[{id:'10',id_product:foreign?'999':'42',...original},{id:'20',id_product:'42'}],nextCursor:null};
 }});
 await adapter.context();const projected=await adapter.read(store,'combinations',{id:a});assert.equal(projected.rows[0].price,'-10.000000');assert.equal(projected.rows[0].weight,'0.5');assert.equal(projected.rows[0].__sourceDetailsMissing,false);
+assert.equal(wholeCombinationReads,0,'Opening one variant never downloads the whole shop combination catalogue');
 foreign=true;adapter.invalidate(store);await assert.rejects(()=>adapter.read(store,'combinations'),/otro producto/);

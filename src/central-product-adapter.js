@@ -1,4 +1,4 @@
-import {createCentralStoreData} from './central-store-data.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
+import {createCentralStoreData} from './central-store-data.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
 
 const clone=value=>structuredClone(value);
 export const centralDefaultCatalogue=p=>{
@@ -114,7 +114,16 @@ export function createCentralProductAdapter({rpc,actor}){
  }
  async function read(store,resource,{id=null,search='',page=0,size=100,product_ids=null,references=null,search_field=null}={}){
   ensure(store);if(!Number.isSafeInteger(page)||page<0||!Number.isInteger(size)||size<1||size>100||!Number.isSafeInteger(page*size))throw Error('Página no válida.');
-  let rows=id&&resource==='products'?[centralProductRecord(await product(store,id))]:await snapshot(store,resource);
+  let rows;
+  if(id&&resource==='combinations'){
+   const owner=actor(),result=await rpc('totus_central_product_variant_detail',{p_store:store,p_variant:id});ensure(store);
+   if(actor()!==owner||result?.storeId!==store||result.variantId!==id||result.product?.store_id!==store)throw Error('Detalle de combinación ajeno a la selección.');
+   const parent=result.product,variant=parent.variants?.find(v=>v.id===id);
+   if(!variant||variant.product_id!==parent.id)throw Error('La combinación no pertenece a este producto.');
+   const original=result.original,raw={...(original||{}),...(parent.details?.copyVariantMetadata?.[id]||{})};
+   if(original&&(String(original.id_product)!==String(parent.source_id)||String(original.id)!==String(variant.source_id)))throw Error('Los datos originales pertenecen a otra combinación.');
+   rows=[{...centralCombinationRecord(parent,variant,raw),__sourceDetailsMissing:!!variant.source_id&&!original}];
+  }else rows=id&&resource==='products'?[centralProductRecord(await product(store,id))]:await snapshot(store,resource);
   if(id)rows=rows.filter(r=>r.id===id);
   if(product_ids!==null){if(!Array.isArray(product_ids)||product_ids.some(v=>typeof v!=='string'||!v))throw Error('Identificadores de producto no válidos.');const ids=new Set(product_ids);rows=rows.filter(r=>ids.has(String(resource==='products'?r.id:r.id_product)));}
   if(references!==null){if(!Array.isArray(references)||references.some(v=>typeof v!=='string'||!v))throw Error('Referencias no válidas.');const refs=new Set(references);rows=rows.filter(r=>refs.has(String(r.reference||'')));}

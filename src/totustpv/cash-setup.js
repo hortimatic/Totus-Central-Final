@@ -1,9 +1,9 @@
-import {createCommercialSetupPanel} from './commercial-setup.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
-import {createSensitiveSetupPanel} from './sensitive-setup.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
-import {createCheckoutRulesPanel} from './checkout-rules.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
-import {createGeneralSetup} from './general-setup.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
-import {cashOptions,cashOptionsFromForm,cashOptionsHtml,EURO_CASH_FACES} from './cash-counting.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
-import {paymentOptions,paymentSettingsFromForm,TPV_PAYMENT_NAMES} from './payment-options.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
+import {createCommercialSetupPanel} from './commercial-setup.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
+import {createSensitiveSetupPanel} from './sensitive-setup.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
+import {createCheckoutRulesPanel} from './checkout-rules.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
+import {createGeneralSetup} from './general-setup.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
+import {cashOptions,cashOptionsFromForm,cashOptionsHtml,EURO_CASH_FACES} from './cash-counting.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
+import {paymentOptions,paymentSettingsFromForm,TPV_PAYMENT_NAMES} from './payment-options.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
 const ids=['cash','card','bizum','transfer'],esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const info=(label,text)=>`<details class="tpv-info-help"><summary aria-label="Ayuda: ${esc(label)}">i</summary><div role="note">${esc(text)}</div></details>`;
 export const CASH_SETUP_DEFAULTS=Object.freeze({assignmentView:'employee',denominations:[...EURO_CASH_FACES],hideSummary:false,payments:paymentOptions(undefined,ids),operators:[]});

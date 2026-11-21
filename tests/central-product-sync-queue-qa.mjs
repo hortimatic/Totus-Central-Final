@@ -66,6 +66,14 @@ try{
  await assert.rejects(()=>db.query('select public.totus_central_product_sync_finish($1,$2,$3,$4,$5,$6)',[leased.id,leased.lease_id,actor,'completed','No evidence',{}]),/relectura/);
  await db.query('select public.totus_central_product_sync_finish($1,$2,$3,$4,$5,$6)',[leased.id,leased.lease_id,actor,'completed','Verified',{verified:true}]);
  assert.ok((await claim()).job,'Acknowledging the first intent releases the next one');
+ await db.exec('alter table products add column source_id bigint');
+ const selectedVariant=crypto.randomUUID();await db.query('update products set source_id=42 where id=$1',[product]);
+ await db.query('insert into product_variants(id,product_id,source_website,source_id) values($1,$2,$3,10)',[selectedVariant,product,'web-a']);
+ await db.query('insert into private.totus_web_source_records values($1,$2,10,$3)',['web-a','combinations',{id:10,id_product:42,weight:'0.5'}]);
+ await db.exec(await readFile('supabase/totus_central_product_variant_detail.sql','utf8'));
+ const selectedDetail=(await db.query('select public.totus_central_product_variant_detail($1,$2) result',[shop,selectedVariant])).rows[0].result;
+ assert.equal(selectedDetail.product.id,product);assert.equal(selectedDetail.original.weight,'0.5');
+ await assert.rejects(()=>db.query('select public.totus_central_product_variant_detail($1,$2)',[local,selectedVariant]),/no pertenece/);
  await db.query('delete from products where id=$1',[product]);assert.equal(Number((await db.query('select count(*) n from private.totus_central_product_sync_queue where product_id=$1',[product])).rows[0].n),0,'Product cleanup cannot leave outgoing orphan jobs');
  console.log('Product sync queue SQL: atomic user save and intent, precise website binding, offline pending retention, local independence, replay isolation, protected status and cleanup verified.');
 }catch(error){console.error(error.message,error.where||'');process.exitCode=1;}finally{await db.close();}
