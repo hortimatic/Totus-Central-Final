@@ -90,7 +90,7 @@ begin
  perform pg_advisory_xact_lock(hashtextextended('central-product-reference:'||p_target_store::text||':'||lower(btrim(p_data->>'reference')),0));
  if exists(select 1 from public.products where store_id=p_target_store and lower(btrim(sku))=lower(btrim(p_data->>'reference'))) then raise exception 'La referencia acaba de crearse en destino. Revisa la copia.';end if;
  new_product_id:=gen_random_uuid();
- details:=source.details-array['defaultVariantId','nativePrice','catalogueRevisions','expectedRevision'];
+ details:=(source.details-array['defaultVariantId','nativePrice','catalogueRevisions','expectedRevision'])||jsonb_build_object('name',btrim(p_data->>'name'),'reference',btrim(p_data->>'reference'),'brandId',nullif(p_data->>'brandId','')::uuid,'supplierId',nullif(p_data->>'supplierId','')::uuid,'active',false);
  details:=details||jsonb_build_object('copyProvenance',jsonb_build_object('sourceStoreId',p_source_store,
  'sourceProductId',source.id,'sourceRevision',revision,'copiedAt',clock_timestamp(),
  'sourceSnapshot',jsonb_build_object('product',jsonb_set(source_json,'{details}',source.details-'copyProvenance'),'variants',variants_json,'catalogue',catalogue_json)),
