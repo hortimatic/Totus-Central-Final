@@ -1,4 +1,4 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=52f6a933a6f8d382fe6bc75685deaf1779c612f7';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
 // Product photos stay recognizable in the grid, with one preview per workspace.
 export function attachProductPhotoPreviews(root){
  let preview=null,current=null,dialog=null,suppressFocus=false;

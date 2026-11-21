@@ -1,5 +1,5 @@
 // Read-only contracts. Server identity is bound to a registered connection.
-import {WEBSITE_CHOICES as PRESTASHOP_STORES,connectionWebsite} from './website-registry.js?v=52f6a933a6f8d382fe6bc75685deaf1779c612f7';
+import {WEBSITE_CHOICES as PRESTASHOP_STORES,connectionWebsite} from './website-registry.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
 export {PRESTASHOP_STORES};
 export const PRESTASHOP_RESOURCES=Object.freeze({
  orders:Object.freeze(['id','reference','date_add','payment','total_paid_tax_incl','total_paid_tax_excl','current_state','valid','id_currency','id_customer','id_address_invoice','id_address_delivery','id_shop','invoice_number','invoice_date','total_shipping_tax_incl','total_shipping_tax_excl','total_wrapping_tax_excl','total_discounts_tax_incl','total_discounts_tax_excl','module']),
@@ -48,7 +48,7 @@ export function prestashopConnectionStore(connection,key){return connection?.sto
 export function prestashopPage(resource,page=0,pageSize=25){
  const fields=PRESTASHOP_RESOURCES[resource];
  if(!fields)throw Error('Recurso PrestaShop no permitido.');
- if(!Number.isSafeInteger(page)||page<0||page>1000||!Number.isSafeInteger(pageSize)||pageSize<1||pageSize>100)throw Error('Paginación PrestaShop no válida.');
+ if(!Number.isSafeInteger(page)||page<0||!Number.isSafeInteger(pageSize)||pageSize<1||pageSize>100||!Number.isSafeInteger(page*pageSize+pageSize))throw Error('Paginación PrestaShop no válida.');
  return {resource,fields,offset:page*pageSize,page,pageSize};
 }
 // Strict request contract shared by UI and service. No arbitrary fields, URLs or SQL.
