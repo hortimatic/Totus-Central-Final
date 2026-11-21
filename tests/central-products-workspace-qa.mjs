@@ -23,8 +23,8 @@ try{
    if(name==='totus_central_attribute_catalogue'&&nativeMasters.has(args.p_store+'|'+args.p_resource))return {storeId:args.p_store,resource:args.p_resource,items:nativeMasters.get(args.p_store+'|'+args.p_resource)};
    if(name==='totus_central_attribute_catalogue')return {storeId:args.p_store,resource:args.p_resource,items:args.p_store!==a?[]:(({product_options:[{id:'5',name:'Color',public_name:'Color',__revision:'r1'}],product_option_values:[{id:'7',id_attribute_group:'5',name:'Rojo',__revision:'r1'}]})[args.p_resource]||[])};
    if(name==='totus_central_product_resources')return {storeId:args.p_store,resource:args.p_resource,website:args.p_store===a?'web-online':null,revision:1,nextCursor:null,items:args.p_store!==a?[]:({categories:[{id:'8',name:'Categoría guardada'}],product_options:[{id:'5',name:'Color',public_name:'Color'}],product_option_values:[{id:'7',id_attribute_group:'5',name:'Rojo'}]})[args.p_resource]||[]};
-   if(name==='totus_local_store_workspace'&&args.p_action==='save'){
-    const p=records.get(args.p_store).find(p=>p.id===args.p_id);p.name=args.p_data.name;p.details.metaTitle=args.p_data.metaTitle;return {saved:true,id:p.id,storeId:args.p_store};
+   if(name==='totus_central_product_save'||name==='totus_local_store_workspace'&&args.p_action==='save'){
+    const p=records.get(args.p_store).find(p=>p.id===args.p_id);p.name=args.p_data.name;p.sku=args.p_data.reference;p.details={...p.details,...args.p_data};for(const c of p.catalogue){c.active=args.p_data.active;c.revision++;}return {saved:true,id:p.id,storeId:args.p_store,queued:0};
    }
    const rows=args.p_kind==='products'?records.get(args.p_store)||[]:[];
    if(name==='totus_local_store_read_page')return {storeId:args.p_store,items:args.p_id?rows.filter(p=>p.id===args.p_id):rows,total:rows.length,nextCursor:null};
@@ -51,9 +51,15 @@ try{
  await page.getByRole('cell',{name:'Producto físico',exact:true}).first().waitFor();
  assert.equal(await page.locator('tbody').getByText('Producto online',{exact:true}).count(),0);
  await page.getByRole('button',{name:'Abrir ficha',exact:true}).click();
- const dialog=page.locator('dialog');await dialog.getByRole('textbox',{name:'Nombre',exact:true}).fill('Producto físico actualizado');
- await dialog.getByRole('textbox',{name:'Título SEO',exact:true}).fill('SEO actualizado');
- await dialog.getByRole('button',{name:'Guardar',exact:true}).click();
+ assert.equal(await page.locator('dialog').count(),0,'Open uses the existing full Products fiche');
+ await page.locator('[data-pr-value="name"]').fill('Producto físico actualizado');
+ await page.locator('[data-pr-value="name"]').press('Tab');
+ await page.locator('[data-pr-action="editor-section"][data-pr-section="seo"]').click();
+ await page.locator('[data-pr-value="meta_title"]').fill('SEO actualizado');
+ await page.locator('[data-pr-value="meta_title"]').press('Tab');
+ await page.getByRole('button',{name:'Revisar cambios en Central',exact:true}).click();
+ await page.getByRole('button',{name:'Aceptar y guardar en Tienda física',exact:true}).click();
+ await page.getByRole('button',{name:'← Volver al catálogo',exact:true}).click();
  await page.getByRole('cell',{name:'Producto físico actualizado',exact:true}).first().waitFor();
  assert.equal(await page.locator('dialog').count(),0);
  await page.getByRole('button',{name:'Publicar…',exact:true}).click();
@@ -62,11 +68,12 @@ try{
  await page.locator('dialog').getByRole('button',{name:'Cancelar',exact:true}).click();
  await page.locator('.prd-row-menu summary').click();
  await page.getByRole('button',{name:'Archivar (desactivar)',exact:true}).click();
- await page.locator('dialog').getByLabel('Disponible para vender',{exact:true}).waitFor();
- assert.equal(await page.locator('dialog').getByLabel('Disponible para vender',{exact:true}).isChecked(),false);
- await page.locator('dialog').getByRole('button',{name:'Guardar',exact:true}).click();
+ await page.locator('dialog').getByLabel('Estado',{exact:true}).waitFor({timeout:5000}).catch(async error=>{console.error((await page.locator('#productosRoot').innerText()).slice(-2200));throw error;});
+ assert.equal(await page.locator('dialog').getByLabel('Estado',{exact:true}).inputValue(),'0');
+ await page.locator('dialog').getByRole('button',{name:'Revisar cambios',exact:true}).click();
+ await page.locator('dialog').getByRole('button',{name:'Guardar en Central',exact:true}).click();
  await page.locator('dialog').waitFor({state:'detached'});
- const archived=await page.evaluate(()=>centralProductsQA.calls.filter(c=>c.args.p_action==='save').at(-1));
+ const archived=await page.evaluate(()=>centralProductsQA.calls.filter(c=>c.name==='totus_central_product_save').at(-1));
  assert.equal(archived.args.p_store,'00000000-0000-0000-0000-000000000002');assert.equal(archived.args.p_data.active,false);
  await page.locator('.prd-row-menu summary').click();
  await page.getByRole('button',{name:'Eliminar producto',exact:true}).click();
@@ -90,7 +97,7 @@ try{
  await page.locator('dialog').getByLabel('Nombre',{exact:true}).fill('Algodón');await page.locator('dialog').getByRole('button',{name:'Guardar en Tienda física',exact:true}).click();
  await page.getByRole('cell',{name:'Algodón',exact:true}).waitFor();
  const calls=await page.evaluate(()=>centralProductsQA.calls);assert.ok(calls.every(c=>typeof c.name==='string'&&typeof c.args==='object'));assert.equal(calls.filter(c=>c.name==='totus_local_store_read_page'&&c.args.p_kind==='products').length>=2,true);assert.ok(!calls.some(c=>/prestashop|connections/.test(c.name)),JSON.stringify([...new Set(calls.map(c=>c.name))]));
- const saved=calls.find(c=>c.args.p_action==='save');assert.equal(saved.args.p_store,'00000000-0000-0000-0000-000000000002');assert.equal(saved.args.p_data.metaTitle,'SEO actualizado');
+ const saved=calls.find(c=>c.name==='totus_central_product_save');assert.equal(saved.args.p_store,'00000000-0000-0000-0000-000000000002');assert.equal(saved.args.p_data.metaTitle,'SEO actualizado');
  assert.deepEqual(errors,[]);
  console.log('Existing Products workspace: saved catalogue, shared physical/online selector, store isolation, real editor controls and refreshed saved SEO verified without a web API.');
 }finally{await browser.close();}

@@ -1,13 +1,13 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
-import {columnSettingsRow} from './column-settings.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
-import {productGallery} from './productos-gallery.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
-import {esc} from './utils.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
-import {fieldHelp} from './components.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {columnSettingsRow} from './column-settings.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {productGallery} from './productos-gallery.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {esc} from './utils.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {fieldHelp} from './components.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -134,14 +134,14 @@ export const STITCH_FICHE_TABS=Object.freeze([
 ]);
 const inputClass='bg-surface-container-low text-on-surface font-body-md text-body-md px-3 py-1.5 rounded shadow-sm focus:outline-none focus:bg-surface-container-lowest w-full';
 const labelClass='font-label-md text-label-md text-on-surface-variant';
-export function stitchFiche({galleryDraft={},record,backendUrl='',store,section,overrides,variants,variantOverrides,variantReviews=new Map(),metadata,fieldControl,priceHtml,rawHtml,amounts,brands=[],categories=[],stock=null,organization=null,taxGroups=[]}){
+export function stitchFiche({galleryDraft={},record,backendUrl='',store,central=false,storeName=websiteName(store),section,overrides,variants,variantOverrides,variantReviews=new Map(),metadata,fieldControl,priceHtml,rawHtml,amounts,brands=[],categories=[],stock=null,organization=null,taxGroups=[]}){
  const f=fragment(STITCH_VIEWS['tab-ficha']),view=f.firstElementChild;
  view.insertAdjacentHTML('afterbegin','<div class="record-toolbar"><div><button type="button" class="btn link" data-pr-action="catalog-return">← Volver al catálogo</button></div></div>');
  view.classList.remove('hidden');view.classList.add('flex');
  setText(f.querySelector('h2'),textValue(overrides.name??record.name)||'Nuevo producto');
  const heading=f.querySelector('h2').parentElement;
- const badges=heading.querySelectorAll('span');setText(badges[0],String(overrides.active??record.active)==='1'?'Activo en PrestaShop':'Inactivo en PrestaShop');setText(badges[1],record.id?'ID: '+record.id:'Borrador');
- setText(heading.nextElementSibling,(websiteName(store))+' · SKU: '+textValue(overrides.reference??record.reference)+' · EAN: '+textValue(overrides.ean13??record.ean13));
+ const badges=heading.querySelectorAll('span');setText(badges[0],String(overrides.active??record.active)==='1'?(central?'Disponible en Central':'Activo en PrestaShop'):(central?'Inactivo en Central':'Inactivo en PrestaShop'));setText(badges[1],record.id?'ID: '+record.id:'Borrador');
+ setText(heading.nextElementSibling,storeName+' · SKU: '+textValue(overrides.reference??record.reference)+' · EAN: '+textValue(overrides.ean13??record.ean13));
  heading.parentElement.insertAdjacentHTML('beforeend',webLink(record,store,backendUrl));
  for(const b of f.querySelectorAll('button')){
   if(/Guardar Borrador/i.test(b.textContent)){action(b,'draft-save');label(b,'Guardar borrador en Totus');b.title='Conserva los cambios en Totus. No modifica PrestaShop.';}

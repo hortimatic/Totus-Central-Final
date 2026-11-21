@@ -1,4 +1,4 @@
-import {createCentralStoreData} from './central-store-data.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
+import {createCentralStoreData} from './central-store-data.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
 
 const clone=value=>structuredClone(value);
 export const centralDefaultCatalogue=p=>{
@@ -26,14 +26,16 @@ const languages=p=>{
  return ids.length?ids:['1'];
 };
 export function centralProductRecord(p){
- const c=centralDefaultCatalogue(p),raw=clone(p.details?.sourceData||{});
+ const c=centralDefaultCatalogue(p),raw=clone(p.details?.sourceData||{}),ids=languages(p),primary=String(p.details?.primaryLanguageId||raw.name?.[0]?.id||ids[0]);
+ const aliases={name:null,meta_title:'metaTitle',meta_description:'metaDescription',meta_keywords:'metaKeywords',link_rewrite:'slug',description:'description',description_short:'descriptionShort',available_now:null,available_later:null,delivery_in_stock:null,delivery_out_stock:null};
+ const localized=Object.fromEntries(Object.entries(aliases).map(([field,alias])=>{const original=Array.isArray(raw[field])?raw[field]:raw[field]?.language;const entries=Array.isArray(original)?original.map(row=>({...row})):ids.map(id=>({id,value:id===primary?raw[field]??'':''}));const value=field==='name'?p.name:alias?p.details?.[alias]:undefined;if(value!==undefined){const index=entries.findIndex(row=>String(row.id??row.language_id)===primary);if(index>=0)entries[index]={...entries[index],value};}return [field,entries];}));
  return {...raw,__central:true,__native:p,__sourceWebsite:p.source_website||p.details?.metadataWebsite||null,__sourceProductId:p.source_id||raw.id||null,id:p.id,name:p.name,reference:p.sku||'',
   price:c?decimal(netMicros(c)):'',__grossCents:c?.price_cents??null,__taxBasisPoints:c?.tax_basis_points??null,
   active:p.catalogue.some(entry=>entry.active)?'1':'0',ean13:p.variants.length?String(p.details?.ean??raw.ean13??''):c?.ean||'',id_manufacturer:p.brand_id||'0',id_supplier:p.supplier_id||'0',
   meta_title:p.details?.metaTitle??raw.meta_title??'',meta_description:p.details?.metaDescription??raw.meta_description??'',
   link_rewrite:p.details?.slug??raw.link_rewrite??'',description:p.details?.description??raw.description??'',
   description_short:p.details?.descriptionShort??raw.description_short??'',date_add:p.created_at,date_upd:p.updated_at,
-  __language_ids:languages(p),associations:{...raw.associations,combinations:p.variants.map(v=>({id:v.id}))}};
+  __language_ids:ids,__localized:localized,associations:{...raw.associations,combinations:p.variants.map(v=>({id:v.id}))}};
 }
 // The legacy product view and Central's TPV consume the same persistent records.
 // No PrestaShop request is made here; connection status never gates a local read.
@@ -93,8 +95,8 @@ export function createCentralProductAdapter({rpc,actor}){
    rows=products.flatMap(p=>p.variants.map(v=>{
     const originalRaw=v.source_id&&v.source_website===p.source_website?byId.get(String(v.source_id)):null;
     if(originalRaw&&String(originalRaw.id_product)!==String(p.source_id))throw Error('Los datos originales de la combinación pertenecen a otro producto.');
-    const raw=originalRaw||p.details?.copyVariantMetadata?.[v.id]||null;
-    return {...centralCombinationRecord(p,v,raw||{}),__sourceDetailsMissing:!!v.source_id&&!raw};
+    const raw=originalRaw||p.details?.copyVariantMetadata?.[v.id]?{...(originalRaw||{}),...(p.details?.copyVariantMetadata?.[v.id]||{})}:null;
+    return {...centralCombinationRecord(p,v,raw||{}),__sourceDetailsMissing:!!v.source_id&&!originalRaw};
    }));
   }
   else if(resource==='stock_availables')rows=(await catalogue(store)).flatMap(p=>p.catalogue.map(c=>({id:c.id,id_product:p.id,id_product_attribute:c.variant_id||'0',id_shop:'0',quantity:c.stock})));

@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
+import {websiteKey} from './website-registry.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
 // Productos / PrestaShop 1.7: restrictive write contract.
 // Never accept XML, URLs, arbitrary paths, numeric relationships or shop IDs from the client.
 // The source XML comes exclusively from a freshly validated server-side GET.
@@ -712,3 +712,6 @@ export function readPrestashopCombinationXml(xml,expectedId){
  }
  return result;
 }
+
+// Shared field validation for Central-owned records and the remote API editor.
+export {validateValue as validateProductFieldValue};
