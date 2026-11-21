@@ -8,12 +8,13 @@ create table if not exists private.totus_central_product_sync_queue(
  store_id uuid not null references public.ops_stores(id) on delete cascade,
  product_id uuid not null references public.products(id) on delete cascade,
  website_key text not null references private.totus_websites(key) on delete cascade,
- before_snapshot jsonb,desired_snapshot jsonb not null,changes jsonb not null default '[]',
+ before_snapshot jsonb,desired_snapshot jsonb not null,changes jsonb not null default '[]',destination jsonb,
  status text not null default 'pending' check(status in('pending','running','conflict','needs_configuration','uncertain','completed','cancelled')),
  external_request uuid not null default gen_random_uuid(),result jsonb,notice text,
  created_at timestamptz not null default now(),updated_at timestamptz not null default now(),
  unique(request_id,website_key)
 );
+alter table private.totus_central_product_sync_queue add column if not exists destination jsonb;
 create index if not exists central_product_sync_pending on private.totus_central_product_sync_queue(website_key,created_at,id) where status in('pending','running','uncertain');
 alter table private.totus_central_product_sync_queue enable row level security;
 revoke all on private.totus_central_product_sync_queue from public,anon,authenticated;
@@ -33,7 +34,15 @@ begin
  if actor is null or not exists(select 1 from public.profiles where id=actor and active)
  or private.totus_can('productos',case when p_id is null then 'create' else 'edit' end) is not true
  or private.totus_local_store_access(p_store) is not true then raise exception 'No tienes permiso para guardar este producto.';end if;
- if p_request is null or jsonb_typeof(p_changes) is distinct from 'array' or jsonb_array_length(p_changes)>100 or octet_length(p_changes::text)>1000000 then raise exception 'Solicitud de guardado no válida.';end if;
+ if p_request is null or octet_length(p_changes::text)>1000000 then raise exception 'Solicitud de guardado no válida.';end if;
+ if jsonb_typeof(p_changes)='array' then
+  if jsonb_array_length(p_changes)>100 then raise exception 'Demasiados cambios.';end if;
+ elsif jsonb_typeof(p_changes)='object' then
+  if not(p_changes?&array['resource','recordId','changes']) or p_changes-array['resource','recordId','changes']<>'{}'::jsonb or p_changes->>'resource' not in('products','combinations') or jsonb_typeof(p_changes->'changes') is distinct from 'array' or jsonb_array_length(p_changes->'changes') not between 1 and 100 then raise exception 'Revisión de salida no válida.';end if;
+  if p_changes->>'resource'='products' then
+   if p_id is null or p_changes->>'recordId' is distinct from p_id::text then raise exception 'El producto de salida no coincide.';end if;
+  elsif not exists(select 1 from public.product_variants where id::text=p_changes->>'recordId' and product_id=p_id) then raise exception 'La combinación de salida no pertenece al producto.';end if;
+ else raise exception 'Solicitud de guardado no válida.';end if;
  perform 1 from public.ops_stores where id=p_store for key share;
  perform pg_advisory_xact_lock(hashtextextended('native-workspace:'||p_request::text,0));
  select exists(select 1 from private.totus_local_workspace_requests where id=p_request) into had_prior;
@@ -50,10 +59,10 @@ begin
   select count(*) into destinations from private.totus_websites w where w.business_id=p_store and w.status<>'retired'
   and (desired->>'source_website' is null or w.key=desired->>'source_website');
   if destinations=1 then
-   for destination in select w.key from private.totus_websites w where w.business_id=p_store and w.status<>'retired'
+   for destination in select w.key,w.origin,w.connection_id from private.totus_websites w where w.business_id=p_store and w.status<>'retired'
     and (desired->>'source_website' is null or w.key=desired->>'source_website') for key share loop
-    insert into private.totus_central_product_sync_queue(request_id,actor_id,store_id,product_id,website_key,before_snapshot,desired_snapshot,changes)
-    values(p_request,actor,p_store,(result->>'id')::uuid,destination.key,old_snapshot,desired,p_changes)
+    insert into private.totus_central_product_sync_queue(request_id,actor_id,store_id,product_id,website_key,before_snapshot,desired_snapshot,changes,destination)
+    values(p_request,actor,p_store,(result->>'id')::uuid,destination.key,old_snapshot,desired,p_changes,jsonb_build_object('origin',destination.origin,'connectionId',destination.connection_id))
     on conflict(request_id,website_key) do nothing;
    end loop;
   end if;

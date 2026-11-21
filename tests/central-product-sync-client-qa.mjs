@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {createCentralProductSyncClient} from '../src/central-product-sync-client.js';
+const store=crypto.randomUUID();let owner='A',online=true,calls=0,release;
+const notices=[],waiting=new Promise(resolve=>{release=resolve;});
+const client=createCentralProductSyncClient({actor:()=>owner,current:()=>true,canEdit:()=>true,online:()=>online,onNotice:n=>notices.push(n),invoke:async args=>{assert.deepEqual(args,{action:'central_product_sync',store_id:store});calls++;if(calls===1)await waiting;return calls<3?{ok:true,storeId:store,processed:1,item:{storeId:store,status:'completed'}}:{ok:true,storeId:store,processed:0};}});
+const first=client.run(store);assert.equal(client.run(store),first,'Concurrent wakeups share one server drain');release();assert.equal((await first).processed,2);assert.equal(calls,3);assert.equal(notices.at(-1).status,'completed');
+online=false;await client.run(store);assert.equal(calls,3,'Offline never starts an external request');online=true;
+let attempts=0;
+const uncertain=createCentralProductSyncClient({actor:()=>owner,current:()=>true,canEdit:()=>true,online:()=>true,invoke:async()=>{attempts++;throw Error('Network');}});
+assert.equal((await uncertain.run(store)).status,'uncertain');assert.equal(attempts,1,'A network failure does not spin or generate repeated calls');
+let resume;const switched=createCentralProductSyncClient({actor:()=>owner,current:()=>true,canEdit:()=>true,online:()=>true,onNotice:()=>assert.fail('Stale user must not receive a result'),invoke:()=>new Promise(resolve=>{resume=resolve;})});
+const pending=switched.run(store);owner='B';resume({ok:true,storeId:store,processed:0});assert.equal((await pending).status,'stale');
+client.dispose();uncertain.dispose();switched.dispose();
+console.log('Product sync wakeups: one drain per store, no credentials/queue payloads in browser, offline guard, bounded failure and account-change isolation verified.');

@@ -1,5 +1,5 @@
-import {centralProductEditPayload,verifyCentralProductEdit} from './central-product-edit.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
-import {sha256Text} from './productos-write-contract.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {centralProductEditPayload,verifyCentralProductEdit} from './central-product-edit.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
+import {sha256Text} from './productos-write-contract.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(value);
 const clone=value=>structuredClone(value);
 const token=(store,args)=>store+'|'+args.resource+'|'+args.record_id;
@@ -35,7 +35,7 @@ export function createCentralProductEditorSession({data,rpc,actor,canEdit,curren
   if(entry){checkEntry(entry,store,args);if(entry.completed){const found=await receipt(s,entry,false);if(found.receipt!=='saved')throw Error('El servidor no confirma el resultado anterior.');data.invalidate(store);return {ok:true,store,resource:args.resource,record_id:args.record_id,persisted:true,verified:true,queued:found.queued||0,native:true,recovered:true};}}
   if(!entry||!entry.attempted){const review=prepared.get(key);if(!review||review.fingerprint!==args.expected_fingerprint||JSON.stringify(review.changes)!==JSON.stringify(args.changes))throw Error('La revisión ha cambiado. Vuelve a comprobar la ficha antes de guardar.');entry={store,resource:args.resource,id:args.record_id,parentId:review.parentId,backendId:entry?.backendId||args.request_id,payload:clone(review.payload),changes:clone(review.changes),fingerprint:review.fingerprint,attempted:true,completed:false};entries[args.request_id]=entry;keep(s,entries);}
   else if(entry.fingerprint!==args.expected_fingerprint&&!args.recover_unchanged)throw Error('Conserva la huella de la solicitud enviada.');
-  const response=await rpc('totus_central_product_save',{p_store:store,p_id:entry.parentId,p_request:entry.backendId,p_data:clone(entry.payload),p_changes:clone(entry.changes)});s.guard();
+  const response=await rpc('totus_central_product_save',{p_store:store,p_id:entry.parentId,p_request:entry.backendId,p_data:clone(entry.payload),p_changes:{resource:entry.resource,recordId:entry.id,changes:clone(entry.changes)}});s.guard();
   if(response?.storeId!==store||response.id!==entry.parentId||response.saved!==true)throw Error('El producto no está confirmado. Conserva la solicitud para comprobarla.');
   data.invalidate(store);const actual=await data.product(store,entry.parentId);s.guard();
   if(actual.id!==entry.parentId||actual.store_id!==store)throw Error('No se pudo releer la ficha de esta tienda.');

@@ -1,5 +1,5 @@
-import {menuLinks} from './menu-links.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
-import {PARKING_DURATIONS} from './parking-options.js?v=dbda891be25d2ff6550618cf6a41b9f393363fd6';
+import {menuLinks} from './menu-links.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
+import {PARKING_DURATIONS} from './parking-options.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const GENERAL_DEFAULTS=Object.freeze({beepOnAdd:false,showTaxBreakdown:false,currency:'EUR',parkingEnabled:true,parkingTtlDays:0,allowPriceChanges:false,allowTaxChanges:false,allowNameChanges:false,switchEnabled:true,requireAtCheckout:false,requireBeforeSwitch:false,menuLinks:[]});
 const checks=Object.keys(GENERAL_DEFAULTS).filter(k=>typeof GENERAL_DEFAULTS[k]==='boolean');

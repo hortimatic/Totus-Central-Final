@@ -3,13 +3,13 @@ import {readFile} from 'node:fs/promises';
 import {PGlite} from '@electric-sql/pglite';
 const db=new PGlite(),actor='00000000-0000-0000-0000-000000000001',shop='00000000-0000-0000-0000-000000000002',local='00000000-0000-0000-0000-000000000003',product='00000000-0000-0000-0000-000000000004';
 try{
- await db.exec(`create schema private;create schema auth;create role anon;create role authenticated;
+ await db.exec(`create schema private;create schema auth;create role anon;create role authenticated;create role service_role;
  create function auth.uid() returns uuid language sql as $$select nullif(current_setting('test.actor',true),'')::uuid$$;
  create table profiles(id uuid primary key,active boolean);insert into profiles values('${actor}',true);
  create function private.totus_can(text,text) returns boolean language sql as $$select coalesce(current_setting('test.allow',true),'yes')<>'no'$$;
  create function private.totus_local_store_access(uuid) returns boolean language sql as $$select $1 in('${shop}'::uuid,'${local}'::uuid)$$;
  create table ops_stores(id uuid primary key);insert into ops_stores values('${shop}'),('${local}');
- create table private.totus_websites(key text primary key,business_id uuid references ops_stores(id),status text);insert into private.totus_websites values('web-a','${shop}','active');
+ create table private.totus_websites(key text primary key,business_id uuid references ops_stores(id),status text);insert into private.totus_websites(key,business_id,status) values('web-a','${shop}','active');
  create table products(id uuid primary key,store_id uuid references ops_stores(id),name text,source_website text,details jsonb default '{}');insert into public.products values('${product}','${shop}','Original','web-a','{}');
  create table product_variants(id uuid primary key,product_id uuid);create table private.totus_tpv_local_catalogue(id uuid,store_id uuid,product_id uuid,stock numeric);
  create table private.totus_local_workspace_requests(id uuid primary key,actor_id uuid,store_id uuid,intent jsonb,result jsonb,created_at timestamptz default now());
@@ -20,6 +20,7 @@ try{
  insert into public.products(id,store_id,name,source_website) values(chosen,p_store,p_data->>'name',null) on conflict(id) do update set name=excluded.name;
  result:=jsonb_build_object('id',chosen,'storeId',p_store,'saved',true);insert into private.totus_local_workspace_requests(id,actor_id,store_id,intent,result) values(p_request,auth.uid(),p_store,intent,result);return result;end$$;
  `);
+ await db.exec("alter table private.totus_websites add column origin text default 'https://shop.invalid';alter table private.totus_websites add column connection_id uuid default '00000000-0000-0000-0000-000000000008'" );
  await db.exec(await readFile('supabase/totus_central_product_sync_queue.sql','utf8'));
  const save=async({store=shop,id=product,request=crypto.randomUUID(),data={name:'Own edit'},changes=[]}={})=>(await db.query('select public.totus_central_product_save($1,$2,$3,$4,$5) result',[store,id,request,data,changes])).rows[0].result;
  await assert.rejects(()=>save(),/permiso/);await db.exec(`set test.actor='${actor}'`);
@@ -29,10 +30,14 @@ try{
  const queue=(await db.query('select * from private.totus_central_product_sync_queue')).rows[0];assert.equal(queue.before_snapshot.name,'Original');assert.equal(queue.desired_snapshot.name,'Own edit');assert.equal(queue.website_key,'web-a');assert.equal(queue.status,'pending');
  const status=(await db.query('select public.totus_central_product_sync_status($1,$2) result',[shop,product])).rows[0].result;assert.equal(status.items.length,1);assert.equal(status.items[0].status,'pending');assert.equal(status.items[0].desired_snapshot,undefined,'The browser reads progress, never privileged queue payloads');
  await assert.rejects(()=>save({request,data:{name:'Other intent'}}),/Replay mismatch/);
+ await assert.rejects(()=>save({changes:{resource:'products',changes:[{field:'name',value:'X'}]}}),/Revisión/);
+ await assert.rejects(()=>save({changes:{resource:'products',recordId:local,changes:[{field:'name',value:'X'}]}}),/no coincide/);
+ await assert.rejects(()=>save({changes:{resource:'combinations',recordId:local,changes:[{field:'reference',value:'X'}]}}),/no pertenece/);
+ assert.equal((await save({changes:{resource:'products',recordId:product,changes:[{field:'name',value:'Own edit'}]}})).queued,1,'Scoped field intent is retained alongside its product identity');
  const localSave=await save({store:local,id:null,data:{name:'Local product'}});assert.equal(localSave.queued,0);assert.equal(localSave.synchronization,'local');
  await db.exec(`update private.totus_websites set status='disabled' where key='web-a'`);
  const offline=await save({data:{name:'Changed while disconnected'}});assert.equal(offline.queued,1,'A temporarily disabled connection does not lose native intent');
- await db.exec(`insert into private.totus_websites values('web-b','${shop}','active')`);
+ await db.exec(`insert into private.totus_websites(key,business_id,status) values('web-b','${shop}','active')`);
  const multi=await save({id:null,data:{name:'Choose destination'}});assert.equal(multi.queued,0);assert.equal(multi.synchronization,'choose_destination','An unbound product is never sent to an arbitrary website');
  const bound=await save({data:{name:'Bound source update'}});assert.equal(bound.queued,1,'An existing source identity continues to target its exact website');
  const beforeCount=Number((await db.query('select count(*) n from private.totus_central_product_sync_queue')).rows[0].n);
@@ -50,6 +55,17 @@ try{
  await db.exec('set test.allow=\'no\'');await assert.rejects(()=>save(),/permiso/);await assert.rejects(()=>db.query('select public.totus_central_product_sync_status($1,null)',[shop]),/acceso/);await db.exec('set test.allow=\'yes\'');
  assert.equal((await db.query("select has_function_privilege('anon','public.totus_central_product_save(uuid,uuid,uuid,jsonb,jsonb)','EXECUTE') allowed")).rows[0].allowed,false);
  assert.equal((await db.query("select has_table_privilege('authenticated','private.totus_central_product_sync_queue','SELECT') allowed")).rows[0].allowed,false);
+ await db.exec('alter table product_variants add column source_website text;alter table product_variants add column source_id bigint;create table private.totus_web_source_records(website_key text,resource text,source_id bigint,data jsonb)');
+ await db.exec(await readFile('supabase/totus_central_product_sync_processing.sql','utf8'));
+ await db.exec("update private.totus_websites set status='active' where key='web-a'");
+ const claim=async()=>(await db.query('select public.totus_central_product_sync_claim($1) result',[shop])).rows[0].result;
+ const leased=(await claim()).job;assert.ok(leased.lease_id);assert.equal(leased.lease_actor,actor);
+ assert.equal((await claim()).job,null,'An active earlier product lease blocks its later intents');
+ assert.equal((await db.query("select has_function_privilege('authenticated','public.totus_central_product_sync_finish(uuid,uuid,uuid,text,text,jsonb)','EXECUTE') allowed")).rows[0].allowed,false);
+ await assert.rejects(()=>db.query('select public.totus_central_product_sync_finish($1,$2,$3,$4,$5,$6)',[leased.id,crypto.randomUUID(),actor,'completed','Wrong lease',{verified:true}]),/turno/);
+ await assert.rejects(()=>db.query('select public.totus_central_product_sync_finish($1,$2,$3,$4,$5,$6)',[leased.id,leased.lease_id,actor,'completed','No evidence',{}]),/relectura/);
+ await db.query('select public.totus_central_product_sync_finish($1,$2,$3,$4,$5,$6)',[leased.id,leased.lease_id,actor,'completed','Verified',{verified:true}]);
+ assert.ok((await claim()).job,'Acknowledging the first intent releases the next one');
  await db.query('delete from products where id=$1',[product]);assert.equal(Number((await db.query('select count(*) n from private.totus_central_product_sync_queue where product_id=$1',[product])).rows[0].n),0,'Product cleanup cannot leave outgoing orphan jobs');
  console.log('Product sync queue SQL: atomic user save and intent, precise website binding, offline pending retention, local independence, replay isolation, protected status and cleanup verified.');
 }catch(error){console.error(error.message,error.where||'');process.exitCode=1;}finally{await db.close();}

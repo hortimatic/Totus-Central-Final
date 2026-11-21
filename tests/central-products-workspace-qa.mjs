@@ -33,7 +33,7 @@ try{
   const local=createLocalStoreWorkspace({rpc,actor:()=> 'admin',can:()=>true});
   const adapter=createCentralProductAdapter({rpc,actor:()=> 'admin'});
   document.querySelector('#chatHarness').innerHTML=productosWorkspacePage();
-  const ui=createProductosUI({rpc,actor:()=> 'admin',allowed:()=>true,canEdit:()=>true,canCreate:()=>true,canDelete:()=>true,canExport:()=>true,centralData:adapter,openCentralEditor:args=>local.openEditor(args),invoke:async()=>{throw Error('Unexpected remote API call');}});
+  const ui=createProductosUI({rpc,actor:()=> 'admin',allowed:()=>true,canEdit:()=>true,canCreate:()=>true,canDelete:()=>true,canExport:()=>true,centralData:adapter,openCentralEditor:args=>local.openEditor(args),invoke:async args=>{if(args.action==='central_product_sync')return {ok:true,storeId:args.store_id,processed:0};throw Error('Unexpected remote API call');}});
   centralProductsQA.ui=ui;await ui.mount(document.querySelector('#productosRoot'));
  });
  await page.getByRole('cell',{name:'Producto online',exact:true}).first().waitFor();
