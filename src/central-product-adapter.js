@@ -1,4 +1,4 @@
-import {createCentralStoreData} from './central-store-data.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
+import {createCentralStoreData} from './central-store-data.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
 
 const clone=value=>structuredClone(value);
 export const centralDefaultCatalogue=p=>{

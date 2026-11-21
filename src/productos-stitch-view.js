@@ -1,13 +1,13 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
-import {columnSettingsRow} from './column-settings.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
-import {productGallery} from './productos-gallery.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
-import {esc} from './utils.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
-import {fieldHelp} from './components.js?v=a6814a13e601d9abd958191ca6aa458ec2ab32cf';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {columnSettingsRow} from './column-settings.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {productGallery} from './productos-gallery.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {esc} from './utils.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {fieldHelp} from './components.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -210,7 +210,7 @@ export function stitchFiche({galleryDraft={},record,backendUrl='',store,central=
  table.querySelector('tbody').innerHTML=variants.map(v=>{
   const id=String(v.id||v.draft_key),values=variantOverrides.get(id)||{},selected=record.id?String(record.id_default_combination)===id:String(values.default_on??v.default_on)==='1';
   const input=key=>'<td class="'+esc(cellClass)+'"><input class="'+inputClass+'" aria-label="'+esc((metadata[key]||key)+' · '+(v.reference||id))+'" data-pr-vid="'+esc(id)+'" data-pr-vvalue="'+key+'" value="'+esc(Object.hasOwn(values,key)?values[key]:textValue(v[key]))+'"></td>';
-  const imageId=associationIds(v,'images')[0],image=imageId?productPhoto({id_default_image:imageId},store):null;
+  const imageId=associationIds(v,'images')[0],image=imageId?productPhoto({...record,...v,id_default_image:imageId},store):null;
   return '<tr><td class="'+esc(cellClass)+'"><input type="radio" name="prd-default-variation" aria-label="Usar como predeterminada '+esc(v.reference||id)+'" data-pr-action="variation-default" data-pr-vid="'+esc(id)+'" '+(selected?'checked':'')+'></td><td class="'+esc(cellClass)+'">'+esc((v.__attributeNames||[]).join(' · ')||'Atributos pendientes de comprobar')+'<button type="button" class="prd-attribute-edit" data-pr-action="'+(v.id?'variation-attributes':'draft-attributes')+'" data-pr-vid="'+esc(id)+'" aria-label="Editar atributos de '+esc(v.reference||id)+'">Editar atributos</button>'+'</td>'+['reference','ean13','wholesale_price','price','weight'].map(input).join('')+'<td class="'+esc(cellClass)+'">'+(v.id?'<button type="button" data-pr-action="stock-stages" data-pr-vid="'+esc(id)+'" aria-label="Ajustar existencias de '+esc(v.reference||id)+'">'+esc(v.__stock?.quantity??'Consultar')+'</button>':'<input type="number" min="0" data-pr-vid="'+esc(id)+'" data-pr-vvalue="quantity" aria-label="Existencias de la variación" value="'+esc(values.quantity??'')+'" placeholder="0">')+'</td>'+input('minimal_quantity')+'<td class="'+esc(cellClass)+'">'+'<button type="button" data-pr-action="variation-images" data-pr-vid="'+esc(id)+'" aria-label="Elegir imágenes de '+esc(v.reference||id)+'">'+(image?'<img src="'+esc(image)+'" class="prd-variant-photo" alt="'+esc(v.reference||id)+'">':'<span class="material-symbols-outlined">add_photo_alternate</span>')+'</button>'+'</td><td class="'+esc(cellClass)+'"><button type="button" data-pr-action="'+(v.id?'variant-direct-review':'publish-direct')+'" data-pr-vid="'+esc(id)+'">'+(v.id?'Revisar cambios':'Publicar producto y variaciones')+'</button>'+(variantReviews.get(store+'|'+id)?.can_commit?'<button type="button" data-pr-action="variant-direct-sync" data-pr-vid="'+esc(id)+'">Aceptar y sincronizar</button><ul class="prd-variant-review-list">'+(variantReviews.get(store+'|'+id).review||[]).filter(c=>c.changed!==false).map(c=>'<li>'+esc(metadata[c.field]||c.field)+': '+esc(textValue(c.before))+' → '+esc(textValue(c.after??c.value))+'</li>').join('')+'</ul>':'')+'<button type="button" data-pr-action="'+(v.id?'variation-upload':'draft-pick-images')+'" data-pr-vid="'+esc(id)+'">Subir foto</button><button type="button" data-pr-action="variation-remove" data-pr-vid="'+esc(id)+'" aria-label="Eliminar combinación '+esc(v.reference||id)+'" class="material-symbols-outlined text-error">delete</button></td></tr>';
  }).join('');
  if(calculationNotice&&calculationNotice.tagName==='P')setText(calculationNotice,'El impacto de precio de cada combinación se suma al precio base sin impuestos del producto.');
@@ -237,7 +237,7 @@ export function stitchFiche({galleryDraft={},record,backendUrl='',store,central=
  images.forEach((id,index)=>{
   const card=imageCard.cloneNode(true),holder=card.querySelector('img').parentElement,picture=card.querySelector('img');
   card.className='prd-gallery-card';
-  picture.src=productPhoto({id_default_image:id},store).replace('-home_default/','-large_default/');picture.alt=localGallery.captions[id]||textValue(record.name);picture.className='prd-gallery-image';picture.removeAttribute('data-alt');
+  const galleryUrl=productPhoto({...record,id_default_image:id},store);picture.src=galleryUrl?galleryUrl.replace('-home_default/','-large_default/'):blank;picture.alt=localGallery.captions[id]||textValue(record.name);picture.className='prd-gallery-image';picture.removeAttribute('data-alt');
   const zoom=document.createElement('button');zoom.className='prd-photo-open';action(zoom,'photo-zoom');zoom.dataset.prImage=id;zoom.setAttribute('aria-label','Ampliar imagen '+id);holder.replaceWith(zoom);zoom.append(picture);
   const caption=card.querySelector('.font-label-sm'),cover=document.createElement('button');cover.className='px-1.5 py-0.2 rounded '+(String(record.id_default_image)===id?'bg-primary text-on-primary font-bold':'bg-primary-fixed text-on-primary-fixed');action(cover,'image-cover');cover.dataset.prImage=id;cover.disabled=String(record.id_default_image)===id;cover.textContent=cover.disabled?'Portada actual':'Usar como portada';caption.replaceChildren(cover);
   const menu=document.createElement('div');menu.className='flex items-center gap-space-xs flex-wrap';
@@ -247,7 +247,7 @@ export function stitchFiche({galleryDraft={},record,backendUrl='',store,central=
  addCard.className='prd-gallery-upload';addCard.setAttribute('role','button');addCard.tabIndex=0;addCard.dataset.prAction='image-stages';addCard.dataset.prImageDrop='';galleryGrid.append(addCard);
 
  const thumbnailRail=thumbnailButtons[0]?.parentElement,thumbnailTemplate=thumbnailButtons[0]?.cloneNode(true);
- if(thumbnailRail&&thumbnailTemplate){thumbnailRail.replaceChildren();thumbnailRail.classList.add('flex-wrap');for(const [index,id]of images.entries()){const b=thumbnailTemplate.cloneNode(true);action(b,'photo-view');b.dataset.prPhoto=id;b.setAttribute('aria-label','Ver foto '+(index+1));const active=String(record.id_default_image||images[0])===id;b.classList.toggle('ring-2',active);b.classList.toggle('ring-primary',active);b.setAttribute('aria-pressed',String(active));const img=b.querySelector('img');img.src=productPhoto({id_default_image:id},store);img.alt='Imagen '+(index+1);img.classList.replace('object-cover','object-contain');img.removeAttribute('data-alt');thumbnailRail.append(b);}}
+ if(thumbnailRail&&thumbnailTemplate){thumbnailRail.replaceChildren();thumbnailRail.classList.add('flex-wrap');for(const [index,id]of images.entries()){const b=thumbnailTemplate.cloneNode(true);action(b,'photo-view');b.dataset.prPhoto=id;b.setAttribute('aria-label','Ver foto '+(index+1));const active=String(record.id_default_image||images[0])===id;b.classList.toggle('ring-2',active);b.classList.toggle('ring-primary',active);b.setAttribute('aria-pressed',String(active));const img=b.querySelector('img');img.src=productPhoto({...record,id_default_image:id},store)||blank;img.alt='Imagen '+(index+1);img.classList.replace('object-cover','object-contain');img.removeAttribute('data-alt');thumbnailRail.append(b);}}
  for(const n of [...f.querySelectorAll('span,div')])if(!n.children.length&&/Foto Activa/.test(n.textContent)){n.dataset.prPhotoLabel='';setText(n,images.length?'Foto '+(Math.max(0,images.indexOf(String(record.id_default_image)))+1)+' de '+images.length:'Sin imágenes');}
  for(const n of [...f.querySelectorAll('span')])if(!n.children.length&&n.textContent.trim()==='Proveedor Oficial')setText(n,websiteName(store));
  const price=f.querySelector('#sticky-pvp-display');setText(price,textValue(overrides.price??record.price)?new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(Number(overrides.price??record.price)):'—');
