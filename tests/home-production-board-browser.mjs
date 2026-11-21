@@ -17,7 +17,7 @@ try{
    if(name==='totus_home_tpv_summary')return {storeId:p.p_store,from:p.p_from,to:p.p_to,source:'totustpv',salesCents:p.p_store==='local'?1000:2000,refundCents:200,saleCount:1,refundCount:1,marginCents:300,marginComplete:true,top:[{id:'product',name:'Artículo '+p.p_store,quantity:1}],series:[{date:today,salesCents:800,orders:1}]};
    if(name==='totus_local_store_workspace')return {storeId:p.p_store,items:p.p_kind==='sales'?[{id:p.p_store+'-sale',store_id:p.p_store,created_at:today+'T12:00:00Z',total_cents:p.p_store==='local'?1000:2000,payments:[{method:'card'}],refunds:[],snapshot:{customerName:'Cliente '+p.p_store,lines:[{productId:'product',name:'Artículo '+p.p_store,qty:1,totalCents:1000,netCents:826}]}}]:[]};
    return {rows:[]};
-  },invoke:()=>{throw Error('No se permite consultar una web para los datos nativos.');},can:()=>true});window.api.mount(document.body);
+  },invoke:()=>{throw Error('No se permite consultar una web para los datos nativos.');},can:()=>true});window.api.mount(document.body);const draft=await import('../src/form-drafts.js');draft.captureFormDraft(document.body);window.hasBusinessDraft=()=>draft.hasFormDraft(document.body);
  });
  await page.waitForFunction(()=>document.querySelector('[data-home-widget="orders"]')?.textContent.includes('Artículo local'),null,{timeout:5000}).catch(async e=>{console.log(await page.evaluate(()=>({calls:window.calls,body:document.body.innerText})),errors);throw e;});
  const expected=['opening','income','expense','result','internal','gain-summary','activity','shop-h','shop-n','orders','tasks','store','price','documents','expense-quarter','billing','fiscal','system','gain','recent-closings','quick-links'];
@@ -29,7 +29,7 @@ try{
  for(const id of ['store','documents','expense-quarter','billing','fiscal']){await page.locator(`[data-home-widget="${id}"] [data-home-filter="store"]`).selectOption('web');assert.equal(await page.locator(`[data-home-widget="${id}"] [data-home-filter="store"]`).inputValue(),'web');}
  for(const id of expected){
   await page.locator(`[data-home-widget="${id}"] [data-home-command="select"]`).click();
-  assert.equal(await page.locator('[data-home-config="width"]').count(),1,`Configuración de ${id}`);
+  assert.equal(await page.locator('[data-home-config="width"]').count(),1,`Configuración de ${id}`);assert.equal(await page.evaluate(()=>window.hasBusinessDraft()),false,'El inspector no genera un borrador empresarial');
   await page.getByRole('button',{name:'Cancelar edición',exact:true}).click();
  }
  console.log('AFTER CONFIG',await page.evaluate(()=>({edit:document.querySelector('.dashboard-page').className,dirty:window.api.hasUnsaved()})));
