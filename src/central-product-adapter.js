@@ -1,7 +1,7 @@
-import {createCentralStoreData} from './central-store-data.js?v=c791a0c82678279622afe2fed55ee25379be7551';
+import {createCentralStoreData} from './central-store-data.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4';
 
 const clone=value=>structuredClone(value);
-const firstCatalogue=p=>{
+export const centralDefaultCatalogue=p=>{
  const simple=p.catalogue.find(c=>!c.variant_id);if(simple)return simple;
  const sourceDefault=p.details?.nativePrice?.attribute_id??p.details?.sourceData?.cache_default_attribute??p.details?.sourceData?.id_default_combination;
  const variant=p.variants.find(v=>String(v.source_id)===String(sourceDefault));
@@ -13,7 +13,7 @@ const netMicros=c=>{
 };
 const decimal=micros=>{const sign=micros<0n?'-':'',value=micros<0n?-micros:micros;return sign+String(value/1000000n)+'.'+String(value%1000000n).padStart(6,'0');};
 export function centralCombinationRecord(p,v,raw={}){
- const c=p.catalogue.find(c=>c.variant_id===v.id),base=firstCatalogue(p);
+ const c=p.catalogue.find(c=>c.variant_id===v.id),base=centralDefaultCatalogue(p);
  return {...clone(raw),...v,__central:true,__native:v,__sourceWebsite:v.source_website||p.source_website||null,__sourceVariantId:v.source_id||null,
   id_product:p.id,reference:v.sku||'',ean13:c?.ean||'',price:c&&base?decimal(netMicros(c)-netMicros(base)):'',
   wholesale_price:v.cost_net==null?(raw.wholesale_price??''):String(v.cost_net),__grossCents:c?.price_cents??null,__taxBasisPoints:c?.tax_basis_points??null,
@@ -26,7 +26,7 @@ const languages=p=>{
  return ids.length?ids:['1'];
 };
 export function centralProductRecord(p){
- const c=firstCatalogue(p),raw=clone(p.details?.sourceData||{});
+ const c=centralDefaultCatalogue(p),raw=clone(p.details?.sourceData||{});
  return {...raw,__central:true,__native:p,__sourceWebsite:p.source_website||null,__sourceProductId:p.source_id||raw.id||null,id:p.id,name:p.name,reference:p.sku||'',
   price:c?decimal(netMicros(c)):'',__grossCents:c?.price_cents??null,__taxBasisPoints:c?.tax_basis_points??null,
   active:p.catalogue.some(entry=>entry.active)?'1':'0',ean13:p.variants.length?String(p.details?.ean??raw.ean13??''):c?.ean||'',id_manufacturer:p.brand_id||'0',id_supplier:p.supplier_id||'0',

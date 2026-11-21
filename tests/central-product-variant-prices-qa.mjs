@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
-import {centralProductRecord,centralCombinationRecord,createCentralProductAdapter} from '../src/central-product-adapter.js';
+import {centralProductRecord,centralCombinationRecord,createCentralProductAdapter,centralDefaultCatalogue} from '../src/central-product-adapter.js';
 const id='00000000-0000-0000-0000-000000000001',a='00000000-0000-0000-0000-000000000002',b='00000000-0000-0000-0000-000000000003';
 const variants=[{id:a,product_id:id,source_id:10,sku:'CHEAP',attributes:{Size:'Small'},cost_net:'2.35'},{id:b,product_id:id,source_id:20,sku:'DEFAULT',attributes:{Size:'Large'}}];
 const p={id,name:'Own product',sku:'BASE',variants,details:{nativePrice:{attribute_id:20},sourceData:{ean13:'0012345678901'}},catalogue:[{variant_id:a,price_cents:1210,tax_basis_points:2100,ean:'1111111111111',active:true},{variant_id:b,price_cents:2420,tax_basis_points:2100,ean:'2222222222222',active:false}]};
+assert.equal(centralDefaultCatalogue(p).variant_id,b,'Editor and catalogue share the same default variant');
 assert.equal(centralProductRecord(p).price,'20.000000','The actual default variant, not the first sorted reference, supplies the displayed base price');
 assert.equal(centralProductRecord(p).ean13,'0012345678901','A parent never inherits its default variant barcode');assert.equal(centralProductRecord(p).active,'1','An inactive default variant does not hide other saleable variants');
 assert.equal(centralCombinationRecord(p,variants[0]).price,'-10.000000');assert.equal(centralCombinationRecord(p,variants[1]).price,'0.000000');

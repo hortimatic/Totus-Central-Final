@@ -1,6 +1,6 @@
-import {createSignatureCapture,signatureInk,signatureSvg} from './signature-capture.js?v=c791a0c82678279622afe2fed55ee25379be7551';
-import {signatureDocumentBlob} from './signature-document.js?v=c791a0c82678279622afe2fed55ee25379be7551';
-import {renderPdfPreview} from '../pdf-preview.js?v=c791a0c82678279622afe2fed55ee25379be7551';
+import {createSignatureCapture,signatureInk,signatureSvg} from './signature-capture.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4';
+import {signatureDocumentBlob} from './signature-document.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4';
+import {renderPdfPreview} from '../pdf-preview.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(value);
 export function createSignaturePanel({actor,storage,getAdapter,getScope,canWrite,getSettings,viewPdf=renderPdfPreview,saveFile=({blob,filename})=>{const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=filename;link.click();setTimeout(()=>URL.revokeObjectURL(url),60000);},capture=createSignatureCapture(),now=Date.now}){

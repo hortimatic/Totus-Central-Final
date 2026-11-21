@@ -1,6 +1,6 @@
-import {sb} from './api.js?v=c791a0c82678279622afe2fed55ee25379be7551';
-import {esc} from './utils.js?v=c791a0c82678279622afe2fed55ee25379be7551';
-import {fieldHelp} from './components.js?v=c791a0c82678279622afe2fed55ee25379be7551';
+import {sb} from './api.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4';
+import {esc} from './utils.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4';
+import {fieldHelp} from './components.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4';
 export async function openNativeWebsiteCatalogue({rpc,website,name}){
  const dialog=document.createElement('dialog');dialog.className='api-user-dialog';
  let state=null,busy=false,stop=false,message='Consultando la preparación guardada…',requestId=crypto.randomUUID();

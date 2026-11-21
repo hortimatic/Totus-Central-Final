@@ -19,7 +19,7 @@ async function loadClient(){
 }
 try{
  await loadClient();
- await import('./app.js?v=c791a0c82678279622afe2fed55ee25379be7551');
+ await import('./app.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4');
 }catch{
  const message=document.getElementById('loginMessage');
  if(message){
