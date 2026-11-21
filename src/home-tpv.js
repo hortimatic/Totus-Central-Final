@@ -1,4 +1,4 @@
-import {esc,money} from './utils.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {esc,money} from './utils.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();

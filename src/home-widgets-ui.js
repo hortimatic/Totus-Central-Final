@@ -1,24 +1,24 @@
-import {nativeTypes,createHomeReader,homeTpvContent} from './home-tpv.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {expenseCostAmount} from './calculations.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {readPool} from './read-pool.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {nativeTypes,createHomeReader,homeTpvContent} from './home-tpv.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {expenseCostAmount} from './calculations.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {readPool} from './read-pool.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {nextOpeningSummary} from './home-openings-view.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {state,getFilters} from './state.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {esc,money} from './utils.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {storeConnection} from './prestashop-readonly.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {prestashopReadiness} from './prestashop-ui.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {prestashopProductImage} from './prestashop-readonly.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=4dc57035565450676e085a82dc11b64980174cf1';
-import {archiveAccepted} from './historical-acceptance.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {nextOpeningSummary} from './home-openings-view.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {state,getFilters} from './state.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {esc,money} from './utils.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {storeConnection} from './prestashop-readonly.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {prestashopReadiness} from './prestashop-ui.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {prestashopProductImage} from './prestashop-readonly.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {archiveAccepted} from './historical-acceptance.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],
@@ -835,7 +835,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   nativeReader.clear();token++;root=target?.querySelector('.dashboard-page');grid=null;connections=null;connectionsTask=null;queries.clear();readProgress.clear();ordersData.clear();catalogData.clear();catalogQueries.clear();edit=false;selected=null;panelView='closed';styleItems=[];stylesError='';stylesBusy=false;remoteReady=false;owner=state.user?.id;
   if(!root||!owner||!can('inicio','view'))return;
   target.querySelector('[data-local-store-workspace]')?.remove();
-  sources=collectExisting(root);for(const [type,id] of defaultSpecs)if(sources.has(id)&&!sources.has(type))sources.set(type,sources.get(id));const hero=root.querySelector('.dashboard-hero');
+  sources=collectExisting(root);for(const node of sources.values())node?.remove();for(const [type,id] of defaultSpecs)if(sources.has(id)&&!sources.has(type))sources.set(type,sources.get(id));const hero=root.querySelector('.dashboard-hero');
   const toolbar=document.createElement('div');toolbar.className='home-dashboard-toolbar';toolbar.innerHTML=`<div class="home-toolbar-description"><strong>Operativa de hoy · Inicio personalizado</strong><p>Organiza tus indicadores y consultas sin perder las funciones actuales.</p><small data-home-status role="status" aria-live="polite"></small></div><div class="home-toolbar-actions"><button class="btn secondary home-edit-tool" data-home-command="panel-library">＋ Añadir widgets</button><button class="btn secondary home-edit-tool" data-home-command="panel-board">⚙ Diseño general</button><button class="btn secondary home-edit-tool" data-home-command="panel-styles">☆ Estilos compartidos</button><button class="btn primary home-edit-tool" data-home-command="save">Guardar cambios</button><button class="btn secondary home-edit-tool" data-home-command="reset">Restaurar diseño</button><button class="btn secondary home-settings-button" data-home-command="edit" aria-label="Personalizar inicio" title="Personalizar inicio">⚙</button></div>`;
   const shell=document.createElement('div');shell.className='home-widget-shell';grid=document.createElement('div');grid.className='home-widget-grid';const drawer=document.createElement('aside');drawer.className='home-widgets-drawer';drawer.dataset.homeDrawer='';drawer.hidden=true;shell.append(grid,drawer);
   hero?.after(toolbar,shell);if(!hero)root.append(toolbar,shell);
