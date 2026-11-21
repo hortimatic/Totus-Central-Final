@@ -1,14 +1,14 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {readDirectorySnapshot,readCombinedCustomers} from './directory-snapshot.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {openContactAddresses} from './contact-address-ui.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {readDirectoryCustomerSales} from './contact-directory-sales.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {esc,csv,download} from './utils.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {createDirectorySession} from './contact-directory-session.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {DIRECTORY_LABELS as labels,DIRECTORY_COLUMNS,DIRECTORY_RESOURCES,directoryLayout,directoryPage,directoryText,directoryFields,directoryDiff} from './contact-directory-core.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {attachProductTableLayout} from './productos-table-layout.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {showProductDialog,confirmProductDialog} from './productos-dialogs.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
-import {openTableViewProfiles} from './table-view-profiles.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {readDirectorySnapshot,readCombinedCustomers} from './directory-snapshot.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {openContactAddresses} from './contact-address-ui.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {readDirectoryCustomerSales} from './contact-directory-sales.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {esc,csv,download} from './utils.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {createDirectorySession} from './contact-directory-session.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {DIRECTORY_LABELS as labels,DIRECTORY_COLUMNS,DIRECTORY_RESOURCES,directoryLayout,directoryPage,directoryText,directoryFields,directoryDiff} from './contact-directory-core.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {attachProductTableLayout} from './productos-table-layout.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {showProductDialog,confirmProductDialog} from './productos-dialogs.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {openTableViewProfiles} from './table-view-profiles.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
 
 export function directoryPageHtml(kind,local){
  return '<section class="directory-workspace" data-directory-root data-directory-kind="'+kind+'"><nav class="directory-sources" aria-label="Origen del directorio">'+WEBSITE_CHOICES.map(s=>'<button type="button" data-directory-source="'+esc(s.key)+'" aria-pressed="false">'+esc(s.name)+'</button>').join('')+''+(kind==='clientes'?'<button type="button" data-directory-source="both" aria-pressed="false">Ambas tiendas</button>':'')+'</nav><details class="directory-internal-tools"><summary>Opciones del directorio</summary><button type="button" class="btn secondary" data-directory-source="local" aria-pressed="false">Referencias internas de Totus</button><p class="small muted">Datos internos utilizados por Gastos, Facturación y los estudios de Precio.</p></details><div data-directory-local>'+local+'</div><div data-directory-shop hidden></div></section>';

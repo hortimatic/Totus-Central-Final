@@ -51,4 +51,4 @@ await paginated.context();let loaded=0;
 for(let page=0;;page++){const response=await paginated.read(shop,'products',{page});loaded+=response.rows.length;if(page===0)response.rows[0].name='Caller edit';if(!response.possibly_more)break;}
 assert.equal(loaded,5300);assert.equal(sourceReads,5300,'A full association scan projects each saved record once rather than rebuilding it on every page');
 assert.equal((await paginated.read(shop,'products')).rows[0].name,'Nombre propio','Returned pages cannot mutate the shared snapshot');
-console.log('Large catalogue: all 5,300 products read in pages with one projection per record and isolated returned objects.');
+console.log('Large catalogue: all 5,300 products read in pages with one projection per record and isolated returned objects.');const inventory=await paginated.associations(shop);assert.equal(inventory.products.length,5300);assert.equal(inventory.combinations.length,0);assert.equal(inventory.products[0].details,undefined);assert.equal(inventory.products[0].__native,undefined,'Association scans never copy full descriptions or catalogue snapshots into every row');

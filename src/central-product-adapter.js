@@ -1,4 +1,4 @@
-import {createCentralStoreData} from './central-store-data.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {createCentralStoreData} from './central-store-data.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
 
 const clone=value=>structuredClone(value);
 const cents=n=>Number(n)/100;
@@ -68,6 +68,9 @@ export function createCentralProductAdapter({rpc,actor}){
   else if(['manufacturers','suppliers'].includes(resource))rows=(await directory(store,resource==='manufacturers'?'brands':'suppliers')).map(row=>({...row,active:'1'}));
   else if(resource==='combinations')rows=(await catalogue(store)).flatMap(p=>p.variants.map(v=>{const c=p.catalogue.find(c=>c.variant_id===v.id);return {...v,__central:true,id_product:p.id,reference:v.sku||'',ean13:c?.ean||'',price:c?String(cents(c.price_cents)):'',__attributes:Object.entries(v.attributes||{}).map(([group,value])=>({group,value})),associations:{}};}));
   else if(resource==='stock_availables')rows=(await catalogue(store)).flatMap(p=>p.catalogue.map(c=>({id:c.id,id_product:p.id,id_product_attribute:c.variant_id||'0',id_shop:'0',quantity:c.stock})));
+  else if(resource==='association_inventory')rows=(await catalogue(store)).map(p=>({id:p.id,name:p.name,reference:p.sku||'',__central:true,__sourceWebsite:p.source_website||null,
+   id_default_image:p.details?.sourceData?.id_default_image||'',associations:{product_features:clone(p.details?.sourceData?.associations?.product_features||[])},
+   variants:p.variants.map(v=>({id:v.id,id_product:p.id,__central:true,__attributes:Object.entries(v.attributes||{}).map(([group,value])=>({group,value}))}))}));
   else if(auxiliaryKinds.has(resource))rows=await auxiliary(store,resource);
   else throw Error('El recurso necesita su adaptador de datos de Central: '+resource);
   return rows;
@@ -86,6 +89,7 @@ export function createCentralProductAdapter({rpc,actor}){
   if(search){const needle=search.toLocaleLowerCase('es'),fields=search_field?[search_field]:['name','reference','ean13'];if(fields.some(f=>!['name','reference','ean13'].includes(f)))throw Error('Campo de búsqueda no válido.');rows=rows.filter(r=>fields.some(f=>String(r[f]||'').toLocaleLowerCase('es').includes(needle)));}
   const start=page*size;return {rows:clone(rows.slice(start,start+size)),possibly_more:start+size<rows.length,total:rows.length};
  }
+ async function associations(store){const rows=await snapshot(store,'association_inventory');return clone({products:rows.map(({variants,...p})=>p),combinations:rows.flatMap(p=>p.variants)});}
  function invalidate(store){if(store){catalogues.delete(store);for(const cache of [resources,projections])for(const key of cache.keys())if(key.startsWith(store+'|'))cache.delete(key);}else{catalogues.clear();resources.clear();projections.clear();}data.invalidate();}
- return {context,catalogue,product,directory,auxiliary,read,invalidate,get stores(){return clone(choices);}};
+ return {context,catalogue,product,directory,auxiliary,associations,read,invalidate,get stores(){return clone(choices);}};
 }
