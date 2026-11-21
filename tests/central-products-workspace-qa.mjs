@@ -15,7 +15,7 @@ try{
   const records=new Map([[a,[product(a,'00000000-0000-0000-0000-000000000011','Producto online')]], [b,[product(b,'00000000-0000-0000-0000-000000000012','Producto físico')]]]);
   window.centralProductsQA={calls:[],records};
   const rpc=async(name,args)=>{
-   centralProductsQA.calls.push({name,args});
+   if(typeof name!=='string'||!args||typeof args!=='object')throw Error('RPC contract mismatch');centralProductsQA.calls.push({name,args});
    if(args.p_kind==='context')return {stores};
    if(name==='totus_local_store_workspace'&&args.p_action==='save'){
     const p=records.get(args.p_store).find(p=>p.id===args.p_id);p.name=args.p_data.name;p.details.metaTitle=args.p_data.metaTitle;return {saved:true,id:p.id,storeId:args.p_store};
@@ -43,7 +43,7 @@ try{
  await dialog.getByRole('button',{name:'Guardar',exact:true}).click();
  await page.getByRole('cell',{name:'Producto físico actualizado',exact:true}).first().waitFor();
  assert.equal(await page.locator('dialog').count(),0);
- const calls=await page.evaluate(()=>centralProductsQA.calls);assert.ok(!calls.some(c=>/prestashop|connections/.test(c.name)),JSON.stringify([...new Set(calls.map(c=>c.name))]));
+ const calls=await page.evaluate(()=>centralProductsQA.calls);assert.ok(calls.every(c=>typeof c.name==='string'&&typeof c.args==='object'));assert.equal(calls.filter(c=>c.name==='totus_local_store_read_page'&&c.args.p_kind==='products').length>=2,true);assert.ok(!calls.some(c=>/prestashop|connections/.test(c.name)),JSON.stringify([...new Set(calls.map(c=>c.name))]));
  const saved=calls.find(c=>c.args.p_action==='save');assert.equal(saved.args.p_store,'00000000-0000-0000-0000-000000000002');assert.equal(saved.args.p_data.metaTitle,'SEO actualizado');
  assert.deepEqual(errors,[]);
  console.log('Existing Products workspace: saved catalogue, shared physical/online selector, store isolation, real editor controls and refreshed saved SEO verified without a web API.');
