@@ -1,13 +1,13 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {columnSettingsRow} from './column-settings.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {productGallery} from './productos-gallery.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {esc} from './utils.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {fieldHelp} from './components.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {columnSettingsRow} from './column-settings.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {productGallery} from './productos-gallery.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {esc} from './utils.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {fieldHelp} from './components.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -24,17 +24,17 @@ function setText(node,value){if(node)node.textContent=String(value??'');}
 function serialize(node){for(const panel of node.querySelectorAll('.rounded-xl'))if(!panel.parentElement?.closest('.rounded-xl'))panel.classList.add('prd-panel');for(const select of node.querySelectorAll('select'))for(const option of select.options)option.toggleAttribute('selected',option.selected);const wrap=document.createElement('div');wrap.append(node);return wrap.innerHTML;}
 function label(button,value){const spans=button.querySelectorAll('span');setText(spans[1]||button,value);}
 function webLink(record,store,backendUrl=''){const backend=record?.id?(backendUrl?'<a class="prd-web-link prd-table-button" href="'+esc(backendUrl)+'" target="_blank" rel="noopener noreferrer" title="Abrir la ficha en la administración de esta tienda usando tu sesión de PrestaShop">Abrir en administración ↗</a>':'<button type="button" class="prd-table-button" data-pr-action="backend-config" data-pr-shop="'+store+'" data-pr-id="'+esc(record.id)+'" title="Vincular un enlace de tu sesión del catálogo de PrestaShop">Vincular administración</button>'):'';const url=productWebUrl(record,store);return url?'<a class="prd-web-link prd-table-button" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" title="Abrir en '+(websiteName(store))+'. Un producto inactivo puede no estar disponible públicamente.">Ver en la web ↗</a>'+backend:'<span class="prd-web-unavailable">Sin enlace: producto aún no creado</span>';}
-export function stitchHeader({pricingMode=false,store,mode,status,count,product,pending,connected,draftCount=0}){
- if(pricingMode)return '<header class="prd-v4-header"><strong>Precios y ofertas</strong><label>Tienda de trabajo <select data-pr-store aria-label="Tienda de trabajo">'+WEBSITE_CHOICES.map(s=>[s.key,s.name]).map(([key,name])=>'<option value="'+key+'" '+(key===store?'selected':'')+'>'+name+'</option>').join('')+'</select></label><span role="status">'+esc(status)+'</span></header>';
- return compactStitchHeader({store,mode,status,count,product,pending,connected,draftCount});
+export function stitchHeader({pricingMode=false,store,mode,status,count,product,pending,connected,draftCount=0,stores=WEBSITE_CHOICES,central=false}){
+ if(pricingMode)return '<header class="prd-v4-header"><strong>Precios y ofertas</strong><label>Tienda de trabajo <select data-pr-store aria-label="Tienda de trabajo">'+stores.map(s=>[s.key,s.name]).map(([key,name])=>'<option value="'+key+'" '+(key===store?'selected':'')+'>'+name+'</option>').join('')+'</select></label><span role="status">'+esc(status)+'</span></header>';
+ return compactStitchHeader({store,mode,status,count,product,pending,connected,draftCount,stores,central});
 }
-function compactStitchHeader({store,mode,status,count,product,pending,connected,draftCount}){
+function compactStitchHeader({store,mode,status,count,product,pending,connected,draftCount,stores,central}){
  const f=fragment(STITCH_V4_HEADER),header=f.querySelector('header'),nav=f.querySelector('nav');
  header.className='prd-v4-header';nav.className='prd-v4-nav';nav.id='master-tabs-bar';nav.setAttribute('aria-label','Secciones de Productos');nav.setAttribute('role','tablist');
  const select=f.querySelector('#v4-store-context');select.id='store-context-select';select.dataset.prStore='';select.setAttribute('aria-label','Tienda de trabajo');
- select.replaceChildren(new Option('Todas las webs','both'),...WEBSITE_CHOICES.map(s=>new Option(s.name,s.key)));select.value=store;select.previousElementSibling?.remove();
+ select.replaceChildren(new Option(central?'Todas las tiendas':'Todas las webs','both'),...stores.map(s=>new Option(s.name,s.key)));select.value=store;select.previousElementSibling?.remove();
  for(const n of header.querySelectorAll('span'))if(n.textContent==='v4.0')n.remove();
- const connection=[...header.querySelectorAll('span')].find(n=>n.textContent.includes('Conexión lista'));if(connection){const badge=connection.parentElement;badge.className='prd-v4-connection';badge.textContent=connected?'● Conectada':'○ Revisar';badge.title=connected?'Conexión API verificada':'Revisar la conexión API en Configuración';}
+ const connection=[...header.querySelectorAll('span')].find(n=>n.textContent.includes('Conexión lista'));if(connection){const badge=connection.parentElement;badge.className='prd-v4-connection';badge.textContent=central?'● Datos de Central':connected?'● Conectada':'○ Revisar';badge.title=central?'Catálogo guardado en Central, independiente de la conexión web':connected?'Conexión API verificada':'Revisar la conexión API en Configuración';}
  for(const b of header.querySelectorAll('button')){if(b.title==='Sincronizar'&&mode!=='catalogo'){action(b,'catalog-load');b.setAttribute('aria-label','Actualizar catálogo');}else b.remove();}
  const names=['1. Catálogo General','2. Ficha y Edición','3. Copiar entre Tiendas','4. Alta Asistida & ChatGPT','5. Historial de cambios'];
  [...nav.querySelectorAll('.master-tab-btn')].forEach((b,i)=>{action(b,'mode');b.dataset.mode=modes[i];b.setAttribute('role','tab');b.setAttribute('aria-label',names[i]);b.title=names[i];if(i===4)label(b,'Historial');b.disabled=!!pending;const active=mode===modes[i]||i===1&&['variantes','bulk'].includes(mode);b.setAttribute('aria-selected',String(active));if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');for(const extra of [...b.querySelectorAll('span')].slice(2))extra.remove();if(i===0)b.insertAdjacentHTML('beforeend','<span class="prd-tab-count">'+count+'</span>');});
@@ -43,7 +43,7 @@ function compactStitchHeader({store,mode,status,count,product,pending,connected,
  const live=document.createElement('p');live.className='prd-v4-status';live.setAttribute('role','status');live.textContent=status;f.append(live);
  return serialize(f);
 }
-export function stitchCatalog({pricingMode=false,backendLink=()=>'',canEdit=false,canDelete=canEdit,canCreate=canEdit,canExport=canEdit,activeKey='',tableEdits=new Map(),purchaseSurcharge='5.2',store,rows,columns,selected,query,filters,brands,categories,page,size,hasMore,pending,ready,value,photo,offerPending=false,views=[],viewName='',columnWidths={},layoutStatus='',rowKey=p=>String(p.id)}){
+export function stitchCatalog({stores=WEBSITE_CHOICES,central=false,pricingMode=false,backendLink=()=>'',canEdit=false,canDelete=canEdit,canCreate=canEdit,canExport=canEdit,activeKey='',tableEdits=new Map(),purchaseSurcharge='5.2',store,rows,columns,selected,query,filters,brands,categories,page,size,hasMore,pending,ready,value,photo,offerPending=false,views=[],viewName='',columnWidths={},layoutStatus='',rowKey=p=>String(p.id)}){
  const f=fragment(STITCH_VIEWS['tab-catalogo']),view=f.firstElementChild;
  view.classList.add('prd-catalog-view');
  view.classList.remove('hidden');view.classList.add('flex');
@@ -52,8 +52,8 @@ export function stitchCatalog({pricingMode=false,backendLink=()=>'',canEdit=fals
  setText(summarySpans[1],hasMore?'Catálogo por páginas:':'Catálogo consultado:');
  setText(summarySpans[2],rows.length+' referencias');
  // No demo totals, fabricated latency or claims of live synchronisation.
- setText(summarySpans[3],'de');setText(summarySpans[4],store==='both'?'Ambas tiendas':websiteName(store));
- const connection=summary.lastElementChild;setText(connection,ready?'Conexión verificada':'Conexión pendiente');
+ setText(summarySpans[3],'de');setText(summarySpans[4],store==='both'?'Todas las tiendas':stores.find(s=>s.key===store)?.name||websiteName(store));
+ const connection=summary.lastElementChild;setText(connection,central?'Datos guardados en Central':ready?'Conexión verificada':'Conexión pendiente');
  const search=f.querySelector('#catalogo-search-input');search.value=query;search.setAttribute('value',query);search.dataset.prSearch='';
  const fillSelect=(select,key,items,title,current)=>{
   select.replaceChildren();select.dataset.prFilter=key;select.setAttribute('aria-label',title);
@@ -62,7 +62,7 @@ export function stitchCatalog({pricingMode=false,backendLink=()=>'',canEdit=fals
  fillSelect(f.querySelector('#catalogo-brand-filter'),'brand',brands,'Todas las marcas',filters.brand);
  fillSelect(f.querySelector('#catalogo-category-filter'),'category',categories,'Todas las categorías',filters.category);
  const selects=[...f.querySelectorAll('select')];
- const shop=selects[2];shop.dataset.prStore='';shop.replaceChildren(...WEBSITE_CHOICES.map(s=>new Option(s.name,s.key)),new Option('Todas las webs','both'));shop.value=store;shop.querySelector('[value="'+store+'"]')?.setAttribute('selected','');
+ const shop=selects[2];shop.dataset.prStore='';shop.replaceChildren(...stores.map(s=>new Option(s.name,s.key)),new Option(central?'Todas las tiendas':'Todas las webs','both'));shop.value=store;shop.querySelector('[value="'+store+'"]')?.setAttribute('selected','');
  fillSelect(selects[3],'active',[['1','Activo'],['0','Inactivo']],'Todos los estados',filters.active);
  const tools=[...f.querySelectorAll('button')];
  const columnsButton=tools[0],details=document.createElement('details');details.className='prd-columns';
@@ -82,7 +82,7 @@ export function stitchCatalog({pricingMode=false,backendLink=()=>'',canEdit=fals
  const toolbar=document.createElement('div');toolbar.className='prd-catalog-toolbar';toolbar.append(details,tools[1],tools[2],tools[3]);
  if(canEdit&&pricingMode){const batch=document.createElement('button');batch.type='button';batch.className='btn secondary';batch.dataset.prAction='catalog-price-batch';batch.textContent='Ajustar precios seleccionados';batch.disabled=pending||!selected.size||selected.size>200;batch.title='Revisar hasta 200 precios base de los productos seleccionados, sin IVA';toolbar.append(batch);const offers=document.createElement('button');offers.type='button';offers.className='btn secondary';offers.dataset.prAction='catalog-offer-batch';offers.textContent=offerPending?'Retomar ofertas pendientes':'Aplicar ofertas seleccionadas';offers.disabled=pending||!offerPending&&(!selected.size||selected.size>200);toolbar.append(offers);}
  const controls=view.firstElementChild;controls.classList.add('prd-panel','prd-catalog-controls');controls.replaceChildren(filterControls,toolbar,selectionBar);
- const loading=document.createElement('div');loading.className='prd-catalog-loading';loading.innerHTML='<div class="prd-catalog-read-state"><span>'+rows.length+' productos cargados'+(hasMore?' · quedan páginas por consultar':' · consulta completa')+'</span>'+fieldHelp('Alcance del catálogo','La tienda busca en todo su catálogo por nombre, referencia, EAN o ID. Solo se cargan las páginas de resultados solicitadas; Mostrar controla las filas visibles.')+'</div><button type="button" data-pr-action="catalog-find" '+(pending?'disabled':'')+'>Buscar ID / referencia en tienda</button><button type="button" data-pr-action="catalog-load" '+(pending?'disabled':'')+'>Actualizar</button>';const clear=document.createElement('button');clear.type='button';clear.dataset.prAction='catalog-clear-filters';clear.textContent='Limpiar búsqueda y filtros';loading.append(clear);toolbar.after(loading);
+ const loading=document.createElement('div');loading.className='prd-catalog-loading';loading.innerHTML='<div class="prd-catalog-read-state"><span>'+rows.length+' productos cargados'+(hasMore?' · quedan páginas por consultar':' · consulta completa')+'</span>'+fieldHelp('Alcance del catálogo',central?'Los productos se consultan en los datos guardados de Central. No hace falta una conexión activa con una web. Mostrar controla las filas visibles.':'La tienda busca en todo su catálogo por nombre, referencia, EAN o ID. Solo se cargan las páginas de resultados solicitadas; Mostrar controla las filas visibles.')+'</div><button type="button" data-pr-action="catalog-find" '+(pending?'disabled':'')+'>Buscar ID / referencia en tienda</button><button type="button" data-pr-action="catalog-load" '+(pending?'disabled':'')+'>Actualizar</button>';const clear=document.createElement('button');clear.type='button';clear.dataset.prAction='catalog-clear-filters';clear.textContent='Limpiar búsqueda y filtros';loading.append(clear);toolbar.after(loading);
  const purchase=document.createElement('label');purchase.className='prd-purchase-rate';purchase.innerHTML='<span>RE de compra estimado (%)</span><input type="number" min="0" max="100" step="0.01" data-pr-price-option="re" value="'+esc(purchaseSurcharge)+'" aria-label="Recargo de compra estimado (%)">'+fieldHelp('Coste con IVA y recargo','Coste base × (1 + IVA / 100 + recargo / 100). Usa el IVA general de España verificado para el producto y el recargo que indiques aquí. Es una estimación: no acredita el impuesto de vuestra factura de compra ni modifica la tienda.');toolbar.append(purchase);
  const full=f.querySelector('#check-full-catalog');full.dataset.prCatalogLoaded='';full.checked=rows.some(r=>r.__visible!==false)&&rows.filter(r=>r.__visible!==false).every(r=>selected.has(rowKey(r)));if(full.checked)full.setAttribute('checked','');
  setText(f.querySelector('label[for="check-full-catalog"]'),'Seleccionar todos los resultados del filtro');
@@ -110,7 +110,7 @@ export function stitchCatalog({pricingMode=false,backendLink=()=>'',canEdit=fals
  table.parentElement.classList.add('prd-catalog-table');table.parentElement.tabIndex=0;table.parentElement.setAttribute('aria-label','Catálogo de productos. Usa las flechas en las celdas para recorrer filas y columnas.');
  table.classList.add('prd-data-table');table.closest('.rounded-xl')?.classList.add('prd-panel');
  for(const td of body.querySelectorAll('td:last-child'))td.classList.add('prd-row-actions');
- if(!visible.length){const empty=document.createElement('p');empty.className='prd-catalog-empty';empty.setAttribute('role','note');empty.textContent=rows.length?'No hay productos que coincidan con estos filtros. Limpia el buscador o cambia los filtros.':'No hay productos cargados. Comprueba la conexión y pulsa Actualizar.';table.parentElement.before(empty);}
+ if(!visible.length){const empty=document.createElement('p');empty.className='prd-catalog-empty';empty.setAttribute('role','note');empty.textContent=rows.length?'No hay productos que coincidan con estos filtros. Limpia el buscador o cambia los filtros.':central?'Esta tienda todavía no tiene productos guardados en Central. Crea un producto o importa su catálogo.':'No hay productos cargados. Comprueba la conexión y pulsa Actualizar.';table.parentElement.before(empty);}
  const footer=table.parentElement.nextElementSibling;
  footer?.classList.add('prd-catalog-footer');
  const arrows=document.createElement('div');arrows.className='prd-table-navigation';arrows.innerHTML='<label class="prd-column-position">Recorrer columnas <input type="range" min="0" max="1000" value="0" data-pr-table-position aria-label="Posición horizontal del catálogo"></label><button type="button" data-pr-action="catalog-scroll" data-direction="-1" aria-label="Ver columnas anteriores">←</button><button type="button" data-pr-action="catalog-scroll" data-direction="1" aria-label="Ver columnas siguientes">→</button>';const floatingArrows=document.createElement('div');floatingArrows.className='prd-table-arrows';floatingArrows.setAttribute('aria-label','Mover columnas');for(const button of arrows.querySelectorAll('button'))floatingArrows.append(button);table.parentElement.before(arrows);table.parentElement.after(floatingArrows);

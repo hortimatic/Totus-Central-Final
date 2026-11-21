@@ -1,29 +1,29 @@
-import {centralPromotionIntent} from './promotions.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {operatorAcknowledgement} from './operator-acknowledgement.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {cashSummaryPresentation} from './cash-visibility.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {originalRefundPayments} from './refund-payments.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {offlineBasketCommercial} from './offline-basket-commercial.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {offlineBasketPrices} from './offline-basket-prices.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {createOfflineSourceStore} from './offline-source-store.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
+import {centralPromotionIntent} from './promotions.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {operatorAcknowledgement} from './operator-acknowledgement.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {cashSummaryPresentation} from './cash-visibility.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {originalRefundPayments} from './refund-payments.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {offlineBasketCommercial} from './offline-basket-commercial.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {offlineBasketPrices} from './offline-basket-prices.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {createOfflineSourceStore} from './offline-source-store.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
 /** Browser adapter: only normal authenticated Central calls. No shop URL,
  * credentials, native commands or privileged client can enter this module.
  * Request IDs survive response loss; financial commands are never auto-retried.
  */
-import {lineName} from './line-name.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {budgetDraft} from './budget-contract.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {saleNote} from './sale-note.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {taxSummary} from './tax-summary.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {parkingExpiry} from './parking-options.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {quotePaymentMethods} from './payment-options.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
+import {lineName} from './line-name.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {budgetDraft} from './budget-contract.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {saleNote} from './sale-note.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {taxSummary} from './tax-summary.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {parkingExpiry} from './parking-options.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {quotePaymentMethods} from './payment-options.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
 const need=(ok,message)=>{if(!ok)throw new Error(message);};
 const clone=value=>structuredClone(value);
 const ordered=value=>Array.isArray(value)?value.map(ordered):value&&typeof value==='object'?

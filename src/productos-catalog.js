@@ -1,6 +1,6 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {textValue,associationIds} from './productos-core.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
-import {csvCell} from './utils.js?v=e9ad8d479d88104c1b678524b9e2a5299aaebff0';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {textValue,associationIds} from './productos-core.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
+import {csvCell} from './utils.js?v=48d7712615757e00ce2a385d144121c0aceae91e';
 export const PRODUCT_COLUMNS=Object.freeze([
  ['image','Foto'],['name','Producto'],['id','ID'],['reference','Ref.'],['ean13','EAN'],['brand','Marca'],['supplier','Proveedor'],['category','Categoría'],['store','Tienda'],['cost','Coste neto'],['costVat','Coste +IVA'],['costTotal','Coste total'],['price','PVP neto'],['gross','PVP final'],['margin','Margen %'],['marginTotal','Margen €'],['stock','Stock'],['variants','Variantes'],['active','Estado'],['weight','Peso'],['width','Ancho'],['height','Alto'],['depth','Fondo'],['date_add','Creado'],['creator','Autor'],['date_upd','Actualizado']
 ]);
@@ -14,6 +14,8 @@ export function catalogProductKey(product,fallbackStore=''){
  return (product.__store||fallbackStore)+'|'+String(product.id);
 }
 export function productPhoto(item,store){
+ if(item?.__central){if(!item.__sourceWebsite)return null;store=item.__sourceWebsite;}
+
  const id=String(item?.id_default_image||associationIds(item,'images')[0]||'');
  if(!WEBSITE_CHOICES.some(s=>s.key===store))return null;
  return /^[1-9]\d{0,14}$/.test(id)?(WEBSITE_CHOICES.find(s=>s.key===store)?.origin||'')+'/'+id+'-home_default/product.jpg':null;
