@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {normalizedProduct,associationIds,productRecordId,buildProductPlan} from '../src/productos-core.js';
+const sourceStore='00000000-0000-0000-0000-000000000001',destination='00000000-0000-0000-0000-000000000002',pid='00000000-0000-0000-0000-000000000010',vid='00000000-0000-0000-0000-000000000011',targetId='00000000-0000-0000-0000-000000000020';
+const source={id:pid,name:'Producto propio',reference:'LOCAL',__central:true,__native:{id:pid,store_id:sourceStore},associations:{combinations:[{id:vid}],images:[{id:'42'}]}};
+const variant={id:vid,reference:'LOCAL-V',__central:true,__native:{id:vid,product_id:pid},__attributes:[{group:'Talla',value:'Grande'}]};
+assert.equal(normalizedProduct(source).id,pid);assert.deepEqual(associationIds(source,'combinations'),[vid]);assert.deepEqual(associationIds(source,'images'),['42']);
+assert.equal(productRecordId({id:pid}),null,'Remote numeric contracts never accept UUIDs implicitly');assert.equal(productRecordId({...source,__native:{id:targetId}}),null);
+const plan=buildProductPlan({source,store:destination,stores:[{key:destination}],fields:['name','reference'],variants:[{source:variant,fields:['reference']}]});
+assert.equal(plan.operation,'create');assert.equal(plan.source_id,pid);assert.equal(plan.variants[0].source_id,vid);assert.equal(plan.variants[0].source_attributes[0].value,'Grande');
+const target={...source,id:targetId,__native:{id:targetId,store_id:destination}};
+assert.equal(buildProductPlan({source,target,store:destination,stores:[{key:destination}],fields:['name']}).target_id,targetId);
+assert.throws(()=>buildProductPlan({source,target:{...target,__native:{id:targetId,store_id:sourceStore}},store:destination,stores:[{key:destination}],fields:['name']}),/otra tienda/);
+assert.throws(()=>buildProductPlan({source,store:destination,stores:[{key:destination}],fields:[],variants:[{source:{...variant,__native:{id:vid,product_id:targetId}},fields:[]}]}),/otro producto/);
+assert.throws(()=>buildProductPlan({source,store:destination,stores:[],fields:[]}),/no admitida/);
+console.log('Copy planner: owned product/variant UUIDs, context-selected destination, original image IDs, parent checks and unchanged remote numeric contracts verified.');

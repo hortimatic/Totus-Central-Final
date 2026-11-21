@@ -9,7 +9,7 @@ begin
  if auth.uid() is null or not exists(select 1 from public.profiles where id=auth.uid() and active)
  or private.totus_can('productos','view') is not true or private.totus_local_store_access(p_store) is not true
  then raise exception 'No tienes acceso al catálogo de esta tienda.';end if;
- if p_resource is null or p_resource<>all(array['languages','categories','product_options','product_option_values',
+ if p_resource is null or p_resource<>all(array['languages','categories','combinations','product_options','product_option_values',
  'product_features','product_feature_values','tags','tax_rule_groups','tax_rules','taxes','countries'])
  or p_after is null or p_after<0 or p_limit is null or p_limit not between 1 and 100
  then raise exception 'Consulta auxiliar de productos no válida.';end if;

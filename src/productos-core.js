@@ -1,5 +1,5 @@
 // Productos · selección de campos y planes de transferencia SIN escrituras.
-import {WEBSITE_CHOICES as PRODUCT_STORES} from './website-registry.js?v=3d432970111a2a1283bd54ccf3af15bc5af12d0a';
+import {WEBSITE_CHOICES as PRODUCT_STORES} from './website-registry.js?v=c791a0c82678279622afe2fed55ee25379be7551';
 export {PRODUCT_STORES};
 export const PRODUCT_SECTIONS=Object.freeze({
  general:['name','reference','ean13','isbn','upc','mpn','active','visibility','condition','show_condition','available_for_order','show_price','online_only','description_short','description'],
@@ -12,6 +12,11 @@ export const VARIANT_FIELDS=Object.freeze(['reference','ean13','isbn','upc','mpn
 const FIELDS=new Set(Object.values(PRODUCT_SECTIONS).flat());
 const own=(x,k)=>Object.prototype.hasOwnProperty.call(x||{},k);
 export const cleanId=value=>/^[1-9]\d{0,14}$/.test(String(value??''))?String(value):null;
+export function productRecordId(record){
+ const id=String(record?.id??'');
+ if(record?.__central===true)return /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(id)&&record.__native?.id===id?id:null;
+ return cleanId(id);
+}
 export const textValue=value=>{
  if(value===null||value===undefined)return '';
  if(typeof value==='string'||typeof value==='number'||typeof value==='boolean')return String(value);
@@ -28,14 +33,14 @@ export function productInputValue(field,value){
 }
 export function normalizedProduct(raw){
  if(!raw||typeof raw!=='object'||Array.isArray(raw))throw Error('La ficha de PrestaShop no es válida.');
- const id=cleanId(raw.id);
+ const id=productRecordId(raw);
  if(!id)throw Error('La ficha no tiene ID de producto válido.');
  return {id,raw,reference:textValue(raw.reference).trim(),name:textValue(raw.name).trim(),combinations:associationIds(raw,'combinations'),categories:associationIds(raw,'categories'),images:associationIds(raw,'images')};
 }
 export function associationIds(resource,name){
  const payload=resource?.associations?.[name],singular=name==='categories'?'category':name==='images'?'image':name==='combinations'?'combination':name==='product_option_values'?'product_option_value':null;
  const entries=Array.isArray(payload)?payload:Array.isArray(payload?.[singular])?payload[singular]:payload?.[singular]?[payload[singular]]:[];
- return [...new Set(entries.map(item=>cleanId(item?.id??item)).filter(Boolean))];
+ return [...new Set(entries.map(item=>{const id=String(item?.id??item);return resource?.__central===true&&name==='combinations'&&/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(id)?id:cleanId(id);}).filter(Boolean))];
 }
 export function matchExactReference(rows,reference){
  const ref=textValue(reference).trim().toLocaleLowerCase('es');
@@ -60,26 +65,28 @@ export function planSelectedFields({source,target=null,fields=[],overrides={},va
   return {field,before:original,after:next,changed:canonical(original)!==canonical(next)};
  });
 }
-export function buildProductPlan({source,target=null,store,fields=[],overrides={},variants=[]}){
- if(!PRODUCT_STORES.some(s=>s.key===store))throw Error('Tienda de destino no admitida.');
- if(target&&cleanId(target.id)===null)throw Error('Destino existente sin ID válido.');
+export function buildProductPlan({source,target=null,store,fields=[],overrides={},variants=[],stores=PRODUCT_STORES}){
+ if(!stores.some(s=>s.key===store))throw Error('Tienda de destino no admitida.');
+ if(target&&productRecordId(target)===null)throw Error('Destino existente sin ID válido.');
+ if(target?.__central&&target.__native.store_id!==store)throw Error('El producto de destino pertenece a otra tienda.');
  const product=planSelectedFields({source,target,fields,overrides});
  if(!Array.isArray(variants)||variants.length>500)throw Error('Selección de combinaciones no válida.');
  const seen=new Set();
  const planned=variants.map(v=>{
   if(!v||!v.source||typeof v.source!=='object')throw Error('Combinación de origen inválida.');
-  const sourceId=cleanId(v.source.id),draftKey=typeof v.source.draft_key==='string'&&/^draft-[a-z0-9-]{10,}$/.test(v.source.draft_key)?v.source.draft_key:null;
+  const sourceId=productRecordId(v.source),draftKey=typeof v.source.draft_key==='string'&&/^draft-[a-z0-9-]{10,}$/.test(v.source.draft_key)?v.source.draft_key:null;
   if(!sourceId&&!draftKey)throw Error('Combinación sin identificador temporal o real.');
   const key=sourceId||draftKey;
   if(seen.has(key))throw Error('Combinación repetida.');seen.add(key);
-  if(v.target&&!cleanId(v.target.id))throw Error('Combinación de destino sin ID.');
-    return {source_id:sourceId,draft_key:draftKey,draft_image_keys:v.source.__draftImageKeys??null,target_id:v.target?cleanId(v.target.id):null,source_default_on:String(v.source.default_on)==='1',source_image_ids:associationIds(v.source,'images'),source_stock:v.source.__stock?{quantity:String(v.source.__stock.quantity),out_of_stock:String(v.source.__stock.out_of_stock??'0'),depends_on_stock:String(v.source.__stock.depends_on_stock??'0'),location:String(v.source.__stock.location??'')}:null,
+  if(v.target&&!productRecordId(v.target))throw Error('Combinación de destino sin ID.');
+  if(v.source.__central&&v.source.__native.product_id!==source.id||v.target?.__central&&v.target.__native.product_id!==target?.id)throw Error('La combinación pertenece a otro producto.');
+    return {source_id:sourceId,draft_key:draftKey,draft_image_keys:v.source.__draftImageKeys??null,target_id:v.target?productRecordId(v.target):null,source_default_on:String(v.source.default_on)==='1',source_image_ids:associationIds(v.source,'images'),source_stock:v.source.__stock?{quantity:String(v.source.__stock.quantity),out_of_stock:String(v.source.__stock.out_of_stock??'0'),depends_on_stock:String(v.source.__stock.depends_on_stock??'0'),location:String(v.source.__stock.location??'')}:null,
     changes:planSelectedFields({source:v.source,target:v.target,fields:v.fields||[],overrides:v.overrides||{},variant:true}),
     attributes:associationIds(v.source,'product_option_values'),source_attributes:(v.source.__attributes||[]).map(a=>({group:a.group,value:a.value})),
     requires_attribute_mapping:!v.target};
  });
  return {
-  store,operation:target?'update':'create',source_id:cleanId(source.id),target_id:target?cleanId(target.id):null,
+  store,operation:target?'update':'create',source_id:productRecordId(source),target_id:target?productRecordId(target):null,
   changes:product,variants:planned,requires_review:true,persisted:false,
   warnings:[...(!target?['El alta requiere completar campos obligatorios, categorías e idiomas del destino.']:[]),
     ...(planned.some(v=>v.requires_attribute_mapping)?['Hay variantes nuevas: confirmar la correspondencia de atributos de la tienda de destino.']:[]),

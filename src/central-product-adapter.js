@@ -1,8 +1,24 @@
-import {createCentralStoreData} from './central-store-data.js?v=3d432970111a2a1283bd54ccf3af15bc5af12d0a';
+import {createCentralStoreData} from './central-store-data.js?v=c791a0c82678279622afe2fed55ee25379be7551';
 
 const clone=value=>structuredClone(value);
-const cents=n=>Number(n)/100;
-const firstCatalogue=p=>p.catalogue.find(c=>!c.variant_id)||p.catalogue[0]||null;
+const firstCatalogue=p=>{
+ const simple=p.catalogue.find(c=>!c.variant_id);if(simple)return simple;
+ const sourceDefault=p.details?.nativePrice?.attribute_id??p.details?.sourceData?.cache_default_attribute??p.details?.sourceData?.id_default_combination;
+ const variant=p.variants.find(v=>String(v.source_id)===String(sourceDefault));
+ return p.catalogue.find(c=>c.variant_id===(p.details?.defaultVariantId||variant?.id))||p.catalogue[0]||null;
+};
+const netMicros=c=>{
+ if(!c||!Number.isSafeInteger(c.price_cents)||c.price_cents<0||!Number.isInteger(c.tax_basis_points)||c.tax_basis_points<0||c.tax_basis_points>10000)throw Error('Falta un precio o impuesto verificado del catálogo.');
+ const denominator=10000n+BigInt(c.tax_basis_points);return (BigInt(c.price_cents)*100000000n+denominator/2n)/denominator;
+};
+const decimal=micros=>{const sign=micros<0n?'-':'',value=micros<0n?-micros:micros;return sign+String(value/1000000n)+'.'+String(value%1000000n).padStart(6,'0');};
+export function centralCombinationRecord(p,v,raw={}){
+ const c=p.catalogue.find(c=>c.variant_id===v.id),base=firstCatalogue(p);
+ return {...clone(raw),...v,__central:true,__native:v,__sourceWebsite:v.source_website||p.source_website||null,__sourceVariantId:v.source_id||null,
+  id_product:p.id,reference:v.sku||'',ean13:c?.ean||'',price:c&&base?decimal(netMicros(c)-netMicros(base)):'',
+  wholesale_price:v.cost_net==null?(raw.wholesale_price??''):String(v.cost_net),__grossCents:c?.price_cents??null,__taxBasisPoints:c?.tax_basis_points??null,
+  __attributes:Object.entries(v.attributes||{}).map(([group,value])=>({group,value})),associations:clone(raw.associations||{})};
+}
 const languages=p=>{
  const raw=p.details?.sourceData||{};
  const entries=['name','description','description_short','meta_title','meta_description','link_rewrite'].flatMap(key=>Array.isArray(raw[key])?raw[key]:[]);
@@ -10,10 +26,10 @@ const languages=p=>{
  return ids.length?ids:['1'];
 };
 export function centralProductRecord(p){
- const c=firstCatalogue(p),raw=clone(p.details?.sourceData||{}),rate=Number(c?.tax_basis_points||0)/10000;
+ const c=firstCatalogue(p),raw=clone(p.details?.sourceData||{});
  return {...raw,__central:true,__native:p,__sourceWebsite:p.source_website||null,__sourceProductId:p.source_id||raw.id||null,id:p.id,name:p.name,reference:p.sku||'',
-  price:c?String(cents(c.price_cents)/(1+rate)):'',__grossCents:c?.price_cents??null,__taxBasisPoints:c?.tax_basis_points??null,
-  active:c?.active?'1':'0',ean13:c?.ean||'',id_manufacturer:p.brand_id||'0',id_supplier:p.supplier_id||'0',
+  price:c?decimal(netMicros(c)):'',__grossCents:c?.price_cents??null,__taxBasisPoints:c?.tax_basis_points??null,
+  active:p.catalogue.some(entry=>entry.active)?'1':'0',ean13:p.variants.length?String(p.details?.ean??raw.ean13??''):c?.ean||'',id_manufacturer:p.brand_id||'0',id_supplier:p.supplier_id||'0',
   meta_title:p.details?.metaTitle??raw.meta_title??'',meta_description:p.details?.metaDescription??raw.meta_description??'',
   link_rewrite:p.details?.slug??raw.link_rewrite??'',description:p.details?.description??raw.description??'',
   description_short:p.details?.descriptionShort??raw.description_short??'',date_add:p.created_at,date_upd:p.updated_at,
@@ -23,7 +39,7 @@ export function centralProductRecord(p){
 // No PrestaShop request is made here; connection status never gates a local read.
 export function createCentralProductAdapter({rpc,actor}){
  const data=createCentralStoreData({rpc,actor}),catalogues=new Map(),resources=new Map(),projections=new Map();let choices=[],contextOwner=null;
- const auxiliaryKinds=new Set(['languages','categories','product_options','product_option_values','product_features','product_feature_values','tags','tax_rule_groups','tax_rules','taxes','countries']);
+ const auxiliaryKinds=new Set(['languages','categories','combinations','product_options','product_option_values','product_features','product_feature_values','tags','tax_rule_groups','tax_rules','taxes','countries']);
  async function context(){const owner=actor();if(owner!==contextOwner){choices=[];catalogues.clear();resources.clear();projections.clear();contextOwner=null;}const next=await data.stores();choices=next;contextOwner=owner;for(const key of catalogues.keys())if(!choices.some(s=>s.id===key))catalogues.delete(key);for(const cache of [resources,projections])for(const key of cache.keys())if(!choices.some(s=>key.startsWith(s.id+'|')))cache.delete(key);return {stores:clone(choices)};}
  function ensure(store){if(!contextOwner||contextOwner!==actor()||!choices.some(s=>s.id===store))throw Error('La tienda ya no está disponible. Actualiza la selección.');}
  async function catalogue(store,{fresh=false}={}){
@@ -72,7 +88,14 @@ export function createCentralProductAdapter({rpc,actor}){
   let rows;
   if(resource==='products')rows=(await catalogue(store)).map(centralProductRecord);
   else if(['manufacturers','suppliers'].includes(resource))rows=(await directory(store,resource==='manufacturers'?'brands':'suppliers')).map(row=>({...row,active:'1'}));
-  else if(resource==='combinations')rows=(await catalogue(store)).flatMap(p=>p.variants.map(v=>{const c=p.catalogue.find(c=>c.variant_id===v.id);return {...v,__central:true,id_product:p.id,reference:v.sku||'',ean13:c?.ean||'',price:c?String(cents(c.price_cents)):'',__attributes:Object.entries(v.attributes||{}).map(([group,value])=>({group,value})),associations:{}};}));
+  else if(resource==='combinations'){
+   const [products,original]=await Promise.all([catalogue(store),auxiliary(store,'combinations')]),byId=new Map(original.map(row=>[String(row.id),row]));
+   rows=products.flatMap(p=>p.variants.map(v=>{
+    const raw=v.source_id&&v.source_website===p.source_website?byId.get(String(v.source_id)):null;
+    if(raw&&String(raw.id_product)!==String(p.source_id))throw Error('Los datos originales de la combinación pertenecen a otro producto.');
+    return {...centralCombinationRecord(p,v,raw||{}),__sourceDetailsMissing:!!v.source_id&&!raw};
+   }));
+  }
   else if(resource==='stock_availables')rows=(await catalogue(store)).flatMap(p=>p.catalogue.map(c=>({id:c.id,id_product:p.id,id_product_attribute:c.variant_id||'0',id_shop:'0',quantity:c.stock})));
   else if(resource==='association_inventory')rows=(await catalogue(store)).map(p=>({id:p.id,name:p.name,reference:p.sku||'',__central:true,__sourceWebsite:p.source_website||null,
    id_default_image:p.details?.sourceData?.id_default_image||'',associations:{product_features:clone(p.details?.sourceData?.associations?.product_features||[])},
