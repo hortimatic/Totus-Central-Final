@@ -12,6 +12,8 @@ begin
  if p_drawer is not null and not exists(select 1 from public.ops_cash_drawers where id=p_drawer and store_id=p_store) then raise exception 'La caja no pertenece a este establecimiento.';end if;
  if p_groups is null or cardinality(p_groups)=0 or not(p_groups<@array['catalogue','contacts','activity','documents','configuration','connections','tasks']) then raise exception 'Selecciona los datos que deseas retirar.';end if;
  if p_remove and p_drawer is null and not(array['catalogue','contacts','activity','documents','configuration','connections','tasks']<@p_groups) then raise exception 'Para eliminar el establecimiento completo debes incluir todos los grupos.';end if;
+ drop table if exists pg_temp.totus_business_cleanup_source_scope;
+ create temporary table totus_business_cleanup_source_scope(website_key text,resource text,records bigint,revision bigint,primary key(website_key,resource)) on commit drop;
  drop table if exists pg_temp.totus_business_cleanup_rows;
  create temporary table totus_business_cleanup_rows(rel oid not null,key text not null,data jsonb not null,depth integer not null default 0,processed boolean not null default false,primary key(rel,key)) on commit drop;
  if p_remove then
@@ -42,13 +44,9 @@ begin
   if exists(select 1 from pg_constraint where contype='f' and confrelid='private.totus_web_source_records'::regclass) then
    raise exception 'Hay dependencias nuevas del origen importado. Revisa el circuito de limpieza antes de continuar.';
   end if;
-  -- Compact keys retain the full source-row hash for the confirmation fingerprint.
-  -- Source payloads need not be copied repeatedly into the dependency graph.
-  insert into pg_temp.totus_business_cleanup_rows(rel,key,data,depth)
-   select 'private.totus_web_source_records'::regclass,md5(jsonb_build_array(r.website_key,r.resource,r.source_id,r.job_id,r.imported_at,r.content_hash)::text),
-    jsonb_build_object('website_key',r.website_key,'resource',r.resource,'source_id',r.source_id,'job_id',r.job_id,'imported_at',r.imported_at),1000
-   from private.totus_web_source_records r join private.totus_websites w on w.key=r.website_key
-   where w.business_id=p_store and (('catalogue'=any(p_groups) and r.resource=any(array['languages','categories','product_options','product_option_values','product_features','product_feature_values','tags','products','combinations','product_suppliers','specific_prices','specific_price_rules','image_types','shops','shop_groups','stores','stock_availables','warehouses','warehouse_product_locations','stocks','stock_movement_reasons','stock_movements','supply_order_states','supply_orders','supply_order_details','supply_order_histories','supply_order_receipt_histories'])) or ('contacts'=any(p_groups) and r.resource=any(array['manufacturers','suppliers','customers','groups','addresses','countries','states'])) or ('activity'=any(p_groups) and r.resource=any(array['currencies','taxes','tax_rule_groups','tax_rules','carriers','cart_rules','orders','order_details','order_histories','order_states','order_payments','order_invoices','order_slip','order_carriers','order_cart_rules','deliveries'])) or ('documents'=any(p_groups) and r.resource=any(array['order_invoices','order_slip']))) on conflict do nothing;
+  insert into pg_temp.totus_business_cleanup_source_scope
+   select r.website_key,r.resource,r.records,r.revision from private.totus_web_source_counters r join private.totus_websites w on w.key=r.website_key
+   where w.business_id=p_store and r.records>0 and (('catalogue'=any(p_groups) and r.resource=any(array['languages','categories','product_options','product_option_values','product_features','product_feature_values','tags','products','combinations','product_suppliers','specific_prices','specific_price_rules','image_types','shops','shop_groups','stores','stock_availables','warehouses','warehouse_product_locations','stocks','stock_movement_reasons','stock_movements','supply_order_states','supply_orders','supply_order_details','supply_order_histories','supply_order_receipt_histories'])) or ('contacts'=any(p_groups) and r.resource=any(array['manufacturers','suppliers','customers','groups','addresses','countries','states'])) or ('activity'=any(p_groups) and r.resource=any(array['currencies','taxes','tax_rule_groups','tax_rules','carriers','cart_rules','orders','order_details','order_histories','order_states','order_payments','order_invoices','order_slip','order_carriers','order_cart_rules','deliveries'])) or ('documents'=any(p_groups) and r.resource=any(array['order_invoices','order_slip'])));
   if 'catalogue'=any(p_groups) then
    insert into pg_temp.totus_business_cleanup_rows(rel,key,data)
     select 'private.totus_web_native_catalogue_jobs'::regclass,md5(to_jsonb(j)::text),to_jsonb(j)
@@ -70,9 +68,9 @@ begin
   exit when changed=0;
  end loop;
  if exists(select 1 from pg_temp.totus_business_cleanup_rows where (data?'store_id' and nullif(data->>'store_id','') is not null and data->>'store_id'<>p_store::text) or (data?'business_id' and nullif(data->>'business_id','') is not null and data->>'business_id'<>p_store::text)) then raise exception 'La selección alcanza datos de otro establecimiento. No se ha eliminado nada.';end if;
- select md5(coalesce(string_agg(rel::text||':'||key,',' order by rel,key),'')) into fingerprint from pg_temp.totus_business_cleanup_rows;
- select coalesce(jsonb_agg(jsonb_build_object('table',table_name,'count',records) order by table_name),'[]') into summary from(select (rel::regclass)::text table_name,count(*) records from pg_temp.totus_business_cleanup_rows group by rel)x;
- return jsonb_build_object('storeId',p_store,'storeName',store_name,'storeCode',store_code,'drawerId',p_drawer,'drawerCode',(select code from public.ops_cash_drawers where id=p_drawer and store_id=p_store),'fingerprint',fingerprint,'sourceResources',(select coalesce(jsonb_agg(to_jsonb(x) order by x.resource),'[]') from(select data->>'resource' resource,count(*) records from pg_temp.totus_business_cleanup_rows where rel='private.totus_web_source_records'::regclass group by data->>'resource')x),'tables',summary,'total',(select count(*) from pg_temp.totus_business_cleanup_rows),'requiresClosing',exists(select 1 from private.totus_tpv_local_sessions where store_id=p_store and (p_drawer is null or drawer_id=p_drawer) and closed_at is null),'hasFiles',exists(select 1 from pg_temp.totus_business_cleanup_rows where rel='public.ops_documents'::regclass and coalesce(data->>'storage_path',data->>'file_path',data->>'onedrive_item_id','')<>''));
+ select md5(coalesce(string_agg(rel::text||':'||key,',' order by rel,key),'')||coalesce((select jsonb_agg(to_jsonb(x) order by x.website_key,x.resource)::text from pg_temp.totus_business_cleanup_source_scope x),'')) into fingerprint from pg_temp.totus_business_cleanup_rows;
+ select coalesce(jsonb_agg(jsonb_build_object('table',table_name,'count',records) order by table_name),'[]') into summary from(select (rel::regclass)::text table_name,count(*) records from pg_temp.totus_business_cleanup_rows group by rel union all select 'private.totus_web_source_records',sum(records) from pg_temp.totus_business_cleanup_source_scope having sum(records)>0)x;
+ return jsonb_build_object('storeId',p_store,'storeName',store_name,'storeCode',store_code,'drawerId',p_drawer,'drawerCode',(select code from public.ops_cash_drawers where id=p_drawer and store_id=p_store),'fingerprint',fingerprint,'sourceResources',(select coalesce(jsonb_agg(to_jsonb(x) order by x.resource),'[]') from(select resource,sum(records) records from pg_temp.totus_business_cleanup_source_scope group by resource)x),'tables',summary,'total',((select count(*) from pg_temp.totus_business_cleanup_rows)+coalesce((select sum(records) from pg_temp.totus_business_cleanup_source_scope),0)),'requiresClosing',exists(select 1 from private.totus_tpv_local_sessions where store_id=p_store and (p_drawer is null or drawer_id=p_drawer) and closed_at is null),'hasFiles',exists(select 1 from pg_temp.totus_business_cleanup_rows where rel='public.ops_documents'::regclass and coalesce(data->>'storage_path',data->>'file_path',data->>'onedrive_item_id','')<>''));
 end $function$;
 
 revoke all on function private.totus_business_cleanup_plan(uuid,uuid,text[],boolean) from public,anon,authenticated;
@@ -107,6 +105,8 @@ begin
  plan:=private.totus_business_cleanup_plan(p_store,p_drawer,p_groups,p_remove);
  if p_fingerprint is distinct from plan->>'fingerprint' then raise exception 'Los datos han cambiado durante la revisión. Actualiza el resumen.';end if;
  for connection_id in select data->>'id' from pg_temp.totus_business_cleanup_rows where rel='private.totus_api_connections'::regclass loop delete from vault.secrets where name='totus_api_'||connection_id;end loop;
+ delete from private.totus_web_source_records r using pg_temp.totus_business_cleanup_source_scope scope where r.website_key=scope.website_key and r.resource=scope.resource;
+ get diagnostics removed=row_count;total_removed:=total_removed+removed;
  for t in select rel,max(depth) depth from pg_temp.totus_business_cleanup_rows group by rel order by max(depth) desc,rel loop
   select string_agg(format('t.%I=original.%I',a.attname,a.attname),' and ' order by x.ord) into key_condition from pg_constraint k cross join lateral unnest(k.conkey) with ordinality x(attnum,ord) join pg_attribute a on a.attrelid=k.conrelid and a.attnum=x.attnum where k.conrelid=t.rel and k.contype='p';
   execute format('delete from %s t using pg_temp.totus_business_cleanup_rows p cross join lateral jsonb_populate_record(null::%s,p.data) original where p.rel=%s and %s',t.rel::regclass,t.rel::regclass,t.rel,coalesce(key_condition,'to_jsonb(t)=p.data'));get diagnostics removed=row_count;total_removed:=total_removed+removed;
@@ -118,8 +118,7 @@ begin
    imported=(select count(*) from private.totus_web_source_records r where r.job_id=j.id),
    progress=coalesce((select jsonb_object_agg(resource,n) from(select resource,count(*) n from private.totus_web_source_records where job_id=j.id group by resource)x),'{}'),
    resource_index=(select count(distinct resource)+1 from private.totus_web_source_records where job_id=j.id),cursor_id=0,updated_at=clock_timestamp()
-  where j.website_key in(select key from private.totus_websites where business_id=p_store) and exists(select 1 from pg_temp.totus_business_cleanup_rows x where x.rel='private.totus_web_source_records'::regclass and x.data->>'job_id'=j.id::text);
-  delete from private.totus_web_import_jobs j where j.website_key in(select key from private.totus_websites where business_id=p_store) and not exists(select 1 from private.totus_web_source_records r where r.job_id=j.id);
+  where j.website_key in(select key from private.totus_websites where business_id=p_store) and exists(select 1 from pg_temp.totus_business_cleanup_source_scope x where x.website_key=j.website_key);
  end if;
  delete from private.totus_tpv_local_audit a where exists(select 1 from pg_temp.totus_business_cleanup_rows r where r.data->>'id'=a.record_id::text) or (p_remove and p_drawer is null and (a.previous->>'store_id'=p_store::text or a.current->>'store_id'=p_store::text));
  delete from public.ops_audit_log a where exists(select 1 from pg_temp.totus_business_cleanup_rows r where r.data?'id' and position(r.data->>'id' in a.detail::text)>0);
@@ -131,3 +130,6 @@ end $function$;
 revoke all on function public.totus_business_cleanup(uuid,uuid,text[],boolean,boolean,text,text) from public,anon;
 grant execute on function public.totus_business_cleanup(uuid,uuid,text[],boolean,boolean,text,text) to authenticated;
 
+
+alter function public.totus_business_cleanup(uuid,uuid,text[],boolean,boolean,text,text) set statement_timeout='45s';
+alter function public.totus_business_cleanup(uuid,uuid,text[],boolean,boolean,text,text) set lock_timeout='5s';

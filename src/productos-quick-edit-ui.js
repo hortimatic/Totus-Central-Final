@@ -1,7 +1,7 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=6211f41561afde7cdca2c962030b082ada6e768a';
-import {esc} from './utils.js?v=6211f41561afde7cdca2c962030b082ada6e768a';
-import {textValue} from './productos-core.js?v=6211f41561afde7cdca2c962030b082ada6e768a';
-import {showProductDialog} from './productos-dialogs.js?v=6211f41561afde7cdca2c962030b082ada6e768a';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=e360ad724d9d8b11ab1356574f4084246e87be94';
+import {esc} from './utils.js?v=e360ad724d9d8b11ab1356574f4084246e87be94';
+import {textValue} from './productos-core.js?v=e360ad724d9d8b11ab1356574f4084246e87be94';
+import {showProductDialog} from './productos-dialogs.js?v=e360ad724d9d8b11ab1356574f4084246e87be94';
 
 const fields=[['name','Nombre'],['reference','Referencia'],['ean13','EAN'],['wholesale_price','Coste sin IVA'],['price','Precio sin IVA'],['weight','Peso (kg)'],['width','Ancho (cm)'],['height','Alto (cm)'],['depth','Fondo (cm)'],['active','Estado'],['visibility','Visibilidad'],['available_for_order','Permitir compras']];
 const choices={active:[['0','Inactivo'],['1','Activo']],visibility:[['none','Oculto'],['both','Catálogo y búsqueda'],['catalog','Solo catálogo'],['search','Solo búsqueda']],available_for_order:[['0','No'],['1','Sí']]};

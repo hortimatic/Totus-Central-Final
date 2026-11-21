@@ -1,5 +1,5 @@
-import {esc} from './utils.js?v=6211f41561afde7cdca2c962030b082ada6e768a';
-import {prestashopStore} from './prestashop-readonly.js?v=6211f41561afde7cdca2c962030b082ada6e768a';
+import {esc} from './utils.js?v=e360ad724d9d8b11ab1356574f4084246e87be94';
+import {prestashopStore} from './prestashop-readonly.js?v=e360ad724d9d8b11ab1356574f4084246e87be94';
 const h=value=>esc(String(value??''));
 const paragraphs=text=>String(text||'').split(/\n+/).map(s=>s.trim()).filter(Boolean).map(s=>'<p style="font-size:16px;line-height:1.75;margin:12px 0;">'+h(s)+'</p>').join('');
 export function buildVisualProductDescription({store,title,intro,detailTitle,detailText,specifications,box,notice,images=[]}){

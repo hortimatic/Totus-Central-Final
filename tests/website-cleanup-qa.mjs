@@ -31,6 +31,7 @@ try{
  create table private.totus_web_native_catalogue_items(job_id uuid references private.totus_web_native_catalogue_jobs,data jsonb);insert into private.totus_web_native_catalogue_items values('${id}','{}');
  create table private.totus_web_directory_projection(website_key text references private.totus_websites,resource text,source_id bigint);
  `);
+ await db.exec(await readFile('supabase/totus_web_source_counters.sql','utf8'));
  await db.exec(await readFile('supabase/totus_business_cleanup.sql','utf8'));
  const call=(groups,remove=false,execute=false,fingerprint=null)=>db.query('select public.totus_business_cleanup($1,null,$2,$3,$4,$5,$6) p',[id,groups,remove,execute,fingerprint,'ELIMINAR A']).then(r=>r.rows[0].p);
  let plan=await call(['catalogue']);assert.equal(plan.sourceResources[0].records,20000);assert.equal(plan.sourceResources[0].resource,'products');
@@ -39,7 +40,11 @@ try{
  await db.exec("update private.totus_web_source_records set data='{\"changed\":true}' where website_key='web-a' and resource='products' and source_id=1");
  await assert.rejects(()=>call(['catalogue'],false,true,plan.fingerprint),/Los datos han cambiado/);
  plan=await call(['catalogue']);
+ await db.exec("update private.totus_web_source_records set data=data||'{\"changed\":true}' where website_key='web-a' and resource='products' and source_id=1");
+ await assert.rejects(()=>call(['catalogue'],false,true,plan.fingerprint),/Los datos han cambiado/);
+ plan=await call(['catalogue']);
  await call(['catalogue'],false,true,plan.fingerprint);
+ assert.equal((await db.query("select records from private.totus_web_source_counters where website_key='web-a' and resource='products'")).rows[0].records,0);
  assert.equal((await db.query("select count(*) n from private.totus_web_source_records where website_key='web-a' and resource='products'")).rows[0].n,0);
  assert.equal((await db.query("select count(*) n from private.totus_web_source_records where resource='customers'")).rows[0].n,1);
  assert.equal((await db.query("select count(*) n from products where store_id=$1",[other])).rows[0].n,1);
