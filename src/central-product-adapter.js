@@ -1,4 +1,4 @@
-import {createCentralStoreData} from './central-store-data.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
+import {createCentralStoreData} from './central-store-data.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
 
 const clone=value=>structuredClone(value);
 const cents=n=>Number(n)/100;
@@ -22,9 +22,9 @@ export function centralProductRecord(p){
 // The legacy product view and Central's TPV consume the same persistent records.
 // No PrestaShop request is made here; connection status never gates a local read.
 export function createCentralProductAdapter({rpc,actor}){
- const data=createCentralStoreData({rpc,actor}),catalogues=new Map(),resources=new Map();let choices=[],contextOwner=null;
+ const data=createCentralStoreData({rpc,actor}),catalogues=new Map(),resources=new Map(),projections=new Map();let choices=[],contextOwner=null;
  const auxiliaryKinds=new Set(['languages','categories','product_options','product_option_values','product_features','product_feature_values','tags','tax_rule_groups','tax_rules','taxes','countries']);
- async function context(){const owner=actor();if(owner!==contextOwner){choices=[];catalogues.clear();resources.clear();contextOwner=null;}const next=await data.stores();choices=next;contextOwner=owner;for(const key of catalogues.keys())if(!choices.some(s=>s.id===key))catalogues.delete(key);for(const key of resources.keys())if(!choices.some(s=>key.startsWith(s.id+'|')))resources.delete(key);return {stores:clone(choices)};}
+ async function context(){const owner=actor();if(owner!==contextOwner){choices=[];catalogues.clear();resources.clear();projections.clear();contextOwner=null;}const next=await data.stores();choices=next;contextOwner=owner;for(const key of catalogues.keys())if(!choices.some(s=>s.id===key))catalogues.delete(key);for(const cache of [resources,projections])for(const key of cache.keys())if(!choices.some(s=>key.startsWith(s.id+'|')))cache.delete(key);return {stores:clone(choices)};}
  function ensure(store){if(!contextOwner||contextOwner!==actor()||!choices.some(s=>s.id===store))throw Error('La tienda ya no está disponible. Actualiza la selección.');}
  async function catalogue(store,{fresh=false}={}){
   ensure(store);if(fresh)catalogues.delete(store);
@@ -62,21 +62,30 @@ export function createCentralProductAdapter({rpc,actor}){
   }
   const pending=resources.get(key),rows=await pending;ensure(store);if(resources.get(key)!==pending)throw Error('Los datos auxiliares cambiaron. Actualiza la selección.');return clone(rows);
  }
- async function read(store,resource,{id=null,search='',page=0,size=100,product_ids=null,references=null,search_field=null}={}){
-  ensure(store);if(!Number.isSafeInteger(page)||page<0||!Number.isInteger(size)||size<1||size>100||!Number.isSafeInteger(page*size))throw Error('Página no válida.');
+ async function project(store,resource){
   let rows;
-  if(resource==='products')rows=id?[centralProductRecord(await product(store,id))]:(await catalogue(store)).map(centralProductRecord);
+  if(resource==='products')rows=(await catalogue(store)).map(centralProductRecord);
   else if(['manufacturers','suppliers'].includes(resource))rows=(await directory(store,resource==='manufacturers'?'brands':'suppliers')).map(row=>({...row,active:'1'}));
   else if(resource==='combinations')rows=(await catalogue(store)).flatMap(p=>p.variants.map(v=>{const c=p.catalogue.find(c=>c.variant_id===v.id);return {...v,__central:true,id_product:p.id,reference:v.sku||'',ean13:c?.ean||'',price:c?String(cents(c.price_cents)):'',__attributes:Object.entries(v.attributes||{}).map(([group,value])=>({group,value})),associations:{}};}));
   else if(resource==='stock_availables')rows=(await catalogue(store)).flatMap(p=>p.catalogue.map(c=>({id:c.id,id_product:p.id,id_product_attribute:c.variant_id||'0',id_shop:'0',quantity:c.stock})));
   else if(auxiliaryKinds.has(resource))rows=await auxiliary(store,resource);
   else throw Error('El recurso necesita su adaptador de datos de Central: '+resource);
+  return rows;
+ }
+ async function snapshot(store,resource){
+  ensure(store);const key=store+'|'+resource;
+  if(!projections.has(key)){const pending=project(store,resource);projections.set(key,pending);pending.catch(()=>{if(projections.get(key)===pending)projections.delete(key);});}
+  const pending=projections.get(key),rows=await pending;ensure(store);if(projections.get(key)!==pending)throw Error('El catálogo cambió durante la consulta. Actualiza la selección.');return rows;
+ }
+ async function read(store,resource,{id=null,search='',page=0,size=100,product_ids=null,references=null,search_field=null}={}){
+  ensure(store);if(!Number.isSafeInteger(page)||page<0||!Number.isInteger(size)||size<1||size>100||!Number.isSafeInteger(page*size))throw Error('Página no válida.');
+  let rows=id&&resource==='products'?[centralProductRecord(await product(store,id))]:await snapshot(store,resource);
   if(id)rows=rows.filter(r=>r.id===id);
   if(product_ids!==null){if(!Array.isArray(product_ids)||product_ids.some(v=>typeof v!=='string'||!v))throw Error('Identificadores de producto no válidos.');const ids=new Set(product_ids);rows=rows.filter(r=>ids.has(String(resource==='products'?r.id:r.id_product)));}
   if(references!==null){if(!Array.isArray(references)||references.some(v=>typeof v!=='string'||!v))throw Error('Referencias no válidas.');const refs=new Set(references);rows=rows.filter(r=>refs.has(String(r.reference||'')));}
   if(search){const needle=search.toLocaleLowerCase('es'),fields=search_field?[search_field]:['name','reference','ean13'];if(fields.some(f=>!['name','reference','ean13'].includes(f)))throw Error('Campo de búsqueda no válido.');rows=rows.filter(r=>fields.some(f=>String(r[f]||'').toLocaleLowerCase('es').includes(needle)));}
-  const start=page*size;return {rows:rows.slice(start,start+size),possibly_more:start+size<rows.length,total:rows.length};
+  const start=page*size;return {rows:clone(rows.slice(start,start+size)),possibly_more:start+size<rows.length,total:rows.length};
  }
- function invalidate(store){if(store){catalogues.delete(store);for(const key of resources.keys())if(key.startsWith(store+'|'))resources.delete(key);}else{catalogues.clear();resources.clear();}data.invalidate();}
+ function invalidate(store){if(store){catalogues.delete(store);for(const cache of [resources,projections])for(const key of cache.keys())if(key.startsWith(store+'|'))cache.delete(key);}else{catalogues.clear();resources.clear();projections.clear();}data.invalidate();}
  return {context,catalogue,product,directory,auxiliary,read,invalidate,get stores(){return clone(choices);}};
 }

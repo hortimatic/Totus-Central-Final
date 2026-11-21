@@ -44,3 +44,11 @@ const unstable=createCentralProductAdapter({actor:()=>owner,rpc:async(name,args)
 await unstable.context();await assert.rejects(()=>unstable.auxiliary(shop,'categories'),/cambiaron/);
 const localized=centralProductRecord({...native,details:{sourceData:{name:[{id:'2',value:'Nombre'}],associations:[{id:'999'}]}}});assert.deepEqual(localized.__language_ids,['2']);
 console.log('Saved auxiliary catalogue: full pagination, shared cache, identity and revision isolation, local empty state and actual text languages verified.');
+let sourceReads=0;
+const large=Array.from({length:5300},(_,index)=>({...native,id:String(index),details:{get sourceData(){sourceReads++;return {name:'Snapshot'};}}}));
+const paginated=createCentralProductAdapter({actor:()=>owner,rpc:async(name,args)=>args.p_kind==='context'?{stores:[{id:shop,name:'Online'}]}:{storeId:shop,items:large}});
+await paginated.context();let loaded=0;
+for(let page=0;;page++){const response=await paginated.read(shop,'products',{page});loaded+=response.rows.length;if(page===0)response.rows[0].name='Caller edit';if(!response.possibly_more)break;}
+assert.equal(loaded,5300);assert.equal(sourceReads,5300,'A full association scan projects each saved record once rather than rebuilding it on every page');
+assert.equal((await paginated.read(shop,'products')).rows[0].name,'Nombre propio','Returned pages cannot mutate the shared snapshot');
+console.log('Large catalogue: all 5,300 products read in pages with one projection per record and isolated returned objects.');

@@ -1,37 +1,37 @@
-import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {openAttributeRecord} from './productos-attribute-editor.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {createProductMovementsUI} from './productos-movements-ui.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {normalizeProductImage} from './productos-image-editor.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {openTableViewProfiles} from './table-view-profiles.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {openProductMasters} from './productos-masters-ui.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {attachProductTableLayout} from './productos-table-layout.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {adaptProductTexts} from './productos-copy-text.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {showProductDialog} from './productos-dialogs.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {enhanceProductSelects} from './productos-controls.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {createProductTableEditor} from './productos-table-editor.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {openCatalogPriceBatch} from './catalog-price-batch.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,productCatalogCsv} from './productos-catalog.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {productStockSummary} from './product-stock-summary.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {readPool} from './read-pool.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {storeConnection} from './prestashop-readonly.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {createProductWizard} from './productos-create-ui.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {esc} from './utils.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {fieldHelp} from './components.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {productDraftStore} from './productos-draft-store.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
-import {productPriceStudy} from './pricing-core.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
+import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {openAttributeRecord} from './productos-attribute-editor.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {createProductMovementsUI} from './productos-movements-ui.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {normalizeProductImage} from './productos-image-editor.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {openTableViewProfiles} from './table-view-profiles.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {openProductMasters} from './productos-masters-ui.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {attachProductTableLayout} from './productos-table-layout.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {adaptProductTexts} from './productos-copy-text.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {showProductDialog} from './productos-dialogs.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {enhanceProductSelects} from './productos-controls.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {createProductTableEditor} from './productos-table-editor.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {openCatalogPriceBatch} from './catalog-price-batch.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,productCatalogCsv} from './productos-catalog.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {productStockSummary} from './product-stock-summary.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {readPool} from './read-pool.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {storeConnection} from './prestashop-readonly.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {createProductWizard} from './productos-create-ui.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {esc} from './utils.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {fieldHelp} from './components.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {productDraftStore} from './productos-draft-store.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
+import {productPriceStudy} from './pricing-core.js?v=4e5a277196612e264f2dea444776d3045da3ec43';
 
 export const productosWorkspacePage=(workspace='products')=>'<div class="page productos-page"><section id="productosRoot" data-pr-workspace="'+workspace+'" aria-label="'+(workspace==='pricing'?'Precios y ofertas':'Gestión de productos')+'"><p role="status">Cargando Productos…</p></section></div>';
 const h=x=>esc(String(x??''));
@@ -470,7 +470,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  async function loadCatalog(more,{stock=true}={}){
   if(centralData){
    const generation=epoch,shops=catalogScope==='both'?PRODUCT_STORES.map(s=>s.key):[catalogScope],nextRows=[],nextMeta=new Map(),nextStock=new Map();
-   const {centralProductRecord}=await import('./central-product-adapter.js?v=9ac5186a129dc5fee4962f60c858a5c226873745');
+   const {centralProductRecord}=await import('./central-product-adapter.js?v=4e5a277196612e264f2dea444776d3045da3ec43');
    for(const shop of shops){if(!shop)continue;const native=await centralData.catalogue(shop);
     const directories=await Promise.allSettled([centralData.directory(shop,'brands'),centralData.directory(shop,'suppliers')]);const brands=directories[0].status==='fulfilled'?directories[0].value:[],suppliers=directories[1].status==='fulfilled'?directories[1].value:[];
     if(!current()||epoch!==generation)throw Error('La sesión ha cambiado.');
@@ -536,6 +536,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   record=fresh;variants=freshVariants;shopRecords.set(activeStore,record);return true;
  }
  async function openProduct(id,shop=store,{keepCatalog=false}={}){
+  if(centralData){await openCentralEditor?.({store:shop,id,onSaved:async()=>{centralData.invalidate(shop);attributesUI.invalidate();await loadCatalog(false);render();}});return;}
   rememberProductDraft();
   if(shop!==store||catalogScope==='both'){store=shop;if(!keepCatalog){catalogScope=shop;await loadCatalog(false);}else{const meta=catalogMeta.get(shop);catalogCategories=meta?.categories||[];catalogBrands=meta?.brands||[];catalogTaxContext=meta?.tax||{countries:[],rules:[],taxes:[]};}}
   const saved=draftsByProduct.get(store+'|'+id),queue=copyQueue;
