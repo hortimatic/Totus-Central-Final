@@ -87,6 +87,12 @@ begin
  if exists(select 1 from private.totus_central_attribute_rows(p_store,p_resource) value where value->>'id'<>rid and lower(btrim(value->>'name'))=lower(btrim(next_data->>'name')) and (parent_field is null or value->>parent_field=next_data->>parent_field)) then raise exception 'Ya existe ese nombre en este grupo o tienda.';end if;
  old_name:=entry->>'name';new_name:=next_data->>'name';group_name:=parent->>'name';old_group:=old_parent->>'name';
  if old_name is not null and (old_name<>new_name or p_resource='product_option_values' and old_group is distinct from group_name) then
+ if p_resource='product_options' and exists(select 1 from private.totus_central_attribute_rows(p_store,'product_options') value where value->>'id'<>rid and value->>'name'=old_name)
+ or p_resource='product_option_values' and (exists(select 1 from private.totus_central_attribute_rows(p_store,'product_options') value where value->>'id'<>entry->>'id_attribute_group' and value->>'name'=old_group)
+ or exists(select 1 from private.totus_central_attribute_rows(p_store,'product_option_values') value where value->>'id'<>rid and value->>'id_attribute_group'=entry->>'id_attribute_group' and value->>'name'=old_name))
+ then raise exception 'Hay grupos o valores importados con el mismo nombre. Revisa su correspondencia por identificador antes de renombrarlos.';end if;
+ end if;
+ if old_name is not null and (old_name<>new_name or p_resource='product_option_values' and old_group is distinct from group_name) then
  -- Use the same catalogue-before-variant lock order as the product editor.
  perform 1 from private.totus_tpv_local_catalogue c join public.product_variants v on v.id=c.variant_id
  where c.store_id=p_store and (p_resource='product_options' and v.attributes?old_name or p_resource='product_option_values' and v.attributes->>old_group=old_name) order by c.id for update of c;

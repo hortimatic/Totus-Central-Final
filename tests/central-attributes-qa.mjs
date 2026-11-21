@@ -40,6 +40,9 @@ try{
  await assert.rejects(async()=>save(online,'product_option_values','delete','3',{},(await read(online,'product_option_values'))[0].__revision),/utiliz|asociad|producto|combinaci/);
  const lv=(await read(local,'product_option_values'))[0];await save(local,'product_option_values','delete',localValue.recordId,{},lv.__revision);assert.deepEqual(await read(local,'product_option_values'),[]);
  await assert.rejects(()=>save(local,'product_options','create',null,{name:'Inválido',public_name:'X',secret:'not allowed'}),/campos/);
+ await db.exec(`insert into private.totus_web_source_records values('online','product_options',21,'{"name":"Tono","public_name":"Otro tono","group_type":"select"}');`);
+ const ambiguous=(await read(online,'product_options')).find(r=>r.id==='2');await assert.rejects(()=>save(online,'product_options','update','2',{name:'Tono único'},ambiguous.__revision),/mismo nombre/);
+ assert.deepEqual((await db.query('select attributes from product_variants where id=$1',[variant])).rows[0].attributes,{Tono:'Rubí'},'Ambiguous imported master names never rewrite another group combinations');
  await db.exec("update profiles set active=false");await assert.rejects(()=>read(local,'product_options'),/acceso/);
  console.log('Native attributes: physical/online isolation, own group and value creation, parent ownership, CAS and replay protection, used-name propagation, immutable import evidence, dependency checks and permissions verified.');
 }finally{await db.close();}
