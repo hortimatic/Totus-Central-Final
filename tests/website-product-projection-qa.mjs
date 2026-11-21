@@ -14,7 +14,7 @@ try{
  create table private.totus_web_native_catalogue_items(website_key text,shop_id bigint,product_id bigint,attribute_id bigint,job_id uuid,data jsonb);
  create table public.products(id uuid primary key,store_id uuid,source_website text,source_id bigint,sku text,name text,product_type text,status text,current_pvp numeric,brand_id uuid,supplier_id uuid,details jsonb,created_by uuid,created_at timestamptz default now(),updated_at timestamptz default now());
  create unique index on products(source_website,source_id);
- create table public.brands(id uuid,source_website text,source_id bigint);create table public.ops_suppliers(like brands);
+ create table public.brands(id uuid,store_id uuid,source_website text,source_id bigint);create table public.ops_suppliers(like brands);
  create table public.product_variants(id uuid primary key,product_id uuid references products(id),source_website text,source_id bigint,sku text,name text,attributes jsonb,pvp numeric,cost_net numeric,active boolean,created_at timestamptz default now());
  create table private.totus_tpv_local_catalogue(store_id uuid,id uuid,product_id uuid,variant_id uuid,name text,reference text,ean text,price_cents bigint,tax_basis_points integer,stock numeric constraint totus_tpv_local_catalogue_stock_check check(stock>=0),metadata jsonb,active boolean,quantity_unit text,revision bigint default 1,primary key(store_id,id));
  insert into private.totus_web_source_records values
@@ -38,11 +38,22 @@ try{
  await db.exec(`update private.totus_tpv_local_catalogue set stock=stock-1 where product_id='${ids[0]}';update private.totus_web_source_records set data=data||'{"meta_title":"Remote SEO"}' where resource='products' and source_id=1;`);
  assert.equal((await call(true)).conflicts,1);assert.equal((await db.query('select stock from private.totus_tpv_local_catalogue where product_id=$1',[ids[0]])).rows[0].stock,'-3');
  assert.equal((await db.query("select has_function_privilege('anon','public.totus_web_product_projection(text,bigint,boolean)','execute') allowed")).rows[0].allowed,false);
+ await db.exec(`alter table ops_stores add column active boolean default true;create table profiles(id uuid,active boolean);insert into profiles values('${id}',true);
+ create table private.totus_local_workspace_requests(id uuid primary key,actor_id uuid,store_id uuid,intent jsonb,result jsonb,created_at timestamptz default now());
+ create table private.totus_tpv_local_catalogue_requests(id uuid primary key,actor_id uuid,store_id uuid,item_id uuid,intent jsonb,result jsonb,created_at timestamptz);
+ create table private.totus_tpv_local_audit(actor_id uuid,action text,record_id uuid,previous jsonb,current jsonb);`);
+ await db.exec(await readFile(new URL('../supabase/totus_web_owned_catalogue_edits.sql',import.meta.url),'utf8'));
+ const existing=(await db.query('select * from products where id=$1',[ids[0]])).rows[0];
+ await db.query('select public.totus_local_store_workspace($1,$2,$3,$4,gen_random_uuid(),$5)',[id,'products','save',ids[0],{name:'Uno editado',reference:'REPEAT',unit:'unit',priceCents:1210,taxBasisPoints:2100,stock:-3,active:true,expectedRevision:existing.updated_at.toISOString(),variants:[],metaTitle:'SEO local'}]);
+ const edited=(await db.query('select * from products where id=$1',[ids[0]])).rows[0];assert.equal(edited.details.images.length,2);assert.equal(edited.details.metaTitle,'SEO local');assert.equal(edited.source_website,'web-a');assert.equal((await db.query('select metadata from private.totus_tpv_local_catalogue where product_id=$1',[ids[0]])).rows[0].metadata.nativePrice.unit_tax_incl,'12.100000');
+ const variable=(await db.query('select * from products where id=$1',[ids[1]])).rows[0];const variation=(await db.query('select * from product_variants where product_id=$1',[ids[1]])).rows[0];
+ await db.query('select public.totus_local_store_workspace($1,$2,$3,$4,gen_random_uuid(),$5)',[id,'products','save',ids[1],{name:'Dos editado',reference:'REPEAT',unit:'unit',priceCents:2420,taxBasisPoints:2100,stock:3,active:false,expectedRevision:variable.updated_at.toISOString(),variants:[{id:variation.id,reference:'',attributes:{Color:'Azul',Talla:'M'},priceCents:2420,stock:-1,ean:'',active:false}]}]);
+ const afterVariation=(await db.query('select * from product_variants where id=$1',[variation.id])).rows[0];assert.equal(afterVariation.source_id,11);assert.deepEqual(afterVariation.attributes,{Color:'Azul',Talla:'M'});assert.equal(afterVariation.active,false);assert.equal((await db.query('select stock,active from private.totus_tpv_local_catalogue where id=$1',[variation.id])).rows[0].stock,'-1');
  await db.exec(await readFile(new URL('../supabase/totus_local_store_read_page.sql',import.meta.url),'utf8'));
  await db.exec(`insert into products(id,store_id,sku,name,details) select gen_random_uuid(),'${id}','PAGE-'||n,'Paged '||lpad(n::text,2,'0'),'{}' from generate_series(1,51) n;`);
  const page=after=>db.query('select public.totus_local_store_read_page($1,$2,$3,$4) result',[id,'products','',after]).then(r=>r.rows[0].result);
  const first=await page(null),second=await page(first.nextCursor);assert.equal(first.total,53);assert.equal(first.items.length,50);assert.equal(second.items.length,3);assert.equal(second.nextCursor,null);assert.equal(new Set([...first.items,...second.items].map(r=>r.id)).size,53);assert.equal(first.items[0].details,undefined);
  const detail=(await db.query('select public.totus_local_store_read_page($1,$2,$3,null,1,$4) result',[id,'products','',ids[0]])).rows[0].result.items[0];assert.equal(detail.details.images.length,2);
- assert.equal((await db.query('select public.totus_local_store_read_page($1,$2,$3) result',[id,'products','SEO Uno'])).rows[0].result.total,1);
+ assert.equal((await db.query('select public.totus_local_store_read_page($1,$2,$3) result',[id,'products','SEO local'])).rows[0].result.total,1);
  console.log('Isolated product adoption: source identity, duplicate references, blank variant reference, all attributes/SEO/image associations, negative stock, replay/conflicts and complete keyset search/paging passed. No live records created.');
 }finally{await db.close();}

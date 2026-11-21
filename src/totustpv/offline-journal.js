@@ -1,8 +1,8 @@
-import {operatorAcknowledgement} from './operator-acknowledgement.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
-import {saleModifiers} from './sale-modifiers.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
-import {saleNote} from './sale-note.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
-import {offlineCommercial} from './offline-commercial.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
-import {paymentReference} from './payment-reference.js?v=2963d111447facb4944201d3d3dc23efd1d050a2';
+import {operatorAcknowledgement} from './operator-acknowledgement.js?v=3e87ae3d42c2316c945230e51ade6d3f72ca3690';
+import {saleModifiers} from './sale-modifiers.js?v=3e87ae3d42c2316c945230e51ade6d3f72ca3690';
+import {saleNote} from './sale-note.js?v=3e87ae3d42c2316c945230e51ade6d3f72ca3690';
+import {offlineCommercial} from './offline-commercial.js?v=3e87ae3d42c2316c945230e51ade6d3f72ca3690';
+import {paymentReference} from './payment-reference.js?v=3e87ae3d42c2316c945230e51ade6d3f72ca3690';
 /** Local delivery journal. A saved entry is NOT a confirmed remote sale.
  * Dispatch claims never expire into a second POST. Reconcile by the same ID.
  * No authentication tokens or shop credentials belong in this store.
