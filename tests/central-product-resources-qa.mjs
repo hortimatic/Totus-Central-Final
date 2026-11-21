@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {PGlite} from '@electric-sql/pglite';
+const db=new PGlite(),actor='00000000-0000-0000-0000-000000000001',store='00000000-0000-0000-0000-000000000002',physical='00000000-0000-0000-0000-000000000003';
+try{
+ await db.exec(`create schema auth;create schema private;create role anon;create role authenticated;
+ create function auth.uid() returns uuid language sql as $$select '${actor}'::uuid$$;
+ create table profiles(id uuid,active boolean);insert into profiles values('${actor}',true);
+ create function private.totus_can(text,text) returns boolean language sql as $$select true$$;
+ create function private.totus_local_store_access(uuid) returns boolean language sql as $$select $1 in('${store}'::uuid,'${physical}'::uuid)$$;
+ create table private.totus_websites(key text primary key,business_id uuid);
+ insert into private.totus_websites values('online','${store}');
+ create table private.totus_web_source_counters(website_key text,resource text,revision bigint);
+ insert into private.totus_web_source_counters values('online','categories',7);
+ create table private.totus_web_source_records(website_key text,resource text,source_id bigint,data jsonb,primary key(website_key,resource,source_id));
+ insert into private.totus_web_source_records select 'online','categories',n,jsonb_build_object('name','Category '||n,'id','untrusted') from generate_series(1,207)n;
+ insert into private.totus_web_source_records values('online','customers',1,'{"email":"private@example.invalid"}');`);
+ await db.exec(await readFile(new URL('../supabase/totus_central_product_resources.sql',import.meta.url),'utf8'));
+ const read=async(s,resource,after=0,website=null)=>(await db.query('select public.totus_central_product_resources($1,$2,$3,100,$4) result',[s,resource,after,website])).rows[0].result;
+ const a=await read(store,'categories');assert.equal(a.items.length,100);assert.equal(a.items[0].id,'1');assert.equal(a.nextCursor,100);assert.equal(a.revision,7);
+ const b=await read(store,'categories',a.nextCursor),c=await read(store,'categories',b.nextCursor);assert.equal(c.items.length,7);assert.equal(c.nextCursor,null);
+ assert.deepEqual((await read(physical,'categories')).items,[]);
+ await assert.rejects(()=>read(actor,'categories'),/acceso/);
+ await assert.rejects(()=>read(store,'customers'),/no válida/);
+ await assert.rejects(()=>read(store,'categories',0,'other'),/no pertenece/);
+ await db.exec(`insert into private.totus_websites values('second','${store}');`);
+ await assert.rejects(()=>read(store,'categories'),/Selecciona el origen/);
+ assert.equal((await read(store,'categories',0,'online')).items.length,100);
+ await db.exec(`update profiles set active=false;`);await assert.rejects(()=>read(store,'categories',0,'online'),/acceso/);
+ const grants=await db.query("select has_function_privilege('anon','public.totus_central_product_resources(uuid,text,bigint,integer,text)','EXECUTE') allowed");assert.equal(grants.rows[0].allowed,false);
+ console.log('Saved product resources: 207 rows over keyset pages, trusted identities, store isolation, resource allowlist, source ambiguity, profile and anonymous permissions verified.');
+}finally{await db.close();}

@@ -12,6 +12,14 @@ assert.equal(calls.filter(c=>c.name==='totus_local_store_workspace'&&c.args.p_ki
 assert.ok(calls.every(c=>!c.name.includes('prestashop')&&!c.name.includes('connections')));
 assert.equal((await adapter.product(shop,id)).details.metaTitle,'SEO de Central');
 assert.equal(centralProductRecord(native).details,undefined,'Original fields remain in the native envelope, not a second mutable business model');
+assert.equal((await adapter.read(shop,'products',{references:['missing']})).total,0,'Exact reference search cannot return unrelated products');
+assert.equal((await adapter.read(shop,'products',{references:['SKU']})).rows[0].id,id);
+assert.equal((await adapter.read(shop,'products',{product_ids:['42']})).total,0,'Source numeric IDs never substitute native identities');
+assert.equal((await adapter.read(shop,'products',{product_ids:[id]})).total,1);
+assert.equal((await adapter.read(shop,'stock_availables',{product_ids:['missing']})).total,0);
+assert.equal((await adapter.read(shop,'products',{search:'SKU',search_field:'name'})).total,0);
+assert.deepEqual(centralProductRecord({...native,details:{sourceData:{name:[{id:'2',value:'Nombre'}],images:[{id:'999'}]}}}).__language_ids,['2'],'Image IDs are not language IDs');
+await assert.rejects(()=>adapter.read(shop,'products',{references:'SKU'}),/Referencias/);
 owner='second-user';await assert.rejects(()=>adapter.catalogue(shop),/no está disponible/);owner='admin';
 removed=true;await adapter.context();await assert.rejects(()=>adapter.catalogue(shop),/no está disponible/);assert.deepEqual(adapter.stores,[]);
 assert.equal(native.details.sourceData.name,'Nombre antiguo','Reading never writes over imported evidence');
@@ -19,3 +27,20 @@ let resolveRead;removed=false;
 const slow=createCentralProductAdapter({actor:()=>owner,rpc:async(name,args)=>args.p_kind==='context'?{stores:[{id:shop,name:'Hortimatic'}]}:new Promise(resolve=>resolveRead=resolve)});
 await slow.context();const pending=slow.catalogue(shop);slow.invalidate(shop);resolveRead({storeId:shop,items:[native]});await assert.rejects(()=>pending,/cambió/);
 console.log('Central product adapter: saved product/SEO/stock, no web calls, shared cache, deleted shops, changed accounts and stale in-flight reads verified.');
+
+let resourceRevision=2,resourceCalls=0;
+const savedResources=createCentralProductAdapter({actor:()=>owner,rpc:async(name,args)=>{
+ if(args.p_kind==='context')return {stores:[{id:shop,name:'Online'},{id:other,name:'Local'}]};
+ if(name==='totus_central_product_resources'){resourceCalls++;return {storeId:args.p_store,resource:args.p_resource,revision:resourceRevision,website:args.p_store===shop?'web-a':null,items:args.p_store===shop?(args.p_after===0?[{id:'1',name:'Primera'}]:[{id:'2',name:'Segunda'}]):[],nextCursor:args.p_store===shop&&args.p_after===0?1:null};}
+ throw Error('Unexpected call');
+}});
+await savedResources.context();assert.equal((await savedResources.auxiliary(shop,'categories')).length,2);
+assert.equal((await savedResources.read(shop,'categories',{id:'2'})).rows[0].name,'Segunda');assert.equal(resourceCalls,2,'Auxiliary reads share cached saved records');
+assert.deepEqual(await savedResources.auxiliary(other,'categories'),[],'Physical stores never borrow another store categories');
+savedResources.invalidate(shop);await savedResources.auxiliary(shop,'categories');assert.equal(resourceCalls,5);
+const foreign=createCentralProductAdapter({actor:()=>owner,rpc:async(name,args)=>args.p_kind==='context'?{stores:[{id:shop,name:'Online'}]}:{storeId:other,resource:args.p_resource,revision:1,items:[],nextCursor:null}});
+await foreign.context();await assert.rejects(()=>foreign.auxiliary(shop,'categories'),/ajeno/);
+const unstable=createCentralProductAdapter({actor:()=>owner,rpc:async(name,args)=>args.p_kind==='context'?{stores:[{id:shop,name:'Online'}]}:{storeId:shop,resource:args.p_resource,revision:args.p_after?2:1,website:'web-a',items:[{id:args.p_after?'2':'1'}],nextCursor:args.p_after?null:1}});
+await unstable.context();await assert.rejects(()=>unstable.auxiliary(shop,'categories'),/cambiaron/);
+const localized=centralProductRecord({...native,details:{sourceData:{name:[{id:'2',value:'Nombre'}],associations:[{id:'999'}]}}});assert.deepEqual(localized.__language_ids,['2']);
+console.log('Saved auxiliary catalogue: full pagination, shared cache, identity and revision isolation, local empty state and actual text languages verified.');

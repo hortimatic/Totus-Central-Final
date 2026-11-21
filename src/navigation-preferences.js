@@ -1,4 +1,4 @@
-import {ROUTES} from './config.js?v=5730da912ef907468e64e8dab0858d8621bf5093';
+import {ROUTES} from './config.js?v=9ac5186a129dc5fee4962f60c858a5c226873745';
 export const NAV_GROUPS=[['general','Inicio y equipo'],['operations','Comercio'],['contacts','Contactos'],['analysis','Gestión y análisis'],['system','Sistema']];
 export function orderedRoutes(order='',routes=ROUTES){
  const requested=[...new Set(String(order).split(','))],rank=new Map(requested.map((id,i)=>[id,i]));

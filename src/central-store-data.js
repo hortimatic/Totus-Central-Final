@@ -2,6 +2,12 @@
 // never the identity of a shop or a prerequisite for reading its saved data.
 const kinds=new Set(['products','customers','suppliers','brands']);
 const uuid=value=>typeof value==='string'&&/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(value);
+export function chooseCentralStore(owner,stores,preferred=''){
+ const ids=stores.map(s=>s.id||s.key),key='totus.central-store.v1:'+owner;let saved='';
+ try{saved=localStorage.getItem(key)||'';if(saved&&!ids.includes(saved))localStorage.removeItem(key);}catch{}
+ return ids.includes(preferred)?preferred:ids.includes(saved)?saved:ids[0]||'';
+}
+export function rememberCentralStore(owner,store){if(owner&&uuid(store))try{localStorage.setItem('totus.central-store.v1:'+owner,store);}catch{}}
 export function createCentralStoreData({rpc,actor}){
  let generation=0;
  const invalidate=()=>{generation++;};
@@ -56,5 +62,19 @@ export function createCentralStoreData({rpc,actor}){
   if(result.items.length!==1)throw Error('El registro ya no está disponible en esta tienda.');
   return result.items[0];
  }
- return {stores,page,all,detail,invalidate};
+ async function records({store,kind}){
+  if(!uuid(store)||!kinds.has(kind))throw Error('Consulta de Central no válida.');
+  const result=await call('totus_local_store_workspace',{p_store:store,p_kind:kind});
+  if(result?.storeId!==store||!Array.isArray(result.items))throw Error('Respuesta ajena a la tienda o incompleta.');
+  const seen=new Set();
+  for(const row of result.items){if(!uuid(row.id)||row.store_id!==store||seen.has(row.id))throw Error('Registro ajeno a la tienda o repetido.');seen.add(row.id);}
+  return result.items;
+ }
+ async function sales({store}){
+  if(!uuid(store))throw Error('Selecciona una tienda válida.');
+  const result=await call('totus_local_store_workspace',{p_store:store,p_kind:'sales'});
+  if(result?.storeId!==store||!Array.isArray(result.items)||result.items.some(r=>r.store_id!==store||!uuid(r.id)))throw Error('Ventas de otra tienda o incompletas.');
+  return result.items;
+ }
+ return {stores,page,all,detail,records,sales,invalidate};
 }
