@@ -1,7 +1,8 @@
-import {esc,money} from './utils.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
-import {expenseCostAmount} from './calculations.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
-import {activityChartHtml} from './dashboard-activity.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
-import {homeDateRange} from './home-period.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {esc,money} from './utils.js?v=852d79ce79de876f12c2d792ce5f25fcff2bfce4';
+import {expenseCostAmount} from './calculations.js?v=852d79ce79de876f12c2d792ce5f25fcff2bfce4';
+import {activityChartHtml} from './dashboard-activity.js?v=852d79ce79de876f12c2d792ce5f25fcff2bfce4';
+import {homeDateRange} from './home-period.js?v=852d79ce79de876f12c2d792ce5f25fcff2bfce4';
+import {fieldHelp} from './components.js?v=852d79ce79de876f12c2d792ce5f25fcff2bfce4';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
@@ -23,7 +24,7 @@ export function nativeHomeRead(reads,shop,range,sales=[]){
    const methods=[...new Set((sale.payments||[]).map(p=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'}[p.method]||p.method)))];
    const row={id:sale.id,reference:sale.ticket_number||'TC-'+sale.id.slice(0,8),date_add:date,valid:'1',id_currency:'EUR',currency_code:'EUR',total_paid_tax_incl:(sale.total_cents/100).toFixed(2),payment:methods.join(' + ')||(sale.on_credit?'Crédito':'Sin cobro'),customer_name:snapshot.customerName||'',employee_name:snapshot.operatorName||'',margin_value:null,current_state:'Confirmada'};
    rows.push(row);chartRows.push(row);
-   detail.set(String(sale.id),snapshot.lines.map((l,i)=>({id:sale.id+':'+i,id_order:sale.id,product_id:l.productId,product_attribute_id:l.variantId||'0',name:l.name,product_name:l.name,qty:l.qty,product_quantity:l.qty,reference:l.reference||'',product_reference:l.reference||'',total_price_tax_incl:(l.totalCents/100).toFixed(2),total_price_tax_excl:(l.netCents/100).toFixed(2)})));
+   detail.set(String(sale.id),snapshot.lines.map((l,i)=>({id:sale.id+':'+i,id_order:sale.id,product_id:l.productId,product_attribute_id:l.variantId||'0',name:l.name,product_name:l.name,qty:l.qty,product_quantity:l.qty,image:l.imageUrl||l.image||'',reference:l.reference||'',product_reference:l.reference||'',total_price_tax_incl:(l.totalCents/100).toFixed(2),total_price_tax_excl:(l.netCents/100).toFixed(2)})));
   }
   for(const refund of sale.refunds||[]){const d=madrid(refund.created_at);if(refund.status==='confirmed'&&d.slice(0,10)>=range.from&&d.slice(0,10)<=range.to)chartRows.push({id:'refund-'+refund.id,date_add:d,valid:'1',id_currency:'EUR',total_paid_tax_incl:(-refund.total_cents/100).toFixed(2)});}
  }
@@ -42,7 +43,7 @@ function nativeFinance(w,data,expenses){
 export function nativeHomeFinance(w,data,expenses){
  const value=nativeFinance(w,data,expenses);if(value.pending)return '<p role="status">Consultando TotusTPV…</p>';if(value.error)return '<p role="alert">'+esc(value.error)+'</p>';
  const gain=w.type==='home.gain',labels={'home.income':'Ingresos del periodo','home.expenses':'Gastos contables','home.result':'Ingresos menos gastos','home.internal':'Gastos internos','home.gain':'Ganancia de las ventas'},amount={'home.income':value.sales,'home.expenses':value.fiscal,'home.result':value.sales-value.fiscal,'home.internal':value.internal,'home.gain':value.margin}[w.type];
- return '<div class="kpi"><small>'+esc(labels[w.type])+'</small><strong>'+esc(gain&&!value.marginComplete?'Faltan costes':money(amount/100))+'</strong><details><summary aria-label="Información de '+esc(labels[w.type])+'">ⓘ</summary><p>'+esc(gain?'Margen estimado: venta sin impuestos menos coste actual del catálogo, descontando devoluciones. No es beneficio neto.':'Ventas confirmadas de TotusTPV menos devoluciones; los gastos proceden de los registros contables de la tienda y del periodo seleccionados.')+'</p></details></div>';
+ return '<div class="kpi"><small>'+esc(labels[w.type])+fieldHelp(labels[w.type],gain?'Margen estimado: venta sin impuestos menos coste actual del catálogo, descontando devoluciones. No es beneficio neto.':'Ventas confirmadas de TotusTPV menos devoluciones; los gastos proceden de los registros contables de la tienda y del periodo seleccionados.')+'</small><strong>'+esc(gain&&!value.marginComplete?'Faltan costes':money(amount/100))+'</strong></div>';
 }
 export function nativeHomeActivity(w,data,expenses){
  const value=nativeFinance(w,data,expenses);if(value.pending)return '<p role="status">Consultando actividad…</p>';if(value.error)return '<p role="alert">'+esc(value.error)+'</p>';
@@ -50,7 +51,7 @@ export function nativeHomeActivity(w,data,expenses){
  for(let t=Date.parse(value.range.from+'T12:00:00Z');t<=Date.parse(value.range.to+'T12:00:00Z');t+=86400000){const key=new Date(t).toISOString().slice(0,monthly?7:10);if(!map.has(key))map.set(key,{key,sales:0,fiscal:0,internal:0});}
  for(const summary of value.summaries)for(const r of summary.series||[]){const p=map.get(r.date.slice(0,monthly?7:10));if(p)p.sales+=r.salesCents/100;}
  for(const row of value.costs){const p=map.get(row.expense_date.slice(0,monthly?7:10));if(p)p[row.management_only?'internal':'fiscal']+=expenseCostAmount(row);}
- return activityChartHtml({points:[...map.values()],monthly});
+ return activityChartHtml({points:[...map.values()],monthly}).replace(/<p class="small muted">[\s\S]*?<\/p>/,fieldHelp('Actividad de tus tiendas','Ventas confirmadas de TotusTPV menos devoluciones y gastos registrados de la tienda y periodo seleccionados. El resultado de ingresos menos gastos no equivale al margen comercial de los productos.')); 
 }
 export function homeTpvContent(w,read){
  if(!read)return '<p role="status">Consultando TotusTPV…</p>';

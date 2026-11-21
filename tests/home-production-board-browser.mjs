@@ -5,7 +5,7 @@ try{
  const page=await browser.newPage({viewport:{width:1600,height:1000}}),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await page.goto('http://127.0.0.1:4199/tests/chat-harness.html');
- await page.addStyleTag({url:'http://127.0.0.1:4199/src/home-widgets.css'});
+ await page.addStyleTag({url:'http://127.0.0.1:4199/src/appearance.css'});await page.addStyleTag({url:'http://127.0.0.1:4199/src/home-widgets.css'});
  await page.evaluate(async()=>{
   window.supabase={createClient:()=>({})};
   const {state}=await import('../src/state.js'),{createHomeWidgetsUI}=await import('../src/home-widgets-ui.js'),{homeToday}=await import('../src/home-period.js');
@@ -20,12 +20,12 @@ try{
   },invoke:()=>{throw Error('No se permite consultar una web para los datos nativos.');},can:()=>true});window.api.mount(document.body);
  });
  await page.waitForFunction(()=>document.querySelector('[data-home-widget="orders"]')?.textContent.includes('Artículo local'),null,{timeout:5000}).catch(async e=>{console.log(await page.evaluate(()=>({calls:window.calls,body:document.body.innerText})),errors);throw e;});
- const expected=['opening','income','expense','result','internal','activity','shop-h','shop-n','orders','tasks','store','price','documents','expense-quarter','billing','fiscal','system','gain','recent-closings','quick-links'];
+ const expected=['opening','income','expense','result','internal','gain-summary','activity','shop-h','shop-n','orders','tasks','store','price','documents','expense-quarter','billing','fiscal','system','gain','recent-closings','quick-links'];
  assert.deepEqual(await page.locator('[data-home-widget]').evaluateAll(nodes=>nodes.map(n=>n.dataset.homeWidget)),expected);
  assert.equal(await page.evaluate(()=>window.api.hasUnsaved()),false);
  assert.match(await page.locator('[data-home-widget="shop-h"]').innerText(),/8,00/);
  assert.match(await page.locator('[data-home-widget="shop-n"]').innerText(),/18,00/);
- assert.equal(await page.locator('[data-home-widget="activity"] svg').count(),1);
+ assert.equal(await page.locator('[data-home-widget="activity"] .activity-chart svg').count(),1);
  for(const id of ['store','documents','expense-quarter','billing','fiscal']){await page.locator(`[data-home-widget="${id}"] [data-home-filter="store"]`).selectOption('web');assert.equal(await page.locator(`[data-home-widget="${id}"] [data-home-filter="store"]`).inputValue(),'web');}
  for(const id of expected){
   await page.locator(`[data-home-widget="${id}"] [data-home-command="select"]`).click();
@@ -60,5 +60,12 @@ try{
  await page.waitForFunction(()=>!window.api.hasUnsaved());
  assert.deepEqual(errors,[]);
  for(const width of [1600,1100,600,390]){await page.setViewportSize({width,height:1000});const overflow=await page.locator('.home-widget-grid').evaluate(el=>el.scrollWidth>el.clientWidth+2);if(overflow)console.log(await page.locator('.home-widget-grid').evaluate(el=>({grid:[el.clientWidth,el.scrollWidth],children:[...el.children].map(n=>({id:n.dataset.homeWidget,width:n.clientWidth,scroll:n.scrollWidth})).filter(n=>n.scroll>n.width+2)})));assert.equal(overflow,false,'Sin desbordamiento del tablero a '+width);}
- console.log('PASS: producción 20 widgets; selectores físicos/online; configuración de los 20; periodos; consulta sin falso guardado; detalle de ticket; búsqueda; actualización; guardado con lectura posterior.');
+
+ await page.evaluate(async()=>{const {applyInterfaceAppearance}=await import('../src/appearance-ui.js');applyInterfaceAppearance({theme:'dark',card:'#172230',surface:'#263849',text:'#eeeeee',primary:'#aabbcc',borderColor:'#aabbcc',borderWidth:3,borderStrength:24,radius:24,shadow:'strong',cardGlow:8,fontSize:18,inputBackground:'#112233'});});
+ await page.setViewportSize({width:1600,height:1000});
+ await page.locator('[data-home-widget="gain-summary"] .field-help>summary').click();assert.equal(await page.locator('[data-home-widget="gain-summary"] .field-help').getAttribute('open'),'');await page.keyboard.press('Escape');assert.equal(await page.locator('[data-home-widget="gain-summary"] .field-help').getAttribute('open'),null);
+ const themed=await page.locator('[data-home-widget]').evaluateAll(nodes=>nodes.map(el=>{const s=getComputedStyle(el);return {id:el.dataset.homeWidget,bg:s.backgroundColor,radius:s.borderRadius,border:s.borderTopWidth,shadow:s.boxShadow};}));
+ assert.equal(themed.length,21);for(const widget of themed){assert.equal(widget.bg,'rgb(23, 34, 48)',widget.id+' fondo');assert.equal(widget.radius,'24px',widget.id+' radio');assert.equal(widget.border,'3px',widget.id+' borde');assert.notEqual(widget.shadow,'none',widget.id+' sombra');}
+ assert.equal(await page.locator('[data-home-widget="activity"] select').first().evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(17, 34, 51)');
+ console.log('PASS: producción y su resumen: 21 widgets; selectores físicos/online; configuración de los 21; periodos; consulta sin falso guardado; detalle de ticket; búsqueda; actualización; guardado con lectura posterior.');
 }finally{await browser.close();}

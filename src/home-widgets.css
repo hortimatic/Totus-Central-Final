@@ -659,3 +659,17 @@
 
 [data-home-type="home.shortcuts"] .home-widget-header h3{min-width:0;overflow-wrap:anywhere}[data-home-type="home.shortcuts"] .home-widget-actions{display:grid;grid-template-columns:minmax(0,1fr)}[data-home-type="home.shortcuts"] .home-widget-actions button{min-width:0;width:100%;white-space:normal;overflow-wrap:anywhere;padding-inline:6px}
 
+
+/* All dashboard cards use the same personal appearance contract as the modules. */
+html[data-appearance] .dashboard-page .home-widget-frame.card{background:var(--panel);color:var(--ink);border:var(--appearance-border-width,1px) solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);font-size:var(--appearance-font,14px)}
+html[data-appearance] .dashboard-page .home-widget-header{background:var(--appearance-surface,var(--panel));color:var(--appearance-heading-ink,var(--ink));border-color:var(--line);border-bottom-width:var(--appearance-border-width,1px)}
+html[data-appearance] .dashboard-page .home-widget-header h3{color:var(--appearance-heading-ink,var(--ink));font-size:calc(var(--appearance-font,14px) * 1.02)}
+html[data-appearance] .dashboard-page :is(.home-widget-body,.home-ps-content,.home-commercial-margin,.activity-interactive){color:var(--ink)}
+html[data-appearance] .dashboard-page :is(.home-period-controls,.home-order-toolbar){background:var(--appearance-filter-bg,var(--panel));border-color:var(--line);border-radius:var(--r)}
+html[data-appearance] .dashboard-page .home-widget-shell :is(input,select,textarea){background:var(--appearance-input-bg,var(--panel));color:var(--appearance-input-ink,var(--ink));border-color:var(--line);border-width:var(--appearance-border-width,1px);border-radius:var(--appearance-button-radius,var(--r));font:inherit}
+html[data-appearance] .dashboard-page .home-widget-shell button{border-radius:var(--appearance-button-radius,var(--r))}
+html[data-appearance] .dashboard-page .home-widget-shell :is(label,.home-ps-metric small){color:var(--appearance-label-ink,var(--muted))}
+html[data-appearance] .dashboard-page .home-widget-shell .data-table th{background:var(--appearance-table-head-bg,var(--panel));color:var(--appearance-table-head-ink,var(--ink))}
+html[data-appearance] .dashboard-page .home-widget-shell .data-table td{background:var(--appearance-table-row-bg,var(--panel));color:var(--ink)}
+
+.dashboard-page .home-widget-frame:has(.field-help[open]){overflow:visible;z-index:60}.dashboard-page .home-widget-body:has(.field-help[open]){overflow:visible}.dashboard-page .field-help>summary{color:var(--appearance-accent,var(--accent))}.home-order-no-image{display:inline-grid;place-items:center;width:34px;height:34px;flex:none;color:var(--muted);background:var(--appearance-surface,var(--panel));border:1px solid var(--line);border-radius:var(--r)}
