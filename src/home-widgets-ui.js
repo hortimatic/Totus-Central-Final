@@ -1,29 +1,31 @@
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {readPool} from './read-pool.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
+import {nativeTypes,createHomeReader,homeTpvContent} from './home-tpv.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {expenseCostAmount} from './calculations.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {readPool} from './read-pool.js?v=4dc57035565450676e085a82dc11b64980174cf1';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {nextOpeningSummary} from './home-openings-view.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {state,getFilters} from './state.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {esc,money} from './utils.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {storeConnection,PRESTASHOP_STORES} from './prestashop-readonly.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {prestashopReadiness} from './prestashop-ui.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {prestashopProductImage} from './prestashop-readonly.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
-import {archiveAccepted} from './historical-acceptance.js?v=a9902937f95dcab66c5cd32208a2b6548cc48125';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {nextOpeningSummary} from './home-openings-view.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {state,getFilters} from './state.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {esc,money} from './utils.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {storeConnection} from './prestashop-readonly.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {prestashopReadiness} from './prestashop-ui.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {prestashopProductImage} from './prestashop-readonly.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=4dc57035565450676e085a82dc11b64980174cf1';
+import {archiveAccepted} from './historical-acceptance.js?v=4dc57035565450676e085a82dc11b64980174cf1';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],
  ['home.result','result',3],['home.internal','internal',3],['home.gain','gain',3],
  ['cash.history','recent-closings',4],['home.shortcuts','quick-links',5],
- ['home.activity','activity',12],['prestashop.summary','shop-h',6,'hortimatic'],
- ['prestashop.summary','shop-n',6,'newoldsmok'],['prestashop.orders','orders',12,'all'],
+ ['home.activity','activity',12],['prestashop.summary','shop-h',6,'all'],
+ ['prestashop.orders','orders',12,'all'],
  ['cash.store','store',12],['expenses.quarter','expense-quarter',6],
  ['home.alerts','alerts',6],['pricing.quick','price',6],['billing.pending','billing',6],
  ['documents.latest','documents',6],['fiscal.forecast','fiscal',6],
@@ -32,9 +34,10 @@ const defaultSpecs=[
 // These panels own live form state or asynchronous DOM IDs and cannot safely be cloned.
 const nonClonable=new Set(['pricing.quick','home.activity','tasks.today','system.status','home.alerts']);
 const confirmDiscard=()=>typeof window==='undefined'||window.confirm('Hay cambios del Inicio sin guardar. ¿Descartarlos?');
-const safeStore=key=>PRESTASHOP_STORES.some(s=>s.key===key)?key:'all';
+const homeStores=()=>state.data.stores.filter(s=>s.active!==false).map(s=>({...s,key:s.id}));
+const safeStore=key=>homeStores().some(s=>s.key===key)?key:'all';
 const safeDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||''))?s:'';
-const labelStore=k=>PRESTASHOP_STORES.find(s=>s.key===k)?.name||'Todas las tiendas';
+const labelStore=k=>homeStores().find(s=>s.key===k)?.name||'Todas las tiendas';
 const marginText=(rows,sourceComplete=true)=>{const m=homeMarginTotal(rows),valid=rows.filter(row=>String(row.valid)==='1'),revenue=valid.every(row=>Number.isFinite(row.margin_revenue))?valid.reduce((sum,row)=>sum+row.margin_revenue,0):null;return m.complete&&sourceComplete?money(m.value)+(revenue>0?' · '+(m.value/revenue*100).toLocaleString('es-ES',{maximumFractionDigits:1})+' %':''):m.covered?money(m.value)+' · parcial '+m.covered+'/'+m.total+' pedidos':'Costes pendientes';};
 const orderMarginText=row=>Number.isFinite(row.margin_value)&&row.currency_code==='EUR'?money(row.margin_value):'Costes pendientes';
 const sellerText=row=>row.employee_name||'Sin vendedor vinculado';
@@ -43,8 +46,8 @@ const allowedWidths=w=>[3,4,5,6,7,8,9,10,11,12].filter(x=>x>=HOME_WIDGET_CATALOG
 function periodControls(w){
  const period=['day','week','month','custom'].includes(w.filters.period)?w.filters.period:'custom',dates=dateRange(w);
  const buttons=[['day','Día'],['week','Semana'],['month','Mes'],['custom','Personalizado']].map(([key,name])=>'<button type="button" data-home-command="period-'+key+'" data-id="'+esc(w.id)+'" aria-pressed="'+(key===period?'true':'false')+'">'+name+'</button>').join('');
- const storeOptions=(w.type==='prestashop.summary'?PRESTASHOP_STORES:PRESTASHOP_STORES).map(s=>'<option value="'+esc(s.key)+'" '+(safeStore(w.scope.store)===s.key?'selected':'')+'>'+esc(s.name)+'</option>').join('');
- const allOption=w.type==='prestashop.summary'?'':'<option value="all" '+(safeStore(w.scope.store)==='all'?'selected':'')+'>Todas las tiendas</option>';
+ const storeOptions=(w.type==='prestashop.summary'?homeStores():homeStores()).map(s=>'<option value="'+esc(s.key)+'" '+(safeStore(w.scope.store)===s.key?'selected':'')+'>'+esc(s.name)+'</option>').join('');
+ const allOption='<option value="all" '+(safeStore(w.scope.store)==='all'?'selected':'')+'>Todas las tiendas</option>';
  const storePicker='<label>Tienda <select data-home-filter="store" data-id="'+esc(w.id)+'" aria-label="Tienda de consulta">'+allOption+storeOptions+'</select></label>';
  const metricPicker=w.type==='prestashop.summary'?'<label>Mostrar en la gráfica <select data-home-filter="chartMetric" data-id="'+esc(w.id)+'" aria-label="Métrica de la gráfica" title="Cambia las barras entre número de pedidos válidos e importe vendido por hora o día. No cambia las cifras del resumen."><option value="orders" '+(w.filters.chartMetric!=='sales'?'selected':'')+'>Número de pedidos</option><option value="sales" '+(w.filters.chartMetric==='sales'?'selected':'')+'>Importe vendido (€)</option></select></label>':w.type==='prestashop.top'?'<label>Vista <select data-home-filter="productView" data-id="'+esc(w.id)+'"><option value="table" '+(w.filters.productView!=='bars'?'selected':'')+'>Tabla</option><option value="bars" '+(w.filters.productView==='bars'?'selected':'')+'>Barras</option></select></label>':'';
  const picker=period==='month'?'<label>Mes <input type="month" aria-label="Elegir mes" data-home-filter="periodMonth" data-id="'+esc(w.id)+'" value="'+esc(dates.to.slice(0,7))+'"></label>':
@@ -55,8 +58,8 @@ function periodControls(w){
  '<div class="home-period-dates">'+storePicker+picker+metricPicker+'</div>'+(period!=='custom'?'<small class="home-period-mode">'+(w.filters.inheritPeriod!==false?'Periodo actual · se actualiza con la fecha':'Fecha elegida · pulsa '+({day:'Día',week:'Semana',month:'Mes'}[period])+' para volver al periodo actual')+'</small>':'')+'</div>';
 }
 
-const usesShopData=w=>w.type.startsWith('prestashop.')||w.type==='home.gain';
-const permitted=(w,can)=>usesShopData(w)?can('prestashop','view'):
+const usesShopData=w=>nativeTypes.has(w.type);
+const permitted=(w,can)=>usesShopData(w)?can('inicio','view'):
  w.type.startsWith('cash.')?can('cajas','view'):
  w.type.startsWith('expenses.')?can('gastos','view'):
  w.type.startsWith('billing.')?can('facturacion','view'):
@@ -183,7 +186,7 @@ function psSummary(w,data,catalog){
  return '<div class="home-ps-content">'+periodControls(w)+metrics+'<p class="small muted">'+esc(labelStore(shop))+' · '+esc(r.from)+' → '+esc(r.to)+' · '+(r.complete?'lectura completa':'lectura parcial')+' · '+esc(r.checked||'')+(r.refreshing?' · Última lectura guardada; actualizando…':'')+'</p><div class="home-ps-panels '+(chart&&top?'has-chart-and-top':'')+'">'+chart+top+'</div><div class="home-widget-actions"><button type="button" class="btn secondary" data-home-command="fetch" data-id="'+esc(w.id)+'">Actualizar</button><button type="button" class="btn secondary" data-route="prestashop">Abrir PrestaShop</button></div></div>';
 }
 function prestashopProductsTable(w,data){
- const shop=safeStore(w.scope.store),shops=shop==='all'?PRESTASHOP_STORES.map(s=>s.key):[shop];
+ const shop=safeStore(w.scope.store),shops=shop==='all'?homeStores().map(s=>s.key):[shop];
  const limit=[4,8,12].includes(Number(w.filters.topLimit))?Number(w.filters.topLimit):4;
  const chart=w.filters.productView==='bars';
  const sections=shops.map(key=>{
@@ -204,7 +207,7 @@ function prestashopProductsTable(w,data){
  return '<div class="home-products-widget">'+periodControls(w)+sections+'<div class="home-widget-actions"><button type="button" class="btn secondary" data-home-command="fetch" data-id="'+esc(w.id)+'">Actualizar productos vendidos</button><button type="button" class="btn secondary" data-home-command="open-orders" data-id="'+esc(w.id)+'">Abrir pedidos originales</button></div></div>';
 }
 function prestashopCatalogQuality(w,data,canOpen=false){
- const scope=safeStore(w.scope.store),shops=scope==='all'?PRESTASHOP_STORES.map(x=>x.key):[scope];
+ const scope=safeStore(w.scope.store),shops=scope==='all'?homeStores().map(x=>x.key):[scope];
  return '<div class="home-catalog-quality">'+shops.map(shop=>{
   const current=data.get(shop);
   if(!current)return '<section class="home-quality-shop"><h4>'+esc(labelStore(shop))+'</h4><p class="small muted">Sin consulta de catálogo. Pulsa Actualizar calidad.</p></section>';
@@ -227,7 +230,7 @@ function compactOrderCard(row){
 }
 
 function psOrders(w,data){
- const store=safeStore(w.scope.store);const shops=store==='all'?PRESTASHOP_STORES.map(s=>s.key):[store];
+ const store=safeStore(w.scope.store);const shops=store==='all'?homeStores().map(s=>s.key):[store];
  const responses=shops.map(s=>data?.[s]).filter(Boolean);const errors=responses.map(r=>r.error).filter(Boolean);
  if(!responses.length)return periodControls(w)+psPlaceholder(w);
  const allRows=responses.flatMap(r=>r.error?[]:r.rows.map(order=>({...order,_shop:r.shop,_currency:r.currencies.get(String(order.id_currency))||null,_products:r.detailsByOrder?.get(String(order.id))||null})));
@@ -289,11 +292,12 @@ function configureOrderColumns(host,w){
  }
 }
 export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=()=>{},onOpenProduct=null,onOpenTasks=()=>{},onOpenExpense=()=>{}}){
+ const nativeReader=createHomeReader(rpc);
  const columnQueries=new Map();
  let root=null,grid=null,model=null,original=null,sources=new Map(),edit=false,selected=null,panelView='closed',advancedOpen=false,styleItems=[],stylesBusy=false,stylesError='',owner=null,token=0,remoteReady=false,busy=false,connections=null,connectionsTask=null;
  const ordersData=new Map(),queries=new Map(),catalogData=new Map(),catalogQueries=new Map();let activeDrag=null,activeResize=null;
  let financialObserver=null;const readProgress=new Map();
- const financialWidget=()=>{const f=getFilters('inicio'),name=state.data.stores.find(s=>s.id===f.store)?.name?.toLowerCase();return {id:'financial-margin',type:'home.gain',scope:{store:PRESTASHOP_STORES.some(s=>s.key===name)?name:'all'},filters:{from:f.from,to:f.to}};};
+ const financialWidget=()=>{const f=getFilters('inicio'),name=state.data.stores.find(s=>s.id===f.store)?.name?.toLowerCase();return {id:'financial-margin',type:'home.gain',scope:{store:f.store},filters:{from:f.from,to:f.to}};};
  const completedOrders=new Map();let completedOwner='';
  const rememberOrders=(key,result)=>{
   if(result.rows.length>2000||[...(result.detailsByOrder?.values()||[])].reduce((n,lines)=>n+lines.length,0)>10000)return;
@@ -309,8 +313,9 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
  const layoutKey=w=>[safeStore(w.scope.store),...Object.values(dateRange(w))].join('|');
  const dataFor=w=>Object.fromEntries(PRESTA_SHOPS(w).map(k=>[k,ordersData.get(k+'|'+Object.values(dateRange(w)).join('|'))]));
  const financialData=w=>Object.fromEntries(Object.entries(dataFor(w)).map(([shop,read])=>{const progress=readProgress.get(shop+'|'+Object.values(dateRange(w)).join('|'));return [shop,progress?{rows:[],...read,loading:true,progress}:read];}));
- function PRESTA_SHOPS(w){return safeStore(w.scope.store)==='all'?PRESTASHOP_STORES.map(x=>x.key):[safeStore(w.scope.store)]}
+ function PRESTA_SHOPS(w){return safeStore(w.scope.store)==='all'?homeStores().map(x=>x.key):[safeStore(w.scope.store)]}
  const freshWidget=(w)=>{
+  if(nativeTypes.has(w.type))return periodControls(w)+homeTpvContent(w,ordersData.get(layoutKey(w)));
   if(w.type==='cash.openings'&&safeStore(w.scope.store)!=='all')return storeOpeningWidget(w);
   if(w.type==='prestashop.summary')return psSummary(w,dataFor(w),catalogData.get(safeStore(w.scope.store)));
   if(w.type==='prestashop.quality')return prestashopCatalogQuality(w,catalogData,!!onOpenProduct&&can('productos','view'));
@@ -321,7 +326,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   if(w.type==='expenses.pending'){
    // Fiscal-review queue: not the unpaid-invoice balance. The original Inicio
    // deliberately keeps payment status, document presence and fiscal review distinct.
-   const chosen=safeStore(w.scope.store),selected=chosen==='all'?null:state.data.stores.find(store=>store.name?.toLowerCase()===chosen);
+   const chosen=safeStore(w.scope.store),selected=chosen==='all'?null:state.data.stores.find(store=>store.id===chosen);
    const pending=(state.data.expenses||[]).filter(row=>
     !archiveAccepted(state.data.settings,row,'expense')&&row.management_only!==true&&row.fiscal_reviewed===false&&
     (chosen==='all'||row.store_id===selected?.id)
@@ -332,11 +337,11 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
     <div class="home-widget-actions"><button class="btn secondary" data-route="gastos">Abrir Gastos</button></div></div>`;
   }
   if(w.type==='cash.withdrawals'){
-   const chosen=safeStore(w.scope.store),shop=state.data.stores.find(store=>store.name?.toLowerCase()===chosen);
+   const chosen=safeStore(w.scope.store),shop=state.data.stores.find(store=>store.id===chosen);
    const closings=(state.data.closings||[]).filter(row=>(chosen==='all'||row.store_id===shop?.id)&&row.cash_withdrawals!==null&&row.cash_withdrawals!==undefined).sort((a,b)=>String(b.business_date||'').localeCompare(String(a.business_date||''))).slice(0,6);
    return `<p class="small muted">Retiradas anotadas en los cierres. No son otra venta ni un gasto deducible por sí mismas. No se reparten entre cajones sin origen comprobado.</p><div class="stack">${closings.map(row=>{const v=Number(row.cash_withdrawals),label=Number.isFinite(v)&&v>=0?money(v):'Importe no verificado';return `<div class="summary-row"><span>${esc(row.business_date||'Sin fecha')} · ${esc(state.data.stores.find(store=>store.id===row.store_id)?.name||'Tienda')}</span><strong>${esc(label)}</strong></div>`}).join('')||'<p class="small muted">No constan retiradas en los cierres cargados.</p>'}</div><button class="btn secondary" data-route="cajas">Abrir Cajas</button>`;
   }
-  if(w.type==='cash.history'){const chosen=safeStore(w.scope.store),shop=state.data.stores.find(store=>store.name?.toLowerCase()===chosen);const rows=state.data.closings.filter(row=>chosen==='all'||row.store_id===shop?.id).sort((a,b)=>String(b.business_date).localeCompare(String(a.business_date))).slice(0,5);return `<div class="stack">${rows.map(row=>`<div class="summary-row"><span>${esc(row.business_date)} · ${esc(state.data.stores.find(s=>s.id===row.store_id)?.name||'Tienda')}</span><b>${row.status==='cerrado'?esc(row.status):'Pendiente'}</b></div>`).join('')||'<p>Sin cierres</p>'}</div><button class="btn secondary" data-route="cajas">Abrir Cajas</button>`}
+  if(w.type==='cash.history'){const chosen=safeStore(w.scope.store),shop=state.data.stores.find(store=>store.id===chosen);const rows=state.data.closings.filter(row=>chosen==='all'||row.store_id===shop?.id).sort((a,b)=>String(b.business_date).localeCompare(String(a.business_date))).slice(0,5);return `<div class="stack">${rows.map(row=>`<div class="summary-row"><span>${esc(row.business_date)} · ${esc(state.data.stores.find(s=>s.id===row.store_id)?.name||'Tienda')}</span><b>${row.status==='cerrado'?esc(row.status):'Pendiente'}</b></div>`).join('')||'<p>Sin cierres</p>'}</div><button class="btn secondary" data-route="cajas">Abrir Cajas</button>`}
   if(w.type==='home.shortcuts')return `<div class="home-widget-actions"><button class="btn secondary" data-route="cajas">Cajas</button><button class="btn secondary" data-route="gastos">Gastos</button><button class="btn secondary" data-route="facturacion">Facturación</button><button class="btn secondary" data-route="documentos">Documentos</button></div>`;
   const source=sources.get(w.id)||sources.get(w.type);
   if(!source)return fallbackContent(w);
@@ -366,9 +371,6 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
    if(!edit&&['cash.openings','home.activity','home.alerts','pricing.quick','documents.latest','expenses.quarter','billing.pending','fiscal.forecast','reports.shortcut','system.status'].includes(w.type)){const inner=body.querySelector(':scope>h2,:scope>h3,:scope>:is(section,article,div)>:is(h2,h3)');if(inner){if(/\b(?:[1-4]T|20\d{2})\b/.test(inner.textContent)){const period=document.createElement('small');period.className='tc-widget-period';period.textContent=inner.textContent;inner.replaceWith(period);}else inner.remove();body.setAttribute('aria-label',w.title);}}
    card.append(heading,body);if(edit)card.insertAdjacentHTML('beforeend',`<button type="button" class="home-resize-handle" data-home-resize="${esc(w.id)}" aria-label="Estirar o encoger ${esc(w.title)}" title="Arrastrar la esquina para cambiar tamaño">↘</button>`);grid.append(card);const calendarHost=body.querySelector('[data-home-task-calendar]');if(calendarHost)taskCalendar.mount(calendarHost);
   }
-  const defaultFinancialSize=card=>{const def=HOME_WIDGET_CATALOG[card.dataset.homeType],defaults={'--span':def.width,'--height':def.height,'--tablet-span':Math.min(6,def.width),'--tablet-height':def.height,'--mobile-height':Math.min(12,def.height)};return Object.entries(defaults).every(([key,value])=>Number(card.style.getPropertyValue(key))===value);};
-  const financialCards=[...grid.querySelectorAll('[data-home-widget]')].filter(card=>['home.income','home.expenses','home.result','home.internal'].includes(card.dataset.homeType));
-  if(financialCards.length&&can('prestashop','view')){const summary=document.createElement('section');summary.className='home-widget-frame home-margin-strip';summary.dataset.financialMargin='';summary.setAttribute('aria-label','Ganancia estimada del periodo');const fw=financialWidget();summary.innerHTML='<header class="home-widget-header"><h3>Ganancia de las ventas</h3></header><div class="home-widget-body home-margin-value">'+commercialMarginCompact(financialData(fw),dateRange(fw),state.data.settings)+'</div>';if(!edit&&financialCards.every((card,index)=>defaultFinancialSize(card)&&(!index||card.previousElementSibling===financialCards[index-1]))){const group=document.createElement('div');group.className='home-financial-kpis';financialCards[0].before(group);group.append(...financialCards,summary);}else{summary.style.setProperty('--span',financialCards.at(-1).style.getPropertyValue('--span')||'3');financialCards.at(-1).after(summary);}}
   root.classList.toggle('home-edit-mode',edit);
   root.classList.toggle('home-widgets-dirty',changed());
   const settings=homeCanvasSettings(model.settings);
@@ -401,7 +403,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   drawer.hidden=!edit||panelView==='closed';
   if(drawer.hidden){drawer.replaceChildren();return;}
   const hiddenWidgets=model.widgets.filter(x=>x.hidden);
-  drawer.innerHTML=`<div class="home-library-heading"><h3>Biblioteca de widgets</h3><button data-home-command="exit">✕</button></div><p class="small muted">Añade paneles por módulo y configura cada instancia. Los colores, bordes y efectos se heredan de Mi interfaz.</p><details class="home-board-settings" open><summary>⚙ Diseño general del tablero</summary><div class="home-board-settings-fields"><label>Separación entre widgets<select data-home-general="gap">${[['inherit','Heredar de Mi interfaz'],['8','Muy compacta · 8 px'],['12','Compacta · 12 px'],['16','Equilibrada · 16 px'],['20','Amplia · 20 px'],['24','Muy amplia · 24 px']].map(([value,label])=>`<option value="${value}" ${canvas.gap===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Anchura del tablero<select data-home-general="width">${[['fluid','Todo el espacio disponible'],['1440','Máximo 1440 px'],['1600','Máximo 1600 px'],['1920','Máximo 1920 px']].map(([value,label])=>`<option value="${value}" ${canvas.width===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Densidad interior<select data-home-general="density">${[['inherit','Heredar de Mi interfaz'],['compact','Compacta'],['comfortable','Cómoda']].map(([value,label])=>`<option value="${value}" ${canvas.density===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Fondo de la zona<select data-home-general="background">${[['inherit','Mismo fondo que Inicio'],['soft','Zona suave, con separación visual']].map(([value,label])=>`<option value="${value}" ${canvas.background===value?'selected':''}>${label}</option>`).join('')}</select></label><p class="small muted">Se guarda para tu usuario; no cambia los colores ni las preferencias de tus compañeros.</p></div></details><label>Buscar widgets<input type="search" data-home-search placeholder="Buscar por módulo o nombre" value="${esc(drawer.dataset.search||'')}"></label><label>Módulo<select data-home-category><option value="all">Todos los módulos (${available.length})</option>${categories.map(category=>`<option value="${esc(category)}" ${activeCategory===category?'selected':''}>${esc(category)} (${available.filter(x=>x.category===category).length})</option>`).join('')}</select></label><div class="home-library-items">${available.filter(x=>(activeCategory==='all'||x.category===activeCategory)&&(x.title+' '+x.category).toLocaleLowerCase('es').includes(String(drawer.dataset.search||'').toLocaleLowerCase('es'))).map(x=>`<div class="home-library-item"><span><b>${esc(x.title)}</b><small>${esc(x.category)}</small></span><button aria-label="Añadir ${esc(x.title)}" data-home-command="add" data-type="${esc(x.type)}" ${nonClonable.has(x.type)&&model.widgets.some(w=>w.type===x.type)?'disabled title="Widget único: ya está en tu diseño"':''}>＋</button></div>`).join('')}</div>${hiddenWidgets.length?`<details class="home-hidden-widgets"><summary>Widgets ocultos (${hiddenWidgets.length})</summary>${hiddenWidgets.map(x=>`<div class="home-library-item"><b>${esc(x.title)}</b><button type="button" data-home-command="show" data-id="${esc(x.id)}">Mostrar</button></div>`).join('')}</details>`:''}${w?`<div class="home-widget-inspector"><h3>Configurar widget</h3><p class="small">${esc(w.title)}</p>${(usesShopData(w)||['cash.openings','cash.withdrawals','cash.history','expenses.pending'].includes(w.type))?`<label>Tienda<select data-home-config="store" data-id="${esc(w.id)}"><option value="all" ${safeStore(w.scope.store)==='all'?'selected':''}>Todas las tiendas</option>${PRESTASHOP_STORES.map(s=>`<option value="${s.key}" ${s.key===w.scope.store?'selected':''}>${s.name}</option>`).join('')}</select></label>`:''}${['prestashop.summary','prestashop.orders','prestashop.top','home.gain'].includes(w.type)?`<label>Desde<input type="date" data-home-config="from" data-id="${esc(w.id)}" value="${dateRange(w).from}"></label><label>Hasta<input type="date" data-home-config="to" data-id="${esc(w.id)}" value="${dateRange(w).to}"></label>`:''}${prestashopInspector(w,columnQueries.get(w.id)||'')}<label>Anchura<select data-home-config="width" data-id="${esc(w.id)}">${allowedWidths(w).map(x=>`<option value="${x}" ${x===w.layout.desktop.w?'selected':''}>${x} / 12 columnas</option>`).join('')}</select></label><label>Altura escritorio<select data-home-config="height" data-id="${esc(w.id)}">${[2,3,4,5,6,7,8,9,10,11,12].map(x=>`<option value="${x}" ${x===w.layout.desktop.h?'selected':''}>${x} unidades</option>`).join('')}</select></label><label>Anchura tablet<select data-home-config="tabletWidth" data-id="${esc(w.id)}">${[1,2,3,4,5,6].map(x=>`<option value="${x}" ${x===w.layout.tablet.w?'selected':''}>${x} / 6 columnas</option>`).join('')}</select></label><label>Altura tablet<select data-home-config="tabletHeight" data-id="${esc(w.id)}">${Array.from({length:15},(_,i)=>i+2).map(x=>`<option value="${x}" ${x===w.layout.tablet.h?'selected':''}>${x} unidades</option>`).join('')}</select></label><label>Altura móvil<select data-home-config="mobileHeight" data-id="${esc(w.id)}">${Array.from({length:17},(_,i)=>i+2).map(x=>`<option value="${x}" ${x===w.layout.mobile.h?'selected':''}>${x} unidades</option>`).join('')}</select></label><label>Mover a posición<select data-home-config="position" data-id="${esc(w.id)}">${model.widgets.map((v,i)=>`<option value="${i}" ${v.id===w.id?'selected':''}>${i+1}. ${esc(v.title)}</option>`).join('')}</select></label><div class="home-inspector-actions"><button data-home-command="up" data-id="${esc(w.id)}">↑ Subir</button><button data-home-command="down" data-id="${esc(w.id)}">↓ Bajar</button><button data-home-command="duplicate" data-id="${esc(w.id)}" ${nonClonable.has(w.type)?'disabled title="Formulario único: no se duplica"':''}>Duplicar</button><button data-home-command="hide" data-id="${esc(w.id)}">Ocultar</button><button data-home-command="remove" data-id="${esc(w.id)}">Quitar instancia</button></div></div>`:''}`;
+  drawer.innerHTML=`<div class="home-library-heading"><h3>Biblioteca de widgets</h3><button data-home-command="exit">✕</button></div><p class="small muted">Añade paneles por módulo y configura cada instancia. Los colores, bordes y efectos se heredan de Mi interfaz.</p><details class="home-board-settings" open><summary>⚙ Diseño general del tablero</summary><div class="home-board-settings-fields"><label>Separación entre widgets<select data-home-general="gap">${[['inherit','Heredar de Mi interfaz'],['8','Muy compacta · 8 px'],['12','Compacta · 12 px'],['16','Equilibrada · 16 px'],['20','Amplia · 20 px'],['24','Muy amplia · 24 px']].map(([value,label])=>`<option value="${value}" ${canvas.gap===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Anchura del tablero<select data-home-general="width">${[['fluid','Todo el espacio disponible'],['1440','Máximo 1440 px'],['1600','Máximo 1600 px'],['1920','Máximo 1920 px']].map(([value,label])=>`<option value="${value}" ${canvas.width===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Densidad interior<select data-home-general="density">${[['inherit','Heredar de Mi interfaz'],['compact','Compacta'],['comfortable','Cómoda']].map(([value,label])=>`<option value="${value}" ${canvas.density===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Fondo de la zona<select data-home-general="background">${[['inherit','Mismo fondo que Inicio'],['soft','Zona suave, con separación visual']].map(([value,label])=>`<option value="${value}" ${canvas.background===value?'selected':''}>${label}</option>`).join('')}</select></label><p class="small muted">Se guarda para tu usuario; no cambia los colores ni las preferencias de tus compañeros.</p></div></details><label>Buscar widgets<input type="search" data-home-search placeholder="Buscar por módulo o nombre" value="${esc(drawer.dataset.search||'')}"></label><label>Módulo<select data-home-category><option value="all">Todos los módulos (${available.length})</option>${categories.map(category=>`<option value="${esc(category)}" ${activeCategory===category?'selected':''}>${esc(category)} (${available.filter(x=>x.category===category).length})</option>`).join('')}</select></label><div class="home-library-items">${available.filter(x=>(activeCategory==='all'||x.category===activeCategory)&&(x.title+' '+x.category).toLocaleLowerCase('es').includes(String(drawer.dataset.search||'').toLocaleLowerCase('es'))).map(x=>`<div class="home-library-item"><span><b>${esc(x.title)}</b><small>${esc(x.category)}</small></span><button aria-label="Añadir ${esc(x.title)}" data-home-command="add" data-type="${esc(x.type)}" ${nonClonable.has(x.type)&&model.widgets.some(w=>w.type===x.type)?'disabled title="Widget único: ya está en tu diseño"':''}>＋</button></div>`).join('')}</div>${hiddenWidgets.length?`<details class="home-hidden-widgets"><summary>Widgets ocultos (${hiddenWidgets.length})</summary>${hiddenWidgets.map(x=>`<div class="home-library-item"><b>${esc(x.title)}</b><button type="button" data-home-command="show" data-id="${esc(x.id)}">Mostrar</button></div>`).join('')}</details>`:''}${w?`<div class="home-widget-inspector"><h3>Configurar widget</h3><p class="small">${esc(w.title)}</p>${(usesShopData(w)||['cash.openings','cash.withdrawals','cash.history','expenses.pending'].includes(w.type))?`<label>Tienda<select data-home-config="store" data-id="${esc(w.id)}"><option value="all" ${safeStore(w.scope.store)==='all'?'selected':''}>Todas las tiendas</option>${homeStores().map(s=>`<option value="${s.key}" ${s.key===w.scope.store?'selected':''}>${s.name}</option>`).join('')}</select></label>`:''}${['prestashop.summary','prestashop.orders','prestashop.top','home.gain'].includes(w.type)?`<label>Desde<input type="date" data-home-config="from" data-id="${esc(w.id)}" value="${dateRange(w).from}"></label><label>Hasta<input type="date" data-home-config="to" data-id="${esc(w.id)}" value="${dateRange(w).to}"></label>`:''}${prestashopInspector(w,columnQueries.get(w.id)||'')}<label>Anchura<select data-home-config="width" data-id="${esc(w.id)}">${allowedWidths(w).map(x=>`<option value="${x}" ${x===w.layout.desktop.w?'selected':''}>${x} / 12 columnas</option>`).join('')}</select></label><label>Altura escritorio<select data-home-config="height" data-id="${esc(w.id)}">${[2,3,4,5,6,7,8,9,10,11,12].map(x=>`<option value="${x}" ${x===w.layout.desktop.h?'selected':''}>${x} unidades</option>`).join('')}</select></label><label>Anchura tablet<select data-home-config="tabletWidth" data-id="${esc(w.id)}">${[1,2,3,4,5,6].map(x=>`<option value="${x}" ${x===w.layout.tablet.w?'selected':''}>${x} / 6 columnas</option>`).join('')}</select></label><label>Altura tablet<select data-home-config="tabletHeight" data-id="${esc(w.id)}">${Array.from({length:15},(_,i)=>i+2).map(x=>`<option value="${x}" ${x===w.layout.tablet.h?'selected':''}>${x} unidades</option>`).join('')}</select></label><label>Altura móvil<select data-home-config="mobileHeight" data-id="${esc(w.id)}">${Array.from({length:17},(_,i)=>i+2).map(x=>`<option value="${x}" ${x===w.layout.mobile.h?'selected':''}>${x} unidades</option>`).join('')}</select></label><label>Mover a posición<select data-home-config="position" data-id="${esc(w.id)}">${model.widgets.map((v,i)=>`<option value="${i}" ${v.id===w.id?'selected':''}>${i+1}. ${esc(v.title)}</option>`).join('')}</select></label><div class="home-inspector-actions"><button data-home-command="up" data-id="${esc(w.id)}">↑ Subir</button><button data-home-command="down" data-id="${esc(w.id)}">↓ Bajar</button><button data-home-command="duplicate" data-id="${esc(w.id)}" ${nonClonable.has(w.type)?'disabled title="Formulario único: no se duplica"':''}>Duplicar</button><button data-home-command="hide" data-id="${esc(w.id)}">Ocultar</button><button data-home-command="remove" data-id="${esc(w.id)}">Quitar instancia</button></div></div>`:''}`;
   drawer.querySelectorAll('input,select,textarea').forEach(field=>field.setAttribute('data-draft-ignore',''));
   organizeHomeEditor(drawer);
   if(previousView===panelView){
@@ -610,7 +612,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   if(action==='exit'){if(changed()&&!confirmDiscard())return;edit=false;model=structuredClone(original);selected=null;panelView='closed';draw();return}
   if(action==='order-columns'){openOrderColumns(id,el);return;}
   if(action==='select'){selected=id;edit=true;panelView='widget';advancedOpen=false;draw();return}
-  if(action==='add'){panelView='widget';const type=el.dataset.type;if(nonClonable.has(type)&&model.widgets.some(w=>w.type===type)){status('Ese widget contiene controles únicos y ya está añadido. Puedes moverlo o cambiar su tamaño.',true);return}const scope=type==='prestashop.summary'?{store:PRESTASHOP_STORES[0]?.key||''}:{store:'all'};const newId=makeId();mutate(m=>addHomeWidget(m,type,newId,{scope}),newId);if(type==='prestashop.quality')void fetchCatalog(find(newId));else if(type.startsWith('prestashop.'))void fetchFor(find(newId));return}
+  if(action==='add'){panelView='widget';const type=el.dataset.type;if(nonClonable.has(type)&&model.widgets.some(w=>w.type===type)){status('Ese widget contiene controles únicos y ya está añadido. Puedes moverlo o cambiar su tamaño.',true);return}const scope=type==='prestashop.summary'?{store:homeStores()[0]?.key||''}:{store:'all'};const newId=makeId();mutate(m=>addHomeWidget(m,type,newId,{scope}),newId);if(nativeTypes.has(type))void fetchFor(find(newId));return}
   if(action==='duplicate'){const w=find(id);if(!w||nonClonable.has(w.type))return;const newId=makeId();mutate(m=>duplicateHomeWidget(m,id,newId),newId);return}
   if(action==='hide'){panelView='library';mutate(m=>setHomeWidgetConfig(m,id,{hidden:true}),model.widgets.find(x=>x.id!==id&&!x.hidden)?.id);return}
   if(action==='show'){panelView='widget';mutate(m=>setHomeWidgetConfig(m,id,{hidden:false}),id);return}
@@ -627,7 +629,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   }
   if(action==='chart-slice'){
    const shop=el.dataset.shop,date=el.dataset.date;
-   if(!PRESTASHOP_STORES.some(s=>s.key===shop)||!safeDate(date))return;
+   if(!homeStores().some(s=>s.key===shop)||!safeDate(date))return;
    void onOpenOrders({tab:'orders',store:shop,date});return;
   }
   if(action==='quality-product'){const shop=el.dataset.shop,productId=el.dataset.productId;if(!can('productos','view')||!onOpenProduct||!catalogData.get(shop)?.rows.some(p=>String(p.id)===productId))return;void Promise.resolve(onOpenProduct({store:shop,id:productId})).catch(e=>notify(e.message||'No se pudo abrir la ficha.'));return;}
@@ -648,7 +650,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   const own=owner;try{
    const saved=await rpc('totus_home_dashboard',{p_action:'read',p_layout:null,p_expected_revision:null});
    if(!live()||owner!==own)return;
-   remoteReady=true;if(saved?.layout?.schemaVersion===1){if(changed()){status('Se ha recibido el diseño guardado mientras editabas. Revisa los cambios antes de guardar.',true);model.revision=saved.revision==null?null:String(saved.revision);return;}model=readHomeDashboard(saved.layout);model.revision=saved.revision==null?null:String(saved.revision);original=structuredClone(model);draw();for(const w of model.widgets)if(usesShopData(w))void fetchFor(w);}
+   remoteReady=true;if(saved?.layout?.schemaVersion===1){if(changed()){status('Se ha recibido el diseño guardado mientras editabas. Revisa los cambios antes de guardar.',true);model.revision=saved.revision==null?null:String(saved.revision);return;}model=readHomeDashboard(saved.layout);model.widgets.forEach(w=>{if(w.title===HOME_WIDGET_CATALOG[w.type].title||/PrestaShop/.test(w.title))w.title=HOME_WIDGET_CATALOG[w.type].title;});model.widgets.forEach(w=>{if(['Resumen PrestaShop','Pedidos PrestaShop','Ganancia comercial','Ventas y gastos del periodo'].includes(w.title))w.title=HOME_WIDGET_CATALOG[w.type].title;});model.widgets.forEach(w=>{w.scope.store=homeStores().find(s=>s.key===w.scope.store||s.name.toLowerCase()===w.scope.store)?.key||'all';});model.revision=saved.revision==null?null:String(saved.revision);original=structuredClone(model);draw();for(const w of model.widgets)if(usesShopData(w))void fetchFor(w);}
   }catch(error){if(live()){const message=String(error?.message||error||'Error no identificado').slice(0,160);status('No se han podido cargar las preferencias: '+message+'. Revisa con Administración el estado del perfil y los permisos. No se ha modificado tu diseño.',true)}}
  }
  async function save(keepEditorOpen=false){if(busy||!live()||!model)return false;
@@ -706,7 +708,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   finally{if(owner===owned&&token===epoch&&connectionsTask===task)connectionsTask=null}
  }
  async function fetchCatalog(w,force=false){
-  if(!w||!can('prestashop','view')||!live())return;
+  if(!w||!can('inicio','view')||!live())return;
   for(const shop of PRESTA_SHOPS(w)){
    if(!force&&catalogData.has(shop))continue;
    if(catalogQueries.has(shop))continue;
@@ -735,7 +737,13 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   }
  }
  async function fetchFor(w,force=false){
-  if(w?.type==='prestashop.quality')return fetchCatalog(w,force);
+  if(nativeTypes.has(w?.type)){
+   const epoch=token,key=layoutKey(w);if(ordersData.has(key)&&!force)return;if(force)nativeReader.clear();
+   try{const shops=homeStores().filter(s=>w.scope.store==='all'||s.key===w.scope.store);const reads=await Promise.all(shops.map(s=>nativeReader.read(s.key,...Object.values(dateRange(w)))));
+   if(!live()||epoch!==token)return;const totals={salesCents:0,refundCents:0,marginCents:0,saleCount:0,marginComplete:true};for(const r of reads){for(const k of ['salesCents','refundCents','marginCents','saleCount'])totals[k]+=Number(r[k]);totals.marginComplete&&=r.marginComplete;}totals.series=reads.flatMap(r=>r.series||[]);totals.top=reads.flatMap(r=>r.top||[]);
+   const range=dateRange(w);const costs=state.data.expenses.filter(e=>(w.scope.store==='all'||e.store_id===w.scope.store)&&e.expense_date>=range.from&&e.expense_date<=range.to);totals.expense=costs.filter(e=>!e.management_only).reduce((n,e)=>n+expenseCostAmount(e)*100,0);totals.internal=costs.filter(e=>e.management_only).reduce((n,e)=>n+expenseCostAmount(e)*100,0);ordersData.set(key,totals);
+   }catch(e){ordersData.set(key,{error:e.message});}refreshShopWidgets();return;
+  }
   if(!w||!usesShopData(w)||!can('prestashop','view')||!live())return;
   const {from,to}=dateRange(w);if(to<from){status('Fecha final anterior a la inicial.',true);return}
   const stores=PRESTA_SHOPS(w);for(const shop of stores){const key=shop+'|'+from+'|'+to;
@@ -824,8 +832,9 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
  }
  function mount(target){
   const identity=JSON.stringify([state.user?.id,state.user?.role]);if(completedOwner!==identity){completedOrders.clear();completedOwner=identity;}
-  token++;root=target?.querySelector('.dashboard-page');grid=null;connections=null;connectionsTask=null;queries.clear();readProgress.clear();ordersData.clear();catalogData.clear();catalogQueries.clear();edit=false;selected=null;panelView='closed';styleItems=[];stylesError='';stylesBusy=false;remoteReady=false;owner=state.user?.id;
+  nativeReader.clear();token++;root=target?.querySelector('.dashboard-page');grid=null;connections=null;connectionsTask=null;queries.clear();readProgress.clear();ordersData.clear();catalogData.clear();catalogQueries.clear();edit=false;selected=null;panelView='closed';styleItems=[];stylesError='';stylesBusy=false;remoteReady=false;owner=state.user?.id;
   if(!root||!owner||!can('inicio','view'))return;
+  target.querySelector('[data-local-store-workspace]')?.remove();
   sources=collectExisting(root);for(const [type,id] of defaultSpecs)if(sources.has(id)&&!sources.has(type))sources.set(type,sources.get(id));const hero=root.querySelector('.dashboard-hero');
   const toolbar=document.createElement('div');toolbar.className='home-dashboard-toolbar';toolbar.innerHTML=`<div class="home-toolbar-description"><strong>Operativa de hoy · Inicio personalizado</strong><p>Organiza tus indicadores y consultas sin perder las funciones actuales.</p><small data-home-status role="status" aria-live="polite"></small></div><div class="home-toolbar-actions"><button class="btn secondary home-edit-tool" data-home-command="panel-library">＋ Añadir widgets</button><button class="btn secondary home-edit-tool" data-home-command="panel-board">⚙ Diseño general</button><button class="btn secondary home-edit-tool" data-home-command="panel-styles">☆ Estilos compartidos</button><button class="btn primary home-edit-tool" data-home-command="save">Guardar cambios</button><button class="btn secondary home-edit-tool" data-home-command="reset">Restaurar diseño</button><button class="btn secondary home-settings-button" data-home-command="edit" aria-label="Personalizar inicio" title="Personalizar inicio">⚙</button></div>`;
   const shell=document.createElement('div');shell.className='home-widget-shell';grid=document.createElement('div');grid.className='home-widget-grid';const drawer=document.createElement('aside');drawer.className='home-widgets-drawer';drawer.dataset.homeDrawer='';drawer.hidden=true;shell.append(grid,drawer);
