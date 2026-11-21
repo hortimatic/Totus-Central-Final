@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {createCentralAttributeSession} from '../src/central-attribute-session.js';
+let actor='owner',invalidations=0,lost=true,calls=[],records=[];
+const store='00000000-0000-0000-0000-000000000001',record='00000000-0000-0000-0000-000000000002';
+const data={context:async()=>({stores:[{id:store}]}),auxiliary:async(s,r)=>{assert.equal(s,store);return r==='languages'?[]:structuredClone(records);},invalidate:s=>{assert.equal(s,store);invalidations++;}};
+const session=createCentralAttributeSession({data,actor:()=>actor,can:()=>true,rpc:async(name,args)=>{assert.equal(name,'totus_central_attribute_save');assert.equal(args.p_store,store);calls.push(args);records=[{id:record,...args.p_fields,__revision:'revision'}];if(lost){lost=false;throw Error('Respuesta perdida');}return {saved:true,recordId:record,storeId:store,resource:args.p_resource};}});
+await session.enter(store);assert.equal((await session.read('languages')).rows[0].iso_code,'es');
+await assert.rejects(()=>session.publish('product_options',null,{name:'Talla',public_name:'Talla',group_type:'select'},'create'),/perdida/);
+const saved=await session.publish('product_options',null,{name:'Talla',public_name:'Talla',group_type:'select'},'create');assert.equal(saved.verified,true);assert.equal(calls[0].p_request,calls[1].p_request,'An uncertain response keeps the same creation identity');assert.equal(invalidations,1);
+await session.read('product_options',{record_id:record});await session.publish('product_options',record,{name:'Medida'});assert.equal(calls.at(-1).p_revision,'revision','An edit sends the actual loaded revision');
+actor='other';await assert.rejects(()=>session.read('product_options'),/cambiado/);assert.equal(calls.length,3,'A changed account never writes');
+console.log('Native attribute session: own store, Spanish local default, exact retries after a lost reply, verified readback, revision checks and changed-account rejection verified.');

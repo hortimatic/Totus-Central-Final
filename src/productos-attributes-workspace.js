@@ -1,9 +1,9 @@
-import {productPhoto} from './productos-catalog.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
-import {esc} from './utils.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
-import {textValue} from './productos-core.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
-import {prestashopProductImage} from './prestashop-readonly.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
-import {fieldHelp} from './components.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
+import {productPhoto} from './productos-catalog.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
+import {esc} from './utils.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
+import {textValue} from './productos-core.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
+import {prestashopProductImage} from './prestashop-readonly.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
+import {fieldHelp} from './components.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
 
 const types={attributes:{label:'Atributos',group:'product_options',values:'product_option_values',parent:'id_attribute_group',description:'Opciones de compra que distinguen combinaciones: color, talla, nicotina…'},features:{label:'Características',group:'product_features',values:'product_feature_values',parent:'id_feature',description:'Información del producto completo: material, capacidad, composición… No crea combinaciones.'}};
 export function createAttributesWorkspace({invoke,actor,contextKey,canEdit,canCreate,onEdit,onCreate,onProduct,hasProduct,native=false,storeName=websiteName,readAssociations=null}){
@@ -18,7 +18,7 @@ export function createAttributesWorkspace({invoke,actor,contextKey,canEdit,canCr
    const response=await invoke(shop,'prestashop_read',{resource,page:p,page_size:100,sort:'oldest'});
    if(!current(el,generation,who))throw Error('La selección ha cambiado.');
    if(response?.ok!==true||response.store!==shop||response.resource!==resource||response.page!==p||!Array.isArray(response.rows))throw Error('Respuesta ajena o incompleta de '+resource+'.');
-   for(const row of response.rows){const id=String(row.id),valid=native&&['products','combinations'].includes(resource)?/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(id):/^[1-9]\d{0,14}$/.test(id);if(!valid||seen.has(id))throw Error('Registros duplicados o sin ID en '+resource+'. Actualiza la consulta.');seen.add(id);rows.push(row);}
+   for(const row of response.rows){const id=String(row.id),valid=/^[1-9]\d{0,14}$/.test(id)||native&&/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(id);if(!valid||seen.has(id))throw Error('Registros duplicados o sin ID en '+resource+'. Actualiza la consulta.');seen.add(id);rows.push(row);}
    if(p%5===0||response.possibly_more!==true){readProgress=({products:'Productos',combinations:'Combinaciones',product_options:'Grupos de atributos',product_option_values:'Valores de atributos',product_features:'Características',product_feature_values:'Valores de características'}[resource]||resource)+': '+rows.length;render();}if(response.possibly_more!==true)return rows;
    if(!response.rows.length)throw Error('Página incompleta de '+resource+'.');
   }

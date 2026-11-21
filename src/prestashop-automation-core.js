@@ -1,7 +1,7 @@
-import {websiteKey,websiteName} from './website-registry.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
+import {websiteKey,websiteName} from './website-registry.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
 // Shared configuration and notification rules. No model calls or arbitrary actions.
-import {PRESTASHOP_QUERY_RECIPES,recipeProducts,detailedRecipe,withinDailyWindow} from './prestashop-queries.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
-import {sourceCents} from './prestashop-insights.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
+import {PRESTASHOP_QUERY_RECIPES,recipeProducts,detailedRecipe,withinDailyWindow} from './prestashop-queries.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
+import {sourceCents} from './prestashop-insights.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
 export const AUTOMATION_RECIPES=[{id:'expense_due',name:'Vencimientos de gastos recurrentes',target:'expenses'},{id:'reminder',name:'Recordatorio personalizado',target:'message'},{id:'online_orders',name:'Nuevos pedidos online',target:'orders'},{id:'sales_summary',name:'Resumen de ventas del periodo',target:'orders'},{id:'missing_ean',name:'Productos sin código EAN',target:'catalog'},...PRESTASHOP_QUERY_RECIPES.filter(r=>r.target)];
 export const PRESTA_AUTOMATION_STORES=['hortimatic','newoldsmok'];
 const string=v=>String(v??'').trim();

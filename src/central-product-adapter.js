@@ -1,4 +1,4 @@
-import {createCentralStoreData} from './central-store-data.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
+import {createCentralStoreData} from './central-store-data.js?v=359288e44b47ddb2d1b7fc043cafd5e7dc4cbd00';
 
 const clone=value=>structuredClone(value);
 const cents=n=>Number(n)/100;
@@ -47,6 +47,12 @@ export function createCentralProductAdapter({rpc,actor}){
   const key=store+'|'+resource;if(fresh)resources.delete(key);
   if(!resources.has(key)){
    const owner=actor(),promise=(async()=>{
+    if(['product_options','product_option_values','product_features','product_feature_values'].includes(resource)){
+     const result=await rpc('totus_central_attribute_catalogue',{p_store:store,p_resource:resource});ensure(store);
+     if(actor()!==owner||result?.storeId!==store||result.resource!==resource||!Array.isArray(result.items))throw Error('Atributos de otra tienda o incompletos.');
+     const seen=new Set();for(const row of result.items){const id=String(row.id||'');if(!/^(?:[1-9]\d{0,14}|[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})$/i.test(id)||seen.has(id)||typeof row.__revision!=='string')throw Error('Atributo repetido o sin identidad verificable.');seen.add(id);}
+     return result.items;
+    }
     const rows=[],seen=new Set();let after=0,revision,website;
     for(;;){
      ensure(store);if(actor()!==owner)throw Error('La sesión cambió durante la consulta.');

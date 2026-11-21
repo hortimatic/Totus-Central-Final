@@ -15,10 +15,13 @@ try{
   const records=new Map([[a,[product(a,'00000000-0000-0000-0000-000000000011','Producto online')]], [b,[product(b,'00000000-0000-0000-0000-000000000012','Producto físico')]]]);
   const online=records.get(a)[0];online.source_website='web-online';online.details.sourceData={id_default_image:'123',id_category_default:'8',associations:{categories:[{id:'8'}]}};
   const variantId='00000000-0000-0000-0000-000000000099';online.variants=[{id:variantId,sku:'VAR',attributes:{Color:'Rojo'}}];online.catalogue[0].variant_id=variantId;
-  window.centralProductsQA={calls:[],records};
+  const nativeMasters=new Map();window.centralProductsQA={calls:[],records};
   const rpc=async(name,args)=>{
    if(typeof name!=='string'||!args||typeof args!=='object')throw Error('RPC contract mismatch');centralProductsQA.calls.push({name,args});
    if(args.p_kind==='context')return {stores};
+   if(name==='totus_central_attribute_save'){const key=args.p_store+'|'+args.p_resource,list=nativeMasters.get(key)||[];const row={...args.p_fields,id:crypto.randomUUID(),__revision:'own-1'};list.push(row);nativeMasters.set(key,list);return {storeId:args.p_store,resource:args.p_resource,recordId:row.id,saved:true};}
+   if(name==='totus_central_attribute_catalogue'&&nativeMasters.has(args.p_store+'|'+args.p_resource))return {storeId:args.p_store,resource:args.p_resource,items:nativeMasters.get(args.p_store+'|'+args.p_resource)};
+   if(name==='totus_central_attribute_catalogue')return {storeId:args.p_store,resource:args.p_resource,items:args.p_store!==a?[]:(({product_options:[{id:'5',name:'Color',public_name:'Color',__revision:'r1'}],product_option_values:[{id:'7',id_attribute_group:'5',name:'Rojo',__revision:'r1'}]})[args.p_resource]||[])};
    if(name==='totus_central_product_resources')return {storeId:args.p_store,resource:args.p_resource,website:args.p_store===a?'web-online':null,revision:1,nextCursor:null,items:args.p_store!==a?[]:({categories:[{id:'8',name:'Categoría guardada'}],product_options:[{id:'5',name:'Color',public_name:'Color'}],product_option_values:[{id:'7',id_attribute_group:'5',name:'Rojo'}]})[args.p_resource]||[]};
    if(name==='totus_local_store_workspace'&&args.p_action==='save'){
     const p=records.get(args.p_store).find(p=>p.id===args.p_id);p.name=args.p_data.name;p.details.metaTitle=args.p_data.metaTitle;return {saved:true,id:p.id,storeId:args.p_store};
@@ -53,6 +56,14 @@ try{
  await dialog.getByRole('button',{name:'Guardar',exact:true}).click();
  await page.getByRole('cell',{name:'Producto físico actualizado',exact:true}).first().waitFor();
  assert.equal(await page.locator('dialog').count(),0);
+ await page.getByRole('tab',{name:'Atributos y características',exact:true}).click();
+ await page.getByRole('button',{name:'Crear atributo',exact:true}).click();
+ const attributeDialog=page.locator('dialog');await attributeDialog.getByLabel('Nombre',{exact:true}).fill('Material local');await attributeDialog.getByLabel('Nombre público',{exact:true}).fill('Material');
+ await attributeDialog.getByRole('button',{name:'Guardar en Tienda física',exact:true}).click();
+ await page.locator('[data-attr-action="select"]').filter({hasText:'Material'}).waitFor();
+ await page.getByRole('button',{name:'Crear valor',exact:true}).click();
+ await page.locator('dialog').getByLabel('Nombre',{exact:true}).fill('Algodón');await page.locator('dialog').getByRole('button',{name:'Guardar en Tienda física',exact:true}).click();
+ await page.getByRole('cell',{name:'Algodón',exact:true}).waitFor();
  const calls=await page.evaluate(()=>centralProductsQA.calls);assert.ok(calls.every(c=>typeof c.name==='string'&&typeof c.args==='object'));assert.equal(calls.filter(c=>c.name==='totus_local_store_read_page'&&c.args.p_kind==='products').length>=2,true);assert.ok(!calls.some(c=>/prestashop|connections/.test(c.name)),JSON.stringify([...new Set(calls.map(c=>c.name))]));
  const saved=calls.find(c=>c.args.p_action==='save');assert.equal(saved.args.p_store,'00000000-0000-0000-0000-000000000002');assert.equal(saved.args.p_data.metaTitle,'SEO actualizado');
  assert.deepEqual(errors,[]);
