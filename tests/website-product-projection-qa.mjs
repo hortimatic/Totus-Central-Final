@@ -30,7 +30,14 @@ try{
  await db.exec(await readFile(new URL('../supabase/totus_web_product_projection.sql',import.meta.url),'utf8'));
  const call=apply=>db.query('select public.totus_web_product_projection($1,0,$2) result',['web-a',apply]).then(r=>r.rows[0].result);
  await assert.rejects(()=>call(true),/sesión/);await db.exec(`set test.actor='${id}'`);
+ await db.exec(`update private.totus_web_source_records set data=data||'{"id_supplier":"777","id_manufacturer":"888"}' where resource='products' and source_id=1;`);
+ assert.equal((await call(false)).orphanDirectoryProducts,1);
  assert.equal((await call(false)).orphanCombinations,1);assert.equal((await call(true)).processed,2);
+ const orphan=(await db.query('select details,supplier_id,brand_id from products where source_id=1')).rows[0];
+ assert.equal(orphan.details.sourceData.id_supplier,'777');assert.equal(orphan.supplier_id,null);assert.equal(orphan.brand_id,null);
+ await db.exec(`insert into private.totus_web_source_records values('web-a','suppliers',777,'{"id":"777"}');`);
+ await assert.rejects(()=>call(true),/Incorpora las marcas y proveedores/);
+ await db.exec(`delete from private.totus_web_source_records where resource='suppliers' and source_id=777;`);
  let rows=(await db.query('select * from products order by source_id')).rows;assert.equal(rows.length,2);assert.equal(rows[0].details.metaTitle,'SEO Uno');assert.equal(rows[0].details.images.length,2);assert.equal(rows[0].sku,rows[1].sku);
  const variants=(await db.query('select * from product_variants')).rows;assert.deepEqual(variants[0].attributes,{Color:'Azul',Talla:'M'});assert.equal(variants[0].sku,'');
  assert.equal((await db.query('select stock from private.totus_tpv_local_catalogue order by stock')).rows[0].stock,'-2');

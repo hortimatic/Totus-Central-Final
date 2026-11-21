@@ -32,6 +32,9 @@ begin
  select * into j from private.totus_web_native_catalogue_jobs where website_key=w.key order by created_at desc limit 1;
  if not p_apply then return jsonb_build_object('storeId',w.business_id,'sourceProducts',(select count(*) from private.totus_web_source_records where website_key=w.key and resource='products'),
   'incorporated',(select count(*) from public.products where source_website=w.key),'conflicts',(select count(*) from private.totus_web_product_projection where website_key=w.key and conflict),
+  'orphanDirectoryProducts',(select count(*) from private.totus_web_source_records p where p.website_key=w.key and p.resource='products' and (
+    (coalesce(nullif(p.data->>'id_manufacturer',''),'0')::bigint>0 and not exists(select 1 from private.totus_web_source_records d where d.website_key=w.key and d.resource='manufacturers' and d.source_id=(p.data->>'id_manufacturer')::bigint)) or
+    (coalesce(nullif(p.data->>'id_supplier',''),'0')::bigint>0 and not exists(select 1 from private.totus_web_source_records d where d.website_key=w.key and d.resource='suppliers' and d.source_id=(p.data->>'id_supplier')::bigint)))),
   'pricesReady',coalesce(j.state='completed',false),'orphanCombinations',(select count(*) from private.totus_web_source_records v where v.website_key=w.key and v.resource='combinations' and not exists(select 1 from private.totus_web_source_records p where p.website_key=w.key and p.resource='products' and p.source_id=nullif(v.data->>'id_product','')::bigint)));end if;
  if p_cursor is null or p_cursor<0 or private.totus_can('productos','create') is not true or private.totus_can('productos','edit') is not true then raise exception 'No tienes permiso para incorporar el catálogo.';end if;
  if j.id is null or j.state<>'completed' then raise exception 'Termina la preparación de precios y combinaciones antes de incorporar el catálogo.';end if;
@@ -45,7 +48,10 @@ begin
   select coalesce(jsonb_agg(nc.data order by nc.attribute_id),'[]') into prices from private.totus_web_native_catalogue_items nc where nc.website_key=w.key and nc.shop_id=j.shop_id and nc.product_id=r.source_id and nc.job_id=j.id;
   select p.id into brand_id from public.brands p where p.source_website=w.key and p.source_id=nullif(r.data->>'id_manufacturer','')::bigint;
   select p.id into supplier_id from public.ops_suppliers p where p.source_website=w.key and p.source_id=nullif(r.data->>'id_supplier','')::bigint;
-  if coalesce(nullif(r.data->>'id_manufacturer','')::bigint,0)>0 and brand_id is null or coalesce(nullif(r.data->>'id_supplier','')::bigint,0)>0 and supplier_id is null then raise exception 'Incorpora las marcas y proveedores antes del catálogo.';end if;
+  -- A deleted source directory entry must not block an otherwise valid product.
+  -- Keep its original identifier in sourceData; never invent a replacement.
+  if (brand_id is null and exists(select 1 from private.totus_web_source_records s where s.website_key=w.key and s.resource='manufacturers' and s.source_id=nullif(r.data->>'id_manufacturer','')::bigint))
+    or (supplier_id is null and exists(select 1 from private.totus_web_source_records s where s.website_key=w.key and s.resource='suppliers' and s.source_id=nullif(r.data->>'id_supplier','')::bigint)) then raise exception 'Incorpora las marcas y proveedores antes del catálogo.';end if;
   source_hash:=md5(jsonb_build_object('product',r.data,'variants',combinations,'prices',prices,'brand',brand_id,'supplier',supplier_id)::text);
   select * into entry from private.totus_web_product_projection where website_key=w.key and source_id=r.source_id for update;
   select p.id into product_id from public.products p where p.source_website=w.key and p.source_id=r.source_id for update;
