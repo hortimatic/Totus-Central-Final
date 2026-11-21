@@ -1,6 +1,6 @@
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=8da935a6e48fdd1da78d09fdbc7d0ac1c9a8d1e2';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=6ae2f241f47550fac0fbba1e70abb2f8b58df9a4';
+import {catalogueSearchFields} from './search-preferences.js?v=8da935a6e48fdd1da78d09fdbc7d0ac1c9a8d1e2';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
