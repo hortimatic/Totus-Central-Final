@@ -55,10 +55,20 @@ try{
  assert.equal((await db.query("select count(*) n from private.totus_web_source_records where resource='customers'")).rows[0].n,1);
  assert.equal((await db.query("select count(*) n from products where store_id=$1",[other])).rows[0].n,1);
  assert.deepEqual((await db.query('select resources from private.totus_web_import_jobs where id=$1',[id])).rows[0].resources,['customers']);
- const groups=['catalogue','contacts','activity','documents','configuration','connections','tasks'];plan=await call(groups,true);assert(plan.total>0);
+ // SET NULL dependencies must order selected children, never pull another store into the purge.
+ await db.exec(`alter table products add column brand_id uuid references brands(id) on delete set null;
+ insert into brands values('${id}','${id}');
+ insert into products(id,store_id,brand_id) values('${id}','${id}','${id}');
+ update products set brand_id='${id}' where id='${other}';`);
+ const groups=['catalogue','contacts','activity','documents','configuration','connections','tasks'];
+ await assert.rejects(()=>call(groups,true),/referencias de otro establecimiento/);
+ assert.equal((await db.query('select brand_id from products where id=$1',[other])).rows[0].brand_id,id);
+ await db.exec(`update products set brand_id=null where id='${other}'`);
+ plan=await call(groups,true);assert(plan.total>0);
  await call(groups,true,true,plan.fingerprint);
  assert.equal((await db.query('select count(*) n from ops_stores where id=$1',[id])).rows[0].n,0);
  assert.equal((await db.query('select count(*) n from ops_stores where id=$1',[other])).rows[0].n,1);
  assert.equal((await db.query("select count(*) n from private.totus_web_source_records where website_key='web-a'")).rows[0].n,0);
+ assert.equal((await db.query('select brand_id from products where id=$1',[other])).rows[0].brand_id,null);
  console.log('Isolated UI cleanup backend: 20,000 source rows, partial scope, stale fingerprint, import progress reconciliation, complete deletion and second-store preservation passed. No live records changed.');
 }catch(error){console.error(error.message);if(error.where)console.error(error.where);process.exitCode=1;}finally{await db.close();}

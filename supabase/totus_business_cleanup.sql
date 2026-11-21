@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION private.totus_business_cleanup_plan(p_store uuid, p_d
  LANGUAGE plpgsql
  SET search_path TO ''
 AS $function$
-declare t record;fk_row record;condition text;matching bigint;changed bigint;pass integer:=0;group_name text;store_name text;store_code text;summary jsonb;fingerprint text;
+declare t record;fk_row record;condition text;outside_condition text;outside_scope boolean;matching bigint;changed bigint;pass integer:=0;group_name text;store_name text;store_code text;summary jsonb;fingerprint text;
 begin
  select name,code into store_name,store_code from public.ops_stores where id=p_store for update;
  if store_name is null then raise exception 'El establecimiento ya no existe.';end if;
@@ -18,6 +18,9 @@ begin
  create temporary table totus_business_cleanup_frontier(rel oid,key text,depth integer,primary key(rel,key)) on commit drop;
  drop table if exists pg_temp.totus_business_cleanup_rows;
  create temporary table totus_business_cleanup_rows(rel oid not null,key text not null,data jsonb not null,depth integer not null default 0,processed boolean not null default false,primary key(rel,key)) on commit drop;
+ create index on totus_business_cleanup_rows(rel,(data->>'id'));
+ create index on totus_business_cleanup_rows(rel,(data->>'family_id'));
+ create index on totus_business_cleanup_rows(rel,(data->>'brand_id'));
  if p_remove then
   if p_drawer is null then insert into pg_temp.totus_business_cleanup_rows(rel,key,data) select 'public.ops_stores'::regclass,md5(to_jsonb(s)::text),to_jsonb(s) from public.ops_stores s where id=p_store;
   else insert into pg_temp.totus_business_cleanup_rows(rel,key,data) select 'public.ops_cash_drawers'::regclass,md5(to_jsonb(d)::text),to_jsonb(d) from public.ops_cash_drawers d where id=p_drawer;end if;
@@ -65,12 +68,24 @@ begin
   truncate pg_temp.totus_business_cleanup_frontier;
   insert into pg_temp.totus_business_cleanup_frontier select rel,key,depth from pg_temp.totus_business_cleanup_rows where not processed;
   exit when not exists(select 1 from pg_temp.totus_business_cleanup_frontier);
+  analyze pg_temp.totus_business_cleanup_frontier;
+  analyze pg_temp.totus_business_cleanup_rows(rel,key,depth,processed);
   update pg_temp.totus_business_cleanup_rows r set processed=true from pg_temp.totus_business_cleanup_frontier f where r.rel=f.rel and r.key=f.key;
   if pass>64 then raise exception 'Hay dependencias circulares que requieren revisión. No se ha eliminado ningún dato.';end if;
   for fk_row in select k.*,n.nspname,child.relname,parent.oid parent_oid,pn.nspname parent_schema,parent.relname parent_name from pg_constraint k join pg_class child on child.oid=k.conrelid join pg_namespace n on n.oid=child.relnamespace join pg_class parent on parent.oid=k.confrelid join pg_namespace pn on pn.oid=parent.relnamespace where k.contype='f' and k.conrelid<>'private.totus_web_source_records'::regclass and n.nspname in('public','private','totus_tpv_internal') and exists(select 1 from pg_temp.totus_business_cleanup_frontier r where r.rel=k.confrelid) loop
    select string_agg(format('c.%I=p.%I',ca.attname,pa.attname),' and ' order by x.ord) into condition from unnest(fk_row.conkey,fk_row.confkey) with ordinality x(ca_num,pa_num,ord) join pg_attribute ca on ca.attrelid=fk_row.conrelid and ca.attnum=x.ca_num join pg_attribute pa on pa.attrelid=fk_row.confrelid and pa.attnum=x.pa_num;
+   if fk_row.confdeltype='n' then
+    select string_agg(format('(c.%I is not null and c.%I::text<>$1::text)',attname,attname),' or ') into outside_condition from pg_attribute where attrelid=fk_row.conrelid and attname in('store_id','business_id') and not attisdropped;
+    if outside_condition is not null then
+     execute format('select exists(select 1 from pg_temp.totus_business_cleanup_frontier frontier join pg_temp.totus_business_cleanup_rows r on r.rel=frontier.rel and r.key=frontier.key cross join lateral jsonb_populate_record(null::%I.%I,r.data) p join %I.%I c on %s where r.rel=%s and (%s))',fk_row.parent_schema,fk_row.parent_name,fk_row.nspname,fk_row.relname,condition,fk_row.confrelid,outside_condition) into outside_scope using p_store;
+     if outside_scope then raise exception 'La selección modificaría referencias de otro establecimiento. Revisa los datos compartidos antes de limpiar.';end if;
+    end if;
+    -- SET NULL needs no child-first deletion and must not expand the selected scope.
+    matching:=0;
+   else
    execute format('insert into pg_temp.totus_business_cleanup_rows as target(rel,key,data,depth) select %s,md5(to_jsonb(c)::text),to_jsonb(c),max(frontier.depth)+1 from pg_temp.totus_business_cleanup_frontier frontier join pg_temp.totus_business_cleanup_rows r on r.rel=frontier.rel and r.key=frontier.key cross join lateral jsonb_populate_record(null::%I.%I,r.data) p join %I.%I c on %s where r.rel=%s and (%L<>''n'' or exists(select 1 from pg_temp.totus_business_cleanup_rows known where known.rel=%s and known.key=md5(to_jsonb(c)::text))) group by to_jsonb(c) on conflict(rel,key) do update set depth=excluded.depth,processed=false where target.depth<excluded.depth',fk_row.conrelid,fk_row.parent_schema,fk_row.parent_name,fk_row.nspname,fk_row.relname,condition,fk_row.confrelid,fk_row.confdeltype,fk_row.conrelid);
-   get diagnostics matching=row_count;changed:=changed+matching;
+   end if;
+   if fk_row.confdeltype<>'n' then get diagnostics matching=row_count;end if;changed:=changed+matching;
   end loop;
   exit when changed=0;
  end loop;
@@ -138,5 +153,5 @@ revoke all on function public.totus_business_cleanup(uuid,uuid,text[],boolean,bo
 grant execute on function public.totus_business_cleanup(uuid,uuid,text[],boolean,boolean,text,text) to authenticated;
 
 
-alter function public.totus_business_cleanup(uuid,uuid,text[],boolean,boolean,text,text) set statement_timeout='45s';
+alter function public.totus_business_cleanup(uuid,uuid,text[],boolean,boolean,text,text) set statement_timeout='60s';
 alter function public.totus_business_cleanup(uuid,uuid,text[],boolean,boolean,text,text) set lock_timeout='5s';
