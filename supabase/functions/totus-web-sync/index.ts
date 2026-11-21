@@ -5,6 +5,8 @@ import {withApplicationCors} from '../../../src/application-cors.js';
 import {WEBSITE_IMPORT_RESOURCES,importBatchRows} from '../../../src/website-import-contract.js';
 import {boundedJson} from '../totus-connections/transport.js';
 import {readNativeCatalogueBatch} from './native-catalogue.js';
+import {readWebsiteLanguageContext} from './language-context.js';
+import {localizedWebsiteResource} from '../../../src/website-localization.js';
 const headers={'Content-Type':'application/json','Cache-Control':'no-store','Access-Control-Allow-Headers':'authorization,apikey,x-client-info,content-type','Access-Control-Allow-Methods':'POST,OPTIONS'};
 const result=(value:any)=>{if(value.error)throw Error(value.error.message);return value.data;};
 export async function handle(req:Request,env=Deno.env,factory:any=createClient,request:any=fetch){
@@ -32,7 +34,9 @@ export async function handle(req:Request,env=Deno.env,factory:any=createClient,r
    result(await admin.rpc('totus_api_call',{...call,p_result:{ok:true,resource:'native-catalogue',rows_count:data?.items?.length||0}}));call=null;return send({ok:true,...commit});
   }
   const pageSize=({products:25,stock_movements:1000,stock_availables:1000,product_suppliers:1000,specific_prices:1000,order_histories:1000,order_details:500,orders:250,order_payments:500,tax_rules:1000,order_invoices:1000,order_carriers:1000,supply_order_histories:1000,supply_order_details:1000} as Record<string,number>)[resource]||500;call={p_id:context.connectionId,p_revision:context.connectionRevision,p_call:crypto.randomUUID()};result(await admin.rpc('totus_api_call',call));
-  const batch=await readWebsiteSourceBatch(connection,{resource,cursor:job.cursor_id,pageSize},{request});const rows=batch.rows;
+  let languageContext=job.language_context;
+  if(localizedWebsiteResource(resource)&&!languageContext){const checked=await readWebsiteLanguageContext(connection,{request});result(await scope());languageContext=result(await admin.rpc('totus_web_import_language_context',{p_job:input.job,p_actor:user.id,p_context:checked}));}
+  const batch=await readWebsiteSourceBatch(connection,{resource,cursor:job.cursor_id,pageSize,languageContext},{request});const rows=batch.rows;
   result(await scope()); // Recheck current user permissions after the remote response.
   const commit=result(await admin.rpc('totus_web_import_commit',{p_job:input.job,p_actor:user.id,p_resource:resource,p_cursor:job.cursor_id,p_rows:rows,p_more:rows.length===batch.pageSize}));
   result(await admin.rpc('totus_api_call',{...call,p_result:{ok:true,resource,rows_count:rows.length}}));call=null;

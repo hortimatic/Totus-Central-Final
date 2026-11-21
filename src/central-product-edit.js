@@ -1,5 +1,6 @@
-import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS,validateProductFieldValue} from './productos-write-contract.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
-import {centralDefaultCatalogue,centralProductRecord,centralCombinationRecord} from './central-product-adapter.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS,validateProductFieldValue} from './productos-write-contract.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
+import {centralDefaultCatalogue,centralProductRecord,centralCombinationRecord} from './central-product-adapter.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
+import {savedWebsiteTranslations} from './website-localization.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
 
 const clone=value=>structuredClone(value);
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(value);
@@ -8,7 +9,7 @@ const translations=value=>Array.isArray(value)?value:Array.isArray(value?.langua
 const micros=value=>{if(!/^-?\d+(?:\.\d{1,6})?$/.test(String(value)))throw Error('El importe debe tener como máximo seis decimales.');const negative=String(value).startsWith('-'),parts=String(value).replace(/^-/,'').split('.');const result=BigInt(parts[0])*1000000n+BigInt((parts[1]||'').padEnd(6,'0'));return negative?-result:result;};
 const net=c=>(BigInt(c.price_cents)*100000000n+(10000n+BigInt(c.tax_basis_points))/2n)/(10000n+BigInt(c.tax_basis_points));
 const gross=(value,tax)=>{const cents=(value*(10000n+BigInt(tax))+50000000n)/100000000n;if(value<0n||cents<0n||cents>999999999n)throw Error('El precio final de una combinación no es válido.');return Number(cents);};
-const primary=p=>String(p.details?.primaryLanguageId||translations(p.details?.sourceData?.name)?.[0]?.id||'1');
+const primary=p=>String(p.details?.primaryLanguageId||p.details?.sourceData?.__i18n?.primaryLanguageId||translations(p.details?.sourceData?.name)?.[0]?.id||'1');
 export function centralProductChanges(product,resource,id,changes){
  if(!['products','combinations'].includes(resource)||!uuid(product.id)||!uuid(product.store_id)||!uuid(id)||!Array.isArray(changes)||!changes.length||changes.length>100)throw Error('Revisión de producto no válida.');
  const variant=resource==='combinations'?product.variants.find(v=>v.id===id):null;
@@ -44,7 +45,7 @@ export function centralProductEditPayload(product,resource,id,requested){
   let before=beforeRecord[field]??'';
   if(resource==='products'){
    if(LOCALIZED_PRODUCT_FIELDS.includes(field)){
-    const values=translations(payload.sourceData[field])||[...new Set([primaryId,...languageIds(product)])].map(languageId=>({id:languageId,value:languageId===primaryId?(field==='name'?product.name:product.details?.[aliases[field]]??payload.sourceData[field]??''):''}));
+   const values=clone(savedWebsiteTranslations(payload.sourceData,field))||[...new Set([primaryId,...languageIds(product)])].map(languageId=>({id:languageId,value:languageId===primaryId?(field==='name'?product.name:product.details?.[aliases[field]]??payload.sourceData[field]??''):''}));
     const index=values.findIndex(row=>String(row.id??row.language_id)===change.language_id);
     if(index<0)throw Error('Falta el idioma seleccionado en el contenido guardado.');
     before=values[index].value??'';values[index]={...values[index],value};payload.sourceData[field]=values;

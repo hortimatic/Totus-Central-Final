@@ -1,7 +1,7 @@
-import {lineOptions,lineOptionsFromForm} from './line-options.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
-import {parkingOptions,parkingOptionsFromForm} from './parking-options.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
-import {stockPolicy,stockPolicyFromForm} from './stock-policy.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
-import {cashOptions,cashOptionsFromForm} from './cash-counting.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {lineOptions,lineOptionsFromForm} from './line-options.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
+import {parkingOptions,parkingOptionsFromForm} from './parking-options.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
+import {stockPolicy,stockPolicyFromForm} from './stock-policy.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
+import {cashOptions,cashOptionsFromForm} from './cash-counting.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
 const readers={lineOptions:lineOptionsFromForm,parking:parkingOptionsFromForm,stockPolicy:stockPolicyFromForm,cash:cashOptionsFromForm};
 const normalizers={lineOptions,parking:parkingOptions,stockPolicy,cash:cashOptions};
 export function referencePolicyPayload(fields,{canSell=false,canEdit=false}={}){

@@ -1,4 +1,5 @@
-import {createCentralStoreData} from './central-store-data.js?v=94ef6afdabc2bf5fa5d414b0a95222ca69f2c455';
+import {createCentralStoreData} from './central-store-data.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
+import {savedWebsiteTranslations} from './website-localization.js?v=2c915e1c89111ef7f9c7c04a1a60027161522af4';
 
 const clone=value=>structuredClone(value);
 export const centralDefaultCatalogue=p=>{
@@ -21,21 +22,22 @@ export function centralCombinationRecord(p,v,raw={}){
 }
 const languages=p=>{
  const raw=p.details?.sourceData||{};
- const entries=['name','description','description_short','meta_title','meta_description','link_rewrite'].flatMap(key=>Array.isArray(raw[key])?raw[key]:[]);
+ const entries=['name','description','description_short','meta_title','meta_description','link_rewrite'].flatMap(key=>savedWebsiteTranslations(raw,key)||[]);
  const ids=[...new Set(entries.map(e=>String(e?.id??e?.language_id??'')).filter(id=>/^[1-9]\d*$/.test(id)))];
- return ids.length?ids:['1'];
+ const primary=String(p.details?.primaryLanguageId||raw.__i18n?.primaryLanguageId||'');
+ return primary?[primary,...ids.filter(id=>id!==primary)]:ids.length?ids:['1'];
 };
 export function centralProductRecord(p){
- const c=centralDefaultCatalogue(p),raw=clone(p.details?.sourceData||{}),ids=languages(p),primary=String(p.details?.primaryLanguageId||raw.name?.[0]?.id||ids[0]);
+ const c=centralDefaultCatalogue(p),raw=clone(p.details?.sourceData||{}),ids=languages(p),primary=String(p.details?.primaryLanguageId||raw.__i18n?.primaryLanguageId||raw.name?.[0]?.id||ids[0]);
  const aliases={name:null,meta_title:'metaTitle',meta_description:'metaDescription',meta_keywords:'metaKeywords',link_rewrite:'slug',description:'description',description_short:'descriptionShort',available_now:null,available_later:null,delivery_in_stock:null,delivery_out_stock:null};
- const localized=Object.fromEntries(Object.entries(aliases).map(([field,alias])=>{const original=Array.isArray(raw[field])?raw[field]:raw[field]?.language;const entries=Array.isArray(original)?original.map(row=>({...row})):ids.map(id=>({id,value:id===primary?raw[field]??'':''}));const value=field==='name'?p.name:alias?p.details?.[alias]:undefined;if(value!==undefined){const index=entries.findIndex(row=>String(row.id??row.language_id)===primary);if(index>=0)entries[index]={...entries[index],value};}return [field,entries];}));
+ const localized=Object.fromEntries(Object.entries(aliases).map(([field,alias])=>{const original=savedWebsiteTranslations(raw,field);const entries=Array.isArray(original)?original.map(row=>({...row})):ids.map(id=>({id,value:id===primary?raw[field]??'':''}));const value=field==='name'?p.name:alias?p.details?.[alias]:undefined;if(value!==undefined){const index=entries.findIndex(row=>String(row.id??row.language_id)===primary);if(index>=0)entries[index]={...entries[index],value};}return [field,entries];}));
  return {...raw,__central:true,__native:p,__sourceWebsite:p.source_website||p.details?.metadataWebsite||null,__sourceProductId:p.source_id||raw.id||null,id:p.id,name:p.name,reference:p.sku||'',
   price:c?decimal(netMicros(c)):'',__grossCents:c?.price_cents??null,__taxBasisPoints:c?.tax_basis_points??null,
   active:p.catalogue.some(entry=>entry.active)?'1':'0',ean13:p.variants.length?String(p.details?.ean??raw.ean13??''):c?.ean||'',id_manufacturer:p.brand_id||'0',id_supplier:p.supplier_id||'0',
   meta_title:p.details?.metaTitle??raw.meta_title??'',meta_description:p.details?.metaDescription??raw.meta_description??'',
   link_rewrite:p.details?.slug??raw.link_rewrite??'',description:p.details?.description??raw.description??'',
   description_short:p.details?.descriptionShort??raw.description_short??'',date_add:p.created_at,date_upd:p.updated_at,
-  __language_ids:ids,__localized:localized,associations:{...raw.associations,combinations:p.variants.map(v=>({id:v.id}))}};
+  __language_ids:ids,__primary_language_id:primary,__language_names:Object.fromEntries((raw.__i18n?.languages||[]).map(row=>[String(row.id),row.name])),__localized:localized,associations:{...raw.associations,combinations:p.variants.map(v=>({id:v.id}))}};
 }
 // The legacy product view and Central's TPV consume the same persistent records.
 // No PrestaShop request is made here; connection status never gates a local read.
