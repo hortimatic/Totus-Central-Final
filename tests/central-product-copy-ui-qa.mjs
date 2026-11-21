@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import {chromium} from 'playwright';
+const browser=await chromium.launch({headless:true});
+try{
+ const page=await browser.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
+ await page.goto('http://127.0.0.1:4199/tests/chat-harness.html');
+ await page.evaluate(async()=>{
+  const {createCentralProductCopyUI}=await import('../src/central-product-copy-ui.js');
+  const a='00000000-0000-0000-0000-000000000001',b='00000000-0000-0000-0000-000000000002',c='00000000-0000-0000-0000-000000000003',productId='00000000-0000-0000-0000-000000000004',copyId='00000000-0000-0000-0000-000000000005';
+  const stores=[{id:a,name:'Tienda origen'},{id:b,name:'Tienda destino'},{id:c,name:'Otra tienda'}];
+  const source={id:productId,store_id:a,name:'Bolsa',sku:'BOLSA',details:{},variants:[],catalogue:[{id:productId,price_cents:700,tax_basis_points:2100,stock:5,active:true}]};
+  const records=new Map([[productId,source]]),requests=new Map(),calls=[];let loseReply=true;
+  const data={context:async()=>({stores}),product:async(store,id)=>{const row=records.get(id);if(!row||row.store_id!==store)throw Error('Wrong shop');return structuredClone(row);},directory:async()=>[],invalidate:()=>{}};
+  const rpc=async(name,args)=>{if(name!=='totus_central_product_copy')throw Error('Wrong RPC');calls.push(structuredClone(args));const shared={storeId:args.p_target_store,sourceStoreId:args.p_source_store,sourceProductId:args.p_source_product,revision:'revision-one',name:args.p_data.name,reference:args.p_data.reference,variants:0,catalogueItems:1,stock:args.p_data.copyStock?5:0};if(args.p_action==='preview')return {...shared,status:'prepared'};if(args.p_action==='recover')return requests.get(args.p_request)||{storeId:args.p_target_store,status:'absent'};
+   if(!requests.has(args.p_request)){records.set(copyId,{...structuredClone(source),id:copyId,store_id:args.p_target_store,name:args.p_data.name,sku:args.p_data.reference,catalogue:[{...source.catalogue[0],id:copyId,stock:args.p_data.copyStock?5:0,active:false}]});requests.set(args.p_request,{...shared,status:'completed',productId:copyId,saved:true,active:false});}if(loseReply){loseReply=false;throw Error('Respuesta perdida');}return requests.get(args.p_request);};
+  const root=document.querySelector('#chatHarness');let ui;const paint=()=>{if(!ui)return;root.innerHTML=ui.render();ui.bind(root);};
+  const mount=async()=>{ui?.dispose();ui=createCentralProductCopyUI({data,rpc,actor:()=> 'owner',canCreate:()=>true,current:()=>root.isConnected,onState:paint});await ui.open({store:a,id:productId});paint();};
+  window.nativeCopyQA={calls,records,requests,mount,source,a,b,c};await mount();
+ });
+ const target=page.getByLabel('Tienda de destino',{exact:true});assert.equal(await page.locator('select[name=target] option').count(),4,'All three authorized shops remain selectable');
+ await target.selectOption('00000000-0000-0000-0000-000000000002');
+ await page.getByLabel('Referencia de la copia',{exact:true}).fill('BOLSA-COPIA');
+ await page.getByRole('button',{name:'Revisar copia',exact:true}).click();
+ await page.getByRole('button',{name:'Crear copia en Tienda destino',exact:true}).waitFor();
+ assert.equal(await page.evaluate(()=>nativeCopyQA.records.size),1,'Review does not create data');
+ await page.getByLabel('Nombre de la copia',{exact:true}).fill('Bolsa independiente');
+ assert.equal(await page.getByRole('button',{name:'Crear copia en Tienda destino',exact:true}).count(),0,'Changing the proposal removes its stale confirmation');
+ await page.getByRole('button',{name:'Revisar copia',exact:true}).click();
+ await page.getByRole('button',{name:'Crear copia en Tienda destino',exact:true}).click();
+ await page.getByRole('button',{name:'Comprobar copia enviada',exact:true}).waitFor();
+ assert.equal(await page.evaluate(()=>nativeCopyQA.records.size),2);
+ assert.equal(await target.isDisabled(),true,'An uncertain request cannot change its destination');
+ await page.evaluate(()=>nativeCopyQA.mount());
+ await page.getByRole('button',{name:'Comprobar copia enviada',exact:true}).click();
+ await page.getByRole('button',{name:'Abrir copia guardada',exact:true}).waitFor();
+ const state=await page.evaluate(()=>({calls:nativeCopyQA.calls,records:[...nativeCopyQA.records.values()],requests:nativeCopyQA.requests.size}));
+ assert.equal(state.calls.filter(call=>call.p_action==='commit').length,1,'Recovery never resends a new creation');
+ const commit=state.calls.find(call=>call.p_action==='commit'),recovery=state.calls.find(call=>call.p_action==='recover');
+ assert.equal(commit.p_request,recovery.p_request);assert.deepEqual(commit.p_data,recovery.p_data);
+ assert.equal(commit.p_target_store,'00000000-0000-0000-0000-000000000002');assert.equal(commit.p_data.copyStock,false);
+ assert.equal(state.records.find(row=>row.store_id===commit.p_target_store).name,'Bolsa independiente');
+ assert.equal(state.records.find(row=>row.store_id===commit.p_target_store).catalogue[0].stock,0);assert.equal(state.requests,1);assert.deepEqual(errors,[]);
+ console.log('Native copy UI: explicit arbitrary shop destination, proposal invalidation, button-driven creation, readback, persisted lost-response recovery and no repeated creation verified.');
+}finally{await browser.close();}

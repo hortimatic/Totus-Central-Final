@@ -73,6 +73,14 @@ try{
  await page.locator('dialog').getByRole('button',{name:'Confirmar eliminación',exact:true}).waitFor();
  assert.equal((await page.evaluate(()=>centralProductsQA.calls)).filter(c=>c.args.p_action==='delete').length,0,'Opening deletion never bypasses user confirmation');
  await page.locator('dialog').getByRole('button',{name:'Cancelar',exact:true}).click();
+ await page.locator('[data-pr-catalog-select]').first().check();
+ await page.getByRole('button',{name:/Copiar Marcados/}).waitFor({state:'visible'});
+ assert.equal(await page.locator('dialog').count(),0,'Selecting a working product must not open a modal');
+ await page.getByRole('button',{name:/Copiar Marcados/}).click();
+ await page.getByLabel('Tienda de destino',{exact:true}).waitFor();
+ assert.equal(await page.locator('[data-central-copy-form]').count(),1,'The existing Copy tab uses the native product identity');
+ assert.equal(await page.locator('dialog').count(),0);
+ await page.getByRole('tab',{name:'1. Catálogo General',exact:true}).first().click();
  await page.getByRole('tab',{name:'Atributos y características',exact:true}).click();
  await page.getByRole('button',{name:'Crear atributo',exact:true}).click();
  const attributeDialog=page.locator('dialog');await attributeDialog.getByLabel('Nombre',{exact:true}).fill('Material local');await attributeDialog.getByLabel('Nombre público',{exact:true}).fill('Material');

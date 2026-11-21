@@ -1,4 +1,4 @@
-import {createCentralStoreData} from './central-store-data.js?v=8da935a6e48fdd1da78d09fdbc7d0ac1c9a8d1e2';
+import {createCentralStoreData} from './central-store-data.js?v=dc19cca8f0753191aaf8b4d05d954d4c41dc430d';
 
 const clone=value=>structuredClone(value);
 export const centralDefaultCatalogue=p=>{
@@ -14,7 +14,7 @@ const netMicros=c=>{
 const decimal=micros=>{const sign=micros<0n?'-':'',value=micros<0n?-micros:micros;return sign+String(value/1000000n)+'.'+String(value%1000000n).padStart(6,'0');};
 export function centralCombinationRecord(p,v,raw={}){
  const c=p.catalogue.find(c=>c.variant_id===v.id),base=centralDefaultCatalogue(p);
- return {...clone(raw),...v,__central:true,__native:v,__sourceWebsite:v.source_website||p.source_website||null,__sourceVariantId:v.source_id||null,
+ return {...clone(raw),...v,__central:true,__native:v,__sourceWebsite:v.source_website||p.source_website||p.details?.metadataWebsite||null,__sourceVariantId:v.source_id||null,
   id_product:p.id,reference:v.sku||'',ean13:c?.ean||'',price:c&&base?decimal(netMicros(c)-netMicros(base)):'',
   wholesale_price:v.cost_net==null?(raw.wholesale_price??''):String(v.cost_net),__grossCents:c?.price_cents??null,__taxBasisPoints:c?.tax_basis_points??null,
   __attributes:Object.entries(v.attributes||{}).map(([group,value])=>({group,value})),associations:clone(raw.associations||{})};
@@ -27,7 +27,7 @@ const languages=p=>{
 };
 export function centralProductRecord(p){
  const c=centralDefaultCatalogue(p),raw=clone(p.details?.sourceData||{});
- return {...raw,__central:true,__native:p,__sourceWebsite:p.source_website||null,__sourceProductId:p.source_id||raw.id||null,id:p.id,name:p.name,reference:p.sku||'',
+ return {...raw,__central:true,__native:p,__sourceWebsite:p.source_website||p.details?.metadataWebsite||null,__sourceProductId:p.source_id||raw.id||null,id:p.id,name:p.name,reference:p.sku||'',
   price:c?decimal(netMicros(c)):'',__grossCents:c?.price_cents??null,__taxBasisPoints:c?.tax_basis_points??null,
   active:p.catalogue.some(entry=>entry.active)?'1':'0',ean13:p.variants.length?String(p.details?.ean??raw.ean13??''):c?.ean||'',id_manufacturer:p.brand_id||'0',id_supplier:p.supplier_id||'0',
   meta_title:p.details?.metaTitle??raw.meta_title??'',meta_description:p.details?.metaDescription??raw.meta_description??'',
@@ -91,8 +91,9 @@ export function createCentralProductAdapter({rpc,actor}){
   else if(resource==='combinations'){
    const [products,original]=await Promise.all([catalogue(store),auxiliary(store,'combinations')]),byId=new Map(original.map(row=>[String(row.id),row]));
    rows=products.flatMap(p=>p.variants.map(v=>{
-    const raw=v.source_id&&v.source_website===p.source_website?byId.get(String(v.source_id)):null;
-    if(raw&&String(raw.id_product)!==String(p.source_id))throw Error('Los datos originales de la combinación pertenecen a otro producto.');
+    const originalRaw=v.source_id&&v.source_website===p.source_website?byId.get(String(v.source_id)):null;
+    if(originalRaw&&String(originalRaw.id_product)!==String(p.source_id))throw Error('Los datos originales de la combinación pertenecen a otro producto.');
+    const raw=originalRaw||p.details?.copyVariantMetadata?.[v.id]||null;
     return {...centralCombinationRecord(p,v,raw||{}),__sourceDetailsMissing:!!v.source_id&&!raw};
    }));
   }
