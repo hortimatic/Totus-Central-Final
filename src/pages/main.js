@@ -1,37 +1,37 @@
-import {localStoreHost} from '../local-store-workspace.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {directoryPageHtml} from '../contact-directory-ui.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {apiManagerHtml} from '../api-manager.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {automationsPage} from '../automations-ui.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {prestashopWorkspacePage} from '../prestashop-ui.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {productosWorkspacePage} from '../productos-ui.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {appearancePage} from '../appearance-ui.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {discountScenarios} from '../pricing-discounts.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {draftVariantRow} from '../pricing-drafts.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {stockPage} from '../stock-ui.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {normalizeReportOrder} from '../report-layout.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {taxExpenseRecord} from '../tax-expense.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {incomeBreakdown} from '../income-breakdown.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {planStorage} from '../storage-planning.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {SUPABASE_URL} from '../config.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {expenseAttachedInvoices} from '../expense-register.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {selectExpenses} from '../expense-selection.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {localStoreHost} from '../local-store-workspace.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {directoryPageHtml} from '../contact-directory-ui.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {apiManagerHtml} from '../api-manager.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {automationsPage} from '../automations-ui.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {prestashopWorkspacePage} from '../prestashop-ui.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {productosWorkspacePage} from '../productos-ui.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {appearancePage} from '../appearance-ui.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {discountScenarios} from '../pricing-discounts.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {draftVariantRow} from '../pricing-drafts.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {stockPage} from '../stock-ui.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {normalizeReportOrder} from '../report-layout.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {taxExpenseRecord} from '../tax-expense.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {incomeBreakdown} from '../income-breakdown.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {planStorage} from '../storage-planning.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {SUPABASE_URL} from '../config.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {expenseAttachedInvoices} from '../expense-register.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {selectExpenses} from '../expense-selection.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
 
 const stores=()=>state.data.stores.filter(x=>x.active!==false);
 const storeName=id=>state.data.stores.find(x=>x.id===id)?.name||'—';
@@ -112,40 +112,40 @@ export function homeStorageMetricsHtml(){
  <div class="summary-row"><span>Ocupación del límite interno</span><strong class="${valid&&pct>=95?'danger-text':valid&&pct>=85?'warn-text':''}">${valid?pct.toFixed(1).replace('.',',')+' % de '+(limit/1048576).toFixed(0)+' MB':'Sin medir'}</strong></div>`;
 }
 
-export function inicio(){
+export function inicio(homeData=state.data){
  const today=isoToday(),month=monthRange(today),year=Number(today.slice(0,4)),m=Number(today.slice(5,7)),quarter=Math.ceil(m/3);
  const qFrom=`${year}-${String((quarter-1)*3+1).padStart(2,'0')}-01`,qTo=`${year}-${String(quarter*3).padStart(2,'0')}-${String(new Date(year,quarter*3,0).getDate()).padStart(2,'0')}`;
- const activeStores=stores(),activityFilter=getFilters('inicio'),activity=activitySeries(state.data,activityFilter);
- const monthClosings=state.data.closings.filter(x=>inRange(x.business_date,month.from,month.to));
- const quarterExpenses=state.data.expenses.filter(x=>inRange(x.expense_date,qFrom,qTo));
- const todays=state.data.closings.filter(x=>x.business_date===today);
+ const activeStores=homeData.stores.filter(s=>s.active!==false),activityFilter=getFilters('inicio'),activity=activitySeries(homeData,activityFilter);
+ const monthClosings=homeData.closings.filter(x=>inRange(x.business_date,month.from,month.to));
+ const quarterExpenses=homeData.expenses.filter(x=>inRange(x.expense_date,qFrom,qTo));
+ const todays=homeData.closings.filter(x=>x.business_date===today);
  const missingStores=activeStores.filter(s=>!todays.some(x=>x.store_id===s.id&&x.status==='cerrado'));
- const draftClosings=state.data.closings.filter(x=>x.status==='borrador'&&!acceptedClosing(x)).length;
- const mismatches=state.data.closings.filter(x=>!acceptedClosing(x)&&Math.abs(Number(x.difference||0))>.01).length;
- const pendingExpenses=state.data.expenses.filter(x=>!acceptedExpense(x)&&x.paid_status&&x.paid_status!=='pagado'&&!bookPaymentPending(x));
+ const draftClosings=homeData.closings.filter(x=>x.status==='borrador'&&!acceptedClosing(x)).length;
+ const mismatches=homeData.closings.filter(x=>!acceptedClosing(x)&&Math.abs(Number(x.difference||0))>.01).length;
+ const pendingExpenses=homeData.expenses.filter(x=>!acceptedExpense(x)&&x.paid_status&&x.paid_status!=='pagado'&&!bookPaymentPending(x));
  const pendingExpenseAmount=sum(pendingExpenses,x=>Math.max(0,Number(x.accounting_amount??x.gross_expense??0)-Number(x.withholding_amount||0)-Number(x.amount_paid||0)));
- const pendingRefunds=state.data.invoices.filter(x=>x.document_type==='factura'&&x.status==='emitida'&&isInvoiceRefund(x)&&invoiceOutstanding(x)>.02);
- const pendingInvoices=state.data.invoices.filter(x=>x.document_type==='factura'&&x.status==='emitida'&&x.paid_status!=='pagada'&&!isInvoiceRefund(x)).sort((a,b)=>String(a.due_date||a.issue_date||'').localeCompare(String(b.due_date||b.issue_date||'')));
+ const pendingRefunds=homeData.invoices.filter(x=>x.document_type==='factura'&&x.status==='emitida'&&isInvoiceRefund(x)&&invoiceOutstanding(x)>.02);
+ const pendingInvoices=homeData.invoices.filter(x=>x.document_type==='factura'&&x.status==='emitida'&&x.paid_status!=='pagada'&&!isInvoiceRefund(x)).sort((a,b)=>String(a.due_date||a.issue_date||'').localeCompare(String(b.due_date||b.issue_date||'')));
  const pendingInvoiceAmount=sum(pendingInvoices,x=>Math.max(0,Number(x.total_amount||0)-Number(x.paid_amount||0)));
- const draftInvoices=state.data.invoices.filter(x=>x.status==='borrador').length;
- const recentDocs=[...state.data.documents].sort((a,b)=>String(b.created_at||b.document_date||'').localeCompare(String(a.created_at||a.document_date||''))).slice(0,4);
- const pendingDocs=state.data.documents.filter(x=>x.status==='pendiente').length;
+ const draftInvoices=homeData.invoices.filter(x=>x.status==='borrador').length;
+ const recentDocs=[...homeData.documents].sort((a,b)=>String(b.created_at||b.document_date||'').localeCompare(String(a.created_at||a.document_date||''))).slice(0,4);
+ const pendingDocs=homeData.documents.filter(x=>x.status==='pendiente').length;
  const yFrom=`${year}-01-01`;
- const incomeYtd=sum(state.data.closings.filter(x=>x.include_in_income!==false&&inRange(x.business_date,yFrom,qTo)),closingIncomeAmount)
-  +sum(state.data.invoices.filter(x=>x.document_type==='factura'&&x.status==='emitida'&&x.include_in_income===true&&inRange(x.issue_date,yFrom,qTo)),x=>x.total_amount)
-  +sum(state.data.fiscalAdjustments.filter(x=>x.kind==='ingreso_extra'&&inRange(x.adjustment_date,yFrom,qTo)),x=>x.amount)
-  +sum(state.data.incomeAdjustments.filter(x=>inRange(x.income_date,yFrom,qTo)),x=>x.amount);
- const ytdExpenses=state.data.expenses.filter(x=>isReviewedFiscalExpense(x)&&inRange(x.expense_date,yFrom,qTo));
- const deductedYtd=deductibleExpenseTotal(ytdExpenses,state.data.expenseLines);
- const homeAdjustments=state.data.fiscalAdjustments.filter(x=>inRange(x.adjustment_date,yFrom,qTo));
+ const incomeYtd=sum(homeData.closings.filter(x=>x.include_in_income!==false&&inRange(x.business_date,yFrom,qTo)),closingIncomeAmount)
+  +sum(homeData.invoices.filter(x=>x.document_type==='factura'&&x.status==='emitida'&&x.include_in_income===true&&inRange(x.issue_date,yFrom,qTo)),x=>x.total_amount)
+  +sum(homeData.fiscalAdjustments.filter(x=>x.kind==='ingreso_extra'&&inRange(x.adjustment_date,yFrom,qTo)),x=>x.amount)
+  +sum(homeData.incomeAdjustments.filter(x=>inRange(x.income_date,yFrom,qTo)),x=>x.amount);
+ const ytdExpenses=homeData.expenses.filter(x=>isReviewedFiscalExpense(x)&&inRange(x.expense_date,yFrom,qTo));
+ const deductedYtd=deductibleExpenseTotal(ytdExpenses,homeData.expenseLines);
+ const homeAdjustments=homeData.fiscalAdjustments.filter(x=>inRange(x.adjustment_date,yFrom,qTo));
  const homeExtra=kinds=>sum(homeAdjustments.filter(x=>kinds.includes(x.kind)),x=>x.amount);
- const home130=computeModel130Accumulated({income:incomeYtd,deductible:deductedYtd,extraDeductible:homeExtra(['gasto_deducible_extra','amortizacion']),reductions:homeExtra(['reduccion']),withholdings:homeExtra(['retencion_soportada']),previousPayments:estimatePriorModel130(state.data,year,quarter).total,
-  rate:state.data.settings?.irpf_prepayment_rate??20,difficultRate:state.data.settings?.difficult_expense_pct??5,difficultAnnualCap:state.data.settings?.difficult_expense_annual_cap??2000,difficultEnabled:state.data.settings?.difficult_expense_enabled!==false}).due;
+ const home130=computeModel130Accumulated({income:incomeYtd,deductible:deductedYtd,extraDeductible:homeExtra(['gasto_deducible_extra','amortizacion']),reductions:homeExtra(['reduccion']),withholdings:homeExtra(['retencion_soportada']),previousPayments:estimatePriorModel130(homeData,year,quarter).total,
+  rate:homeData.settings?.irpf_prepayment_rate??20,difficultRate:homeData.settings?.difficult_expense_pct??5,difficultAnnualCap:homeData.settings?.difficult_expense_annual_cap??2000,difficultEnabled:homeData.settings?.difficult_expense_enabled!==false}).due;
  const homeQuarterIds=new Set(quarterExpenses.filter(isReviewedFiscalExpense).map(x=>x.id));
- const homeRetention=model=>sum(state.data.expenseLines.filter(x=>homeQuarterIds.has(x.expense_id)&&x.withholding_model===model),x=>x.withholding_amount);
+ const homeRetention=model=>sum(homeData.expenseLines.filter(x=>homeQuarterIds.has(x.expense_id)&&x.withholding_model===model),x=>x.withholding_amount);
  const homeForecast=[['130',home130],['111',homeRetention('111')],['115',homeRetention('115')]];
- const homeReserve=sum(homeForecast,([model,amount])=>Math.max(0,amount-sum(state.data.taxPayments.filter(x=>x.tax_type===model&&Number(x.fiscal_year)===year&&Number(x.quarter)===quarter&&['pagado','compensado'].includes(x.status)),x=>x.amount)));
- const pendingFiscal=state.data.expenses.filter(x=>!x.management_only&&x.fiscal_reviewed===false&&inRange(x.expense_date,yFrom,qTo));
+ const homeReserve=sum(homeForecast,([model,amount])=>Math.max(0,amount-sum(homeData.taxPayments.filter(x=>x.tax_type===model&&Number(x.fiscal_year)===year&&Number(x.quarter)===quarter&&['pagado','compensado'].includes(x.status)),x=>x.amount)));
+ const pendingFiscal=homeData.expenses.filter(x=>!x.management_only&&x.fiscal_reviewed===false&&inRange(x.expense_date,yFrom,qTo));
  const alerts=[];
  if(pendingFiscal.length)alerts.push({level:'warn',title:'Gastos fiscales sin revisar',text:pendingFiscal.length+' pendientes; no incluidos en la previsión de impuestos',route:'gastos'});
  if(missingStores.length)alerts.push({level:'warn',title:'Cierres pendientes hoy',text:missingStores.map(x=>x.name).join(', '),route:'cajas'});
@@ -156,8 +156,8 @@ export function inicio(){
  if(pendingRefunds.length)alerts.push({level:'warn',title:'Devoluciones pendientes',text:`${pendingRefunds.length} · ${money(sum(pendingRefunds,invoiceOutstanding))} por devolver a clientes`,route:'facturacion'});
  if(draftInvoices)alerts.push({level:'info',title:'Facturas/proformas en borrador',text:`${draftInvoices} por terminar`,route:'facturacion'});
  if(pendingDocs)alerts.push({level:'info',title:'Documentos por revisar',text:`${pendingDocs} pendientes`,route:'documentos'});
- const openingCards=activeStores.flatMap(store=>state.data.drawers.filter(d=>d.store_id===store.id&&d.active!==false).map(drawer=>{
-  const balance=lastDrawerBalance({closings:state.data.closings,closingDrawers:state.data.closingDrawers,storeId:store.id,drawer,before:new Date(Date.parse(today+'T12:00:00Z')+86400000).toISOString().slice(0,10)});
+ const openingCards=activeStores.flatMap(store=>homeData.drawers.filter(d=>d.store_id===store.id&&d.active!==false).map(drawer=>{
+  const balance=lastDrawerBalance({closings:homeData.closings,closingDrawers:homeData.closingDrawers,storeId:store.id,drawer,before:new Date(Date.parse(today+'T12:00:00Z')+86400000).toISOString().slice(0,10)});
   return `<article class="opening-card"><h3>${esc(store.name)} · ${esc(drawer.name)}</h3><strong>${balance?.amount==null?'Por indicar':money(balance.amount)}</strong><p>${balance?'Dejado el '+fmtDate(balance.date):'Sin cierre anterior'}</p></article>`;
  })).join('');
  const storeCards=activeStores.map(store=>{
@@ -169,12 +169,12 @@ export function inicio(){
  const expenseByStore=activeStores.map(store=>{const rows=quarterExpenses.filter(x=>x.store_id===store.id),regular=rows.filter(x=>!x.management_only),internal=rows.filter(x=>x.management_only);return `<div class="summary-row"><div><b>${esc(store.name)}</b><div class="small muted">${regular.length} contabilizados · ${internal.length} internos</div></div><strong>${money(sum(rows,expenseCostAmount))}</strong></div>`}).join('');
  const invoiceRows=pendingInvoices.slice(0,4).map(x=>`<div class="summary-row"><div><b>${esc(x.display_number||x.external_number_text||'Factura')}</b><div class="small muted">${esc(x.customer_name||'Cliente')} · ${money(Math.max(0,Number(x.total_amount||0)-Number(x.paid_amount||0)))} pendientes${x.due_date?' · vence '+fmtDate(x.due_date):''}</div></div><div class="inline-actions">${btn('Vista previa','invoice-preview','secondary',`data-id="${x.id}"`)}</div></div>`).join('');
  const docRows=recentDocs.map(d=>`<div class="summary-row"><div><b>${esc(d.original_name||'Documento')}</b><div class="small muted">${esc(d.supplier_or_customer||d.doc_type||'')} · ${fmtDate(d.document_date||d.created_at)}</div></div><div class="inline-actions">${btn('Ver','document-preview','secondary',`data-id="${d.id}"`)}</div></div>`).join('');
- const activeUsers=state.data.team.filter(x=>x.active!==false).length;
+ const activeUsers=homeData.team.filter(x=>x.active!==false).length;
  return `<div class="page dashboard-page">
   <div class="dashboard-hero card card-pad"><div><div class="eyebrow">Inicio · ${fmtDate(today)}</div><h2>Totus Central</h2><p>Mesa de trabajo para consultar, registrar, revisar y decidir sin saltar entre pantallas innecesariamente.</p></div><div class="dashboard-hero-actions">${btn('Nuevo cierre','closing-new','primary')}${btn('Registrar gasto','expense-new','secondary')}${btn('Nueva factura','invoice-new','secondary')}${btn('Subir documento','document-new','secondary')}</div></div>
   <section class="card card-pad opening-panel"><h2>Dinero para abrir las cajas</h2><p>Lo que quedó en cada caja al cerrar. Comprueba la fecha y cuenta el efectivo antes de abrir.</p><div class="opening-grid">${openingCards}</div></section>
   <div class="kpis home-period-kpis">${kpi(activityFilter.from===month.from&&activityFilter.to===month.to?'Ingresos del mes':'Ingresos del periodo',money(activity.totals.sales),`${fmtDate(activityFilter.from)} → ${fmtDate(activityFilter.to)}`)}${kpi('Gastos contables',money(activity.totals.fiscal),'Gastos fiscalizables registrados')}${kpi('Ingresos menos gastos',money(activity.totals.sales-activity.totals.fiscal),'Antes de gastos internos; no es el saldo del banco')}${kpi('Gastos internos',money(activity.totals.internal),'Solo información · incluye impuestos pagados')}</div>
-  <section class="card card-pad home-activity"><div class="section-head"><div><h2>Ventas y gastos del periodo</h2><p>Elige las fechas y la tienda. La gráfica y los cuatro importes de arriba muestran el mismo periodo.</p></div></div>${dateFilters({...activityFilter,stores:activeStores},'inicio')}${activityChartHtml(activity,{comparisons:activityStoreComparisons(state.data,activityFilter,activeStores)})}</section>
+  <section class="card card-pad home-activity"><div class="section-head"><div><h2>Ventas y gastos del periodo</h2><p>Elige las fechas y la tienda. La gráfica y los cuatro importes de arriba muestran el mismo periodo.</p></div></div>${dateFilters({...activityFilter,stores:activeStores},'inicio')}${activityChartHtml(activity,{comparisons:activityStoreComparisons(homeData,activityFilter,activeStores)})}</section>
 
   <section class="home-zone"><div class="home-zone-head"><div><div class="eyebrow">Mesa de trabajo</div><h2>Operativa de hoy</h2><p>Cierres y control de gasto del trimestre.</p></div></div><div class="dashboard-store-grid">${storeCards}</div><div class="dashboard-grid">
    <article class="card card-pad"><div class="section-head"><div><h3>Gastos del ${quarter}T</h3><p>Total contabilizado e interno por establecimiento.</p></div></div><div class="home-big-number">${money(sum(quarterExpenses,expenseCostAmount))}</div><div class="stack">${expenseByStore}</div></article>
@@ -193,7 +193,7 @@ export function inicio(){
 
   <section class="home-zone"><div class="home-zone-head"><div><div class="eyebrow">Mesa de trabajo</div><h2>Seguimiento y sistema</h2><p>Informes, usuarios y almacenamiento en un vistazo.</p></div></div><div class="dashboard-grid">
    <article class="card card-pad"><div class="section-head"><div><h3>Informes y gestoría</h3><p>Prepara libros y paquetes con el periodo correcto.</p></div></div><div class="home-report-cards"><button class="report-shortcut" data-action="home-report-quarter"><span>Trimestre actual</span><b>${quarter}T ${year}</b><small>${fmtDate(qFrom)} → ${fmtDate(qTo)}</small></button><button class="report-shortcut" data-action="home-report-year"><span>Año actual</span><b>${year}</b><small>01/01/${year} → 31/12/${year}</small></button></div><div class="dashboard-links"><button class="btn secondary" data-route="informes">Abrir informes</button></div></article>
-   <article class="card card-pad"><div class="section-head"><div><h3>Estado del sistema</h3><p>Control básico de la herramienta.</p></div>${isManager()?'<button class="btn secondary" data-route="administracion">Administración</button>':''}</div><div class="summary-row"><span>Usuarios activos</span><strong>${activeUsers}</strong></div><div class="summary-row"><span>Documentos</span><strong>${state.data.documents.length}</strong></div><div id="homeStorageMetrics" style="display:contents">${homeStorageMetricsHtml()}</div><div class="dashboard-links">${isManager()?'<button class="btn secondary" data-action="admin-storage-home">Almacenamiento</button><button class="btn secondary" data-action="admin-users-home">Usuarios</button>':''}</div></article>
+   <article class="card card-pad"><div class="section-head"><div><h3>Estado del sistema</h3><p>Control básico de la herramienta.</p></div>${isManager()?'<button class="btn secondary" data-route="administracion">Administración</button>':''}</div><div class="summary-row"><span>Usuarios activos</span><strong>${activeUsers}</strong></div><div class="summary-row"><span>Documentos</span><strong>${homeData.documents.length}</strong></div><div id="homeStorageMetrics" style="display:contents">${homeStorageMetricsHtml()}</div><div class="dashboard-links">${isManager()?'<button class="btn secondary" data-action="admin-storage-home">Almacenamiento</button><button class="btn secondary" data-action="admin-users-home">Usuarios</button>':''}</div></article>
    <article class="card card-pad"><div class="section-head"><div><h3>Tareas de hoy</h3><p>Organización diaria del equipo.</p></div><button class="btn secondary" data-route="tareas">Abrir tareas</button></div><div id="tasksHomeSummary" role="status"><p>Consultando el calendario…</p></div></article>
   </div></section>
  </div>`;

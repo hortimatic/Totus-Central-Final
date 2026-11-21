@@ -1,8 +1,56 @@
-import {esc,money} from './utils.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {esc,money} from './utils.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {expenseCostAmount} from './calculations.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {activityChartHtml} from './dashboard-activity.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {homeDateRange} from './home-period.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
- return {async read(store,from,to){const key=store+'|'+from+'|'+to;if(!cache.has(key))cache.set(key,rpc('totus_home_tpv_summary',{p_store:store,p_from:from,p_to:to}).then(r=>{if(r?.storeId!==store||r.from!==from||r.to!==to||r.source!=='totustpv')throw Error('Respuesta de otra tienda.');return r;}).catch(e=>{cache.delete(key);throw e;}));return cache.get(key);},clear(){cache.clear();}};
+ return {async read(store,from,to,force=false){const key=store+'|'+from+'|'+to;if(force)cache.delete(key);if(!cache.has(key))cache.set(key,rpc('totus_home_tpv_summary',{p_store:store,p_from:from,p_to:to}).then(r=>{if(r?.storeId!==store||r.from!==from||r.to!==to||r.source!=='totustpv')throw Error('Respuesta de otra tienda.');return r;}).catch(e=>{cache.delete(key);throw e;}));return cache.get(key);},clear(){cache.clear();}};
+}
+const madrid=value=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date(value));
+/** Adapt the native store ledger to the existing dashboard view contract. */
+export function nativeHomeRead(reads,shop,range,sales=[]){
+ if(!reads.length||reads.some(r=>!r||r.error))return null;
+ const summaries=reads.map(r=>r.native||r),native={series:summaries.flatMap(r=>r.series||[]),top:summaries.flatMap(r=>r.top||[])};
+ for(const field of ['salesCents','refundCents','saleCount','refundCount','marginCents'])native[field]=summaries.reduce((n,r)=>n+Number(r[field]||0),0);
+ native.marginComplete=summaries.every(r=>r.marginComplete===true);
+ const detail=new Map(),rows=[],chartRows=[];
+ for(const sale of sales){
+  if(sale.store_id&&sale.store_id!==shop)throw Error('Venta de otra tienda.');
+  const date=madrid(sale.created_at),snapshot=sale.snapshot||{};
+  if(date.slice(0,10)>=range.from&&date.slice(0,10)<=range.to){
+   if(!Number.isSafeInteger(sale.total_cents)||!Array.isArray(snapshot.lines))throw Error('Venta incompleta.');
+   const methods=[...new Set((sale.payments||[]).map(p=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'}[p.method]||p.method)))];
+   const row={id:sale.id,reference:sale.ticket_number||'TC-'+sale.id.slice(0,8),date_add:date,valid:'1',id_currency:'EUR',currency_code:'EUR',total_paid_tax_incl:(sale.total_cents/100).toFixed(2),payment:methods.join(' + ')||(sale.on_credit?'Crédito':'Sin cobro'),customer_name:snapshot.customerName||'',employee_name:snapshot.operatorName||'',margin_value:null,current_state:'Confirmada'};
+   rows.push(row);chartRows.push(row);
+   detail.set(String(sale.id),snapshot.lines.map((l,i)=>({id:sale.id+':'+i,id_order:sale.id,product_id:l.productId,product_attribute_id:l.variantId||'0',name:l.name,product_name:l.name,qty:l.qty,product_quantity:l.qty,reference:l.reference||'',product_reference:l.reference||'',total_price_tax_incl:(l.totalCents/100).toFixed(2),total_price_tax_excl:(l.netCents/100).toFixed(2)})));
+  }
+  for(const refund of sale.refunds||[]){const d=madrid(refund.created_at);if(refund.status==='confirmed'&&d.slice(0,10)>=range.from&&d.slice(0,10)<=range.to)chartRows.push({id:'refund-'+refund.id,date_add:d,valid:'1',id_currency:'EUR',total_paid_tax_incl:(-refund.total_cents/100).toFixed(2)});}
+ }
+ const total=(native.salesCents-native.refundCents)/100;
+ return {shop,rows:sales.length?rows:reads.flatMap(r=>r.rows||[]),chartRows:sales.length?chartRows:reads.flatMap(r=>r.chartRows||[]),currencies:new Map([['EUR','EUR']]),detailsByOrder:sales.length?detail:new Map(reads.flatMap(r=>[...(r.detailsByOrder||[])])),complete:true,native,nativeStats:{count:native.saleCount,total,ticket:native.saleCount?native.salesCents/100/native.saleCount:null,complete:true},top:native.top.map(p=>({name:p.name,qty:p.quantity,reference:p.reference||'',productId:p.id,attributeId:'0'})),totalUnits:native.top.reduce((n,p)=>n+Number(p.quantity),0),...range,checked:new Date().toLocaleString('es-ES')};
+}
+function nativeFinance(w,data,expenses){
+ const reads=Object.values(data||{}),range=homeDateRange(w),expected=w.scope.store==='all'?null:w.scope.store;
+ if(!reads.length||reads.some(r=>!r||r.loading))return {pending:true};
+ if(reads.some(r=>r.error))return {error:reads.filter(r=>r?.error).map(r=>r.error).join(' · ')};
+ const summaries=reads.map(r=>r.native),sales=summaries.reduce((n,r)=>n+r.salesCents-r.refundCents,0);
+ const costs=(expenses||[]).filter(e=>(!expected||e.store_id===expected)&&e.expense_date>=range.from&&e.expense_date<=range.to);
+ const fiscal=costs.filter(e=>!e.management_only).reduce((n,e)=>n+Math.round(expenseCostAmount(e)*100),0),internal=costs.filter(e=>e.management_only).reduce((n,e)=>n+Math.round(expenseCostAmount(e)*100),0);
+ return {sales,fiscal,internal,costs,summaries,range,margin:summaries.reduce((n,r)=>n+r.marginCents,0),marginComplete:summaries.every(r=>r.marginComplete)};
+}
+export function nativeHomeFinance(w,data,expenses){
+ const value=nativeFinance(w,data,expenses);if(value.pending)return '<p role="status">Consultando TotusTPV…</p>';if(value.error)return '<p role="alert">'+esc(value.error)+'</p>';
+ const gain=w.type==='home.gain',labels={'home.income':'Ingresos del periodo','home.expenses':'Gastos contables','home.result':'Ingresos menos gastos','home.internal':'Gastos internos','home.gain':'Ganancia de las ventas'},amount={'home.income':value.sales,'home.expenses':value.fiscal,'home.result':value.sales-value.fiscal,'home.internal':value.internal,'home.gain':value.margin}[w.type];
+ return '<div class="kpi"><small>'+esc(labels[w.type])+'</small><strong>'+esc(gain&&!value.marginComplete?'Faltan costes':money(amount/100))+'</strong><details><summary aria-label="Información de '+esc(labels[w.type])+'">ⓘ</summary><p>'+esc(gain?'Margen estimado: venta sin impuestos menos coste actual del catálogo, descontando devoluciones. No es beneficio neto.':'Ventas confirmadas de TotusTPV menos devoluciones; los gastos proceden de los registros contables de la tienda y del periodo seleccionados.')+'</p></details></div>';
+}
+export function nativeHomeActivity(w,data,expenses){
+ const value=nativeFinance(w,data,expenses);if(value.pending)return '<p role="status">Consultando actividad…</p>';if(value.error)return '<p role="alert">'+esc(value.error)+'</p>';
+ const days=Math.round((Date.parse(value.range.to)-Date.parse(value.range.from))/86400000)+1,monthly=days>93,map=new Map();
+ for(let t=Date.parse(value.range.from+'T12:00:00Z');t<=Date.parse(value.range.to+'T12:00:00Z');t+=86400000){const key=new Date(t).toISOString().slice(0,monthly?7:10);if(!map.has(key))map.set(key,{key,sales:0,fiscal:0,internal:0});}
+ for(const summary of value.summaries)for(const r of summary.series||[]){const p=map.get(r.date.slice(0,monthly?7:10));if(p)p.sales+=r.salesCents/100;}
+ for(const row of value.costs){const p=map.get(row.expense_date.slice(0,monthly?7:10));if(p)p[row.management_only?'internal':'fiscal']+=expenseCostAmount(row);}
+ return activityChartHtml({points:[...map.values()],monthly});
 }
 export function homeTpvContent(w,read){
  if(!read)return '<p role="status">Consultando TotusTPV…</p>';

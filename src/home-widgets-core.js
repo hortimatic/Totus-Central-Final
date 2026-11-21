@@ -25,7 +25,7 @@ const definitions = [
   ['prestashop.summary','TotusTPV','Resumen TotusTPV',6,8,5,12],
   ['prestashop.orders','TotusTPV','Ventas TotusTPV',12,6,8,12],
   ['prestashop.top','TotusTPV','Más vendidos',6,6,4,12],
-  ['prestashop.quality','TotusTPV','Calidad de catálogo',6,6,4,12],
+  ['prestashop.quality','Productos','Calidad de catálogo',6,6,4,12],
   ['expenses.quarter','Gastos','Gastos del trimestre',6,4,4,12],
   ['expenses.pending','Gastos','Pendientes de revisión',6,3,4,12],
   ['billing.pending','Facturación','Facturas y cobros',6,4,4,12],

@@ -22,7 +22,7 @@
 .home-widgets-dirty .home-toolbar-actions [data-home-command="save"]{display:inline-flex}
 .home-widget-shell{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;min-width:0;align-items:start}
 .home-widget-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;align-items:stretch;min-width:0;grid-auto-flow:row dense}
-.home-widget-frame{grid-column:span var(--span,6);display:flex;flex-direction:column;min-width:0;min-height:max(120px,calc(var(--height,3)*35px));background:var(--panel,#fff);border:var(--appearance-border-width,1px) solid color-mix(in srgb,var(--accent,#2367d1) 65%,var(--line,#dbe4f0));border-radius:var(--r,10px);box-shadow:var(--shadow,0 2px 9px #173c7620);overflow:hidden;position:relative;transition:border-color .15s,box-shadow .15s}
+.home-widget-frame{grid-column:span var(--span,6);display:flex;flex-direction:column;min-width:0;min-height:max(120px,calc(var(--height,3)*35px));background:var(--panel,#fff);border:1px solid color-mix(in srgb,var(--accent,#2367d1) 65%,var(--line,#dbe4f0));border-radius:var(--r,10px);box-shadow:var(--shadow,0 2px 9px #173c7620);overflow:hidden;position:relative;transition:border-color .15s,box-shadow .15s}
 .home-widget-frame:hover{border-color:var(--accent,#2367d1)}
 .home-widget-header{display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--line,#e2e8f0);background:color-mix(in srgb,var(--panel,#fff) 96%,var(--accent,#2367d1));padding:9px 12px;min-height:42px}
 .home-widget-header h3{font-size:13px;letter-spacing:0;font-weight:700;margin:0;line-height:1.4;color:var(--ink,#17253b)}
@@ -649,5 +649,13 @@
 
 /* Checkbox controls must not inherit the full-width text field rule. */
 
-.home-native-tools{display:flex;justify-content:space-between;gap:8px}.home-native-tools details{position:relative}.home-native-tools details[open]{background:var(--panel);padding:8px}.home-native-chart i{display:block;background:var(--accent);height:6px}.home-native-chart div{margin:8px 0}.home-native-chart span{font-size:12px}
+/* Final uses the production board, with accessible configuration on every card. */
+.dashboard-page:not(.home-edit-mode) .home-widget-header .home-widget-more{display:grid!important}
+.home-period-dates label{min-width:0;flex:1 1 150px}.home-period-dates select{width:100%;min-width:0;text-overflow:ellipsis}
+[data-home-ticket]{width:min(620px,calc(100vw - 32px));max-height:85vh;overflow:auto;border:1px solid var(--line);border-radius:var(--radius,12px);background:var(--panel,#fff);color:var(--ink);padding:24px}[data-home-ticket]::backdrop{background:#0b142b88}
+.home-widget-body>.kpi{width:100%;min-width:0}.home-widget-body>.kpi details{font-size:12px}.home-widget-body>.kpi details p{white-space:normal;line-height:1.5}
+
+.home-widget-scope select{max-width:220px;width:100%;min-height:32px;padding:4px 24px 4px 8px;border-radius:var(--radius,6px);font-size:12px}.home-widget-scope{max-width:min(220px,100%);margin-left:auto}
+
+[data-home-type="home.shortcuts"] .home-widget-header h3{min-width:0;overflow-wrap:anywhere}[data-home-type="home.shortcuts"] .home-widget-actions{display:grid;grid-template-columns:minmax(0,1fr)}[data-home-type="home.shortcuts"] .home-widget-actions button{min-width:0;width:100%;white-space:normal;overflow-wrap:anywhere;padding-inline:6px}
 

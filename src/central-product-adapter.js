@@ -1,5 +1,5 @@
-import {createCentralStoreData} from './central-store-data.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
-import {savedWebsiteTranslations} from './website-localization.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {createCentralStoreData} from './central-store-data.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
+import {savedWebsiteTranslations} from './website-localization.js?v=69e3ca315cb68616856a4eaa9812e3ade5b365c2';
 
 const clone=value=>structuredClone(value);
 export const centralDefaultCatalogue=p=>{
