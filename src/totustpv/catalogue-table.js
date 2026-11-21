@@ -1,6 +1,6 @@
-import {canExceedStock} from './stock-policy.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {columnSettingsRow,columnSettingsCaption,standardizeColumnPanel,positionColumnPanel} from '../column-settings.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {variantDetails} from './catalogue-preferences.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {canExceedStock} from './stock-policy.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {columnSettingsRow,columnSettingsCaption,standardizeColumnPanel,positionColumnPanel} from '../column-settings.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {variantDetails} from './catalogue-preferences.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>Number.isSafeInteger(value)?new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100):'—';
 export const TPV_COLUMNS=Object.freeze({photo:{label:'Foto',width:64},name:{label:'Nombre',width:220,sort:'name'},

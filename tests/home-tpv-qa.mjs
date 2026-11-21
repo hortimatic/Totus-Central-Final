@@ -12,7 +12,7 @@ try{
  create table private.totus_tpv_local_sales(id uuid,snapshot jsonb,total_cents bigint,store_id uuid,created_at timestamptz);
  create table private.totus_tpv_local_refunds(lines jsonb,total_cents bigint,store_id uuid,status text,created_at timestamptz,sale_id uuid);
  create table private.totus_tpv_local_payments(method text,amount_cents bigint,sale_id uuid,created_at timestamptz);
- create table private.totus_tpv_local_catalogue(id uuid,product_id uuid,variant_id uuid,store_id uuid);
+ create table private.totus_tpv_local_catalogue(id uuid,product_id uuid,variant_id uuid,ean text,store_id uuid);
  create table products(id uuid,details jsonb,store_id uuid);create table product_variants(id uuid,cost_net numeric,product_id uuid);
  insert into private.totus_tpv_local_sales values('00000000-0000-0000-0000-000000000003','{"lines":[]}',1210,'00000000-0000-0000-0000-000000000002','2026-11-21');`);
  await db.exec(await readFile('supabase/totus_home_tpv_summary.sql','utf8'));

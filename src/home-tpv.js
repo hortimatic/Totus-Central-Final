@@ -1,4 +1,4 @@
-import {esc,money} from './utils.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {esc,money} from './utils.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
@@ -9,8 +9,12 @@ export function homeTpvContent(w,read){
  if(read.error)return '<p role="alert">'+esc(read.error)+'</p>';
  const amount=v=>money(v/100),metric=(label,value)=>'<div class="home-ps-metric"><small>'+esc(label)+'</small><strong>'+esc(value)+'</strong></div>';
  const sales=read.salesCents-read.refundCents;
- if(['home.income','home.expenses','home.internal','home.result'].includes(w.type))return metric({'home.income':'Ventas netas de devoluciones','home.expenses':'Gastos contables','home.internal':'Gastos internos','home.result':'Ventas menos gastos'}[w.type],amount(w.type==='home.income'?sales:w.type==='home.result'?sales-read.expense: w.type==='home.expenses'?read.expense:read.internal));
+ if(['home.income','home.expenses','home.internal','home.result'].includes(w.type))return '<div class="kpi">'+metric({'home.income':'Ventas netas de devoluciones','home.expenses':'Gastos contables','home.internal':'Gastos internos','home.result':'Ventas menos gastos'}[w.type],amount(w.type==='home.income'?sales:w.type==='home.result'?sales-read.expense: w.type==='home.expenses'?read.expense:read.internal))+'</div>';
  if(w.type==='home.gain')return metric('Margen estimado',read.marginComplete?amount(read.marginCents):'Faltan costes')+'<details><summary>ⓘ Cómo se calcula</summary><p>Venta sin impuestos menos coste actual del catálogo. Incluye devoluciones. No es beneficio neto.</p></details>';
  if(w.type==='prestashop.top')return (read.top||[]).map(r=>'<div class="summary-row"><span>'+esc(r.name)+'</span><b>'+esc(r.quantity)+'</b></div>').join('')||'<p>Sin productos vendidos.</p>';
- return '<div class="home-ps-metrics">'+metric('Ventas',amount(sales))+metric('Operaciones',String(read.saleCount))+metric('Devoluciones',amount(read.refundCents))+'</div><p>Datos de TotusTPV</p><div>'+((read.series||[]).map(r=>'<div class="summary-row"><span>'+esc(r.date)+'</span><b>'+amount(r.salesCents)+'</b></div>').join('')||'<p>Sin movimientos en este periodo.</p>')+'</div>';
+ if(w.type==='prestashop.quality')return metric('Productos',String(read.products))+metric('Sin código',String(read.missingCodes));
+ if(w.type==='prestashop.orders')return (read.orders||[]).map(r=>'<div class="summary-row"><span>'+esc(r.date)+'<small>'+esc(r.id)+'</small></span><b>'+amount(r.total)+'</b></div>').join('')||'<p>Sin ventas en este periodo.</p>';
+ const daily=new Map();for(const r of read.series||[])daily.set(r.date,(daily.get(r.date)||0)+r.salesCents);
+ const max=Math.max(1,...daily.values());
+ return '<div class="home-ps-metrics">'+metric('Ventas',amount(sales))+metric('Operaciones',String(read.saleCount))+metric('Ticket medio',amount(read.saleCount?read.salesCents/read.saleCount:0))+'</div><div class="home-native-chart">'+[...daily].map(([d,v])=>'<div><span>'+esc(d)+'</span><i style="width:'+Math.max(1,v/max*100)+'%"></i><b>'+amount(v)+'</b></div>').join('')+'</div>';
 }

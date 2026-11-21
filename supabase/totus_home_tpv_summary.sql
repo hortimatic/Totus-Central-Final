@@ -27,7 +27,12 @@ begin
  left join lateral (select x.value line from jsonb_array_elements(origin.snapshot->'lines') x where x.value->>'productId'=l.line->>'productId' limit 1) original on true
  ), daily as (select day_key,sum(amount) amount,sum(orders) orders,sum(return_count) as return_count from movements group by day_key)
  select jsonb_build_object('storeId',p_store,'from',p_from,'to',p_to,'source','totustpv',
+ 'products',(select count(*) from public.products where store_id=p_store),
+ 'missingCodes',(select count(*) from private.totus_tpv_local_catalogue where store_id=p_store and ean=''),
  'salesCents',coalesce((select sum(total_cents) from sales),0),'saleCount',(select count(*) from sales),
+ 'products',(select count(*) from public.products where store_id=p_store),
+ 'missingCodes',(select count(*) from private.totus_tpv_local_catalogue where store_id=p_store and (ean is null or ean='')),
+ 'orders',coalesce((select jsonb_agg(jsonb_build_object('id',id,'date',created_at,'total',total_cents)) from (select * from sales order by created_at desc limit 20) x),'[]'),
  'refundCents',coalesce((select sum(total_cents) from refunds),0),'refundCount',(select count(*) from refunds),
  'marginCents',coalesce((select sum(direction*(net-round(cost*(line->>'qty')::numeric*100))) from priced where cost is not null and net is not null),0),
  'marginComplete',not exists(select 1 from priced where cost is null or net is null),'costBasis','current_catalogue',

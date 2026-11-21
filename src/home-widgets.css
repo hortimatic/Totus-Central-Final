@@ -648,3 +648,6 @@
 @media(max-width:600px){.home-financial-kpis .home-widget-header h3{font-size:12px}.home-financial-kpis .kpi{padding:10px}}
 
 /* Checkbox controls must not inherit the full-width text field rule. */
+
+.home-native-tools{display:flex;justify-content:space-between;gap:8px}.home-native-tools details{position:relative}.home-native-tools details[open]{background:var(--panel);padding:8px}.home-native-chart i{display:block;background:var(--accent);height:6px}.home-native-chart div{margin:8px 0}.home-native-chart span{font-size:12px}
+

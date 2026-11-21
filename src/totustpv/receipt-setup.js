@@ -1,12 +1,12 @@
-import {createPromotionPanel} from './promotions.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {createLoyaltyPanel} from './loyalty.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {createTicketBranding} from './ticket-branding.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {createGeneralSetup} from './general-setup.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {receiptOptions,RECEIPT_DEFAULTS} from './receipt-options.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {REFERENCE_PREFERENCE_FIELDS} from './reference-preferences.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {receiptSetupFieldsHtml} from './reference-interface.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {receiptPreviewHtml} from './documents.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
-import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError} from './receipt-series.js?v=41240daa6d305c91ae2c71a3faa9efc99a1f103d';
+import {createPromotionPanel} from './promotions.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {createLoyaltyPanel} from './loyalty.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {createTicketBranding} from './ticket-branding.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {createGeneralSetup} from './general-setup.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {receiptOptions,RECEIPT_DEFAULTS} from './receipt-options.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {REFERENCE_PREFERENCE_FIELDS} from './reference-preferences.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {receiptSetupFieldsHtml} from './reference-interface.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {receiptPreviewHtml} from './documents.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
+import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError} from './receipt-series.js?v=f687f31258a5aba7822b368ee73f0ac5555a9232';
 export function receiptSetupSettings(value){const normalized=receiptOptions(value);if(!value||typeof value!=='object'||Object.keys(value).some(k=>!Object.hasOwn(RECEIPT_DEFAULTS,k))||Object.keys(RECEIPT_DEFAULTS).some(k=>!Object.hasOwn(value,k)||value[k]!==normalized[k]))throw Error('Revisa las opciones del ticket.');return normalized;}
 export function receiptSetupFromForm(form,current=RECEIPT_DEFAULTS){const next={...current};for(const [id,value] of new FormData(form)){const binding=REFERENCE_PREFERENCE_FIELDS[id];if(binding?.group!=='receipt')throw Error('Campo del ticket no reconocido.');const key=binding.key;next[key]=typeof RECEIPT_DEFAULTS[key]==='boolean'?value==='true':typeof RECEIPT_DEFAULTS[key]==='number'?Number(value):value;}return next;}
 export function createReceiptSetup(options){
