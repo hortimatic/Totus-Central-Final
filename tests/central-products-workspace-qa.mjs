@@ -13,7 +13,7 @@ try{
   const stores=[{id:a,name:'Hortimatic'},{id:b,name:'Tienda física'}];
   const product=(store,id,name)=>({id,store_id:store,name,sku:name,updated_at:'2026-11-21',details:{metaTitle:'SEO propio'},catalogue:[{id,price_cents:1210,tax_basis_points:2100,stock:3,active:true,revision:1,quantity_unit:'unit'}],variants:[]});
   const records=new Map([[a,[product(a,'00000000-0000-0000-0000-000000000011','Producto online')]], [b,[product(b,'00000000-0000-0000-0000-000000000012','Producto físico')]]]);
-  const online=records.get(a)[0];online.details.sourceData={id_category_default:'8',associations:{categories:[{id:'8'}]}};
+  const online=records.get(a)[0];online.source_website='web-online';online.details.sourceData={id_default_image:'123',id_category_default:'8',associations:{categories:[{id:'8'}]}};
   const variantId='00000000-0000-0000-0000-000000000099';online.variants=[{id:variantId,sku:'VAR',attributes:{Color:'Rojo'}}];online.catalogue[0].variant_id=variantId;
   window.centralProductsQA={calls:[],records};
   const rpc=async(name,args)=>{

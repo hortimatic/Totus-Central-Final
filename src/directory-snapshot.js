@@ -1,7 +1,7 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
-import {concurrentRead} from './concurrent-read.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
-import {DIRECTORY_RESOURCES,joinDirectoryAddresses} from './contact-directory-core.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
-import {createDirectorySession} from './contact-directory-session.js?v=9d6c53a43cddc50c55a1f0c392706c36fb428aa6';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
+import {concurrentRead} from './concurrent-read.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
+import {DIRECTORY_RESOURCES,joinDirectoryAddresses} from './contact-directory-core.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
+import {createDirectorySession} from './contact-directory-session.js?v=b05ab9860f07aeda52ff72779f0b103c8b10b724';
 
 // One read path for individual and combined directories; never merges native IDs.
 export async function readDirectorySnapshot(session,kind,{languageTask=null,current=()=>true,onRows=()=>{}}={}){
