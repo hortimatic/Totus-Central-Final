@@ -1,6 +1,6 @@
-import {centralProductChanges} from './central-product-edit.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
-import {centralProductRecord,centralCombinationRecord,centralDefaultCatalogue} from './central-product-adapter.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
-import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=79c16c1e4849d6cf77feaa802f6126ffb6f9eea6';
+import {centralProductChanges,centralProductEditPayload,verifyCentralProductEdit} from './central-product-edit.js';
+import {centralProductRecord,centralCombinationRecord,centralDefaultCatalogue} from './central-product-adapter.js';
+import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js';
 const numericId=value=>/^[1-9]\d{0,14}$/.test(String(value??''));
 const localized=(value,language)=>{const rows=Array.isArray(value)?value:value?.language;return Array.isArray(rows)?rows.find(row=>String(row.id??row.language_id)===language)?.value:value;};
 const decimalFields=new Set(['price','wholesale_price','weight','width','height','depth','additional_shipping_cost','minimal_quantity','low_stock_threshold','unit_price_ratio','ecotax']);
@@ -49,6 +49,8 @@ export function centralProductSyncPlan(job){
  if(!before||before.id!==desired.id||before.store_id!==desired.store_id||before.source_id!==desired.source_id||before.source_website!==desired.source_website)throw Error('El vínculo de la web ha cambiado desde el guardado.');
  if(!intent||Array.isArray(intent)||!['products','combinations'].includes(intent.resource))throw Error('Esta solicitud necesita reconstruir su revisión de campos antes de enviarse.');
  const {changes,variant}=centralProductChanges(before,intent.resource,intent.recordId,intent.changes);
+ const built=centralProductEditPayload(before,intent.resource,intent.recordId,changes);
+ verifyCentralProductEdit(desired,built.payload,intent.resource,intent.recordId,changes);
  const target=intent.resource==='products'?before:variant;
  if(!numericId(target.source_id)||target.source_website!==job.website_key)throw Error('El registro no tiene un vínculo inequívoco con esta web.');
  const record=intent.resource==='products'?centralProductRecord(before):centralCombinationRecord(before,variant,{...(job.source_combinations?.[variant.id]||{}),...(before.details?.copyVariantMetadata?.[variant.id]||{})});
