@@ -33,6 +33,12 @@ try{
  `);
  await db.exec(await readFile('supabase/totus_web_source_counters.sql','utf8'));
  await db.exec(await readFile('supabase/totus_business_cleanup.sql','utf8'));
+ await db.exec(`insert into private.totus_web_source_records values('web-a','products',20001,'{}','${id}',now()),('web-a','products',20002,'{}','${id}',now()) on conflict(website_key,resource,source_id) do update set data=excluded.data;`);
+ assert.equal((await db.query("select records from private.totus_web_source_counters where website_key='web-a' and resource='products'")).rows[0].records,20002);
+ await db.exec(`insert into private.totus_web_source_records values('web-a','products',20001,'{"replayed":true}','${id}',now()) on conflict(website_key,resource,source_id) do update set data=excluded.data;`);
+ assert.equal((await db.query("select records from private.totus_web_source_counters where website_key='web-a' and resource='products'")).rows[0].records,20002);
+ await db.exec("delete from private.totus_web_source_records where website_key='web-a' and resource='products' and source_id>20000");
+ assert.equal((await db.query("select records from private.totus_web_source_counters where website_key='web-a' and resource='products'")).rows[0].records,20000);
  const call=(groups,remove=false,execute=false,fingerprint=null)=>db.query('select public.totus_business_cleanup($1,null,$2,$3,$4,$5,$6) p',[id,groups,remove,execute,fingerprint,'ELIMINAR A']).then(r=>r.rows[0].p);
  let plan=await call(['catalogue']);assert.equal(plan.sourceResources[0].records,20000);assert.equal(plan.sourceResources[0].resource,'products');
  assert.equal(plan.total,20004); // product, catalogue, price job and price item + sources

@@ -14,6 +14,8 @@ begin
  if p_remove and p_drawer is null and not(array['catalogue','contacts','activity','documents','configuration','connections','tasks']<@p_groups) then raise exception 'Para eliminar el establecimiento completo debes incluir todos los grupos.';end if;
  drop table if exists pg_temp.totus_business_cleanup_source_scope;
  create temporary table totus_business_cleanup_source_scope(website_key text,resource text,records bigint,revision bigint,primary key(website_key,resource)) on commit drop;
+ drop table if exists pg_temp.totus_business_cleanup_frontier;
+ create temporary table totus_business_cleanup_frontier(rel oid,key text,depth integer,primary key(rel,key)) on commit drop;
  drop table if exists pg_temp.totus_business_cleanup_rows;
  create temporary table totus_business_cleanup_rows(rel oid not null,key text not null,data jsonb not null,depth integer not null default 0,processed boolean not null default false,primary key(rel,key)) on commit drop;
  if p_remove then
@@ -59,10 +61,15 @@ begin
   end if;
  end if;
  loop
-  changed:=0;pass:=pass+1;if pass>64 then raise exception 'Hay dependencias circulares que requieren revisión. No se ha eliminado ningún dato.';end if;
-  for fk_row in select k.*,n.nspname,child.relname,parent.oid parent_oid,pn.nspname parent_schema,parent.relname parent_name from pg_constraint k join pg_class child on child.oid=k.conrelid join pg_namespace n on n.oid=child.relnamespace join pg_class parent on parent.oid=k.confrelid join pg_namespace pn on pn.oid=parent.relnamespace where k.contype='f' and k.conrelid<>'private.totus_web_source_records'::regclass and n.nspname in('public','private','totus_tpv_internal') and exists(select 1 from pg_temp.totus_business_cleanup_rows r where r.rel=k.confrelid) loop
+  changed:=0;pass:=pass+1;
+  truncate pg_temp.totus_business_cleanup_frontier;
+  insert into pg_temp.totus_business_cleanup_frontier select rel,key,depth from pg_temp.totus_business_cleanup_rows where not processed;
+  exit when not exists(select 1 from pg_temp.totus_business_cleanup_frontier);
+  update pg_temp.totus_business_cleanup_rows r set processed=true from pg_temp.totus_business_cleanup_frontier f where r.rel=f.rel and r.key=f.key;
+  if pass>64 then raise exception 'Hay dependencias circulares que requieren revisión. No se ha eliminado ningún dato.';end if;
+  for fk_row in select k.*,n.nspname,child.relname,parent.oid parent_oid,pn.nspname parent_schema,parent.relname parent_name from pg_constraint k join pg_class child on child.oid=k.conrelid join pg_namespace n on n.oid=child.relnamespace join pg_class parent on parent.oid=k.confrelid join pg_namespace pn on pn.oid=parent.relnamespace where k.contype='f' and k.conrelid<>'private.totus_web_source_records'::regclass and n.nspname in('public','private','totus_tpv_internal') and exists(select 1 from pg_temp.totus_business_cleanup_frontier r where r.rel=k.confrelid) loop
    select string_agg(format('c.%I=p.%I',ca.attname,pa.attname),' and ' order by x.ord) into condition from unnest(fk_row.conkey,fk_row.confkey) with ordinality x(ca_num,pa_num,ord) join pg_attribute ca on ca.attrelid=fk_row.conrelid and ca.attnum=x.ca_num join pg_attribute pa on pa.attrelid=fk_row.confrelid and pa.attnum=x.pa_num;
-   execute format('insert into pg_temp.totus_business_cleanup_rows as target(rel,key,data,depth) select %s,md5(to_jsonb(c)::text),to_jsonb(c),max(r.depth)+1 from pg_temp.totus_business_cleanup_rows r cross join lateral jsonb_populate_record(null::%I.%I,r.data) p join %I.%I c on %s where r.rel=%s and (%L<>''n'' or exists(select 1 from pg_temp.totus_business_cleanup_rows known where known.rel=%s and known.key=md5(to_jsonb(c)::text))) group by to_jsonb(c) on conflict(rel,key) do update set depth=excluded.depth where target.depth<excluded.depth',fk_row.conrelid,fk_row.parent_schema,fk_row.parent_name,fk_row.nspname,fk_row.relname,condition,fk_row.confrelid,fk_row.confdeltype,fk_row.conrelid);
+   execute format('insert into pg_temp.totus_business_cleanup_rows as target(rel,key,data,depth) select %s,md5(to_jsonb(c)::text),to_jsonb(c),max(frontier.depth)+1 from pg_temp.totus_business_cleanup_frontier frontier join pg_temp.totus_business_cleanup_rows r on r.rel=frontier.rel and r.key=frontier.key cross join lateral jsonb_populate_record(null::%I.%I,r.data) p join %I.%I c on %s where r.rel=%s and (%L<>''n'' or exists(select 1 from pg_temp.totus_business_cleanup_rows known where known.rel=%s and known.key=md5(to_jsonb(c)::text))) group by to_jsonb(c) on conflict(rel,key) do update set depth=excluded.depth,processed=false where target.depth<excluded.depth',fk_row.conrelid,fk_row.parent_schema,fk_row.parent_name,fk_row.nspname,fk_row.relname,condition,fk_row.confrelid,fk_row.confdeltype,fk_row.conrelid);
    get diagnostics matching=row_count;changed:=changed+matching;
   end loop;
   exit when changed=0;
