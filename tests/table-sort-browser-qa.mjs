@@ -18,7 +18,7 @@ try{
   const ui=createProductosUI({rpc:async()=>({}),invoke:async()=>{throw Error('No remote writes');},actor:()=> 'sort-test',allowed:()=>true,centralData:data});await ui.mount(document.querySelector('#productosRoot'));
  });
  const firstId=()=>page.locator('#catalogo-table-body tr:first-child [data-pr-column-cell=id]').innerText();
- await page.locator('#catalogo-table-body tr').first().waitFor();assert.equal(await firstId(),'31','Source creation date, before pagination; import timestamp must not replace it');
+ await page.locator('#catalogo-table-body tr').first().waitFor();assert.equal(await page.locator('[data-pr-sort] option').first().textContent(),'Más recientes');assert.equal(await page.getByRole('button',{name:'Buscar en Ordenar productos',exact:true}).count(),0);assert.equal(await firstId(),'31','Source creation date, before pagination; import timestamp must not replace it');
  await page.getByRole('button',{name:'Ordenar por ID',exact:true}).click();assert.equal(await firstId(),'1');assert.equal(await page.locator('[data-pr-column-heading=id]').getAttribute('aria-sort'),'ascending');
  await page.getByRole('button',{name:'Siguiente',exact:true}).click();assert.equal(await firstId(),'21','Sort full result set before taking the second page');
  await page.getByRole('button',{name:'Ordenar por ID',exact:true}).click();assert.equal(await firstId(),'31');assert.equal(await page.locator('[data-pr-page-number]').inputValue(),'1');

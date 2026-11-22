@@ -1,14 +1,14 @@
-import {productDisplayId} from './record-identifiers.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {columnSettingsRow} from './column-settings.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {productGallery} from './productos-gallery.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {esc} from './utils.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {fieldHelp} from './components.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {productDisplayId} from './record-identifiers.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {columnSettingsRow} from './column-settings.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {productGallery} from './productos-gallery.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {esc} from './utils.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {fieldHelp} from './components.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -84,7 +84,7 @@ export function stitchCatalog({stores=WEBSITE_CHOICES,central=false,sort={field:
  if(canEdit&&pricingMode){const batch=document.createElement('button');batch.type='button';batch.className='btn secondary';batch.dataset.prAction='catalog-price-batch';batch.textContent='Ajustar precios seleccionados';batch.disabled=pending||!selected.size||selected.size>200;batch.title='Revisar hasta 200 precios base de los productos seleccionados, sin IVA';toolbar.append(batch);const offers=document.createElement('button');offers.type='button';offers.className='btn secondary';offers.dataset.prAction='catalog-offer-batch';offers.textContent=offerPending?'Retomar ofertas pendientes':'Aplicar ofertas seleccionadas';offers.disabled=pending||!offerPending&&(!selected.size||selected.size>200);toolbar.append(offers);}
  const controls=view.firstElementChild;controls.classList.add('prd-panel','prd-catalog-controls');controls.replaceChildren(filterControls,toolbar,selectionBar);
  const loading=document.createElement('div');loading.className='prd-catalog-loading';loading.innerHTML='<div class="prd-catalog-read-state"><span>'+rows.length+' productos cargados'+(hasMore?' · quedan páginas por consultar':' · consulta completa')+'</span>'+fieldHelp('Alcance del catálogo',central?'Los productos se consultan en los datos guardados de Central. No hace falta una conexión activa con una web. Mostrar controla las filas visibles.':'La tienda busca en todo su catálogo por nombre, referencia, EAN o ID. Solo se cargan las páginas de resultados solicitadas; Mostrar controla las filas visibles.')+'</div><button type="button" data-pr-action="catalog-find" '+(pending?'disabled':'')+'>Buscar ID / referencia en tienda</button><button type="button" data-pr-action="catalog-load" '+(pending?'disabled':'')+'>Actualizar</button>';const clear=document.createElement('button');clear.type='button';clear.dataset.prAction='catalog-clear-filters';clear.textContent='Limpiar búsqueda y filtros';loading.append(clear);toolbar.after(loading);
- const orderLabel=document.createElement('label');orderLabel.className='prd-catalog-order';orderLabel.textContent='Ordenar';const order=document.createElement('select');order.dataset.prSort='';order.dataset.draftIgnore='';order.setAttribute('aria-label','Ordenar productos');order.disabled=pending;
+ const orderLabel=document.createElement('label');orderLabel.className='prd-catalog-order';orderLabel.textContent='Ordenar';const order=document.createElement('select');order.dataset.prSort='';order.dataset.preserveOptionOrder='';order.dataset.draftIgnore='';order.setAttribute('aria-label','Ordenar productos');order.disabled=pending;
  const sortOptions=[['date_add:desc','Más recientes'],['date_add:asc','Más antiguos'],['date_upd:desc','Actualizados recientemente'],['date_upd:asc','Actualizados hace más tiempo'],['id:asc','ID · menor a mayor'],['id:desc','ID · mayor a menor'],['name:asc','Nombre · A–Z'],['name:desc','Nombre · Z–A'],['gross:asc','Precio · menor a mayor'],['gross:desc','Precio · mayor a menor'],['stock:asc','Existencias · menor a mayor'],['stock:desc','Existencias · mayor a menor']];
  const selectedSort=sort.field+':'+sort.direction;if(!sortOptions.some(([key])=>key===selectedSort))sortOptions.push([selectedSort,(PRODUCT_COLUMNS.find(([key])=>key===sort.field)?.[1]||sort.field)+(sort.direction==='asc'?' · ascendente':' · descendente')]);for(const [key,text]of sortOptions)order.append(new Option(text,key,false,key===selectedSort));orderLabel.append(order);loading.append(orderLabel);
  const purchase=document.createElement('label');purchase.className='prd-purchase-rate';purchase.innerHTML='<span>RE de compra estimado (%)</span><input type="number" min="0" max="100" step="0.01" data-pr-price-option="re" value="'+esc(purchaseSurcharge)+'" aria-label="Recargo de compra estimado (%)">'+fieldHelp('Coste con IVA y recargo','Coste base × (1 + IVA / 100 + recargo / 100). Usa el IVA general de España verificado para el producto y el recargo que indiques aquí. Es una estimación: no acredita el impuesto de vuestra factura de compra ni modifica la tienda.');toolbar.append(purchase);

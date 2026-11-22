@@ -1,5 +1,5 @@
-import {positionColumnPanel} from './column-settings.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
-import {standardizeColumnPanels} from './column-settings.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {positionColumnPanel} from './column-settings.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
+import {standardizeColumnPanels} from './column-settings.js?v=87885b6ccdaa65f73df753264a44e46b04d9e6ea';
 // Preserve the select as the form's source of truth; stage multi-selection
 // inside one keyboard-accessible dialog before dispatching the form change.
 const fold=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');
@@ -22,6 +22,7 @@ export function enhanceProductSelects(root){
 const entityNames=/(?:supplier|provider|customer|client|brand|manufacturer|category|family|product|employee|seller|channel|member|usuario|proveedor|cliente|marca|familia|categoria|producto|empleado|canal)/i;
 const alphabetical=new Intl.Collator('es',{numeric:true,sensitivity:'base'});
 export function sortEntitySelect(select){
+ if(select.hasAttribute('data-preserve-option-order'))return false;
  const context=[select.name,select.id,select.getAttribute('aria-label'),...Object.entries(select.dataset).flat(),select.closest('label')?.childNodes[0]?.textContent].join(' ');
  if(!entityNames.test(context)||select.closest('.prd-columns,.tc-settings-panel'))return false;
  const groups=[select,...select.querySelectorAll('optgroup')];
@@ -32,6 +33,7 @@ export function sortEntitySelect(select){
 }
 export function enhanceSearchableSelects(root){
  for(const select of root.querySelectorAll('select')){
+  if(select.hasAttribute('data-preserve-option-order'))continue;
   const entity=sortEntitySelect(select);
   if((select.options.length<12&&(!entity||select.options.length<3))||select.closest('.prd-columns,.tc-settings-panel,.prd-select-control'))continue;
   const title=select.getAttribute('aria-label')||select.closest('label')?.querySelector('b,span')?.textContent?.trim()||select.closest('label')?.childNodes[0]?.textContent?.trim()||select.name||'Opciones';
