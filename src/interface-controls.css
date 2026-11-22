@@ -1,5 +1,24 @@
 /* Shared control geometry. Mi interfaz owns colours, typography and corner shape. */
 :root{--tc-control-height:36px;--tc-control-gap:8px;--tc-dialog-gap:16px}
+/* General actions share one scale across modules. Calendars, product tiles,
+   icon controls and checkout keys keep their purpose-specific geometry. */
+@media screen{
+ :is(#app #content,#modalHost) :is(.btn,.prd-primary-action,.prd-secondary-action,.prd-table-button,.master-tab-btn,.subtab-btn):not(.close-btn,.icon-btn,.prd-photo-trigger){
+  box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  min-height:var(--tc-control-height)!important;padding:7px 10px!important;
+  font-family:inherit;font-size:13px!important;line-height:1.3!important;
+  border-radius:var(--appearance-button-radius,var(--r,8px))!important;
+  max-width:100%;vertical-align:middle;
+ }
+ #app #content .tasks-toolbar .btn{height:var(--tc-control-height)!important}
+ :is(#content,#modalHost) :is(.inline-actions,.form-actions,.module-actions,.directory-actions){gap:var(--tc-control-gap);align-items:center;flex-wrap:wrap}
+ :is(#content,#modalHost) :is(.field,.form-grid>label,.directory-form-grid>label,.tasks-filters>label){min-width:0}
+ :is(#content,#modalHost) :is(.field,.form-grid>label,.directory-form-grid>label,.tasks-filters>label)>:is(input,select):not([type=checkbox],[type=radio],[type=color],[type=range],[type=file]){
+  box-sizing:border-box;min-height:var(--tc-control-height);max-width:100%;font-family:inherit;
+  border-radius:var(--appearance-input-radius,var(--r,8px));
+ }
+}
+@media screen and (max-width:600px){:root{--tc-control-height:44px}}
 .prd-select-control{display:flex;align-items:stretch;gap:5px;min-width:0;width:100%}.prd-select-control>select{flex:1;min-width:0;width:0}.prd-select-trigger{flex:none;width:36px;min-height:36px;padding:0;border:1px solid var(--line);border-radius:var(--appearance-button-radius,var(--r,8px));background:var(--panel);color:var(--accent);font:inherit}
 .prd-select-dialog{width:min(460px,calc(100vw - 24px));padding:12px;max-height:calc(100dvh - 24px);overflow:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);color:var(--ink)}.prd-select-dialog>header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.prd-select-dialog h3{margin:0;font-size:16px}.prd-select-dialog>header>button{min-width:34px;min-height:34px}.prd-select-search{width:100%;min-height:38px;padding:8px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);color:var(--ink);font:inherit}.prd-select-options{display:flex;flex-direction:column;gap:4px;max-height:min(50dvh,360px);overflow:auto;margin-top:8px}.prd-select-option{min-height:36px;width:100%;display:flex;align-items:center;gap:8px;padding:7px 9px;text-align:left;white-space:normal;overflow-wrap:anywhere;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);color:var(--ink);font:inherit}.prd-select-option[hidden]{display:none!important}.prd-select-option>input[type=checkbox]{flex:none;width:18px;height:18px}.prd-picker-status{font-size:12px;margin:8px 0 0}
 :is(#content,#modalHost) :is(.form-grid,.directory-form-grid)>label:has(>input[type=checkbox]){display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:8px;grid-column:1/-1;min-height:32px}

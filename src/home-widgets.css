@@ -731,7 +731,7 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 .dashboard-page .activity-store-row>strong{font-size:12px;overflow-wrap:anywhere}
 .dashboard-page .activity-store-row>div{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:600px){.dashboard-page .activity-total-series>div{grid-template-columns:1fr 1fr}.dashboard-page .activity-store-row{grid-template-columns:minmax(0,1fr)}.dashboard-page .home-activity-margin{align-items:flex-start}.dashboard-page .home-activity-margin .kpi{display:grid;gap:4px}}
-@container activity-widget (min-width:1000px){.dashboard-page .activity-interactive>.activity-legend:has(.activity-total-series){grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:start}}
+@container activity-widget (min-width:1000px){.dashboard-page .activity-interactive>.activity-legend:has(.activity-total-series){grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}.dashboard-page .activity-legend :is(.activity-total-series,.activity-store-series){align-self:stretch;box-sizing:border-box}}
 .home-task-calendar{container:home-task / inline-size}
 .home-task-controls{display:grid;grid-template-columns:minmax(140px,1fr) minmax(140px,170px) auto auto;align-items:end;gap:10px}
 .home-task-controls label{display:grid;gap:3px;margin:0;min-width:0;font-size:11px;color:var(--muted,#64748b)}
