@@ -1,29 +1,29 @@
-import {centralPromotionIntent} from './promotions.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {operatorAcknowledgement} from './operator-acknowledgement.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {cashSummaryPresentation} from './cash-visibility.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {originalRefundPayments} from './refund-payments.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {offlineBasketCommercial} from './offline-basket-commercial.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {offlineBasketPrices} from './offline-basket-prices.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {createOfflineSourceStore} from './offline-source-store.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
+import {centralPromotionIntent} from './promotions.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {operatorAcknowledgement} from './operator-acknowledgement.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {cashSummaryPresentation} from './cash-visibility.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {originalRefundPayments} from './refund-payments.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {offlineBasketCommercial} from './offline-basket-commercial.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {offlineBasketPrices} from './offline-basket-prices.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {createOfflineSourceStore} from './offline-source-store.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
 /** Browser adapter: only normal authenticated Central calls. No shop URL,
  * credentials, native commands or privileged client can enter this module.
  * Request IDs survive response loss; financial commands are never auto-retried.
  */
-import {lineName} from './line-name.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {budgetDraft} from './budget-contract.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {saleNote} from './sale-note.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {taxSummary} from './tax-summary.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {parkingExpiry} from './parking-options.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {quotePaymentMethods} from './payment-options.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
-import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
+import {lineName} from './line-name.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {budgetDraft} from './budget-contract.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {saleNote} from './sale-note.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {taxSummary} from './tax-summary.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {parkingExpiry} from './parking-options.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {quotePaymentMethods} from './payment-options.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
+import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=49072b6a1778b8463ea79e5226527c4c8f252e57';
 const need=(ok,message)=>{if(!ok)throw new Error(message);};
 const clone=value=>structuredClone(value);
 const ordered=value=>Array.isArray(value)?value.map(ordered):value&&typeof value==='object'?
@@ -327,7 +327,7 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
     return receipt(result,{totalCents:quote.totalCents,changeCents:change});
    }catch(error){if(['TPV_ACTION_APPROVAL_REQUIRED','TPV_APPROVAL_INVALID'].includes(error.code))throw error;return receipt({id:operationId,status:'uncertain',totalCents:quote.totalCents},{changeCents:change}); }
   },
-  async recover({operationId}){const status=await call('sale-status',{},operationId);
+  async recover({operationId}){let status;try{status=await call('sale-status',{},operationId);}catch(error){const requests=saved();if((error.code||error.message)==='TPV_OPERATION_NOT_FOUND'&&requests.prepare?.scope===scopeKey()&&requests.prepare.id===operationId&&!(requests['submitted-sale']?.scope===scopeKey()&&requests['submitted-sale'].id===operationId))throw Error('La preparación anterior no llegó a generar una venta. Vuelve al ticket para calcularla de nuevo.');throw error;}
    if(status.status==='ready'){
     taxSummary(status);
     need(status.canSubmit!==false,'Este cobro lo preparó otro operador. No vuelvas a cobrarlo.');
