@@ -29,6 +29,12 @@ try{
  assert.match(await page.locator('.ps-order-expanded').innerText(),/Devoluciones confirmadas/);
  assert.match(await page.locator('.ps-order-expanded').innerText(),/Tarjeta/);
  assert.ok(!(await page.evaluate(()=>salesNativeQA.calls)).some(c=>/prestashop|connections|sales_context/.test(c.name)));
+ await page.addStyleTag({url:'http://127.0.0.1:4199/src/prestashop.css'});
+ await page.addStyleTag({url:'http://127.0.0.1:4199/src/interface-controls.css'});
+ await page.locator('[data-prestashop-action="tab"][data-tab="summary"]').click();
+ for(const width of [969,1920]){await page.setViewportSize({width,height:900});const heights=await page.locator('.ps-kpis>.ps-kpi').evaluateAll(cards=>cards.map(c=>c.getBoundingClientRect().height));assert.equal(heights.length,4);assert.ok(Math.max(...heights)-Math.min(...heights)<2,JSON.stringify({width,heights}));assert.ok(Math.max(...heights)<190,JSON.stringify({width,heights}));}
+ const gainText=await page.locator('.ps-native-summary').innerText();assert.match(gainText,/Margen de ganancia/i);assert.match(gainText,/Margen sobre venta/);assert.doesNotMatch(gainText,/Ventas brutas|Cobrado antes|Devoluciones/);
  assert.deepEqual(errors,[]);
  console.log('Existing Sales workspace: native totals, common store selector, period, isolation, line details, card payments and refunds verified without PrestaShop.');
 }finally{await browser.close();}
+

@@ -273,3 +273,9 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
 #app #content .team-chat .chat-compose-tools>[data-chat="switcher"]:after{font-size:17px!important}
 #salesRoot .ps-native-summary .ps-order-totals{display:grid;gap:4px;padding:0;border:0;background:none}
 #salesRoot .ps-native-summary .ps-order-totals>span{display:flex;justify-content:space-between;gap:12px;font-size:12px;text-transform:none;letter-spacing:normal}
+
+/* Sales indicators stay compact and share their row height. */
+#salesRoot .ps-kpis>.ps-kpi{min-height:0!important;height:auto!important;padding:14px!important;gap:8px;align-self:stretch!important}
+#salesRoot .ps-kpis>.ps-kpi>div:first-child{min-height:28px}
+#salesRoot .ps-kpis>.ps-kpi>strong{font-size:24px;line-height:1.2}
+#salesRoot .ps-kpis>.ps-kpi>small{line-height:1.4}
