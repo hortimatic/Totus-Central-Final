@@ -1,9 +1,9 @@
-import {productPhoto} from './productos-catalog.js?v=17eb33d66b8590dbd94a7ab512b1db0beee2f42e';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=17eb33d66b8590dbd94a7ab512b1db0beee2f42e';
-import {esc} from './utils.js?v=17eb33d66b8590dbd94a7ab512b1db0beee2f42e';
-import {textValue} from './productos-core.js?v=17eb33d66b8590dbd94a7ab512b1db0beee2f42e';
-import {prestashopProductImage} from './prestashop-readonly.js?v=17eb33d66b8590dbd94a7ab512b1db0beee2f42e';
-import {fieldHelp} from './components.js?v=17eb33d66b8590dbd94a7ab512b1db0beee2f42e';
+import {productPhoto} from './productos-catalog.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
+import {esc} from './utils.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
+import {textValue} from './productos-core.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
+import {prestashopProductImage} from './prestashop-readonly.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
+import {fieldHelp} from './components.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
 
 const types={attributes:{label:'Atributos',group:'product_options',values:'product_option_values',parent:'id_attribute_group',description:'Opciones de compra que distinguen combinaciones: color, talla, nicotina…'},features:{label:'Características',group:'product_features',values:'product_feature_values',parent:'id_feature',description:'Información del producto completo: material, capacidad, composición… No crea combinaciones.'}};
 export function createAttributesWorkspace({invoke,actor,contextKey,canEdit,canCreate,onEdit,onCreate,onProduct,hasProduct,native=false,storeName=websiteName,readAssociations=null}){

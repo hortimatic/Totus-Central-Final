@@ -321,7 +321,7 @@
 :is(#content,main) .totus-tpv.tpv-active .tpv-catalogue>.inline-actions{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px;align-items:center}
 :is(#content,main) .totus-tpv.tpv-active .tpv-catalogue>.inline-actions>span{font-size:11px;line-height:1.3;text-align:center;min-width:0}
 :is(#content,main) .totus-tpv.tpv-active .tpv-catalogue>.inline-actions>.btn{font-size:12px;min-height:36px;padding:6px 9px}
-@media(min-width:761px) and (max-width:1100px){:is(#content,main) .totus-tpv.tpv-active .tpv-reference-payments{grid-template-columns:repeat(3,minmax(0,1fr))}:is(#content,main) .totus-tpv.tpv-active .tpv-reference-payments>button{min-width:0;min-height:40px;font-size:11px;white-space:normal}}
+@media(min-width:761px) and (max-width:1100px){:is(#content,main) .totus-tpv.tpv-active .tpv-reference-payments{grid-template-columns:repeat(3,minmax(0,1fr))}:is(#content,main) .totus-tpv.tpv-active .tpv-reference-payments>button{min-width:0;min-height:30px;font-size:11px;white-space:normal}}
 :is(#content,main) .totus-tpv.tpv-active .tpv-product-list.tpv-view-grid{grid-template-columns:repeat(auto-fill,minmax(136px,1fr));grid-auto-rows:max-content;align-items:start}
 :is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card .tpv-product strong{white-space:normal}
 :is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card .tpv-product>img{position:static;max-width:100%;pointer-events:none}
@@ -350,3 +350,16 @@
 :is(#content,main) .totus-tpv.tpv-active :is(.tpv-view-list,.tpv-view-compact) .tpv-catalogue-card>.tpv-product{display:grid;grid-template-columns:48px minmax(0,1fr) auto;grid-template-rows:auto;align-items:center;gap:10px;min-height:76px;height:auto;padding:10px 40px 10px 10px}
 :is(#content,main) .totus-tpv.tpv-active :is(.tpv-view-list,.tpv-view-compact) .tpv-product>:is(img,.tpv-product-placeholder){width:48px;height:48px;object-fit:contain}
 @media(max-width:520px){:is(#content,main) .totus-tpv.tpv-active .tpv-nav-search{flex-basis:100%}:is(#content,main) .totus-tpv.tpv-active .tpv-main-nav>.tab{flex:1}:is(#content,main) .totus-tpv.tpv-active .tpv-view-grid .tpv-catalogue-card>.tpv-product{height:174px;min-height:174px;padding:8px;grid-template-rows:74px 2.6em auto}:is(#content,main) .totus-tpv.tpv-active .tpv-view-grid .tpv-product>:is(img,.tpv-product-placeholder){height:74px}}
+
+:is(#content,main) .totus-tpv.tpv-active .tpv-ticket-footer{padding:7px 10px;display:grid;gap:5px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-ticket-total{margin:0;min-height:30px;gap:8px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-ticket-total strong{font-size:23px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-ticket-footer .btn,:is(#content,main) .totus-tpv.tpv-active .tpv-reference-payments>button{min-height:32px;padding:4px 7px;font-size:12px;line-height:1.25}
+:is(#content,main) .totus-tpv.tpv-active .tpv-ticket-footer .inline-actions{margin:0;gap:5px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-reference-payments{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:0;gap:4px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-ticket-footer [data-tpv-action=payment]{min-height:34px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-ticket-options{margin:0;font-size:12px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-controls-compact>label{font-size:11px;gap:3px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-controls-compact select{height:32px;min-height:32px;padding:4px 7px;font-size:12px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-options>summary,:is(#content,main) .totus-tpv.tpv-active .tpv-category-back{width:32px;height:32px;min-height:32px;min-width:32px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-catalogue>.inline-actions>.btn{min-height:32px;padding:3px 7px;font-size:11px}
