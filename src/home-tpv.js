@@ -1,9 +1,9 @@
-import {saleDisplayReference} from './record-identifiers.js?v=65d4aca5aefe7db28064e4d7cb9b621b2b8f003c';
-import {esc,money} from './utils.js?v=65d4aca5aefe7db28064e4d7cb9b621b2b8f003c';
-import {expenseCostAmount} from './calculations.js?v=65d4aca5aefe7db28064e4d7cb9b621b2b8f003c';
-import {activityChartHtml} from './dashboard-activity.js?v=65d4aca5aefe7db28064e4d7cb9b621b2b8f003c';
-import {homeDateRange} from './home-period.js?v=65d4aca5aefe7db28064e4d7cb9b621b2b8f003c';
-import {fieldHelp} from './components.js?v=65d4aca5aefe7db28064e4d7cb9b621b2b8f003c';
+import {saleDisplayReference} from './record-identifiers.js?v=5542d02e8809ef66dbcc218ccb8549374ec22846';
+import {esc,money} from './utils.js?v=5542d02e8809ef66dbcc218ccb8549374ec22846';
+import {expenseCostAmount} from './calculations.js?v=5542d02e8809ef66dbcc218ccb8549374ec22846';
+import {activityChartHtml} from './dashboard-activity.js?v=5542d02e8809ef66dbcc218ccb8549374ec22846';
+import {homeDateRange} from './home-period.js?v=5542d02e8809ef66dbcc218ccb8549374ec22846';
+import {fieldHelp} from './components.js?v=5542d02e8809ef66dbcc218ccb8549374ec22846';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
@@ -64,7 +64,7 @@ export function nativeHomeActivity(w,data,expenses,stores=[]){
  for(const [index,store] of stores.filter(s=>s.active!==false&&Object.hasOwn(data,s.id)).entries()){
   const summary=data[store.id].native,points=new Map([...map.keys()].map(key=>[key,{key,sales:0,margin:0}]));
   for(const r of summary.series||[]){const p=points.get(r.date.slice(0,monthly?7:10));if(p){p.sales+=r.salesCents/100;if(r.marginComplete!==true||!Number.isFinite(r.marginCents))p.margin=null;else if(p.margin!==null)p.margin+=r.marginCents/100;}}
-  for(const [offset,field,label] of [[0,'sales','Ventas'],[25,'margin','Ganancia']])comparisons.push({key:'store-'+index+'-'+field,label:label+' · '+store.name,color:'hsl('+((index*137+195+offset)%360)+' 65% 42%)',points:[...points.values()],valueKey:field});
+  for(const [offset,field,label] of [[0,'sales','Ventas'],[25,'margin','Ganancia']])comparisons.push({key:'store-'+index+'-'+field,label:label+' · '+store.name,color:'hsl('+((index*137+195+offset)%360)+' 65% 42%)',points:[...points.values()],valueKey:field,group:store.name});
  }
  return '<div class="home-activity-margin">'+nativeHomeFinance({...w,type:'home.gain'},data,expenses)+'<button type="button" class="btn secondary" data-home-command="fetch" data-id="'+esc(w.id)+'">Actualizar margen</button></div>'+activityChartHtml({points:[...map.values()],monthly,includeMargin:true},{comparisons}).replace(/<p class="small muted">[\s\S]*?<\/p>/,fieldHelp('Actividad de tus tiendas','Ventas confirmadas de TotusTPV menos devoluciones y gastos registrados de la tienda y periodo seleccionados. La línea rosa representa la ganancia comercial sin impuestos menos coste de producto; no descuenta gastos generales. Los días sin costes completos quedan sin trazar, nunca se convierten en cero. Ingresos menos gastos es una cifra diferente.')); 
 }
