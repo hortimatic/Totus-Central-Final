@@ -1,7 +1,7 @@
-@import url("./productos-relations.css?v=2c3a3b4a0bf47656dd6eed427b52aba6e246e76d");
-@import url("./productos-professional.css?v=2c3a3b4a0bf47656dd6eed427b52aba6e246e76d");
-@import url("./productos-photo-preview.css?v=2c3a3b4a0bf47656dd6eed427b52aba6e246e76d");
-@import url("./productos-stitch.css?v=2c3a3b4a0bf47656dd6eed427b52aba6e246e76d");
+@import url("./productos-relations.css?v=d9c8e23fa7a8e657e6f5ca72380b00dc74f93884");
+@import url("./productos-professional.css?v=d9c8e23fa7a8e657e6f5ca72380b00dc74f93884");
+@import url("./productos-photo-preview.css?v=d9c8e23fa7a8e657e6f5ca72380b00dc74f93884");
+@import url("./productos-stitch.css?v=d9c8e23fa7a8e657e6f5ca72380b00dc74f93884");
 /* Legacy business controls retained until their individual Stitch mapping is verified. */
 .productos-page{min-width:0}
 .prd-shell{display:grid;gap:16px;min-width:0}
