@@ -1,7 +1,7 @@
-import {localCategories,categoryFilterIds} from './local-categories.js?v=ebfe063b33c332fa1e355d58165167d0c664fbdd';
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=ebfe063b33c332fa1e355d58165167d0c664fbdd';
+import {localCategories,categoryFilterIds} from './local-categories.js?v=8f173a6a7e708aa1645f1115adee9fde2dd3d4b7';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=8f173a6a7e708aa1645f1115adee9fde2dd3d4b7';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=ebfe063b33c332fa1e355d58165167d0c664fbdd';
+import {catalogueSearchFields} from './search-preferences.js?v=8f173a6a7e708aa1645f1115adee9fde2dd3d4b7';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
@@ -47,7 +47,7 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
   async categories(){const drawer=station(),result=await call('totus_tpv_local_categories',{p_drawer:drawer.id});need(station().id===drawer.id&&result?.storeId===drawer.storeId,'La tienda o la caja ha cambiado durante la consulta.');const visible=localCategories(result.categories);categoryTree=copy(result.categories);return visible;},
   async searchProducts({search='',page:pageIndex=0,sortField='name',sortDirection='asc',categoryId=0,searchFields,catalogueFilters={}}={}){
    active();need(Number.isSafeInteger(pageIndex)&&pageIndex>=0&&pageIndex<=25000,'Página de catálogo no válida.');const fields=catalogueSearchFields(searchFields),items=await page('catalogue'),term=search.toLocaleLowerCase('es');
-   const chosen=categoryFilterIds(categoryTree,categoryId),excluded=new Set((catalogueFilters.excludedCategories||[]).flatMap(id=>[...categoryFilterIds(categoryTree,id)]));
+   const chosen=new Set(categoryId?[categoryId]:[]),excluded=new Set((catalogueFilters.excludedCategories||[]).flatMap(id=>[...categoryFilterIds(categoryTree,id)]));
    const products=items.map(p=>({id:p.id,productId:p.product_id,variantId:p.variant_id,name:p.name,reference:p.reference,ean13:p.ean,priceCents:p.price_cents,netPriceCents:Number((BigInt(p.price_cents)*10000n+BigInt(10000+p.tax_basis_points)/2n)/BigInt(10000+p.tax_basis_points)),stock:p.stock,saleEnabled:p.active!==false,quantityUnit:p.quantity_unit||'unit',revision:p.revision,categoryId:p.metadata?.categoryId||0,categoryIds:Array.isArray(p.metadata?.categoryIds)?p.metadata.categoryIds.filter(Number.isSafeInteger):[],category:p.metadata?.category||'',variantAttributes:p.metadata?.variantAttributes||[],imageUrl:p.metadata?.imageUrl||'',images:p.metadata?.images||[]}))
    .filter(p=>(!categoryId||[p.categoryId,...p.categoryIds].some(id=>chosen.has(id)))&&![p.categoryId,...p.categoryIds].some(id=>excluded.has(id))&&(!catalogueFilters.hideUnavailable||p.stock>0)&&(!term||fields.some(f=>String(p[{reference:'reference',ean13:'ean13',name:'name'}[f]||f]||'').toLocaleLowerCase('es').includes(term))));
    const field={price:'priceCents',stock:'stock',reference:'reference',id:'id'}[sortField]||'name';products.sort((a,b)=>{const x=a[field],y=b[field];return ((typeof x==='number'?x-y:String(x).localeCompare(String(y),'es',{numeric:true}))||a.id.localeCompare(b.id))*(sortDirection==='desc'?-1:1);});const result=products.slice(pageIndex*40,(pageIndex+1)*40);result.totalCount=products.length;result.productCount=new Set(products.map(row=>row.productId||row.id)).size;result.hasMore=(pageIndex+1)*40<products.length;return result;
