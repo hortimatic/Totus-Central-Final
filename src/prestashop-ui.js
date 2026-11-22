@@ -1,24 +1,24 @@
-import {openWebsiteImport} from './website-import-ui.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {centralSaleRow,centralSaleLines} from './central-sales-data.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {websiteName} from './website-registry.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {concurrentRead} from './concurrent-read.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {catalogQualityPanel} from './catalog-quality-ui.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {catalogQualityReport} from './catalog-quality.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {createOrdersTablePreferences,sortOrderRows,renderOrdersTable,attachOrdersTable} from './prestashop-orders-table.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {enhanceProductSelects} from './productos-controls.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {approximateOrderMargin} from './prestashop-margin.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {listPage,catalogCategoryChoices,filterCatalogRows} from './prestashop-list-page.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {paymentFilterChoices,matchesPaymentFilter} from './prestashop-payment-filter.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {PRESTASHOP_STORES as REGISTERED_STORES,storeConnection,PRESTASHOP_RESOURCES,prestashopProductImage} from './prestashop-readonly.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {PRESTASHOP_QUERY_RECIPES,recipeProducts,withinDailyWindow,detailedRecipe} from './prestashop-queries.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {orderInsights,catalogIssues,sourceCents,ticketSourceKey,rotationOpportunities} from './prestashop-insights.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {esc,money,fmtDate,isoToday,csv,download} from './utils.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {interfaceIcon} from './interface-icons.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {fieldHelp} from './components.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {STOCK_STATES,stockReceiptStatus} from './stock-core.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
-import {prestashopFlowStore,prestashopFlowRange} from './prestashop-flows.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {openWebsiteImport} from './website-import-ui.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {centralSaleRow,centralSaleLines} from './central-sales-data.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {websiteName} from './website-registry.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {concurrentRead} from './concurrent-read.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {catalogQualityPanel} from './catalog-quality-ui.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {catalogQualityReport} from './catalog-quality.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {createOrdersTablePreferences,sortOrderRows,renderOrdersTable,attachOrdersTable} from './prestashop-orders-table.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {enhanceProductSelects} from './productos-controls.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {approximateOrderMargin} from './prestashop-margin.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {listPage,catalogCategoryChoices,filterCatalogRows} from './prestashop-list-page.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {paymentFilterChoices,matchesPaymentFilter} from './prestashop-payment-filter.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {PRESTASHOP_STORES as REGISTERED_STORES,storeConnection,PRESTASHOP_RESOURCES,prestashopProductImage} from './prestashop-readonly.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {PRESTASHOP_QUERY_RECIPES,recipeProducts,withinDailyWindow,detailedRecipe} from './prestashop-queries.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {orderInsights,catalogIssues,sourceCents,ticketSourceKey,rotationOpportunities} from './prestashop-insights.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {esc,money,fmtDate,isoToday,csv,download} from './utils.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {interfaceIcon} from './interface-icons.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {fieldHelp} from './components.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {STOCK_STATES,stockReceiptStatus} from './stock-core.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
+import {prestashopFlowStore,prestashopFlowRange} from './prestashop-flows.js?v=b3ca90a2eb900bedd12757512f0cede4095409f1';
 const tabs=[['summary','Resumen'],['orders','Pedidos y ventas'],['catalog','Catálogo'],['queries','Consultas'],['cash','Cajas y facturas'],['receipts','Recepciones y cotejo'],['saved_queries','Consultas guardadas'],['connection','Conexión']];
 const labels={id:'ID',id_product:'Producto',id_product_attribute:'Variante',quantity:'Existencias',physical_quantity:'Unidades',sign:'Signo',date_add:'Fecha',id_stock_mvt_reason:'Motivo',id_employee:'Empleado',id_order:'Pedido',id_supply_order:'Pedido proveedor',id_shop:'Tienda origen'};
 const amount=(value,code=null)=>{const cents=sourceCents(typeof value==='number'&&Number.isFinite(value)?value.toFixed(2):value);if(cents===null)return 'Sin importe válido';try{return code?new Intl.NumberFormat('es-ES',{style:'currency',currency:code}).format(cents/100):new Intl.NumberFormat('es-ES').format(cents/100)+' · moneda sin verificar';}catch{return 'Moneda no válida';}};
@@ -68,7 +68,7 @@ export function createPrestashopUI({rpc,invoke,actor,allowed,onManage=()=>{},onB
  const coverage=r=>(r.possibly_more?'Consulta parcial · quedan páginas':'Fin de la consulta')+' · '+r.rows.length+' registros'+(r.dailyWindow?' del tramo · '+r.raw_count+' revisados':'')+' · '+esc(new Date(r.readAt).toLocaleTimeString('es-ES'));
  const empty=(title,text,action='')=>`<div class="ps-empty"><span aria-hidden="true">${interfaceIcon('records')}</span><h3>${title}</h3><p>${text}</p>${action}</div>`;
  const scope=()=>`<p class="ps-scope">Datos de origen · ${esc(displayStore(store))} · ${esc(get('orders')?.periodLabel||'Sin periodo consultado')}</p>`;
- function storeCards(){if(centralData)return '<div class="ps-connection-strip"><label>Tienda de trabajo <select data-central-sales-store aria-label="Tienda de trabajo">'+PRESTASHOP_STORES.map(s=>'<option value="'+esc(s.key)+'" '+(s.key===store?'selected':'')+'>'+esc(s.name)+'</option>').join('')+'</select></label><span>Datos guardados en Central · TotusTPV</span></div>';return '<div class="ps-connection-strip"><span class="ps-instance-label">Tienda activa</span><div class="ps-store-grid">'+PRESTASHOP_STORES.map(s=>{const r=prestashopReadiness(storeConnection(connections,s.key));return `<button type="button" class="ps-store ${store===s.key?'selected':''}" data-prestashop-action="store" data-store="${s.key}" aria-pressed="${store===s.key}"><img class="ps-store-brand" src="${new URL('../assets/branding/'+s.key+'.png',import.meta.url).href}" alt=""><span><strong>${s.name}</strong><small>PrestaShop · API</small></span><span class="ps-dot ${r.ready?'ready':''}" aria-label="${esc(r.reason)}"></span></button>`;}).join('')+'</div><span class="ps-link-state '+(ready()?'ready':'')+'">'+interfaceIcon('prestashop')+esc(ready()?'Conexión preparada':prestashopReadiness(connection()).reason)+'</span></div>';}
+ function storeCards(){if(centralData)return '<div class="ps-connection-strip"><label class="field">Tienda de trabajo <select data-central-sales-store aria-label="Tienda de trabajo">'+PRESTASHOP_STORES.map(s=>'<option value="'+esc(s.key)+'" '+(s.key===store?'selected':'')+'>'+esc(s.name)+'</option>').join('')+'</select></label><span>Datos guardados en Central · TotusTPV</span></div>';return '<div class="ps-connection-strip"><span class="ps-instance-label">Tienda activa</span><div class="ps-store-grid">'+PRESTASHOP_STORES.map(s=>{const r=prestashopReadiness(storeConnection(connections,s.key));return `<button type="button" class="ps-store ${store===s.key?'selected':''}" data-prestashop-action="store" data-store="${s.key}" aria-pressed="${store===s.key}"><img class="ps-store-brand" src="${new URL('../assets/branding/'+s.key+'.png',import.meta.url).href}" alt=""><span><strong>${s.name}</strong><small>PrestaShop · API</small></span><span class="ps-dot ${r.ready?'ready':''}" aria-label="${esc(r.reason)}"></span></button>`;}).join('')+'</div><span class="ps-link-state '+(ready()?'ready':'')+'">'+interfaceIcon('prestashop')+esc(ready()?'Conexión preparada':prestashopReadiness(connection()).reason)+'</span></div>';}
  function salesFilters(){return `<form class="ps-summary-filters" data-ps-search><label>Desde<input type="date" data-ps-filter="from" value="${esc(filter.from)}" required></label><label>Hasta<input type="date" data-ps-filter="to" value="${esc(filter.to)}" required></label><button type="button" class="btn secondary" data-prestashop-action="today">Hoy</button><button type="button" class="btn secondary" data-prestashop-action="week">Últimos 7 días</button><button class="btn primary" ${busy||!ready()?'disabled':''}>Consultar ventas</button></form>`;}
  function salesChart(r){const s=orderInsights(r.rows);return `<article class="card card-pad ps-chart-card"><div class="ps-panel-title"><div><h3>Ventas por horas</h3><p>Pedidos válidos del periodo consultado</p></div><span class="ps-legend"><i></i>${esc(displayStore(store))}</span></div><div class="ps-chart" role="img" aria-label="Importe por hora de los pedidos válidos consultados">`+s.hours.map((v,h)=>`<div><span style="height:${v?Math.max(2,v/Math.max(1,...s.hours)*100):0}%" title="${h}:00 · ${money(v/100)}"></span><small>${String(h).padStart(2,'0')}</small></div>`).join('')+'</div><details class="ps-chart-values"><summary>Ver cifras por hora</summary>'+s.hours.map((v,h)=>`<div class="summary-row"><span>${h}:00</span><b>${money(v/100)}</b></div>`).join('')+'</details><footer class="ps-panel-footer">'+coverage(r)+'</footer></article>';}
  function rankingPanel(){
