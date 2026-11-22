@@ -1,7 +1,7 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {esc} from './utils.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {textValue} from './productos-core.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {showProductDialog} from './productos-dialogs.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {esc} from './utils.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {textValue} from './productos-core.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {showProductDialog} from './productos-dialogs.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
 
 const decimal=(value,places,signed=false)=>{
  const raw=String(value??'').trim().replace(',','.');

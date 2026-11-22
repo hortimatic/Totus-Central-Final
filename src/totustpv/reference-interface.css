@@ -363,3 +363,7 @@
 :is(#content,main) .totus-tpv.tpv-active .tpv-controls-compact select{height:32px;min-height:32px;padding:4px 7px;font-size:12px}
 :is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-options>summary,:is(#content,main) .totus-tpv.tpv-active .tpv-category-back{width:32px;height:32px;min-height:32px;min-width:32px}
 :is(#content,main) .totus-tpv.tpv-active .tpv-catalogue>.inline-actions>.btn{min-height:32px;padding:3px 7px;font-size:11px}
+
+:is(#content,main) .totus-tpv.tpv-active .tpv-controls-compact :is(select,.prd-select-control,.prd-select-control>button,.tpv-catalogue-options>summary,.tpv-category-back){box-sizing:border-box;height:34px!important;min-height:34px!important;max-height:34px!important;margin:0!important}
+:is(#content,main) .totus-tpv.tpv-active .tpv-controls-compact .prd-select-control{display:flex;align-items:stretch;gap:5px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-controls-compact .prd-select-control>button,:is(#content,main) .totus-tpv.tpv-active .tpv-controls-compact .tpv-catalogue-options>summary,:is(#content,main) .totus-tpv.tpv-active .tpv-controls-compact .tpv-category-back{width:34px!important;min-width:34px!important;padding:0!important;display:grid;place-items:center}

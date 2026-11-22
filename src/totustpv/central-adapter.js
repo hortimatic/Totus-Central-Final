@@ -1,29 +1,29 @@
-import {centralPromotionIntent} from './promotions.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {operatorAcknowledgement} from './operator-acknowledgement.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {cashSummaryPresentation} from './cash-visibility.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {originalRefundPayments} from './refund-payments.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {offlineBasketCommercial} from './offline-basket-commercial.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {offlineBasketPrices} from './offline-basket-prices.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {createOfflineSourceStore} from './offline-source-store.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
+import {centralPromotionIntent} from './promotions.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {operatorAcknowledgement} from './operator-acknowledgement.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {cashSummaryPresentation} from './cash-visibility.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {originalRefundPayments} from './refund-payments.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {offlineBasketCommercial} from './offline-basket-commercial.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {offlineBasketPrices} from './offline-basket-prices.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {createOfflineSourceStore} from './offline-source-store.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
 /** Browser adapter: only normal authenticated Central calls. No shop URL,
  * credentials, native commands or privileged client can enter this module.
  * Request IDs survive response loss; financial commands are never auto-retried.
  */
-import {lineName} from './line-name.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {budgetDraft} from './budget-contract.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {saleNote} from './sale-note.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {taxSummary} from './tax-summary.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {parkingExpiry} from './parking-options.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {quotePaymentMethods} from './payment-options.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
-import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=d64b6adcc46ee7e6db5cfdbf579903465eaf648d';
+import {lineName} from './line-name.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {budgetDraft} from './budget-contract.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {saleNote} from './sale-note.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {taxSummary} from './tax-summary.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {parkingExpiry} from './parking-options.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {quotePaymentMethods} from './payment-options.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
+import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=7638aa0a45447c738679f0f9049e521b7df3e740';
 const need=(ok,message)=>{if(!ok)throw new Error(message);};
 const clone=value=>structuredClone(value);
 const ordered=value=>Array.isArray(value)?value.map(ordered):value&&typeof value==='object'?
@@ -48,7 +48,7 @@ export function catalogueImageUrl(origin,path){
   typeof path==='string'&&/^\/img\/p\/(?:[0-9]\/)+[0-9]+\.jpg$/.test(path))return base.origin+path;}catch{}
  return null;
 }
-export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.randomUUID(),catalogueCache=createOfflineCatalogueCache,centralCatalogueSource=()=>null,canReadCentralCatalogue=()=>true,sourceStore=createOfflineSourceStore}={}){
+export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.randomUUID(),catalogueCache=createOfflineCatalogueCache,centralCatalogueSource=()=>null,canReadCentralCatalogue=()=>true,catalogueAdapter=null,sourceStore=createOfflineSourceStore}={}){
  need(typeof invoke==='function'&&actorId&&storage,'No se puede preparar el puesto.');
  let stations=[],selected=null,session=null,prepared=new Map(),localSnapshots=new Map(),returnSources=new Map(),customer=null,activeDraft=null,cachedPaymentOptions=null,offlineAccessDenied=false;
  const key='totus:tpv:requests:v1:'+actorId;
@@ -221,7 +221,7 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
     }
    });
   },
-  async context(){const {data}=await cachedRead('context');need(data.actorId===actorId&&Array.isArray(data.workstations),'El puesto no pertenece a esta sesión.');
+  async context(){if(catalogueAdapter)await catalogueAdapter.context();const {data}=await cachedRead('context');need(data.actorId===actorId&&Array.isArray(data.workstations),'El puesto no pertenece a esta sesión.');
    stations=data.workstations;need(stations.every(row=>row.environment==='qa'),'Entorno de pruebas no válido.');
    need(stations.every(row=>['canSell','canOpen','canReconcile'].every(key=>typeof row[key]==='boolean')),'No se han podido comprobar los permisos de esta caja.');
    offlineAccessDenied=false;
@@ -230,17 +230,19 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
      canSell:row.canSell,canOpen:row.canOpen,canReconcile:row.canReconcile})),
     sessions:stations.filter(row=>row.session).map(row=>({...row.session,storeId:row.storeId,drawerId:row.drawerId}))};},
   async selectSession(value){selected=stations.find(row=>row.drawerId===value.drawerId&&row.storeId===value.storeId);
-   need(selected?.session?.id===value.id,'La sesión de caja ha cambiado.');session=clone(value);await warmCatalogue();need(session?.id===value.id,'La caja ha cambiado.');return clone(session);},
+   need(selected?.session?.id===value.id,'La sesión de caja ha cambiado.');session=clone(value);if(catalogueAdapter)await catalogueAdapter.selectWorkstation({...selected,drawerId:selected.drawerId});await warmCatalogue();need(session?.id===value.id,'La caja ha cambiado.');return clone(session);},
   async openSession({storeId,drawerId,openingCents}){selected=stations.find(row=>row.storeId===storeId&&row.drawerId===drawerId);
    need(selected?.canOpen,'No tienes permiso para abrir esta caja.');session=null;customer=null;activeDraft=null;
    const id=await operation('open',{storeId,drawerId,openingCents}),result=await call('open',{openingCents},id);
    need(result.id===id&&result.status==='open','No se ha confirmado la apertura de caja.');
-   session={id,storeId,drawerId,status:'open',openingCents};forget('open',id);await warmCatalogue();need(session?.id===id,'La caja ha cambiado.');return clone(session);},
-  async categories(){const {data}=await cachedRead('categories');need(Array.isArray(data.categories)&&data.has_more===false,'No se han podido consultar todas las categorías de esta tienda.');
+   session={id,storeId,drawerId,status:'open',openingCents};if(catalogueAdapter)await catalogueAdapter.selectWorkstation({...selected,drawerId});forget('open',id);await warmCatalogue();need(session?.id===id,'La caja ha cambiado.');return clone(session);},
+  productInformation:catalogueAdapter?.productInformation,
+  async categories(){if(catalogueAdapter){need(canReadCentralCatalogue(),'No tienes acceso al catálogo de esta tienda.');return catalogueAdapter.categories();}const {data}=await cachedRead('categories');need(Array.isArray(data.categories)&&data.has_more===false,'No se han podido consultar todas las categorías de esta tienda.');
    return data.categories.map(r=>({...r,label:r.parentName?r.parentName+' / '+r.name:r.name})).sort((a,b)=>a.label.localeCompare(b.label,'es',{numeric:true}));},
   async resolveIncident({operationId,reason,settlementReview}){const result=await call('resolve-incident',{reason,settlementReview},operationId);
    need(result.status==='cancelled','La incidencia sigue pendiente de revisión.');forget('prepare',operationId);forget('submitted-sale',operationId);prepared.delete(operationId);return receipt(result);},
   async searchProducts({pricingQuantity=1,search='',page=0,productId=0,categoryId=0,sortField='name',sortDirection='asc',searchFields,catalogueFilters,variantGroupId=0,inventoryOnly=false}={}){need(Number.isSafeInteger(pricingQuantity)&&pricingQuantity>=1&&pricingQuantity<=10000&&(pricingQuantity===1||productId>0&&sortField==='name')&&typeof inventoryOnly==='boolean'&&Number.isSafeInteger(variantGroupId)&&variantGroupId>=0&&variantGroupId<=2147483647&&(productId>0||variantGroupId===0),'Revisa el atributo de ordenación.');const fields=catalogueSearchFields(searchFields),filters=normalizeCatalogueFilters(catalogueFilters),query=catalogueRequest({pricingQuantity,search,page,productId,categoryId,sortField,sortDirection,searchFields:fields,catalogueFilters:filters,variantGroupId,inventoryOnly});
+   if(catalogueAdapter&&pricingQuantity===1&&productId===0&&!inventoryOnly){need(session?.status==='open'&&selected?.canSell&&canReadCentralCatalogue(),'No tienes acceso al catálogo de esta caja.');return catalogueAdapter.searchProducts({search,page,categoryId,sortField,sortDirection,searchFields:fields,catalogueFilters:filters});}
    const origin=canonical([selection(),customer]),requestedAt=Date.now();
    const guard=()=>need(canonical([selection(),customer])===origin,'El puesto o cliente ha cambiado. Vuelve a consultar los artículos.');
    let cache=null;try{if(!inventoryOnly)cache=catalogueStore();}catch{}
@@ -430,7 +432,7 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
   async sessionSummary(){return summary(await call('cash-summary'));},
   async cashReports({sessionId}={}){return call('cash-reports',sessionId?{reportSessionId:sessionId}:{});},
   async selectWorkstation({storeId,drawerId}){need(!session,'La caja ya está seleccionada para la sesión abierta.');
-   const row=stations.find(row=>row.storeId===storeId&&row.drawerId===drawerId);need(row?.canReconcile,'No tienes acceso a los informes de esta caja.');selected=row;},
+   const row=stations.find(row=>row.storeId===storeId&&row.drawerId===drawerId);need(row?.canReconcile,'No tienes acceso a los informes de esta caja.');selected=row;if(catalogueAdapter)await catalogueAdapter.selectWorkstation({...row,drawerId});},
   async cashMovement(values){const id=await operation('movement',values);try{const result=await call('cash-movement',values,id);forget('movement',id);return summary(result);}
    catch(error){if(['TPV_CASH_BALANCE_INVALID','TPV_CASH_MOVEMENT_INVALID'].includes(error.code))forget('movement',id);throw error;}},
   async receiveStock({productId,quantity,reason}){const [product,attribute]=productId.split(':').map(Number),values={productId:product,attributeId:attribute,quantity,reason},
