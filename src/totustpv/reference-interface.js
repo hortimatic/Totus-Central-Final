@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
+import {workstationIcon} from './workstation-visual.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
@@ -56,10 +56,10 @@ export function receiptSetupFieldsHtml(receipt,{disabled=false,preview='',number
  const pending=original.fields.filter(f=>(numbering?['CFG-02-17','CFG-02-36']:['CFG-02-03','CFG-02-06','CFG-02-07','CFG-02-08','CFG-02-17','CFG-02-36']).includes(f.id)&&!(loyalty&&f.id==='CFG-02-36')&&!(promotion&&f.id==='CFG-02-17'));
  return `<div class="tpv-receipt-setup-layout"><fieldset ${disabled?'disabled':''}>${preferenceGroupsHtml('Ticket',fields,settings,!disabled,draft,[])}${pending.length?`<details class="tpv-settings-group"><summary>Funciones aún pendientes de completar</summary><div>${pending.map(f=>`<div class="tpv-reference-option" data-setting-requirement="${f.id}"><span>${esc(f.label)}</span><span class="tpv-option-status">Pendiente</span></div>`).join('')}</div></details>`:''}</fieldset><aside class="tpv-settings-ticket-preview"><h5>Vista previa</h5><div data-receipt-setup-preview>${preview}</div></aside></div>`;
 }
-export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml='',brandingHtml='',administrationHtml='',generalSetupHtml='',onlineOrdersHtml=''}={}){
+export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',giftPreview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml='',brandingHtml='',administrationHtml='',generalSetupHtml='',onlineOrdersHtml=''}={}){
  const settings=normalizeReferencePreferences(values);
  const original=REFERENCE_SETTINGS.find(g=>g.name===section)||REFERENCE_SETTINGS[0];
- const fields=(section==='Interfaz'?[{id:'UI-VIEW-MODE',label:'Vista del catálogo al iniciar'},...original.fields]:section==='Ticket'?[...original.fields,{id:'UI-CUSTOMER-EXTRA-FIELD',label:'Dato adicional que se imprime'},{id:'UI-CUSTOMER-EXTRA-LABEL',label:'Título del dato adicional'}]:original.fields).filter(f=>!coveredIds.includes(f.id)&&(!connectedHtml||!f.id.startsWith('CFG-13-')));
+ const fields=(section==='Interfaz'?[{id:'UI-VIEW-MODE',label:'Vista del catálogo al iniciar'},{id:'UI-SHOW-PRODUCT-PRICES',label:'Mostrar precios en las tarjetas de artículos'},...original.fields]:section==='Ticket'?[...original.fields,{id:'UI-CUSTOMER-EXTRA-FIELD',label:'Dato adicional que se imprime'},{id:'UI-CUSTOMER-EXTRA-LABEL',label:'Título del dato adicional'}]:original.fields).filter(f=>!coveredIds.includes(f.id)&&(!connectedHtml||!f.id.startsWith('CFG-13-')));
  const supported=fields.filter(f=>REFERENCE_PREFERENCE_FIELDS[f.id]),pending=fields.filter(f=>!REFERENCE_PREFERENCE_FIELDS[f.id]);
  return `<section class="tpv-reference-settings" aria-label="Configuración de TotusTPV">
  <header><div><small>TOTUSTPV · AJUSTES</small><h3>Configuración</h3></div><button type="button" class="btn secondary" data-tpv-action="sale">Volver al mostrador</button></header>${scopeHtml}
@@ -71,7 +71,7 @@ export function referenceSettingsHtml(section='General',{values={},editable=fals
  ${connectedHtml?`<div class="tpv-reference-connected">${connectedHtml}</div>`:''}
  ${pending.length?`<details class="tpv-settings-card tpv-settings-pending" ${!supported.length&&!connectedHtml?'open':''}><summary>${practice&&section==='General'?'Ajustes administrativos de la tienda':'Opciones todavía no disponibles aquí'} <span>${pending.length}</span></summary><p>${practice?'La práctica no configura los permisos ni las reglas de una tienda real. Selecciona un puesto conectado para administrar sus ajustes.':'Estas opciones todavía no están conectadas en este puesto.'}</p>${practice?administrationHtml:''}${pending.map(f=>fieldHtml(f,settings,false,draft,categories)).join('')}</details>`:''}
 `}
- </div>${section==='Ticket'&&!generalSetupHtml&&preview?`<aside class="tpv-settings-ticket-preview"><h5>Vista previa del ticket</h5><p>Ejemplo de impresión</p><div data-tpv-reference-preview>${preview}</div><p data-tpv-reference-preview-feedback role="status"></p></aside>`:''}</div></article></div></section>`;
+ </div>${section==='Ticket'&&!generalSetupHtml&&preview?`<aside class="tpv-settings-ticket-preview"><h5>Vista previa del ticket</h5><p>Ejemplo de impresión</p><div data-tpv-reference-preview>${preview}</div>${giftPreview?`<details data-tpv-gift-preview-shell ${settings.receipt.showGiftDiscounts?'open':''}><summary>Vista previa del ticket regalo</summary><div data-tpv-gift-preview>${giftPreview}</div></details>`:''}<p data-tpv-reference-preview-feedback role="status"></p></aside>`:''}</div></article></div></section>`;
 }
 
 export function referenceActionsHtml(live,available={}){

@@ -274,3 +274,13 @@
 @container(max-width:460px){.totus-tpv .tpv-reference-settings-layout>nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 .totus-tpv .tpv-reference-settings-layout>nav>.tpv-settings-mobile-section{display:none!important}
+
+/* Payment names must fit their controls at intermediate counter widths. */
+.totus-tpv .tpv-ticket>header .btn,.totus-tpv .tpv-ticket-footer>.inline-actions>[data-tpv-action=clear]{min-height:32px}
+.totus-tpv .tpv-reference-payments{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,100px),1fr));gap:6px}
+.totus-tpv .tpv-reference-payments>button{box-sizing:border-box;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;line-height:1.35;min-height:42px}
+.totus-tpv .tpv-reference-payments>[data-tpv-action=payment]{grid-column:1/-1;min-width:0}
+.totus-tpv [data-tpv-order-search]{display:flex;align-items:flex-end;flex-wrap:wrap;gap:10px}
+.totus-tpv [data-tpv-order-search]>label{display:grid;gap:6px;flex:1 1 230px;min-width:0;margin:0}
+.totus-tpv [data-tpv-order-search] input{box-sizing:border-box;min-width:0;width:100%}
+.totus-tpv [data-tpv-order-search]>.btn{flex:0 0 auto;margin:0}

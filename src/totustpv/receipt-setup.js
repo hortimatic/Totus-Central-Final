@@ -1,12 +1,12 @@
-import {createPromotionPanel} from './promotions.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {createLoyaltyPanel} from './loyalty.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {createTicketBranding} from './ticket-branding.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {createGeneralSetup} from './general-setup.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {receiptOptions,RECEIPT_DEFAULTS} from './receipt-options.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {REFERENCE_PREFERENCE_FIELDS} from './reference-preferences.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {receiptSetupFieldsHtml} from './reference-interface.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {receiptPreviewHtml} from './documents.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
-import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError} from './receipt-series.js?v=cf43bb37adf01addd67e506f277475b92f2b2584';
+import {createPromotionPanel} from './promotions.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {createLoyaltyPanel} from './loyalty.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {createTicketBranding} from './ticket-branding.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {createGeneralSetup} from './general-setup.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {receiptOptions,RECEIPT_DEFAULTS} from './receipt-options.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {REFERENCE_PREFERENCE_FIELDS} from './reference-preferences.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {receiptSetupFieldsHtml} from './reference-interface.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {receiptPreviewHtml} from './documents.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError} from './receipt-series.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
 export function receiptSetupSettings(value){const normalized=receiptOptions(value);if(!value||typeof value!=='object'||Object.keys(value).some(k=>!Object.hasOwn(RECEIPT_DEFAULTS,k))||Object.keys(RECEIPT_DEFAULTS).some(k=>!Object.hasOwn(value,k)||value[k]!==normalized[k]))throw Error('Revisa las opciones del ticket.');return normalized;}
 export function receiptSetupFromForm(form,current=RECEIPT_DEFAULTS){const next={...current};for(const [id,value] of new FormData(form)){const binding=REFERENCE_PREFERENCE_FIELDS[id];if(binding?.group!=='receipt')throw Error('Campo del ticket no reconocido.');const key=binding.key;next[key]=typeof RECEIPT_DEFAULTS[key]==='boolean'?value==='true':typeof RECEIPT_DEFAULTS[key]==='number'?Number(value):value;}return next;}
 export function createReceiptSetup(options){
@@ -15,7 +15,7 @@ export function createReceiptSetup(options){
  const loyalty=createLoyaltyPanel({store:(...args)=>options.storeLoyalty(...args)});
  const normalizeSeries=value=>{if(value?.storeId!==selected?.storeId||!Number.isSafeInteger(value.revision)||value.revision<0)throw Error('No se ha podido verificar la numeración de la tienda.');return receiptSeries(value.settings);};
  const numberingHtml=()=>series?receiptSeriesHtml(series,true,seriesDraft).replace('<h4>Numeración de tickets · este establecimiento</h4>',`<details class="tpv-settings-group" ${seriesDraft?'open':''}><summary>Numeración · ventas y devoluciones</summary>`).replace('</section>','</details></section>').replace('data-tpv-form="receipt-series"','data-setup-ticket-series').replace('<label>Prefijo de venta','<div class="tpv-store-series-grid"><label>Prefijo de venta').replace('<p class="small muted">','</div><p class="small muted">').replace('<p>Compartida por sus cajas y operadores. Las facturas y abonos conservan la numeración de la tienda.</p>','<details class="tpv-info-help"><summary aria-label="Ayuda: Numeración de tickets">i</summary><div role="note">Un contador para todas las cajas de esta tienda. Identifica tickets; no sustituye las series de facturación.</div></details>'):'';
- const branding=createTicketBranding({actor:()=>options.actor()?.id,storage:options.storage||globalThis.localStorage,store:(scope,value)=>options.storeBranding(scope,value),canEdit:options.canConfigure});
+ const branding=createTicketBranding({actor:()=>options.actor()?.id,storage:{getItem:key=>(options.storage||globalThis.localStorage).getItem(key),setItem:(key,value)=>(options.storage||globalThis.localStorage).setItem(key,value)},store:(scope,value)=>options.storeBranding(scope,value),canEdit:options.canConfigure});
  const markup=()=>branding.html().replace('Si no subes uno, se utiliza el logo de la tienda conectada cuando está disponible.','Puedes imprimir sin logo o subir el de este establecimiento.').replaceAll('data-tpv-ticket-logo','data-setup-ticket-logo').replaceAll('data-tpv-form="ticket-branding"','data-setup-ticket-branding').replaceAll('data-tpv-action="ticket-logo-remove"','data-setup-logo-remove').replace('Si no subes uno, se utiliza el logo de la tienda conectada cuando está disponible.','Puedes imprimir sin logo o subir el de este establecimiento.');
  const preview=receipt=>receiptPreviewHtml({...receipt,logoData:branding.logoData(),loyaltyPreview:loyalty.preview(),promotionPreview:promotion.preview()});
  return createGeneralSetup({...options,section:'Ticket',settingsTools:{rpc:'totus_tpv_ticket_setup',gridClass:'tpv-receipt-setup-fields',validate:receiptSetupSettings,fromForm:receiptSetupFromForm,
