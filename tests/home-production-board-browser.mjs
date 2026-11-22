@@ -11,7 +11,7 @@ try{
   window.supabase={createClient:()=>({})};
   const {state}=await import('../src/state.js'),{createHomeWidgetsUI}=await import('../src/home-widgets-ui.js'),{homeToday}=await import('../src/home-period.js');
   const today=homeToday();state.data.settings={};state.user={id:'owner',role:'admin'};state.route='inicio';state.data.stores=[{id:'11111111-1111-4111-8111-111111111111',name:'Tienda física'},{id:'22222222-2222-4222-8222-222222222222',name:'Tienda online'}];state.data.expenses=[];state.data.closings=[];
-  const {inicio}=await import('../src/pages/main.js');document.body.innerHTML='<main id="content">'+inicio()+'</main>';
+  const {inicio}=await import('../src/pages/main.js');document.body.innerHTML='<div id="app"><main id="content">'+inicio()+'</main></div>';
   let saved=null,revision=0;window.calls=[];window.api=createHomeWidgetsUI({confirm:async()=>true,onOpenCash:()=>window.openedNativeCash=true,rpc:async(name,p)=>{
    window.calls.push({name,p});const suffix=p?.p_store?.startsWith('1111')?'local':'web';
    if(name==='totus_home_dashboard'){if(p.p_action==='save'){for(const w of p.p_layout.widgets)if(w.scope.store!=='all'&&!/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(w.scope.store))throw Error('Datos de widget no admitidos');saved=p.p_layout;revision++;}return {layout:saved,revision};}
@@ -28,6 +28,7 @@ try{
  const expected=['opening','income','expense','result','internal','gain-summary','activity','shop-h','shop-n','orders','tasks','store','price','documents','expense-quarter','billing','fiscal','system','recent-closings','quick-links'];
  assert.deepEqual(await page.locator('[data-home-widget]').evaluateAll(nodes=>nodes.map(n=>n.dataset.homeWidget)),expected);
  assert.equal(await page.evaluate(()=>window.api.hasUnsaved()),false);
+ assert.equal(await page.locator('[data-home-command=panel-library]').isVisible(),false,'Herramientas ocultas fuera de edición');
  for(const id of ['price','documents','billing','system'])assert.equal(await page.locator('[data-home-widget="'+id+'"] .home-widget-body :is(h2,h3)').count(),0,id+' sin cabecera duplicada');
  assert.equal(await page.locator('[data-home-widget="orders"] .home-order-footer [data-route="ventas"]').innerText(),'Abrir Ventas');
  assert.match(await page.locator('[data-home-widget="shop-h"]').innerText(),/8,00/);

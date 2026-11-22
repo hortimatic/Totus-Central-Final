@@ -1,6 +1,6 @@
-import {productDisplayId} from './record-identifiers.js?v=21b6b413e6da0a1d3a8422c7c28d64074fedc4d6';
-import {createCentralStoreData} from './central-store-data.js?v=21b6b413e6da0a1d3a8422c7c28d64074fedc4d6';
-import {savedWebsiteTranslations} from './website-localization.js?v=21b6b413e6da0a1d3a8422c7c28d64074fedc4d6';
+import {productDisplayId} from './record-identifiers.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
+import {createCentralStoreData} from './central-store-data.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
+import {savedWebsiteTranslations} from './website-localization.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
 
 const clone=value=>structuredClone(value);
 export const centralDefaultCatalogue=p=>{
