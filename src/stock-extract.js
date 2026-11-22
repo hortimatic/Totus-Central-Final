@@ -1,6 +1,6 @@
 // Extraction is local to the open browser; originals remain in the cloud.
 // A page marker is never counted as readable document content.
-import {stockPdfTable} from './stock-pdf-table.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
+import {stockPdfTable} from './stock-pdf-table.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
 export async function extractStockText(file,{pdfLibrary,xlsxLibrary}={}){
  const maxChars=250000,maxPages=100,parts=[],pages=[],warnings=[];
  let limited=false,total=0,read=0,format='';
@@ -8,7 +8,7 @@ export async function extractStockText(file,{pdfLibrary,xlsxLibrary}={}){
  const name=String(file.name||'').toLowerCase();
  if(name.endsWith('.pdf')){
   format='pdf';
-  const pdfjs=pdfLibrary||await import('./vendor/pdfjs/pdf.mjs?v=ab758a884192e14febe1936565ab15c5346d4d21');
+  const pdfjs=pdfLibrary||await import('./vendor/pdfjs/pdf.mjs?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7');
   if(!pdfLibrary)pdfjs.GlobalWorkerOptions.workerSrc=new URL('./vendor/pdfjs/pdf.worker.mjs',import.meta.url).href;
   const tablePages=[],task=pdfjs.getDocument({data:new Uint8Array(await file.arrayBuffer()),isEvalSupported:false,useSystemFonts:true});
   try{

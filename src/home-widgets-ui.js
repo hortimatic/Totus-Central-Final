@@ -1,26 +1,26 @@
-import {productDisplayId} from './record-identifiers.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {inicio as renderHomeSources} from './pages/main.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {readPool} from './read-pool.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
+import {productDisplayId} from './record-identifiers.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {inicio as renderHomeSources} from './pages/main.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {readPool} from './read-pool.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {nextOpeningSummary} from './home-openings-view.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {state,getFilters} from './state.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {esc,money} from './utils.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {storeConnection} from './prestashop-readonly.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {prestashopReadiness} from './prestashop-ui.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {productPhoto} from './productos-catalog.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {centralProductRecord} from './central-product-adapter.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {archiveAccepted} from './historical-acceptance.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {nextOpeningSummary} from './home-openings-view.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {state,getFilters} from './state.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {esc,money} from './utils.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {storeConnection} from './prestashop-readonly.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {prestashopReadiness} from './prestashop-ui.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {productPhoto} from './productos-catalog.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {centralProductRecord} from './central-product-adapter.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {archiveAccepted} from './historical-acceptance.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],
@@ -382,7 +382,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
     // Widget presentation filters never count as unsaved business forms.
     body.querySelectorAll('input,select,textarea').forEach(field=>field.setAttribute('data-draft-ignore',''));
    }else body.append(content);body.querySelectorAll('input,select,textarea').forEach(field=>field.setAttribute('data-draft-ignore',''));
-   if(!edit&&['cash.openings','home.activity','home.alerts','pricing.quick','documents.latest','expenses.quarter','billing.pending','fiscal.forecast','reports.shortcut','system.status'].includes(w.type)){const inner=body.querySelector(':scope>h2,:scope>h3,:scope>:is(section,article,div)>:is(h2,h3)');if(inner){if(/\b(?:[1-4]T|20\d{2})\b/.test(inner.textContent)){const period=document.createElement('small');period.className='tc-widget-period';period.textContent=inner.textContent;inner.replaceWith(period);}else inner.remove();body.setAttribute('aria-label',w.title);}}
+   if(['cash.openings','home.activity','home.alerts','pricing.quick','documents.latest','expenses.quarter','billing.pending','fiscal.forecast','reports.shortcut','system.status'].includes(w.type)){const inner=body.querySelector(':scope>h2,:scope>h3,:scope>:is(section,article,div)>:is(h2,h3)');if(inner){if(/\b(?:[1-4]T|20\d{2})\b/.test(inner.textContent)){const period=document.createElement('small');period.className='tc-widget-period';period.textContent=inner.textContent;inner.replaceWith(period);}else inner.remove();body.setAttribute('aria-label',w.title);}}
    if(edit){const arrows=document.createElement('span');arrows.className='home-widget-move-actions';arrows.innerHTML='<button type="button" data-home-command="up" data-id="'+esc(w.id)+'" aria-label="Subir '+esc(w.title)+'" '+(visibleOrder()[0]?.id===w.id?'disabled':'')+'>↑</button><button type="button" data-home-command="down" data-id="'+esc(w.id)+'" aria-label="Bajar '+esc(w.title)+'" '+(visibleOrder().at(-1)?.id===w.id?'disabled':'')+'>↓</button>';heading.append(arrows);}
    card.append(heading,body);if(edit)card.insertAdjacentHTML('beforeend',`<button type="button" class="home-resize-handle" data-home-resize="${esc(w.id)}" aria-label="Estirar o encoger ${esc(w.title)}" title="Arrastrar la esquina para cambiar tamaño">↘</button>`);grid.append(card);const calendarHost=body.querySelector('[data-home-task-calendar]');if(calendarHost)taskCalendar.mount(calendarHost);
   }
@@ -678,7 +678,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   }catch(error){if(live()){const message=String(error?.message||error||'Error no identificado').slice(0,160);status('No se han podido cargar las preferencias: '+message+'. Revisa con Administración el estado del perfil y los permisos. No se ha modificado tu diseño.',true)}}
  }
  async function save(keepEditorOpen=false){if(busy||!live()||!model)return false;
-  if(!changed()){status('No hay cambios del Inicio pendientes de guardar.');return true}
+  if(!changed()){if(!keepEditorOpen){edit=false;selected=null;panelView='closed';draw();}status('No hay cambios del Inicio pendientes de guardar.');return true}
   if(!remoteReady){status('No se puede guardar: no se ha confirmado el acceso a las preferencias de esta cuenta. Revisa su perfil y permisos en Administración.',true);return false}
   const own=owner,expected=Number(model.revision||0),snapshot={schemaVersion:1,settings:structuredClone(model.settings),widgets:structuredClone(model.widgets)};
   busy=true;

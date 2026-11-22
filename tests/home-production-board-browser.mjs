@@ -32,6 +32,17 @@ try{
  assert.match(await page.locator('[data-home-widget="shop-n"]').innerText(),/18,00/);
  assert.equal(await page.locator('[data-home-widget="activity"] .activity-chart svg').count(),1);
  for(const id of ['store','documents','expense-quarter','billing','fiscal']){await page.locator(`[data-home-widget="${id}"] [data-home-filter="store"]`).selectOption('22222222-2222-4222-8222-222222222222');assert.equal(await page.locator(`[data-home-widget="${id}"] [data-home-filter="store"]`).inputValue(),'22222222-2222-4222-8222-222222222222');}
+ // Every edit/save round trip must preserve widths, heights, rows and order.
+ const geometry=()=>page.locator('.home-widget-grid').evaluate(grid=>{const base=grid.getBoundingClientRect();return [...grid.querySelectorAll('[data-home-widget]')].map(el=>{const r=el.getBoundingClientRect();return {id:el.dataset.homeWidget,x:r.x-base.x,y:r.y-base.y,w:r.width,h:r.height};});});
+ for(const width of [1600,1100,955,600,390]){
+  await page.setViewportSize({width,height:1000});const before=await geometry();
+  await page.getByRole('button',{name:'Personalizar inicio',exact:true}).click();
+  const editing=await geometry();assert.deepEqual(editing.map(r=>r.id),before.map(r=>r.id));
+  for(let i=0;i<before.length;i++)for(const key of ['x','y','w','h'])assert.ok(Math.abs(before[i][key]-editing[i][key])<2,'Stable edit geometry '+width+' '+before[i].id+' '+key+': '+before[i][key]+' / '+editing[i][key]);
+  await page.locator('[data-home-command="save"]').first().click();await page.waitForFunction(()=>!window.api.hasUnsaved());
+  const after=await geometry();for(let i=0;i<before.length;i++)for(const key of ['x','y','w','h'])assert.ok(Math.abs(before[i][key]-after[i][key])<2,'Stable saved geometry '+width+' '+before[i].id+' '+key);
+ }
+ await page.setViewportSize({width:1600,height:1000});
  for(const id of expected){
   await page.locator(`[data-home-widget="${id}"] [data-home-command="select"]`).click();
   assert.equal(await page.locator('[data-home-config="width"]').count(),1,`Configuración de ${id}`);assert.equal(await page.evaluate(()=>window.hasBusinessDraft()),false,'El inspector no genera un borrador empresarial');

@@ -318,9 +318,9 @@
 @media(prefers-reduced-motion:reduce){.dashboard-page .home-widget-frame{transition:none}}
 
 /* Stitch: editor resize controls a minimum useful height, never crops data. */
-.dashboard-page.home-edit-mode .home-widget-frame{min-height:max(145px,calc(var(--height,3)*25px))!important}
-@media(max-width:1400px){.dashboard-page.home-edit-mode .home-widget-frame{min-height:max(145px,calc(var(--tablet-height,4)*25px))!important}}
-@media(max-width:600px){.dashboard-page.home-edit-mode .home-widget-frame{min-height:max(145px,calc(var(--mobile-height,6)*25px))!important}}
+.dashboard-page .home-widget-frame{min-height:calc(var(--height,3)*25px)!important}
+@media(max-width:1400px){.dashboard-page .home-widget-frame{min-height:calc(var(--tablet-height,4)*25px)!important}}
+@media(max-width:600px){.dashboard-page .home-widget-frame{min-height:calc(var(--mobile-height,6)*25px)!important}}
 @container (max-width:1000px){
  .home-widget-body .home-orders-scroll{display:none!important}
  .home-widget-body .home-orders-cards{display:grid}
@@ -389,7 +389,7 @@
  box-shadow:0 4px 16px rgb(15 23 42 / 7%);
  border-color:var(--line,#dce5ee)
 }
-.dashboard-page.home-edit-mode .home-widget-grid{grid-auto-flow:row dense}
+.dashboard-page.home-edit-mode .home-widget-grid{grid-auto-flow:row}
 .dashboard-page.home-edit-mode .home-widget-selected{outline:2px solid var(--accent,#1463ce);outline-offset:2px;box-shadow:var(--shadow,0 4px 18px rgb(15 23 42 / 8%))}
 .dashboard-page.home-edit-mode .home-widget-header{cursor:pointer}
 .dashboard-page .home-widgets-drawer{
@@ -674,7 +674,21 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 
 .dashboard-page .home-widget-frame:has(.field-help[open]){overflow:visible;z-index:60}.dashboard-page .home-widget-body:has(.field-help[open]){overflow:visible}.dashboard-page .field-help>summary{color:var(--appearance-accent,var(--accent))}.home-order-no-image{display:inline-grid;place-items:center;width:34px;height:34px;flex:none;color:var(--muted);background:var(--appearance-surface,var(--panel));border:1px solid var(--line);border-radius:var(--r)}
 
-#content .dashboard-page:not(.home-edit-mode) .home-widget-frame:is([data-home-type="home.income"],[data-home-type="home.expenses"],[data-home-type="home.result"],[data-home-type="home.internal"])>.home-widget-header{display:flex;min-height:32px;padding:5px 8px}#content .dashboard-page:not(.home-edit-mode) .home-widget-frame:is([data-home-type="home.income"],[data-home-type="home.expenses"],[data-home-type="home.result"],[data-home-type="home.internal"])>.home-widget-header h3{display:none}#content .dashboard-page:not(.home-edit-mode) .home-widget-frame:is([data-home-type="home.income"],[data-home-type="home.expenses"],[data-home-type="home.result"],[data-home-type="home.internal"]) .home-widget-scope{flex:1;max-width:none}
+#content .dashboard-page .home-widget-frame.card:is([data-home-type="home.income"],[data-home-type="home.expenses"],[data-home-type="home.result"],[data-home-type="home.internal"])>.home-widget-header{display:flex;min-height:32px;padding:5px 8px}#content .dashboard-page .home-widget-frame.card:is([data-home-type="home.income"],[data-home-type="home.expenses"],[data-home-type="home.result"],[data-home-type="home.internal"])>.home-widget-header h3{display:none}#content .dashboard-page .home-widget-frame.card:is([data-home-type="home.income"],[data-home-type="home.expenses"],[data-home-type="home.result"],[data-home-type="home.internal"]) .home-widget-scope{flex:1;max-width:none}
 
 .home-widget-move-actions{display:flex;gap:3px;margin-left:auto}.home-widget-move-actions button{min-width:30px;min-height:30px;padding:3px;border:1px solid var(--line);background:var(--appearance-secondary-bg,var(--panel));color:var(--ink)}
 #content .dashboard-page.home-edit-mode .home-dashboard-toolbar{padding:8px 12px;gap:8px;flex-wrap:wrap}#content .dashboard-page.home-edit-mode .home-toolbar-description>strong,#content .dashboard-page.home-edit-mode .home-toolbar-description>p{display:none}#content .dashboard-page.home-edit-mode .home-toolbar-description:has([data-home-status]:empty){display:none}#content .dashboard-page.home-edit-mode .home-toolbar-actions{margin-left:auto;gap:6px}#content .dashboard-page.home-edit-mode .home-toolbar-actions button{font-size:12px;min-height:34px;padding:6px 10px}
+
+/* Editing tools are overlays; the working board keeps exactly the same geometry. */
+#content .dashboard-page.home-edit-mode .home-dashboard-toolbar{position:fixed;top:70px;right:18px;width:min(720px,calc(100vw - 290px));box-sizing:border-box;z-index:40;margin:0}
+#content .dashboard-page .home-widget-header{position:relative}
+#content .dashboard-page.home-edit-mode .home-move-handle{position:absolute;left:-14px;top:-12px;z-index:5;background:var(--panel);border:1px solid var(--line);border-radius:6px}
+#content .dashboard-page.home-edit-mode .home-widget-move-actions{position:absolute;right:40px;top:-14px;z-index:5;background:var(--panel);border-radius:6px}
+@media(max-width:700px){#content .dashboard-page.home-edit-mode .home-dashboard-toolbar{width:calc(100vw - 24px);right:12px;top:64px}}
+
+#content .dashboard-page .home-widget-grid>.home-widget-frame:not([data-home-type="prestashop.summary"]){align-self:start}
+#content .dashboard-page .home-widget-frame[data-home-type]>.home-widget-body{flex:0 0 auto}
+#content .dashboard-page .home-widget-frame[data-home-type="prestashop.summary"]>.home-widget-body{flex:1}
+
+#content .dashboard-page .home-orders-scroll{max-height:420px!important;overflow-y:auto!important}
+#content .dashboard-page .home-orders-cards{max-height:420px;overflow-y:auto;overscroll-behavior:contain}

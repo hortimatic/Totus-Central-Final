@@ -1,5 +1,5 @@
-import {columnSettingsRow} from '../column-settings.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
-import {customerSettings,CUSTOMER_FORM_FIELDS,ADDRESS_FORM_FIELDS} from './customer-settings.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
+import {columnSettingsRow} from '../column-settings.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
+import {customerSettings,CUSTOMER_FORM_FIELDS,ADDRESS_FORM_FIELDS} from './customer-settings.js?v=b5de3673bd7cc1748243c7630d6536e1e36c2dc7';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const need=ok=>{if(!ok)throw Error('Revisa los campos y sus posiciones antes de guardar.');};
 const ids=value=>{need(typeof value==='string');const list=value?value.split(','):[];need(list.length<=20&&list.every(id=>/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(id))&&new Set(list.map(id=>id.toLowerCase())).size===list.length);return list;};
