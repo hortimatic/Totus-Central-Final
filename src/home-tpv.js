@@ -1,9 +1,9 @@
-import {saleDisplayReference} from './record-identifiers.js?v=97c5053b4136698e8e88ebeca3c2dfc64b2835a5';
-import {esc,money} from './utils.js?v=97c5053b4136698e8e88ebeca3c2dfc64b2835a5';
-import {expenseCostAmount} from './calculations.js?v=97c5053b4136698e8e88ebeca3c2dfc64b2835a5';
-import {activityChartHtml} from './dashboard-activity.js?v=97c5053b4136698e8e88ebeca3c2dfc64b2835a5';
-import {homeDateRange} from './home-period.js?v=97c5053b4136698e8e88ebeca3c2dfc64b2835a5';
-import {fieldHelp} from './components.js?v=97c5053b4136698e8e88ebeca3c2dfc64b2835a5';
+import {saleDisplayReference} from './record-identifiers.js?v=1c50ceabc08bbd31d762bbde49df7ce7210e0f69';
+import {esc,money} from './utils.js?v=1c50ceabc08bbd31d762bbde49df7ce7210e0f69';
+import {expenseCostAmount} from './calculations.js?v=1c50ceabc08bbd31d762bbde49df7ce7210e0f69';
+import {activityChartHtml} from './dashboard-activity.js?v=1c50ceabc08bbd31d762bbde49df7ce7210e0f69';
+import {homeDateRange} from './home-period.js?v=1c50ceabc08bbd31d762bbde49df7ce7210e0f69';
+import {fieldHelp} from './components.js?v=1c50ceabc08bbd31d762bbde49df7ce7210e0f69';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
@@ -44,7 +44,15 @@ function nativeFinance(w,data,expenses){
 export function nativeHomeFinance(w,data,expenses){
  const value=nativeFinance(w,data,expenses);if(value.pending)return '<p role="status">Consultando TotusTPV…</p>';if(value.error)return '<p role="alert">'+esc(value.error)+'</p>';
  const gain=w.type==='home.gain',labels={'home.income':'Ingresos del periodo','home.expenses':'Gastos contables','home.result':'Ingresos menos gastos','home.internal':'Gastos internos','home.gain':'Ganancia de las ventas'},amount={'home.income':value.sales,'home.expenses':value.fiscal,'home.result':value.sales-value.fiscal,'home.internal':value.internal,'home.gain':value.margin}[w.type];
- return '<div class="kpi"><small>'+esc(labels[w.type])+fieldHelp(labels[w.type],gain?'Margen estimado: venta sin impuestos menos coste actual del catálogo, descontando devoluciones. No es beneficio neto.':'Ventas confirmadas de TotusTPV menos devoluciones; los gastos proceden de los registros contables de la tienda y del periodo seleccionados.')+'</small><strong>'+esc(gain&&!value.marginComplete?'Faltan costes':money(amount/100))+'</strong></div>';
+ const explanations={
+  'home.income':'Total de ventas confirmadas de TotusTPV, con impuestos, menos devoluciones confirmadas en este periodo. No descuenta gastos ni costes de los productos. No equivale al efectivo disponible en caja.',
+  'home.expenses':'Suma de los gastos contables registrados según la fecha del gasto. Excluye los marcados como internos. No depende de si ya están pagados y no representa el coste de los productos vendidos.',
+  'home.result':'Ingresos del periodo menos gastos contables. Los gastos internos se muestran aparte y no se restan aquí. Es una diferencia de gestión, no el margen comercial ni el beneficio fiscal.',
+  'home.internal':'Suma de los gastos marcados como internos según la fecha del gasto. Se mantienen separados de los gastos contables y del indicador Ingresos menos gastos.',
+  'home.gain':'Venta sin impuestos menos coste actual del catálogo, descontando devoluciones. Si falta el coste de algún artículo, se muestra Faltan costes. No descuenta los gastos del negocio ni equivale al beneficio neto.'
+ };
+ const date=s=>s.split('-').reverse().join('/'),context=' Periodo: '+date(value.range.from)+' al '+date(value.range.to)+'. Ámbito: '+(w.scope.store==='all'?'todas las tiendas seleccionables':'la tienda seleccionada')+'.';
+ return '<div class="kpi"><small>'+esc(labels[w.type])+fieldHelp(labels[w.type],explanations[w.type]+context)+'</small><strong>'+esc(gain&&!value.marginComplete?'Faltan costes':money(amount/100))+'</strong></div>';
 }
 export function nativeHomeActivity(w,data,expenses){
  const value=nativeFinance(w,data,expenses);if(value.pending)return '<p role="status">Consultando actividad…</p>';if(value.error)return '<p role="alert">'+esc(value.error)+'</p>';

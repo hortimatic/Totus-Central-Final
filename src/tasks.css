@@ -26,3 +26,11 @@
 .tasks-calendar:not(.day):not(.week) .task-day{min-height:clamp(92px,12vh,140px)}
 .tasks-module .tasks-days>.task-day:nth-child(7n+6):not(.today),.tasks-module .tasks-days>.task-day:nth-child(7n+7):not(.today){background:color-mix(in srgb,var(--panel,#fff) 96%,var(--muted,#64748b))}
 .tasks-dialog :is(input,select,textarea){background:var(--appearance-input-bg,var(--panel,#fff));color:var(--ink,#172033);border-color:var(--line,#dbe3ee)}
+.tasks-module{container:tasks / inline-size}
+.tasks-weekdays,.tasks-days{grid-template-columns:repeat(7,minmax(0,1fr));min-width:0}
+.tasks-weekdays b{min-width:0;text-align:center;overflow:hidden}
+.task-weekday-short{display:none;text-decoration:none}
+.tasks-toolbar>*,.tasks-toolbar .inline-actions{min-width:0;max-width:100%}
+.tasks-date-jump input{max-width:100%;box-sizing:border-box}
+@container tasks (max-width:900px){.task-weekday-full{display:none}.task-weekday-short{display:inline}.tasks-toolbar h3{order:-1;flex-basis:100%}.task-day{padding:5px}.task-day header{gap:2px}.task-day header .btn{padding:2px 5px;min-width:24px}.task-day-number{min-width:24px;padding:2px}}
+@container tasks (max-width:480px){.task-day{padding:3px}.task-day header{flex-direction:column;gap:0}.task-day header .btn{min-height:24px;width:100%}.tasks-weekdays b{padding:8px 1px;font-size:11px}.tasks-calendar .task-chip{padding:4px 2px!important}.tasks-calendar .task-chip strong{font-size:10px}.tasks-module .task-more{font-size:10px;padding:3px 1px}.tasks-toolbar .inline-actions{gap:5px}.tasks-toolbar .btn{padding:6px 8px;font-size:12px}}

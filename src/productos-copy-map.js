@@ -1,4 +1,4 @@
-import {associationIds,textValue} from './productos-core.js?v=97c5053b4136698e8e88ebeca3c2dfc64b2835a5';
+import {associationIds,textValue} from './productos-core.js?v=1c50ceabc08bbd31d762bbde49df7ce7210e0f69';
 const fold=v=>textValue(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().replace(/\s+/g,' ').toLocaleLowerCase('es');
 const id=v=>String(v??'');
 export function mapCopyRelations(product,source,destination){

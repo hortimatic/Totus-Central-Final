@@ -102,10 +102,19 @@ try{
  await page.locator('[data-task="day-new"]').first().click();assert.equal(await page.locator('dialog [name="starts_on"]').inputValue(),day);
  await page.getByRole('button',{name:'Cancelar',exact:true}).click();
  await mkdir('artifacts',{recursive:true});await page.screenshot({path:'artifacts/tasks-desktop.png',fullPage:true});
- await page.setViewportSize({width:390,height:844});
+ for(const width of [1920,955,390]){
+  await page.setViewportSize({width,height:900});
+  // Reserve the real navigation width: standalone fixtures otherwise miss this defect.
+  await page.locator('#chatHarness').evaluate((el,w)=>{el.style.width=(w>700?w-340:w-32)+'px';el.style.maxWidth='100%';},width);
+  const geometry=await page.locator('.tasks-calendar').evaluate(el=>({width:el.clientWidth,scroll:el.scrollWidth,days:[...el.querySelectorAll('.task-day')].slice(0,7).map(n=>({left:n.getBoundingClientRect().left,right:n.getBoundingClientRect().right})),right:el.getBoundingClientRect().right}));
+  assert(geometry.scroll<=geometry.width+1,'Los siete días caben sin desplazamiento horizontal a '+width);
+  assert(geometry.days.every(d=>d.right<=geometry.right+1),'Domingo queda visible a '+width);
+  assert(await page.locator('[data-task-anchor]').isVisible(),'Fecha accesible a '+width);
+ }
  const overflow=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,wide:[...document.querySelectorAll('.tasks-module *')].filter(e=>e.getBoundingClientRect().right>innerWidth&&!e.closest('.tasks-calendar')).slice(0,8).map(e=>({tag:e.tagName,class:e.className,right:e.getBoundingClientRect().right}))}));assert(overflow.scroll<=overflow.width+1,JSON.stringify(overflow));
  await page.getByRole('button',{name:'Nueva tarea',exact:true}).click();
  assert(await page.evaluate(()=>{const r=document.querySelector('dialog').getBoundingClientRect();return r.width<=innerWidth&&r.bottom<=innerHeight;}));
  await page.screenshot({path:'artifacts/tasks-mobile.png',fullPage:true});
  assert.deepEqual(errors,[]);console.log('TASK BROWSER QA: create, repetition, state, checklist, edit dialog, filters, week/list, desktop and mobile OK');
 }finally{await browser.close();}
+

@@ -106,7 +106,14 @@ try{
 
  await page.evaluate(async()=>{const {applyInterfaceAppearance}=await import('../src/appearance-ui.js');applyInterfaceAppearance({theme:'dark',card:'#172230',surface:'#263849',text:'#eeeeee',primary:'#aabbcc',borderColor:'#aabbcc',borderWidth:3,borderStrength:24,radius:24,shadow:'strong',cardGlow:8,fontSize:18,inputBackground:'#112233'});});
  await page.setViewportSize({width:1600,height:1000});
- await page.locator('[data-home-widget="gain-summary"] .field-help>summary').click();assert.equal(await page.locator('[data-home-widget="gain-summary"] .field-help').getAttribute('open'),'');await page.keyboard.press('Escape');assert.equal(await page.locator('[data-home-widget="gain-summary"] .field-help').getAttribute('open'),null);
+ const helpTexts=[];
+ for(const [id,expected] of [['income','No descuenta gastos'],['expense','Excluye los marcados como internos'],['result','Los gastos internos se muestran aparte'],['internal','gastos marcados como internos'],['gain-summary','coste actual del catálogo']]){
+  const help=page.locator('[data-home-widget="'+id+'"] .field-help');
+  await help.locator('summary').click();assert.equal(await help.getAttribute('open'),'');
+  const text=await help.locator('[role="note"]').innerText();assert.ok(text.includes(expected),id+' explica su cálculo');assert.ok(text.includes('Periodo:'),id+' identifica el periodo');assert.ok(text.includes('Ámbito:'),id+' identifica el ámbito');helpTexts.push(text);
+  await page.keyboard.press('Escape');assert.equal(await help.getAttribute('open'),null);
+ }
+ assert.equal(new Set(helpTexts).size,5,'Cada indicador tiene una explicación propia');
  const themed=await page.locator('[data-home-widget]').evaluateAll(nodes=>nodes.map(el=>{const s=getComputedStyle(el);return {id:el.dataset.homeWidget,bg:s.backgroundColor,radius:s.borderRadius,border:s.borderTopWidth,shadow:s.boxShadow};}));
  assert.equal(themed.length,20);for(const widget of themed){assert.equal(widget.bg,'rgb(23, 34, 48)',widget.id+' fondo');assert.equal(widget.radius,'24px',widget.id+' radio');assert.equal(widget.border,'3px',widget.id+' borde');assert.notEqual(widget.shadow,'none',widget.id+' sombra');}
  assert.equal(await page.locator('[data-home-widget="activity"] select').first().evaluate(el=>getComputedStyle(el).backgroundColor),'rgb(17, 34, 51)');
