@@ -1,4 +1,4 @@
-import {PRESTASHOP_RESOURCES} from '../prestashop-readonly.js?v=202a0e5d491e073509b5023aea6c0401b021ce9e';
+import {PRESTASHOP_RESOURCES} from '../prestashop-readonly.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
 /** Device copy of an already imported Central catalogue; no remote import,
  * credentials, payment authority or delivery-journal mutations. */
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(value);
@@ -22,6 +22,23 @@ function project(source,scope){
 export function createOfflineSourceStore({scope,indexedDB=globalThis.indexedDB,name='totus-central-catalogue-device-v1',now=Date.now}={}){
  need(scope&&uuid(scope.actorId)&&uuid(scope.connectionId)&&Number.isSafeInteger(scope.revision)&&scope.revision>0&&Number.isSafeInteger(scope.shopId)&&scope.shopId>0);
  const key=JSON.stringify([scope.actorId,scope.connectionId,scope.revision,scope.shopId]);
+ const run=deviceSourceStore({indexedDB,name,key});
+ return Object.freeze({
+  async put(source){const data=project(source,scope);need(data.readAt<=now()&&data.updatedAt<=now());
+   return run(true,(store,prior,done)=>{
+    if(prior&&(prior.data.readAt>data.readAt||prior.data.readAt===data.readAt&&prior.data.updatedAt>=data.updatedAt)){done(false);return;}
+    store.put({key,data,fingerprint:canonical(data)});done(true);
+   });
+  },
+  async get(){return run(false,(_store,row,done)=>{
+   if(!row){done(null);return;}need(row.key===key&&row.fingerprint===canonical(row.data));
+   const data=project(row.data,scope),age=now()-data.readAt;
+   done(age<0||age>86400000?null:data);
+  });}
+ });
+}
+
+function deviceSourceStore({indexedDB,name,key}){
  async function run(write,action){
   need(indexedDB);const db=await new Promise((resolve,reject)=>{
    const request=indexedDB.open(name,1);let blocked=false;
@@ -37,17 +54,13 @@ export function createOfflineSourceStore({scope,indexedDB=globalThis.indexedDB,n
    const store=tx.objectStore('sources'),request=store.get(key);request.onsuccess=()=>{try{action(store,request.result,value=>{result=value;});}catch(error){fail(error);}};
   });}finally{db.close();}
  }
- return Object.freeze({
-  async put(source){const data=project(source,scope);need(data.readAt<=now()&&data.updatedAt<=now());
-   return run(true,(store,prior,done)=>{
-    if(prior&&(prior.data.readAt>data.readAt||prior.data.readAt===data.readAt&&prior.data.updatedAt>=data.updatedAt)){done(false);return;}
-    store.put({key,data,fingerprint:canonical(data)});done(true);
-   });
-  },
-  async get(){return run(false,(_store,row,done)=>{
-   if(!row){done(null);return;}need(row.key===key&&row.fingerprint===canonical(row.data));
-   const data=project(row.data,scope),age=now()-data.readAt;
-   done(age<0||age>86400000?null:data);
-  });}
- });
+ return run;
+}
+
+/** Central-owned data only. Every use is checked against an authorized server revision. */
+export function createCentralCatalogueStore({scope,indexedDB=globalThis.indexedDB,name='totus-central-catalogue-device-v1'}={}){
+ need(scope&&uuid(scope.actorId)&&uuid(scope.storeId)&&uuid(scope.drawerId));
+ const key=JSON.stringify(['central',scope.actorId,scope.storeId,scope.drawerId]),run=deviceSourceStore({indexedDB,name,key});
+ const validate=data=>{need(data&&/^[a-f0-9]{32}$/.test(data.revision)&&Array.isArray(data.items)&&data.items.length<=1000000);const seen=new Set();for(const row of data.items){need(row&&uuid(row.id)&&!seen.has(row.id)&&Number.isSafeInteger(row.price_cents)&&row.price_cents>=0&&Number.isSafeInteger(row.tax_basis_points)&&row.tax_basis_points>=0&&Number.isFinite(row.stock));seen.add(row.id);}need(canonical(data).length<=50000000);return data;};
+ return Object.freeze({get:()=>run(false,(_store,row,done)=>{if(!row){done(null);return;}need(row.key===key&&row.fingerprint===canonical(row.data));done(validate(row.data));}),put:async source=>{const data=validate(source);return run(true,(store,_prior,done)=>{store.put({key,data,fingerprint:canonical(data)});done(true);});}});
 }

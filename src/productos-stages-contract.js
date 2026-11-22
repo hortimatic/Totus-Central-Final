@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=202a0e5d491e073509b5023aea6c0401b021ce9e';
+import {websiteKey} from './website-registry.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 const id=/^[1-9]\d{0,14}$/;
 const unsigned=/^\d{1,15}$/;

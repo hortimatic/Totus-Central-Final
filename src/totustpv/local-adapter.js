@@ -1,13 +1,14 @@
-import {localCategories,categoryFilterIds} from './local-categories.js?v=202a0e5d491e073509b5023aea6c0401b021ce9e';
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=202a0e5d491e073509b5023aea6c0401b021ce9e';
+import {localCategories,categoryFilterIds} from './local-categories.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=202a0e5d491e073509b5023aea6c0401b021ce9e';
+import {catalogueSearchFields} from './search-preferences.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
+import {createCentralCatalogueStore} from './offline-source-store.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 export function localOrderLookupInput(value){const text=String(value??'').trim();if(!text)return {};if(!/^R:/i.test(text)&&/^[0-9]+$/.test(text)){const orderId=Number(text);need(Number.isSafeInteger(orderId)&&orderId>0&&orderId<=999999999,'Escribe un número de venta válido.');return {orderId};}const reference=text.replace(/^R:/i,'').toUpperCase();need(/^[A-Z0-9/_-]{1,21}$/.test(reference),'Escribe una referencia de venta válida.');return {reference};}
-export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,provePrice,proveOperator,uuid=()=>crypto.randomUUID()}){
+export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,provePrice,proveOperator,catalogueStoreFactory=createCentralCatalogueStore,uuid=()=>crypto.randomUUID()}){
  need(typeof invoke==='function'&&actorId&&typeof currentActor==='function'&&storage,'Falta la sesión de Central.');
  let context=null,selected=null,session=null,customer=null,workspace=null,activeDraft=null,categoryTree=[];
  const catalogueSnapshots=new Map();
@@ -26,10 +27,15 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
  async function catalogue(){
   const drawer=station(),cacheKey=JSON.stringify([drawer.storeId,drawer.id]),version=await call('totus_tpv_local_read',{p_drawer:drawer.id,p_kind:'catalogue-version'});
   need(station().id===drawer.id&&version?.storeId===drawer.storeId&&typeof version.revision==='string','No se pudo verificar la versión del catálogo de esta tienda.');
-  const cached=catalogueSnapshots.get(cacheKey);if(cached?.revision===version.revision)return cached.items;
+  let cached=catalogueSnapshots.get(cacheKey),device;
+  try{device=catalogueStoreFactory({scope:{actorId,storeId:drawer.storeId,drawerId:drawer.id}});if(!cached)cached=await device.get();}catch{}
+  guard();need(station().id===drawer.id,'La caja ha cambiado durante la consulta.');
+  if(cached?.revision===version.revision){catalogueSnapshots.set(cacheKey,cached);return cached.items;}
   const items=await page('catalogue'),after=await call('totus_tpv_local_read',{p_drawer:drawer.id,p_kind:'catalogue-version'});
   need(station().id===drawer.id&&after?.storeId===drawer.storeId&&after.revision===version.revision,'El catálogo ha cambiado durante la lectura. Vuelve a consultar.');
-  catalogueSnapshots.set(cacheKey,{revision:version.revision,items});return items;
+  const snapshot={revision:version.revision,items};catalogueSnapshots.set(cacheKey,snapshot);
+  try{await device?.put(snapshot);}catch{}
+  guard();need(station().id===drawer.id,'La caja ha cambiado durante la consulta.');return items;
  }
 
  async function readHistory(){const rows=await page('sales'),refunds=await call('totus_tpv_local_refund',{p_drawer:station().id});return rows.map(row=>({...sale(row),refunds:refunds.items.filter(r=>r.sale_id===row.id).map(r=>({...r,totalCents:r.total_cents}))}));}
