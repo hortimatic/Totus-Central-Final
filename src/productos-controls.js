@@ -1,5 +1,5 @@
-import {positionColumnPanel} from './column-settings.js?v=c421d15ba55ece12c883368bad695cdcadfac450';
-import {standardizeColumnPanels} from './column-settings.js?v=c421d15ba55ece12c883368bad695cdcadfac450';
+import {positionColumnPanel} from './column-settings.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
+import {standardizeColumnPanels} from './column-settings.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
 // Preserve the select as the form's source of truth; stage multi-selection
 // inside one keyboard-accessible dialog before dispatching the form change.
 const fold=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');

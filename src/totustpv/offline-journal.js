@@ -1,8 +1,8 @@
-import {operatorAcknowledgement} from './operator-acknowledgement.js?v=c421d15ba55ece12c883368bad695cdcadfac450';
-import {saleModifiers} from './sale-modifiers.js?v=c421d15ba55ece12c883368bad695cdcadfac450';
-import {saleNote} from './sale-note.js?v=c421d15ba55ece12c883368bad695cdcadfac450';
-import {offlineCommercial} from './offline-commercial.js?v=c421d15ba55ece12c883368bad695cdcadfac450';
-import {paymentReference} from './payment-reference.js?v=c421d15ba55ece12c883368bad695cdcadfac450';
+import {operatorAcknowledgement} from './operator-acknowledgement.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
+import {saleModifiers} from './sale-modifiers.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
+import {saleNote} from './sale-note.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
+import {offlineCommercial} from './offline-commercial.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
+import {paymentReference} from './payment-reference.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
 /** Local delivery journal. A saved entry is NOT a confirmed remote sale.
  * Dispatch claims never expire into a second POST. Reconcile by the same ID.
  * No authentication tokens or shop credentials belong in this store.
