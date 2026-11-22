@@ -1,4 +1,4 @@
-import {creditSettings,paymentFees} from './credit-commercial.js?v=5542d02e8809ef66dbcc218ccb8549374ec22846';
+import {creditSettings,paymentFees} from './credit-commercial.js?v=c131b744541cc527dd7a64ba35d14c672203650f';
 const names={cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'};
 const decimal=(value,max,label)=>{if(!/^\d+(?:[.,]\d{1,2})?$/.test(value))throw Error('Revisa '+label+'.');const [whole,fraction='']=value.replace(',','.').split('.');const result=Number(whole)*100+Number(fraction.padEnd(2,'0'));if(!Number.isSafeInteger(result)||result>max)throw Error('Revisa '+label+'.');return result;};
 export function commercialFromForm(form){const f=new FormData(form);return {credit:creditSettings({enabled:f.get('creditEnabled')==='on',allowPartial:f.get('creditPartial')==='on',dueDays:Number(f.get('creditDays'))}),fees:paymentFees(Object.fromEntries(Object.keys(names).map(id=>[id,{enabled:f.get('feeEnabled:'+id)==='on',fixedCents:decimal(String(f.get('feeFixed:'+id)),999999999,'el recargo fijo'),basisPoints:decimal(String(f.get('feeRate:'+id)),10000,'el porcentaje')}])))};}
