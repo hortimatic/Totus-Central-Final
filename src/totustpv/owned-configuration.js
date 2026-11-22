@@ -1,9 +1,9 @@
-import {orderNoticeOptions} from './order-notices.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
-import {signatureOptions} from './signature-options.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
-import {createGeneralSetup} from './general-setup.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
-import {returnPolicy} from './return-policy.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
-import {barcodeOptions,BARCODE_FIELDS} from './barcode-options.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
-import {budgetOptions} from './budget-options.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
+import {orderNoticeOptions} from './order-notices.js?v=237a196e5ca263b217506ddf8477198a460a8693';
+import {signatureOptions} from './signature-options.js?v=237a196e5ca263b217506ddf8477198a460a8693';
+import {createGeneralSetup} from './general-setup.js?v=237a196e5ca263b217506ddf8477198a460a8693';
+import {returnPolicy} from './return-policy.js?v=237a196e5ca263b217506ddf8477198a460a8693';
+import {barcodeOptions,BARCODE_FIELDS} from './barcode-options.js?v=237a196e5ca263b217506ddf8477198a460a8693';
+import {budgetOptions} from './budget-options.js?v=237a196e5ca263b217506ddf8477198a460a8693';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const help=(label,text)=>'<details class="tpv-info-help"><summary aria-label="Ayuda: '+esc(label)+'">i</summary><div role="note">'+esc(text)+'</div></details>';
 const definitions={

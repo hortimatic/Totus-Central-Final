@@ -1,8 +1,8 @@
-import {localCategories,categoryFilterIds} from './local-categories.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
+import {localCategories,categoryFilterIds} from './local-categories.js?v=237a196e5ca263b217506ddf8477198a460a8693';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=237a196e5ca263b217506ddf8477198a460a8693';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
-import {createCentralCatalogueStore} from './offline-source-store.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
+import {catalogueSearchFields} from './search-preferences.js?v=237a196e5ca263b217506ddf8477198a460a8693';
+import {createCentralCatalogueStore} from './offline-source-store.js?v=237a196e5ca263b217506ddf8477198a460a8693';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
@@ -25,9 +25,9 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
  async function workspaceOptions(preferences=null){
   const id=station().id,args={p_drawer:id};
   if(preferences!==null){
-   need(preferences&&Object.keys(preferences).length===1,'Revisa los ajustes del mostrador.');
+   need(preferences&&Object.keys(preferences).every(k=>['initialCategoryId','presentation','stockPolicy'].includes(k)),'Revisa los ajustes del mostrador.');
    if(Object.hasOwn(preferences,'stockPolicy')){const rule=preferences.stockPolicy;need(rule&&Object.keys(rule).length===2&&['allowOutOfStock','allowInactive'].every(k=>typeof rule[k]==='boolean'),'Revisa la política de existencias.');args.p_stock_policy=copy(rule);}
-   else{need(Number.isSafeInteger(preferences.initialCategoryId)&&preferences.initialCategoryId>=0&&preferences.initialCategoryId<=2147483647,'Selecciona una categoría inicial válida.');args.p_initial_category=preferences.initialCategoryId;}
+   else{need(Number.isSafeInteger(preferences.initialCategoryId)&&preferences.initialCategoryId>=0&&preferences.initialCategoryId<=2147483647,'Selecciona una categoría inicial válida.');args.p_initial_category=preferences.initialCategoryId;if(preferences.presentation)args.p_presentation=copy(preferences.presentation);}
   }
   const rpcName=preferences===null?'totus_tpv_local_workspace':Object.hasOwn(preferences,'stockPolicy')?'totus_tpv_local_stock_policy':'totus_tpv_local_workspace_save';
   const result=await call(rpcName,args);need(station().id===id&&result?.drawerId===id,'La caja cambió durante la lectura de sus ajustes.');

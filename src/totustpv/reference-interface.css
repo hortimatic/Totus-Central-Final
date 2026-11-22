@@ -284,3 +284,41 @@
 .totus-tpv [data-tpv-order-search]>label{display:grid;gap:6px;flex:1 1 230px;min-width:0;margin:0}
 .totus-tpv [data-tpv-order-search] input{box-sizing:border-box;min-width:0;width:100%}
 .totus-tpv [data-tpv-order-search]>.btn{flex:0 0 auto;margin:0}
+/* Counter: keep the sale visible and reveal secondary data only on request. */
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-list.tpv-view-grid{grid-template-columns:repeat(auto-fill,minmax(136px,1fr));grid-auto-rows:max-content;align-items:start}
+:is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card .tpv-product strong{white-space:normal}
+:is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card .tpv-product>img{position:static;max-width:100%;pointer-events:none}
+.totustpv-page:has(.totus-tpv.tpv-active)>.module-heading{display:none}
+:is(#content,main) .totus-tpv.tpv-active .tpv-workspace-bar{min-height:42px;padding:4px 10px;gap:8px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-workstation-identity{gap:8px;min-width:0;flex-wrap:wrap}
+:is(#content,main) .totus-tpv.tpv-active .tpv-identity-user,:is(#content,main) .totus-tpv.tpv-active .tpv-context-divider,:is(#content,main) .totus-tpv.tpv-active .tpv-environment,:is(#content,main) .totus-tpv.tpv-active .tpv-workspace-bar>[data-tpv-action="fullscreen"]{display:none}
+:is(#content,main) .totus-tpv.tpv-active .tpv-identity-place{min-height:32px;padding:2px 8px;gap:8px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-identity-place small{display:none}
+:is(#content,main) .totus-tpv.tpv-active .tpv-identity-place svg{width:20px;height:20px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-identity-place strong{font-size:13px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-main-nav{padding:6px 8px;gap:6px;min-height:44px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-nav-search{flex:1;max-width:none;min-width:100px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-actions>summary{min-height:36px;padding:6px 12px;box-sizing:border-box;white-space:nowrap}
+:is(#content,main) .totus-tpv.tpv-active .tpv-actions>div>.tab{display:block;width:100%;min-height:40px;text-align:left;white-space:normal;box-sizing:border-box}
+:is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card{position:relative;display:grid;grid-template-rows:auto auto;min-width:0;align-self:start;border:1px solid var(--line,#dbe5ed);border-radius:var(--r,9px);background:var(--panel,#fff);overflow:hidden}
+:is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card>.tpv-product{border:0!important;border-radius:0;box-shadow:none;width:100%;min-width:0;margin:0;box-sizing:border-box;overflow:hidden}
+:is(#content,main) .totus-tpv.tpv-active .tpv-view-grid .tpv-catalogue-card>.tpv-product{height:auto;min-height:180px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:80px minmax(2.6em,auto) auto;gap:6px;padding:10px;align-content:start}
+:is(#content,main) .totus-tpv.tpv-active .tpv-view-grid .tpv-product>img,:is(#content,main) .totus-tpv.tpv-active .tpv-view-grid .tpv-product>.tpv-product-placeholder{height:80px;width:100%;min-height:0;object-fit:contain}
+:is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card .tpv-product>span{display:block;min-width:0;min-height:0;overflow:hidden}
+:is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card .tpv-product strong{font-size:13px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+:is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card .tpv-product>b{position:static;display:block;font-size:16px;line-height:1.2;white-space:nowrap;border:0;margin:0;padding:0;min-width:0}
+:is(#content,main) .totus-tpv.tpv-active .tpv-card-units{position:absolute;left:6px;top:6px;max-width:calc(100% - 48px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;z-index:1;font-size:11px;line-height:1.4;padding:2px 5px;border-radius:4px;background:var(--panel,#fff);color:var(--ink,#17212b);pointer-events:none}
+:is(#content,main) .totus-tpv.tpv-active .tpv-card-reference{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;color:var(--muted,#687e91);line-height:1.4;margin-top:3px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-view-grid>.tpv-reference-category{min-height:180px;height:180px;box-sizing:border-box}
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-info{min-width:0;margin:0}
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-info>summary{position:absolute;right:4px;top:4px;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:1px solid var(--line,#dbe5ed);background:var(--panel,#fff);color:var(--accent,#1773c9);font-style:normal;font-weight:700;cursor:pointer;list-style:none;box-sizing:border-box}
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-info>summary::-webkit-details-marker{display:none}
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-info>summary:focus-visible{outline:2px solid var(--accent,#1773c9);outline-offset:-3px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-info>div{padding:10px;border-top:1px solid var(--line,#dbe5ed);font-size:12px;overflow-wrap:anywhere}
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-info dl{margin:8px 0 0;display:grid;gap:8px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-info dl>div{display:grid;gap:2px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-info dt{color:var(--muted,#687e91);font-size:11px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-product-info dd{margin:0}
+:is(#content,main) .totus-tpv.tpv-active :is(.tpv-view-list,.tpv-view-compact) .tpv-catalogue-card>.tpv-product{display:grid;grid-template-columns:48px minmax(0,1fr) auto;grid-template-rows:auto;align-items:center;gap:10px;min-height:76px;height:auto;padding:10px 40px 10px 10px}
+:is(#content,main) .totus-tpv.tpv-active :is(.tpv-view-list,.tpv-view-compact) .tpv-product>:is(img,.tpv-product-placeholder){width:48px;height:48px;object-fit:contain}
+@media(max-width:520px){:is(#content,main) .totus-tpv.tpv-active .tpv-nav-search{flex-basis:100%}:is(#content,main) .totus-tpv.tpv-active .tpv-main-nav>.tab{flex:1}:is(#content,main) .totus-tpv.tpv-active .tpv-view-grid .tpv-catalogue-card>.tpv-product{height:174px;min-height:174px;padding:8px;grid-template-rows:74px 2.6em auto}:is(#content,main) .totus-tpv.tpv-active .tpv-view-grid .tpv-product>:is(img,.tpv-product-placeholder){height:74px}}

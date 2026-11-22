@@ -1,5 +1,5 @@
-import {ticketLogoData} from './ticket-branding.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
-import {printTpvMarkup} from './documents.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
+import {ticketLogoData} from './ticket-branding.js?v=237a196e5ca263b217506ddf8477198a460a8693';
+import {printTpvMarkup} from './documents.js?v=237a196e5ca263b217506ddf8477198a460a8693';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const date=value=>value?new Date(value).toLocaleString('es-ES'):'—';
