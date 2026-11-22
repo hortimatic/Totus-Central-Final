@@ -1,27 +1,27 @@
-import {fieldHelp} from './components.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {productDisplayId} from './record-identifiers.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {inicio as renderHomeSources} from './pages/main.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {readPool} from './read-pool.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
+import {fieldHelp} from './components.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {productDisplayId} from './record-identifiers.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {inicio as renderHomeSources} from './pages/main.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {readPool} from './read-pool.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {nextOpeningSummary} from './home-openings-view.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {state,getFilters} from './state.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {esc,money} from './utils.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {storeConnection} from './prestashop-readonly.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {prestashopReadiness} from './prestashop-ui.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {productPhoto} from './productos-catalog.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {centralProductRecord} from './central-product-adapter.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
-import {archiveAccepted} from './historical-acceptance.js?v=a1f3ba446b892bc18c5f49f7ec2753ee91b18d11';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {nextOpeningSummary} from './home-openings-view.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {state,getFilters} from './state.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {esc,money} from './utils.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {storeConnection} from './prestashop-readonly.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {prestashopReadiness} from './prestashop-ui.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {productPhoto} from './productos-catalog.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {centralProductRecord} from './central-product-adapter.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
+import {archiveAccepted} from './historical-acceptance.js?v=bd1b1f9403de01be3c99ab759f8840909eaea3f8';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],
@@ -372,7 +372,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   if(!live())return;taskCalendar.dispose();grid.replaceChildren();
   for(const w of visibleOrder()){
    const card=document.createElement('section');card.className='home-widget-frame card';card.dataset.homeWidget=w.id;card.dataset.homeType=w.type;
-   card.dataset.homeHeightMode=w.filters.heightMode||'auto';card.style.setProperty('--span',Math.min(12,w.layout.desktop.w));card.style.setProperty('--height',Math.max(2,w.layout.desktop.h));card.style.setProperty('--tablet-span',w.layout.tablet.w);card.style.setProperty('--tablet-height',w.layout.tablet.h);card.style.setProperty('--mobile-height',w.layout.mobile.h);
+   card.dataset.homeHeightMode=w.filters.heightMode||'auto';for(const mode of ['desktop','tablet','mobile'])card.style.setProperty('--'+mode+'-height-px',(w.filters[mode+'HeightPx']||w.layout[mode].h*50)+'px');card.style.setProperty('--span',Math.min(12,w.layout.desktop.w));card.style.setProperty('--height',Math.max(2,w.layout.desktop.h));card.style.setProperty('--tablet-span',w.layout.tablet.w);card.style.setProperty('--tablet-height',w.layout.tablet.h);card.style.setProperty('--mobile-height',w.layout.mobile.h);
    if(edit&&selected===w.id)card.classList.add('home-widget-selected');
    const heading=document.createElement('header');heading.className='home-widget-header';
    heading.innerHTML=`<button class="home-move-handle" data-home-grip="${esc(w.id)}" ${edit?'draggable="true"':'disabled aria-hidden="true" tabindex="-1"'} aria-label="Mover ${esc(w.title)}" title="Arrastrar en modo edición">⠿</button><h3>${esc(w.title)}</h3><span class="home-widget-scope">${hasStore(w)?'<select aria-label="Tienda de '+esc(w.title)+'" data-home-filter="store" data-id="'+esc(w.id)+'" data-draft-ignore><option value="all" '+(safeStore(w.scope.store)==='all'?'selected':'')+'>Todas las tiendas</option>'+homeStores().map(s=>'<option value="'+esc(s.id)+'" '+(s.id===w.scope.store?'selected':'')+'>'+esc(s.name)+'</option>').join('')+'</select>':''}</span><button type="button" class="home-widget-more" title="Configurar tamaño, contenido y columnas" aria-label="Configurar ${esc(w.title)}" data-home-command="select" data-id="${esc(w.id)}">⋯</button>`;
@@ -413,6 +413,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   const focusValue=focusAttr?active.getAttribute(focusAttr):null;
   const toolbar=root.querySelector('.home-dashboard-toolbar');
   if(toolbar){const bottom=toolbar.getBoundingClientRect().bottom;const top=Math.min(Math.max(72,Math.ceil(bottom)+10),Math.max(72,window.innerHeight-200));root.style.setProperty('--home-editor-top',top+'px');}
+  const selectedCard=grid?.querySelector('[data-home-widget="'+CSS.escape(selected||'')+'"]'),selectedRect=selectedCard?.getBoundingClientRect();drawer.dataset.side=selectedRect&&selectedRect.left+selectedRect.width/2>innerWidth/2?'left':'right';drawer.style.setProperty('--home-editor-left',Math.max(12,grid?.getBoundingClientRect().left||12)+'px');
   const w=find(selected),available=Object.values(HOME_WIDGET_CATALOG).filter(def=>permitted({type:def.type},can));
   const categories=[...new Set(available.map(def=>def.category))].sort((x,y)=>x.localeCompare(y,'es'));
   const activeCategory=categories.includes(drawer.dataset.category)?drawer.dataset.category:'all';
@@ -420,7 +421,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   drawer.hidden=!edit||panelView==='closed';
   if(drawer.hidden){drawer.replaceChildren();return;}
   const hiddenWidgets=model.widgets.filter(x=>x.hidden);
-  drawer.innerHTML=`<div class="home-library-heading"><h3>Biblioteca de widgets</h3><button data-home-command="exit">✕</button></div><p class="small muted">Añade paneles por módulo y configura cada instancia. Los colores, bordes y efectos se heredan de Mi interfaz.</p><details class="home-board-settings" open><summary>⚙ Diseño general del tablero</summary><div class="home-board-settings-fields"><label>Separación entre widgets<select data-home-general="gap">${[['inherit','Heredar de Mi interfaz'],['8','Muy compacta · 8 px'],['12','Compacta · 12 px'],['16','Equilibrada · 16 px'],['20','Amplia · 20 px'],['24','Muy amplia · 24 px']].map(([value,label])=>`<option value="${value}" ${canvas.gap===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Anchura del tablero<select data-home-general="width">${[['fluid','Todo el espacio disponible'],['1440','Máximo 1440 px'],['1600','Máximo 1600 px'],['1920','Máximo 1920 px']].map(([value,label])=>`<option value="${value}" ${canvas.width===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Densidad interior<select data-home-general="density">${[['inherit','Heredar de Mi interfaz'],['compact','Compacta'],['comfortable','Cómoda']].map(([value,label])=>`<option value="${value}" ${canvas.density===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Fondo de la zona<select data-home-general="background">${[['inherit','Mismo fondo que Inicio'],['soft','Zona suave, con separación visual']].map(([value,label])=>`<option value="${value}" ${canvas.background===value?'selected':''}>${label}</option>`).join('')}</select></label><p class="small muted">Se guarda para tu usuario; no cambia los colores ni las preferencias de tus compañeros.</p></div></details><label>Buscar widgets<input type="search" data-home-search placeholder="Buscar por módulo o nombre" value="${esc(drawer.dataset.search||'')}"></label><label>Módulo<select data-home-category><option value="all">Todos los módulos (${available.length})</option>${categories.map(category=>`<option value="${esc(category)}" ${activeCategory===category?'selected':''}>${esc(category)} (${available.filter(x=>x.category===category).length})</option>`).join('')}</select></label><div class="home-library-items">${available.filter(x=>(activeCategory==='all'||x.category===activeCategory)&&(x.title+' '+x.category).toLocaleLowerCase('es').includes(String(drawer.dataset.search||'').toLocaleLowerCase('es'))).map(x=>`<div class="home-library-item"><span><b>${esc(x.title)}</b><small>${esc(x.category)}</small></span><button aria-label="Añadir ${esc(x.title)}" data-home-command="add" data-type="${esc(x.type)}" ${nonClonable.has(x.type)&&model.widgets.some(w=>w.type===x.type)?'disabled title="Widget único: ya está en tu diseño"':''}>＋</button></div>`).join('')}</div>${hiddenWidgets.length?`<details class="home-hidden-widgets"><summary>Widgets ocultos (${hiddenWidgets.length})</summary>${hiddenWidgets.map(x=>`<div class="home-library-item"><b>${esc(x.title)}</b><button type="button" data-home-command="show" data-id="${esc(x.id)}">Mostrar</button></div>`).join('')}</details>`:''}${w?`<div class="home-widget-inspector"><h3>Configurar widget</h3><p class="small">${esc(w.title)}</p>${hasStore(w)?`<label>Tienda<select data-home-config="store" data-id="${esc(w.id)}"><option value="all" ${safeStore(w.scope.store)==='all'?'selected':''}>Todas las tiendas</option>${homeStores().map(s=>`<option value="${s.key}" ${s.key===w.scope.store?'selected':''}>${s.name}</option>`).join('')}</select></label>`:''}${['prestashop.summary','prestashop.orders','prestashop.top','home.gain'].includes(w.type)?`<label>Desde<input type="date" data-home-config="from" data-id="${esc(w.id)}" value="${dateRange(w).from}"></label><label>Hasta<input type="date" data-home-config="to" data-id="${esc(w.id)}" value="${dateRange(w).to}"></label>`:''}${prestashopInspector(w,columnQueries.get(w.id)||'')}<label>Anchura de escritorio<select data-home-config="width" data-id="${esc(w.id)}">${allowedWidths(w).map(x=>`<option value="${x}" ${x===w.layout.desktop.w?'selected':''}>${x} / 12 columnas</option>`).join('')}</select></label><label>Altura de escritorio<select data-home-config="height" data-id="${esc(w.id)}">${[2,3,4,5,6,7,8,9,10,11,12].map(x=>`<option value="${x}" ${x===w.layout.desktop.h?'selected':''}>${x*50} px</option>`).join('')}</select></label><label>Anchura tablet<select data-home-config="tabletWidth" data-id="${esc(w.id)}">${[1,2,3,4,5,6].map(x=>`<option value="${x}" ${x===w.layout.tablet.w?'selected':''}>${x} / 6 columnas</option>`).join('')}</select></label><label>Altura tablet<select data-home-config="tabletHeight" data-id="${esc(w.id)}">${Array.from({length:15},(_,i)=>i+2).map(x=>`<option value="${x}" ${x===w.layout.tablet.h?'selected':''}>${x} unidades</option>`).join('')}</select></label><label>Altura móvil<select data-home-config="mobileHeight" data-id="${esc(w.id)}">${Array.from({length:17},(_,i)=>i+2).map(x=>`<option value="${x}" ${x===w.layout.mobile.h?'selected':''}>${x} unidades</option>`).join('')}</select></label><label>Mover a posición<select data-home-config="position" data-id="${esc(w.id)}">${model.widgets.map((v,i)=>`<option value="${i}" ${v.id===w.id?'selected':''}>${i+1}. ${esc(v.title)}</option>`).join('')}</select></label><div class="home-inspector-actions"><button data-home-command="up" data-id="${esc(w.id)}">↑ Subir</button><button data-home-command="down" data-id="${esc(w.id)}">↓ Bajar</button><button data-home-command="duplicate" data-id="${esc(w.id)}" ${nonClonable.has(w.type)?'disabled title="Formulario único: no se duplica"':''}>Duplicar</button><button data-home-command="hide" data-id="${esc(w.id)}">Ocultar</button><button data-home-command="remove" data-id="${esc(w.id)}">Quitar instancia</button></div></div>`:''}`;
+  drawer.innerHTML=`<div class="home-library-heading"><h3>Biblioteca de widgets</h3><button data-home-command="exit">✕</button></div><p class="small muted">Añade paneles por módulo y configura cada instancia. Los colores, bordes y efectos se heredan de Mi interfaz.</p><details class="home-board-settings" open><summary>⚙ Diseño general del tablero</summary><div class="home-board-settings-fields"><label>Separación entre widgets<select data-home-general="gap">${[['inherit','Heredar de Mi interfaz'],['8','Muy compacta · 8 px'],['12','Compacta · 12 px'],['16','Equilibrada · 16 px'],['20','Amplia · 20 px'],['24','Muy amplia · 24 px']].map(([value,label])=>`<option value="${value}" ${canvas.gap===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Anchura del tablero<select data-home-general="width">${[['fluid','Todo el espacio disponible'],['1440','Máximo 1440 px'],['1600','Máximo 1600 px'],['1920','Máximo 1920 px']].map(([value,label])=>`<option value="${value}" ${canvas.width===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Densidad interior<select data-home-general="density">${[['inherit','Heredar de Mi interfaz'],['compact','Compacta'],['comfortable','Cómoda']].map(([value,label])=>`<option value="${value}" ${canvas.density===value?'selected':''}>${label}</option>`).join('')}</select></label><label>Fondo de la zona<select data-home-general="background">${[['inherit','Mismo fondo que Inicio'],['soft','Zona suave, con separación visual']].map(([value,label])=>`<option value="${value}" ${canvas.background===value?'selected':''}>${label}</option>`).join('')}</select></label><p class="small muted">Se guarda para tu usuario; no cambia los colores ni las preferencias de tus compañeros.</p></div></details><label>Buscar widgets<input type="search" data-home-search placeholder="Buscar por módulo o nombre" value="${esc(drawer.dataset.search||'')}"></label><label>Módulo<select data-home-category><option value="all">Todos los módulos (${available.length})</option>${categories.map(category=>`<option value="${esc(category)}" ${activeCategory===category?'selected':''}>${esc(category)} (${available.filter(x=>x.category===category).length})</option>`).join('')}</select></label><div class="home-library-items">${available.filter(x=>(activeCategory==='all'||x.category===activeCategory)&&(x.title+' '+x.category).toLocaleLowerCase('es').includes(String(drawer.dataset.search||'').toLocaleLowerCase('es'))).map(x=>`<div class="home-library-item"><span><b>${esc(x.title)}</b><small>${esc(x.category)}</small></span><button aria-label="Añadir ${esc(x.title)}" data-home-command="add" data-type="${esc(x.type)}" ${nonClonable.has(x.type)&&model.widgets.some(w=>w.type===x.type)?'disabled title="Widget único: ya está en tu diseño"':''}>＋</button></div>`).join('')}</div>${hiddenWidgets.length?`<details class="home-hidden-widgets"><summary>Widgets ocultos (${hiddenWidgets.length})</summary>${hiddenWidgets.map(x=>`<div class="home-library-item"><b>${esc(x.title)}</b><button type="button" data-home-command="show" data-id="${esc(x.id)}">Mostrar</button></div>`).join('')}</details>`:''}${w?`<div class="home-widget-inspector"><h3>Configurar widget</h3><p class="small">${esc(w.title)}</p>${hasStore(w)?`<label>Tienda<select data-home-config="store" data-id="${esc(w.id)}"><option value="all" ${safeStore(w.scope.store)==='all'?'selected':''}>Todas las tiendas</option>${homeStores().map(s=>`<option value="${s.key}" ${s.key===w.scope.store?'selected':''}>${s.name}</option>`).join('')}</select></label>`:''}${['prestashop.summary','prestashop.orders','prestashop.top','home.gain'].includes(w.type)?`<label>Desde<input type="date" data-home-config="from" data-id="${esc(w.id)}" value="${dateRange(w).from}"></label><label>Hasta<input type="date" data-home-config="to" data-id="${esc(w.id)}" value="${dateRange(w).to}"></label>`:''}${prestashopInspector(w,columnQueries.get(w.id)||'')}<label>Anchura de escritorio<select data-home-config="width" data-id="${esc(w.id)}">${allowedWidths(w).map(x=>`<option value="${x}" ${x===w.layout.desktop.w?'selected':''}>${x} / 12 columnas</option>`).join('')}</select></label><label>Altura de escritorio (px)<input type="number" min="100" max="2000" step="1" data-home-config="height" data-id="${esc(w.id)}" value="${w.filters.desktopHeightPx||Math.round(grid.querySelector('[data-home-widget="'+CSS.escape(w.id)+'"]')?.getBoundingClientRect().height||w.layout.desktop.h*50)}"></label><label>Anchura tablet<select data-home-config="tabletWidth" data-id="${esc(w.id)}">${[1,2,3,4,5,6].map(x=>`<option value="${x}" ${x===w.layout.tablet.w?'selected':''}>${x} / 6 columnas</option>`).join('')}</select></label><label>Altura tablet (px)<input type="number" min="100" max="2000" step="1" data-home-config="tabletHeight" data-id="${esc(w.id)}" value="${w.filters.tabletHeightPx||w.layout.tablet.h*50}"></label><label>Altura móvil (px)<input type="number" min="100" max="2000" step="1" data-home-config="mobileHeight" data-id="${esc(w.id)}" value="${w.filters.mobileHeightPx||w.layout.mobile.h*50}"></label><label>Mover a posición<select data-home-config="position" data-id="${esc(w.id)}">${model.widgets.map((v,i)=>`<option value="${i}" ${v.id===w.id?'selected':''}>${i+1}. ${esc(v.title)}</option>`).join('')}</select></label><div class="home-inspector-actions"><button data-home-command="up" data-id="${esc(w.id)}">↑ Subir</button><button data-home-command="down" data-id="${esc(w.id)}">↓ Bajar</button><button data-home-command="duplicate" data-id="${esc(w.id)}" ${nonClonable.has(w.type)?'disabled title="Formulario único: no se duplica"':''}>Duplicar</button><button data-home-command="hide" data-id="${esc(w.id)}">Ocultar</button><button data-home-command="remove" data-id="${esc(w.id)}">Quitar instancia</button></div></div>`:''}`;
   drawer.querySelectorAll('input,select,textarea').forEach(field=>field.setAttribute('data-draft-ignore',''));
   organizeHomeEditor(drawer);
   if(previousView===panelView){
@@ -486,7 +487,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
    }
    for(const set of fieldsets)contentFields.append(set);
    content.append(contentFields);
-   sizeFields.insertAdjacentHTML('afterbegin','<label>Comportamiento de altura<select data-home-config="heightMode" data-id="'+esc(w.id)+'"><option value="auto" '+(w.filters.heightMode!=='manual'?'selected':'')+'>Automática según contenido</option><option value="manual" '+(w.filters.heightMode==='manual'?'selected':'')+'>Fija, con desplazamiento interior</option></select></label>'+fieldHelp('Altura de los widgets','Automática conserva el contenido completo. Cambiar una altura activa el tamaño fijo: cada unidad son 50 píxeles y el contenido se puede recorrer dentro del bloque. Escritorio, tablet y móvil conservan sus propios tamaños.'));
+   sizeFields.insertAdjacentHTML('afterbegin','<label>Comportamiento de altura<select data-home-config="heightMode" data-id="'+esc(w.id)+'"><option value="auto" '+(w.filters.heightMode!=='manual'?'selected':'')+'>Automática según contenido</option><option value="manual" '+(w.filters.heightMode==='manual'?'selected':'')+'>Fija, con desplazamiento interior</option></select></label>'+fieldHelp('Altura de los widgets','Automática conserva el contenido completo. Cambiar una altura activa el tamaño fijo. Puedes ajustarlo píxel a píxel y recorrer el contenido dentro del bloque. Escritorio, tablet y móvil conservan sus propios tamaños.'));
    layout.append(sizeFields);
    advanced.append(advancedFields);
    widgetView.append(switcher,intro,presets,content,layout,advanced);
@@ -807,10 +808,10 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
    if(['chartMode','chartMetric','productView','topLimit','showMetrics','showTop','tableDensity'].includes(key)){const value=key==='topLimit'?Number(el.value):['showMetrics','showTop'].includes(key)?el.value==='yes':el.value;mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{[key]:value}}));return}
    if(key==='width')mutate(m=>setHomeWidgetConfig(m,w.id,{layout:{desktop:{w:Number(el.value)}}}));
    if(key==='heightMode')mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{heightMode:el.value==='manual'?'manual':'auto'}}));
-   if(key==='height')mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{heightMode:'manual'},layout:{desktop:{h:Number(el.value)}}}));
+   if(key==='height'){const pixels=Number(el.value);if(!Number.isInteger(pixels)||pixels<100||pixels>2000){status('La altura debe estar entre 100 y 2000 píxeles.',true);return;}mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{heightMode:'manual',desktopHeightPx:pixels},layout:{desktop:{h:Math.max(2,Math.min(12,Math.round(pixels/50)))}}}));}
    if(key==='tabletWidth')mutate(m=>setHomeWidgetConfig(m,w.id,{layout:{tablet:{w:Number(el.value)}}}));
-   if(key==='tabletHeight')mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{heightMode:'manual'},layout:{tablet:{h:Number(el.value)}}}));
-   if(key==='mobileHeight')mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{heightMode:'manual'},layout:{mobile:{h:Number(el.value)}}}));
+   if(key==='tabletHeight'){const pixels=Number(el.value);if(!Number.isInteger(pixels)||pixels<100||pixels>2000){status('La altura debe estar entre 100 y 2000 píxeles.',true);return;}mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{heightMode:'manual',tabletHeightPx:pixels},layout:{tablet:{h:Math.max(2,Math.min(12,Math.round(pixels/50)))}}}));}
+   if(key==='mobileHeight'){const pixels=Number(el.value);if(!Number.isInteger(pixels)||pixels<100||pixels>2000){status('La altura debe estar entre 100 y 2000 píxeles.',true);return;}mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{heightMode:'manual',mobileHeightPx:pixels},layout:{mobile:{h:Math.max(2,Math.min(12,Math.round(pixels/50)))}}}));}
    if(key==='position'){const prev=model.widgets.findIndex(x=>x.id===w.id),next=Number(el.value);if(Number.isSafeInteger(next)&&next>=0&&next<model.widgets.length){moveTo(w.id,next)}}
   },true);
   let searchTimer;root.addEventListener('input',e=>{if(e.target.matches('[data-home-column-search]')){columnQueries.set(e.target.dataset.homeColumnSearch,e.target.value);for(const row of e.target.closest('.home-columns-inspector').querySelectorAll('.tc-column-row'))row.hidden=!row.textContent.toLocaleLowerCase('es').includes(e.target.value.toLocaleLowerCase('es'));return;}if(e.target.matches('[data-home-search]')){const d=root.querySelector('[data-home-drawer]');d.dataset.search=e.target.value;const start=e.target.selectionStart;renderDrawer();const current=root.querySelector('[data-home-search]');current?.focus();current?.setSelectionRange(start,start)}},true);
@@ -819,15 +820,15 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   const resizeMode=()=>innerWidth<=600?'mobile':innerWidth<=1400?'tablet':'desktop';
   const rangeFor=(mode,w)=>({desktop:{min:HOME_WIDGET_CATALOG[w.type].minWidth,max:HOME_WIDGET_CATALOG[w.type].maxWidth,limit:12},tablet:{min:1,max:6,limit:6},mobile:{min:1,max:1,limit:1}})[mode];
   const geometry=(p,e,w)=>{
-   const bounds=rangeFor(p.mode,w),dw=Math.round((e.clientX-p.startX)/p.width),dh=Math.round((e.clientY-p.startY)/35);
-   return {w:Math.max(bounds.min,Math.min(bounds.max,p.w+dw)),h:Math.max(2,Math.min(p.mode==='desktop'?12:p.mode==='tablet'?16:18,p.h+dh))};
+   const bounds=rangeFor(p.mode,w),dw=Math.round((e.clientX-p.startX)/p.width),dh=e.clientY-p.startY;
+   return {w:Math.max(bounds.min,Math.min(bounds.max,p.w+dw)),h:p.h,heightPx:Math.max(100,Math.min(2000,Math.round(p.heightPx+dh)))};
   };
   const preview=(p,size)=>{
-   p.card.dataset.homeHeightMode=size.h!==p.h?'manual':find(p.id)?.filters.heightMode||'auto';
+   p.card.dataset.homeHeightMode=size.heightPx!==Math.round(p.heightPx)?'manual':find(p.id)?.filters.heightMode||'auto';if(size.heightPx)p.card.style.setProperty('--'+p.mode+'-height-px',size.heightPx+'px');
    if(p.mode==='desktop'){p.card.style.setProperty('--span',size.w);p.card.style.setProperty('--height',size.h)}
    if(p.mode==='tablet'){p.card.style.setProperty('--tablet-span',size.w);p.card.style.setProperty('--tablet-height',size.h)}
    if(p.mode==='mobile')p.card.style.setProperty('--mobile-height',size.h);
-   p.card.dataset.resizePreview=p.mode==='mobile'?size.h+' unidades móvil':size.w+' columnas · '+size.h+' unidades';
+   p.card.dataset.resizePreview=p.mode==='mobile'?size.heightPx+' px':size.w+' columnas · '+size.heightPx+' px';
   };
   root.addEventListener('pointerdown',e=>{
    const handle=e.target.closest('[data-home-resize]');if(!edit||busy||!handle)return;
@@ -836,7 +837,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
    const mode=resizeMode(),cols=rangeFor(mode,w).limit;
    const gap=parseFloat(getComputedStyle(grid).columnGap)||0;
    const width=Math.max(25,(grid.getBoundingClientRect().width-gap*(cols-1))/cols+gap);
-   activeResize={id:w.id,mode,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,w:mode==='mobile'?1:w.layout[mode].w,h:w.layout[mode].h,width,card,handle};
+   root.classList.add('home-pointer-editing');activeResize={id:w.id,mode,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,w:mode==='mobile'?1:w.layout[mode].w,h:w.layout[mode].h,heightPx:card.getBoundingClientRect().height,width,card,handle};
    handle.setPointerCapture?.(e.pointerId);
   },true);
   root.addEventListener('pointermove',e=>{
@@ -845,16 +846,16 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   },true);
   root.addEventListener('pointerup',e=>{
    const p=activeResize;if(!p||p.pointerId!==e.pointerId)return;
-   activeResize=null;try{p.handle.releasePointerCapture?.(e.pointerId)}catch{}
+   activeResize=null;root.classList.remove('home-pointer-editing');try{p.handle.releasePointerCapture?.(e.pointerId)}catch{}
    const w=find(p.id);if(!w||!edit)return;
    const size=geometry(p,e,w);
-   if(size.w!==p.w||size.h!==p.h){
-    mutate(m=>setHomeWidgetConfig(m,p.id,{filters:size.h!==p.h?{heightMode:'manual'}:{},layout:{[p.mode]:p.mode==='mobile'?{h:size.h}:size}}));
-   }else{preview(p,{w:p.w,h:p.h});delete p.card.dataset.resizePreview}
+   if(size.w!==p.w||size.heightPx!==Math.round(p.heightPx)){
+    mutate(m=>setHomeWidgetConfig(m,p.id,{filters:size.heightPx!==Math.round(p.heightPx)?{heightMode:'manual',[p.mode+'HeightPx']:size.heightPx}:{},layout:{[p.mode]:p.mode==='mobile'?{h:p.h}:{w:size.w,h:p.h}}}));
+   }else{preview(p,{w:p.w,h:p.h,heightPx:Math.round(p.heightPx)});delete p.card.dataset.resizePreview}
   },true);
   root.addEventListener('pointercancel',e=>{
    const p=activeResize;if(!p||p.pointerId!==e.pointerId)return;
-   activeResize=null;preview(p,{w:p.w,h:p.h});delete p.card.dataset.resizePreview;
+   activeResize=null;root.classList.remove('home-pointer-editing');preview(p,{w:p.w,h:p.h});delete p.card.dataset.resizePreview;
   },true);
   root.addEventListener('keydown',e=>{
    if(e.key==='Escape'&&edit&&panelView!=='closed'){panelView='closed';renderDrawer();e.preventDefault();return}
@@ -863,8 +864,8 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
    const w=find(handle.dataset.homeResize);if(!w)return;e.preventDefault();
    const mode=resizeMode(),limits=rangeFor(mode,w),dx=e.key==='ArrowLeft'?-1:e.key==='ArrowRight'?1:0,dy=e.key==='ArrowUp'?-1:e.key==='ArrowDown'?1:0;
    const newW=mode==='mobile'?1:Math.max(limits.min,Math.min(limits.max,w.layout[mode].w+dx));
-   const newH=Math.max(2,Math.min(mode==='desktop'?12:mode==='tablet'?16:18,w.layout[mode].h+dy));
-   mutate(m=>setHomeWidgetConfig(m,w.id,{filters:dy?{heightMode:'manual'}:{},layout:{[mode]:mode==='mobile'?{h:newH}:{w:newW,h:newH}}}));
+   const newH=w.layout[mode].h;const pixelHeight=Math.max(100,Math.min(2000,Math.round(handle.closest('[data-home-widget]').getBoundingClientRect().height)+(dy*(e.shiftKey?10:1))));
+   mutate(m=>setHomeWidgetConfig(m,w.id,{filters:dy?{heightMode:'manual',[mode+'HeightPx']:pixelHeight}:{},layout:{[mode]:mode==='mobile'?{h:newH}:{w:newW,h:newH}}}));
    root.querySelector('[data-home-resize="'+CSS.escape(w.id)+'"]')?.focus();
   },true);
   // Touch grip: pointer-based reordering. Browser HTML5 drag events alone do
@@ -874,7 +875,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   root.addEventListener('pointerdown',e=>{
    const grip=e.target.closest('[data-home-grip]');
    if(!edit||busy||!grip||e.button!==0)return;
-   touchMove={pointerId:e.pointerId,source:grip.dataset.homeGrip,startX:e.clientX,startY:e.clientY,target:null,active:false,grip};
+   root.classList.add('home-pointer-editing');touchMove={pointerId:e.pointerId,source:grip.dataset.homeGrip,startX:e.clientX,startY:e.clientY,target:null,active:false,grip};
    e.preventDefault();
    try{grip.setPointerCapture(e.pointerId)}catch{}
   },true);
@@ -889,19 +890,19 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   },true);
   root.addEventListener('pointerup',e=>{
    const d=touchMove;if(!d||e.pointerId!==d.pointerId)return;
-   touchMove=null;resetTouchTarget();
+   touchMove=null;root.classList.remove('home-pointer-editing');resetTouchTarget();
    try{d.grip.releasePointerCapture(e.pointerId)}catch{}
    if(d.active&&d.target&&d.target!==d.source){
     const from=model.widgets.findIndex(w=>w.id===d.source),to=model.widgets.findIndex(w=>w.id===d.target);
     if(from>=0&&to>=0){moveTo(d.source,to);status('Posición cambiada. Guarda el diseño para conservarla.')}
    }else if(edit){selected=d.source;draw()}
   },true);
-  root.addEventListener('pointercancel',e=>{if(touchMove?.pointerId===e.pointerId){touchMove=null;resetTouchTarget()}},true);
+  root.addEventListener('pointercancel',e=>{if(touchMove?.pointerId===e.pointerId){touchMove=null;root.classList.remove('home-pointer-editing');resetTouchTarget()}},true);
   // Native drag and drop; select/reorder controls also work with keyboard and touch.
-  root.addEventListener('dragstart',e=>{const grip=e.target.closest('[data-home-grip]');if(!edit||!grip)return;activeDrag=grip.dataset.homeGrip;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',activeDrag)},true);
+  root.addEventListener('dragstart',e=>{const grip=e.target.closest('[data-home-grip]');if(!edit||!grip)return;root.classList.add('home-pointer-editing');activeDrag=grip.dataset.homeGrip;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',activeDrag)},true);
   root.addEventListener('dragover',e=>{if(edit&&activeDrag&&e.target.closest('[data-home-widget]'))e.preventDefault()},true);
   root.addEventListener('drop',e=>{const target=e.target.closest('[data-home-widget]');if(!edit||!target||!activeDrag)return;e.preventDefault();const from=model.widgets.findIndex(w=>w.id===activeDrag),to=model.widgets.findIndex(w=>w.id===target.dataset.homeWidget);if(from>=0&&to>=0&&from!==to){moveTo(activeDrag,to);status('Cambios pendientes de guardar.')}activeDrag=null},true);
-  root.addEventListener('dragend',()=>activeDrag=null,true);
+  root.addEventListener('dragend',()=>{activeDrag=null;root.classList.remove('home-pointer-editing')},true);
   draw();void load();
   // Read the authorized native ledger; never query or mutate an external shop from Inicio.
   for(const w of model.widgets)if(usesShopData(w))void fetchFor(w);

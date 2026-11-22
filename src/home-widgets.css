@@ -694,11 +694,11 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 #content .dashboard-page .home-orders-cards{max-height:420px;overflow-y:auto;overscroll-behavior:contain}
 
 /* Explicit height is a real, scrollable viewport; automatic cards retain their layout. */
-#content .dashboard-page .home-widget-frame[data-home-height-mode="manual"]{height:calc(var(--height,4)*50px)!important;min-height:0!important;overflow:hidden!important}
+#content .dashboard-page .home-widget-frame[data-home-height-mode="manual"]{height:var(--desktop-height-px,200px)!important;min-height:0!important;overflow:hidden!important}
 #content .dashboard-page .home-widget-frame[data-home-height-mode="manual"]>.home-widget-header{flex:none}
 #content .dashboard-page .home-widget-frame[data-home-height-mode="manual"]>.home-widget-body{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;overscroll-behavior:contain}
-@media(max-width:1400px){#content .dashboard-page .home-widget-frame[data-home-height-mode="manual"]{height:calc(var(--tablet-height,4)*50px)!important}}
-@media(max-width:600px){#content .dashboard-page .home-widget-frame[data-home-height-mode="manual"]{height:calc(var(--mobile-height,6)*50px)!important}}
+@media(max-width:1400px){#content .dashboard-page .home-widget-frame[data-home-height-mode="manual"]{height:var(--tablet-height-px,200px)!important}}
+@media(max-width:600px){#content .dashboard-page .home-widget-frame[data-home-height-mode="manual"]{height:var(--mobile-height-px,300px)!important}}
 
 /* Keep the sales table usable at every width; narrow widgets scroll horizontally. */
 #content .dashboard-page .home-widget-body .home-orders-scroll{display:block!important;overflow:auto!important;scrollbar-width:auto}
@@ -706,3 +706,7 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 #content .dashboard-page .home-order-scroll-actions{display:flex!important}
 #content .dashboard-page .home-orders-scroll::-webkit-scrollbar{display:block;height:10px;width:10px}
 #content .dashboard-page :is(.home-top-item,.home-order-product-line)>.home-order-no-image{flex:0 0 34px!important;width:34px!important;height:34px!important;min-width:34px;box-sizing:border-box}
+
+#content .dashboard-page .home-widgets-drawer[data-side="left"]{right:auto!important;left:var(--home-editor-left,12px)!important}
+@media(max-width:700px){#content .dashboard-page .home-widgets-drawer[data-side="left"]{left:12px!important;right:12px!important}}
+#content .dashboard-page.home-pointer-editing .home-widgets-drawer{visibility:hidden!important;pointer-events:none!important}

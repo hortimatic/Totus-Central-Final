@@ -52,7 +52,7 @@ try{
  // The right-hand source widgets must resize, retain scroll access and survive save.
  for(const id of ['documents','billing','system']){
   await page.locator('[data-home-widget="'+id+'"] [data-home-command="select"]').click();
-  await page.locator('[data-home-config="height"]').selectOption('4');
+  await page.locator('[data-home-config="height"]').fill('200');await page.locator('[data-home-config="height"]').press('Tab');
   assert.equal(await page.locator('[data-home-widget="'+id+'"]').evaluate(n=>n.getBoundingClientRect().height),200);
   await page.locator('[data-home-config="width"]').selectOption('12');
   assert.equal(await page.locator('[data-home-widget="'+id+'"]').evaluate(n=>n.style.getPropertyValue('--span')),'12');
@@ -61,6 +61,13 @@ try{
   assert.equal(await page.locator('[data-home-widget="'+id+'"] .home-widget-body').evaluate(n=>getComputedStyle(n).overflowY),'auto');
   await page.locator('[data-home-widget="'+id+'"] [data-home-command="select"]').click();await page.locator('[data-home-config="heightMode"]').selectOption('auto');
   await page.locator('[data-home-config="width"]').selectOption('6');await page.locator('[data-home-command="save"]').first().click();await page.waitForFunction(()=>!window.api.hasUnsaved());
+  await page.locator('[data-home-widget="'+id+'"] [data-home-command="select"]').click();await page.locator('[data-home-command="close-panel"]').click();
+  const handle=page.locator('[data-home-widget="'+id+'"] [data-home-resize]');await handle.scrollIntoViewIfNeeded();const rect=await handle.boundingBox();
+  const realHeight=await page.locator('[data-home-widget="'+id+'"]').evaluate(n=>n.getBoundingClientRect().height);
+  await page.mouse.move(rect.x+rect.width/2,rect.y+rect.height/2);await page.mouse.down();await page.mouse.move(rect.x+rect.width/2,rect.y+rect.height/2+7,{steps:7});await page.mouse.up();
+  const draggedHeight=await page.locator('[data-home-widget="'+id+'"]').evaluate(n=>n.getBoundingClientRect().height);assert.ok(Math.abs(draggedHeight-Math.round(realHeight+7))<=1,'Arrastre de 7 px sin salto: '+id+' '+realHeight+' -> '+draggedHeight);
+  await page.getByRole('button',{name:'Deshacer',exact:true}).click();await page.getByRole('button',{name:'Cancelar edición',exact:true}).click();
+
  }
  const activity=page.locator('[data-home-widget="activity"]');
  await activity.locator('[data-home-command="period-week"]').click();

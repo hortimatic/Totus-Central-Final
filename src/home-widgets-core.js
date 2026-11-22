@@ -53,9 +53,10 @@ export const HOME_ORDER_COLUMNS=Object.freeze(['order','reference','products','c
 const safeFilters = x => {
   if(!isObj(x))return {};
   const out={};
-  for(const key of ['from','to','status','query','payment','origin','sort','period','inheritPeriod','page','pageSize','columns','chartMode','chartMetric','tableDensity','productView','topLimit','showMetrics','showTop','heightMode']){
+  for(const key of ['from','to','status','query','payment','origin','sort','period','inheritPeriod','page','pageSize','columns','chartMode','chartMetric','tableDensity','productView','topLimit','showMetrics','showTop','heightMode','desktopHeightPx','tabletHeightPx','mobileHeightPx']){
     if(!Object.hasOwn(x,key))continue;
-    if(key==='heightMode')out.heightMode=x[key]==='manual'?'manual':'auto';
+    if(['desktopHeightPx','tabletHeightPx','mobileHeightPx'].includes(key)){if(Number.isInteger(x[key])&&x[key]>=100&&x[key]<=2000)out[key]=x[key];}
+    else if(key==='heightMode')out.heightMode=x[key]==='manual'?'manual':'auto';
     else if(key==='chartMode')out.chartMode=['hours','days','off'].includes(x[key])?x[key]:'hours';
     else if(key==='chartMetric')out.chartMetric=['orders','sales'].includes(x[key])?x[key]:'orders';
     else if(key==='tableDensity')out.tableDensity=['compact','normal','comfortable'].includes(x[key])?x[key]:'normal';
