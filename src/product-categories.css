@@ -1,0 +1,12 @@
+.prd-categories{display:grid;gap:10px;min-width:0}
+.prd-category-heading,.prd-category-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.prd-category-heading h3,.prd-category-heading p,.prd-category-notice{margin:0}
+.prd-category-heading p,.prd-category-tools>span{color:var(--muted);font-size:.9em}
+.prd-category-tools label{display:grid;gap:4px;flex:1 1 240px;max-width:460px}
+.prd-category-table{overflow-x:auto;min-width:0}
+.prd-category-table table{width:100%;border-collapse:collapse}
+.prd-category-table :is(th,td){padding:8px 10px;text-align:left;border-bottom:1px solid var(--line)}
+.prd-category-table th{font-size:.9em;color:var(--muted)}
+.prd-category-name{display:inline-block;padding-inline-start:calc(var(--category-depth)*16px)}
+.prd-category-table .inline-actions{flex-wrap:nowrap}
+@media(max-width:650px){.prd-category-heading>.inline-actions{width:100%}.prd-category-heading>.inline-actions>*{flex:1}.prd-category-tools label{max-width:none}}

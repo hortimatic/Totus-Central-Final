@@ -120,28 +120,36 @@
       "verify_jwt": false,
       "files": [
         "src/api-presets.js",
+        "src/application-cors.js",
+        "src/category-create-contract.js",
+        "src/central-product-adapter.js",
+        "src/central-product-edit.js",
+        "src/central-product-sync-plan.js",
+        "src/central-store-data.js",
+        "src/contact-directory-contract.js",
         "src/prestashop-readonly.js",
         "src/productos-png.js",
         "src/productos-stages-contract.js",
         "src/productos-write-contract.js",
+        "src/record-identifiers.js",
+        "src/website-localization.js",
+        "src/website-registry.js",
         "supabase/functions/totus-ai/cloudflare.js",
+        "supabase/functions/totus-connections/central-category-sync.js",
+        "supabase/functions/totus-connections/central-product-sync.js",
+        "supabase/functions/totus-connections/contact-directory-create.js",
+        "supabase/functions/totus-connections/contact-directory-delete.js",
+        "supabase/functions/totus-connections/contact-directory-write.js",
+        "supabase/functions/totus-connections/contact-directory.js",
         "supabase/functions/totus-connections/github.js",
         "supabase/functions/totus-connections/index.ts",
         "supabase/functions/totus-connections/prestashop-create.js",
+        "supabase/functions/totus-connections/prestashop-product-image-replace.js",
+        "supabase/functions/totus-connections/prestashop-product-remove.js",
         "supabase/functions/totus-connections/prestashop-product-stage.js",
         "supabase/functions/totus-connections/prestashop-write.js",
         "supabase/functions/totus-connections/prestashop.js",
-        "supabase/functions/totus-connections/transport.js",
-        "supabase/functions/totus-connections/prestashop-product-remove.js",
-        "supabase/functions/totus-connections/prestashop-product-image-replace.js",
-        "src/contact-directory-contract.js",
-        "supabase/functions/totus-connections/contact-directory.js",
-        "supabase/functions/totus-connections/contact-directory-write.js",
-        "supabase/functions/totus-connections/contact-directory-create.js",
-        "supabase/functions/totus-connections/contact-directory-delete.js",
-        "src/website-registry.js",
-        "src/application-cors.js",
-        "src/category-create-contract.js"
+        "supabase/functions/totus-connections/transport.js"
       ]
     },
     {
@@ -260,7 +268,9 @@
         "supabase/functions/totus-ai/cloudflare.js",
         "src/api-presets.js",
         "supabase/functions/totus-web-sync/source-reader.js",
-        "supabase/functions/totus-web-sync/native-catalogue.js"
+        "supabase/functions/totus-web-sync/native-catalogue.js",
+        "supabase/functions/totus-web-sync/language-context.js",
+        "src/website-localization.js"
       ]
     }
   ]

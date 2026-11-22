@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=321b8aa9c0cebb22a8179ca8c80cbdfc1b509ed8';
+import {websiteKey} from './website-registry.js?v=f43b75112ed8f6e861602bfd43fbcac98b087796';
 // Productos / PrestaShop 1.7: restrictive write contract.
 // Never accept XML, URLs, arbitrary paths, numeric relationships or shop IDs from the client.
 // The source XML comes exclusively from a freshly validated server-side GET.
@@ -166,7 +166,7 @@ const nativeNodes=Object.freeze({customers:'customer',addresses:'address',produc
 // Internal XML utilities do not authorize requests. Products' public resource
 // allowlist is unchanged; the directory handler has its own scoped contract.
 export function directorySchemaProjection(schema,resource){
- if(!['customers','addresses','manufacturers','suppliers','product_options','product_option_values','product_features','product_feature_values'].includes(resource))invalid('Directorio no permitido.');
+ if(!['customers','addresses','manufacturers','suppliers','product_options','product_option_values','product_features','product_feature_values','categories'].includes(resource))invalid('Directorio no permitido.');
  const item=direct(tree(schema),nativeNodes[resource]),fields=['id'];
  for(const node of item.children){
   if(node.name==='id'||node.name==='associations'||/\breadOnly\s*=\s*(["'])true\1/i.test(node.attributes))continue;
@@ -186,7 +186,7 @@ export function directorySchemaProjection(schema,resource){
 // preserved verbatim, never accepted from or returned to a browser.
 export function legacyDirectoryPreservationProjection(version,resource){
  if(!/^1\.7\.8(?:\.\d+)?$/.test(version||''))return null;
- const native={manufacturers:'[id,name,active,date_add,date_upd,description,short_description,meta_title,meta_description,meta_keywords]',suppliers:'[id,name,active,date_add,date_upd,description,meta_title,meta_description,meta_keywords]',product_options:'[id,is_color_group,group_type,position,name,public_name,product_option_values[id]]'};
+ const native={categories:'[id,id_parent,id_shop_default,is_root_category,active,position,date_add,date_upd,name,link_rewrite,description,meta_title,meta_description,meta_keywords,categories[id],products[id]]',manufacturers:'[id,name,active,date_add,date_upd,description,short_description,meta_title,meta_description,meta_keywords]',suppliers:'[id,name,active,date_add,date_upd,description,meta_title,meta_description,meta_keywords]',product_options:'[id,is_color_group,group_type,position,name,public_name,product_option_values[id]]'};
  if(native[resource])return native[resource];if(resource!=='customers')return null;
  return '[id,lastname,firstname,email,passwd,id_gender,birthday,newsletter,newsletter_date_add,ip_registration_newsletter,optin,website,company,siret,ape,outstanding_allow_amount,show_public_prices,id_risk,max_payment_days,active,deleted,note,is_guest,id_shop,id_shop_group,id_default_group,id_lang,date_add,date_upd,reset_password_token,reset_password_validity,groups[id]]';
 }
@@ -196,7 +196,7 @@ export function directoryXmlLanguages(xml,resource,field){
  if(!ids.length||ids.some(id=>!id)||new Set(ids).size!==ids.length)invalid('Idiomas del campo no verificables.');return ids;
 }
 export function directoryXmlField(xml,resource,field){
- if(!['customers','addresses','manufacturers','suppliers','product_options','product_option_values','product_features','product_feature_values','categories'].includes(resource)||!['id','id_customer','id_supplier','id_manufacturer','id_attribute_group','id_feature','id_parent','deleted'].includes(field))invalid('Relación de directorio no admitida.');
+ if(!['customers','addresses','manufacturers','suppliers','product_options','product_option_values','product_features','product_feature_values','categories'].includes(resource)||!['id','id_customer','id_supplier','id_manufacturer','id_attribute_group','id_feature','id_parent','id_shop_default','is_root_category','active','deleted'].includes(field))invalid('Relación de directorio no admitida.');
  return fieldText(xml,direct(tree(xml),nativeNodes[resource]),field);
 }
 export function directoryBlankXml(resource){

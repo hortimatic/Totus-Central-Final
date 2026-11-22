@@ -1,12 +1,14 @@
-import {websiteKey} from './website-registry.js?v=321b8aa9c0cebb22a8179ca8c80cbdfc1b509ed8';
+import {websiteKey} from './website-registry.js?v=f43b75112ed8f6e861602bfd43fbcac98b087796';
 // Business fields only. Authentication/password/reset tokens are never returned.
 export const DIRECTORY_KINDS=Object.freeze({
  clientes:{title:'Clientes',module:'facturacion',resource:'customers',resources:['customers','addresses','orders','order_details','products','combinations','currencies','countries','states','groups','languages']},
  proveedores:{title:'Proveedores',module:'gastos',resource:'suppliers',resources:['suppliers','addresses','products','product_suppliers','countries','states','languages']},
  marcas:{title:'Marcas',module:'pricing',resource:'manufacturers',resources:['manufacturers','addresses','products','countries','states','languages']},
+ categorias:{title:'Categorías',module:'productos',resource:'categories',resources:['categories','languages']},
  atributos:{title:'Atributos',module:'productos',resource:'product_options',resources:['product_options','product_option_values','product_features','product_feature_values','products','combinations','languages']}
 });
 export const DIRECTORY_FIELDS=Object.freeze({
+ categories:['id','id_parent','id_shop_default','is_root_category','active','position','name','link_rewrite','description','meta_title','meta_description','meta_keywords','date_add','date_upd'],
  customers:['id','id_default_group','id_lang','id_gender','firstname','lastname','email','birthday','newsletter','optin','website','company','siret','ape','outstanding_allow_amount','show_public_prices','id_risk','max_payment_days','active','is_guest','deleted','date_add','date_upd','id_shop','id_shop_group'],
  addresses:['id','id_customer','id_supplier','id_manufacturer','id_country','id_state','alias','company','lastname','firstname','address1','address2','postcode','city','other','phone','phone_mobile','vat_number','dni','date_add','date_upd','deleted'],
  suppliers:['id','name','active','description','meta_title','meta_description','meta_keywords','date_add','date_upd'],
@@ -20,12 +22,12 @@ export const DIRECTORY_FIELDS=Object.freeze({
  order_details:['id','id_order','product_id','product_attribute_id','product_name','product_reference','product_quantity','purchase_supplier_price','original_wholesale_price','total_price_tax_incl','total_price_tax_excl'],
  currencies:['id','iso_code','name'],countries:['id','iso_code','name','active'],states:['id','id_country','name','iso_code','active'],groups:['id','name','price_display_method'],languages:['id','iso_code','name','active']
 });
-const readonly=new Set(['id','date_add','date_upd','id_shop','id_shop_group','deleted','associations']);
-export const DIRECTORY_WRITABLE=Object.freeze(Object.fromEntries(['customers','addresses','suppliers','manufacturers','product_options','product_option_values','product_features','product_feature_values'].map(resource=>[resource,DIRECTORY_FIELDS[resource].filter(f=>!readonly.has(f))])));
+const readonly=new Set(['id','date_add','date_upd','id_shop','id_shop_group','id_shop_default','is_root_category','deleted','associations']);
+export const DIRECTORY_WRITABLE=Object.freeze(Object.fromEntries(['categories','customers','addresses','suppliers','manufacturers','product_options','product_option_values','product_features','product_feature_values'].map(resource=>[resource,DIRECTORY_FIELDS[resource].filter(f=>!readonly.has(f))])));
 const id=/^[1-9]\d{0,14}$/,uuid=/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i;
 const flag=new Set(['active','newsletter','optin','is_guest','show_public_prices','custom']);
 // Native limits from PrestaShop 1.7.8.11 Customer/Address definitions.
-const nativeLimits={suppliers:{name:64,meta_title:255,meta_description:512,meta_keywords:255},manufacturers:{name:64,meta_title:255,meta_description:512},product_options:{name:128,public_name:64},product_option_values:{name:128},product_features:{name:128},product_feature_values:{value:255},customers:{firstname:255,lastname:255,email:255},addresses:{alias:32,company:255,firstname:255,lastname:255,address1:128,address2:128,postcode:12,city:64,other:300,phone:32,phone_mobile:32,dni:16}};
+const nativeLimits={categories:{name:128,link_rewrite:128,meta_title:255,meta_description:512,meta_keywords:255},suppliers:{name:64,meta_title:255,meta_description:512,meta_keywords:255},manufacturers:{name:64,meta_title:255,meta_description:512},product_options:{name:128,public_name:64},product_option_values:{name:128},product_features:{name:128},product_feature_values:{value:255},customers:{firstname:255,lastname:255,email:255},addresses:{alias:32,company:255,firstname:255,lastname:255,address1:128,address2:128,postcode:12,city:64,other:300,phone:32,phone_mobile:32,dni:16}};
 export const DIRECTORY_LOCALIZED=new Set(['description','short_description','meta_title','meta_description','meta_keywords','public_name','value']);
 export const directoryLocalized=(resource,field)=>DIRECTORY_LOCALIZED.has(field)||(resource==='categories'&&field==='link_rewrite')||(field==='name'&&['product_options','product_option_values','product_features','categories'].includes(resource));
 export function directoryQuery(input){
@@ -72,9 +74,11 @@ export function directoryMutation(input){
  }
  if(resource==='addresses')for(const [kind,field]of [['clientes','id_customer'],['proveedores','id_supplier'],['marcas','id_manufacturer']])if(kind!==input.kind&&Number(fields[field]||0)!==0)throw Error('Una dirección no puede trasladarse a otro directorio.');
  if(resource==='addresses'&&input.operation==='create'&&!id.test(fields[{clientes:'id_customer',proveedores:'id_supplier',marcas:'id_manufacturer'}[input.kind]]||''))throw Error('Selecciona el titular de la dirección.');
+ if(resource==='categories'&&input.operation==='delete')throw Error('La retirada de categorías exige revisar primero sus productos y subcategorías.');
+ if(resource==='categories'&&fields.link_rewrite!==undefined&&!/^[\p{L}\p{N}_-]+$/u.test(fields.link_rewrite))throw Error('Dirección amigable de categoría no válida.');
  if(input.operation==='delete'&&Object.keys(fields).length)throw Error('Una eliminación no admite cambios de campos.');
  if(input.operation!=='delete'&&!Object.keys(fields).length)throw Error('No hay campos para guardar.');
- if(input.operation==='create')for(const field of ({customers:['firstname','lastname','email'],addresses:['firstname','lastname','address1','city','alias','id_country'],suppliers:['name'],manufacturers:['name'],product_options:['name','public_name','group_type'],product_option_values:['name','id_attribute_group'],product_features:['name'],product_feature_values:['value','id_feature']}[resource]))if(!fields[field]||field.startsWith('id_')&&fields[field]==='0')throw Error('Falta '+field+'.');
+ if(input.operation==='create')for(const field of ({categories:['name','id_parent','link_rewrite','active'],customers:['firstname','lastname','email'],addresses:['firstname','lastname','address1','city','alias','id_country'],suppliers:['name'],manufacturers:['name'],product_options:['name','public_name','group_type'],product_option_values:['name','id_attribute_group'],product_features:['name'],product_feature_values:['value','id_feature']}[resource]))if(!fields[field]||field.startsWith('id_')&&fields[field]==='0')throw Error('Falta '+field+'.');
  if(input.action==='prestashop_directory_commit'&&(input.confirmed!==true||!/^[a-f\d]{64}$/.test(input.fingerprint||'')))throw Error('Revisa los cambios antes de publicar.');
  return {...input,fields};
 }
