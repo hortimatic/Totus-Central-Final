@@ -1,5 +1,5 @@
-import {concurrentRead} from './concurrent-read.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
-import {approximateOrderMargin} from './prestashop-margin.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {concurrentRead} from './concurrent-read.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
+import {approximateOrderMargin} from './prestashop-margin.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
 const amount=value=>value!==null&&value!==undefined&&String(value).trim()!==''&&Number.isFinite(Number(value))?Number(value):null;
 export async function readDirectoryCustomerSales(session,customerId){
  const [orderData,currencyData]=await Promise.all([session.read('orders',{customer_ids:[String(customerId)]}),session.read('currencies',{}, {cached:true})]);

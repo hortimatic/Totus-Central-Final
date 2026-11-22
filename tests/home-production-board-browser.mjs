@@ -23,6 +23,12 @@ try{
  });
  await page.waitForFunction(()=>document.querySelector('[data-home-widget="orders"]')?.textContent.includes('Artículo local'),null,{timeout:5000}).catch(async e=>{console.log({errors,calls:await page.evaluate(()=>window.calls.map(c=>c.name))});throw e;});
  await page.waitForFunction(()=>[...document.querySelectorAll('[data-home-widget="orders"] img')].some(img=>img.complete&&img.naturalWidth>0));
+ const nativeTarget=await page.evaluate(async()=>{
+  const {createProductosUI}=await import('../src/productos-ui.js');
+  const products=createProductosUI({rpc:async()=>({}),invoke:async()=>({}),actor:()=> 'owner',allowed:()=>true,centralData:{}});
+  products.selectProduct({store:'11111111-1111-4111-8111-111111111111',id:'33333333-3333-4333-8333-333333333333'});
+  try{products.selectProduct({store:'web antigua',id:'123'});return false;}catch{return true;}
+ });assert.equal(nativeTarget,true,'Aceptar destinos nativos antes del montaje y rechazar destinos mal formados');
  assert.ok(await page.locator('[data-home-widget="shop-h"] img').count()>0);
  assert.equal(await page.locator('.home-ps-top').getByText('Devuelto por completo',{exact:true}).count(),0,'No presentar cero unidades como más vendido');
  await page.locator('[data-home-widget="shop-h"] [data-home-command="catalog-quality"]').click();
@@ -33,6 +39,9 @@ try{
  await page.getByRole('button',{name:'Cajas del TPV',exact:true}).click();assert.equal(await page.evaluate(()=>window.openedNativeCash),true);
  const expected=['opening','income','expense','result','internal','gain-summary','activity','shop-h','shop-n','orders','tasks','store','price','documents','expense-quarter','billing','fiscal','system','recent-closings','quick-links'];
  assert.deepEqual(await page.locator('[data-home-widget]').evaluateAll(nodes=>nodes.map(n=>n.dataset.homeWidget)),expected);
+ for(const [left,right] of [['price','documents'],['expense-quarter','billing'],['fiscal','system']]){
+  const heights=await page.locator('[data-home-widget="'+left+'"],[data-home-widget="'+right+'"]').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().height));assert(Math.abs(heights[0]-heights[1])<1,left+' y '+right+' alinean la altura automática');
+ }
  assert.equal(await page.evaluate(()=>window.api.hasUnsaved()),false);
  assert.equal(await page.locator('[data-home-command=panel-library]').isVisible(),false,'Herramientas ocultas fuera de edición');
  for(const id of ['price','documents','billing','system'])assert.equal(await page.locator('[data-home-widget="'+id+'"] .home-widget-body :is(h2,h3)').count(),0,id+' sin cabecera duplicada');
@@ -58,6 +67,7 @@ try{
   await page.getByRole('button',{name:'Cancelar edición',exact:true}).click();
  }
  console.log('AFTER CONFIG',await page.evaluate(()=>({edit:document.querySelector('.dashboard-page').className,dirty:window.api.hasUnsaved()})));
+ await page.evaluate(()=>{const tail=document.createElement('div');tail.id='scroll-test-space';tail.style.height='1200px';document.body.append(tail);});
  // The right-hand source widgets must resize, retain scroll access and survive save.
  for(const id of ['documents','billing','system']){
   await page.locator('[data-home-widget="'+id+'"] [data-home-command="select"]').click();
@@ -68,6 +78,7 @@ try{
   await page.locator('[data-home-command="save"]').first().click();await page.waitForFunction(()=>!window.api.hasUnsaved());
   assert.equal(await page.locator('[data-home-widget="'+id+'"]').evaluate(n=>n.getBoundingClientRect().height),200);
   assert.equal(await page.locator('[data-home-widget="'+id+'"] .home-widget-body').evaluate(n=>getComputedStyle(n).overflowY),'auto');
+  const scroller=page.locator('[data-home-widget="'+id+'"] .home-widget-body');await scroller.evaluate(n=>{n.scrollTop=n.scrollHeight;n.scrollIntoView({block:'center'});});await scroller.hover();const scrollBefore=await page.evaluate(()=>scrollY);await page.mouse.wheel(0,300);await page.waitForFunction(y=>scrollY>y,scrollBefore);
   await page.locator('[data-home-widget="'+id+'"] [data-home-command="select"]').click();await page.locator('[data-home-config="heightMode"]').selectOption('auto');
   await page.locator('[data-home-config="width"]').selectOption('6');await page.locator('[data-home-command="save"]').first().click();await page.waitForFunction(()=>!window.api.hasUnsaved());
   await page.locator('[data-home-widget="'+id+'"] [data-home-command="select"]').click();await page.locator('[data-home-command="close-panel"]').click();

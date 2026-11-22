@@ -746,3 +746,7 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 .home-summary-quality{margin-top:10px;border-top:1px solid var(--line,#dbe3ee);padding-top:6px}
 .home-summary-quality>summary{cursor:pointer;font-size:13px;min-height:var(--tc-control-height,36px);display:flex;align-items:center;gap:6px;color:var(--accent,#2563eb)}
 .home-summary-quality>summary::before{content:'▸';font-size:12px}.home-summary-quality[open]>summary::before{content:'▾'}
+#content .dashboard-page .home-widget-grid>.home-widget-frame.card[data-home-height-mode="auto"]:is([data-home-type="pricing.quick"],[data-home-type="documents.latest"],[data-home-type="expenses.quarter"],[data-home-type="billing.pending"],[data-home-type="fiscal.forecast"],[data-home-type="system.status"]){align-self:stretch}
+
+/* Let the page continue scrolling at the ends of a widget viewport. */
+#content .dashboard-page :is(.home-widget-body,.home-orders-scroll,.home-orders-cards){overscroll-behavior-y:auto!important}
