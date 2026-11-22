@@ -375,3 +375,15 @@
 :is(#content,main) .totus-tpv [data-setup-checkout-rules]{display:grid;gap:8px}
 :is(#content,main) .totus-tpv .tpv-general-field>.tpv-info-help{align-self:center;margin:0}
 :is(#content,main) .totus-tpv .tpv-info-help:not([open])>div{display:none}
+
+:is(#content,main) .totus-tpv .tpv-payment-dialog{box-sizing:border-box;width:min(480px,calc(100vw - 24px));max-height:calc(100dvh - 32px);overflow:auto;padding:18px;border:1px solid var(--line,#d8e2ea);background:var(--panel,#fff);color:var(--ink,#203d5e);border-radius:10px}
+:is(#content,main) .totus-tpv .tpv-payment-dialog::backdrop{background:#101c36a6}
+:is(#content,main) .totus-tpv .tpv-payment-dialog .tpv-payment{margin:0;padding:0;display:grid;gap:9px;font-size:13px}
+:is(#content,main) .totus-tpv .tpv-payment-dialog .tpv-payment>h4{margin:0;font-size:19px}
+:is(#content,main) .totus-tpv .tpv-payment-dialog .tpv-payment-amount{margin:0;display:flex;justify-content:space-between;align-items:center}
+:is(#content,main) .totus-tpv .tpv-payment-dialog .tpv-payment-amount strong{font-size:26px}
+:is(#content,main) .totus-tpv .tpv-payment-dialog :is(input,select,.btn){min-height:34px;font-size:13px}
+:is(#content,main) .totus-tpv .tpv-payment-dialog .tpv-payment>label{display:grid;gap:4px;margin:0}
+:is(#content,main) .totus-tpv .tpv-payment-dialog .tpv-payment>.tpv-check{display:flex;gap:8px;padding:8px}
+:is(#content,main) .totus-tpv .tpv-payment-dialog .tpv-tender-preview:not(:empty){font-size:14px;padding:9px}
+:is(#content,main) .totus-tpv .tpv-payment-dialog .tpv-payment>.inline-actions{padding-top:10px;margin:0;gap:8px}

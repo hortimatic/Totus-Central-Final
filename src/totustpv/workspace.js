@@ -1,77 +1,77 @@
-import {discoverWorkstations} from './workstation-discovery.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {productInformationAmounts} from './product-information.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {localOrderLookupInput} from './local-adapter.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {chooseNativeCustomer} from './native-customer-picker.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createCreditCollections} from './credit-collections.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {openCentralCheckoutDialog,confirmCentralOperator} from './central-checkout-dialog.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createOrderNoticeWatcher,orderNoticeInbox,orderNoticeOptions,orderNoticeFields,orderNoticeFromForm,orderNoticePolicy} from './order-notices.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createOwnedTpvSetup} from './owned-configuration.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createCheckoutRulesPanel,CHECKOUT_DEFAULTS,checkoutRules,checkoutReceived} from './checkout-rules.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createCashSetup} from './cash-setup.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createPromotionPanel} from './promotions.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createLoyaltyPanel} from './loyalty.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createReceiptSetup} from './receipt-setup.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createGeneralSetup} from './general-setup.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {taxPreference,taxPreferenceHtml,createTaxGroupPicker} from './catalogue-tax.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createTicketBranding} from './ticket-branding.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {workstationHeader,workstationDialog,workstationIcon} from './workstation-visual.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {referencePolicyPayload,confirmReferencePolicy} from './reference-policy-settings.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {applyReferencePreferences,normalizeReferencePreferences} from './reference-preferences.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {referenceSettingsHtml,referenceActionsHtml,folderIcon,productIcon} from './reference-interface.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {customerSettings} from './customer-settings.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createInventoryPanel} from './inventory-panel.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {customerOptionsHtml,customerSettingsFormValues,customerSettingsFromForm,customerSettingsError,changeCustomerFieldPosition} from './customer-options.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {budgetOptions,budgetOptionsFromForm,budgetOptionsHtml,budgetSettingsError} from './budget-options.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {operatorSwitchPolicy,operatorSwitchPolicyHtml,saveOperatorSwitchPolicy} from './operator-switch-policy.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {sensitiveSettings,sensitiveSettingsHtml,createPasswordPrompt} from './sensitive-actions.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {loadGiftReceipt} from './gift-discounts.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {operatorSettings,operatorSettingsHtml} from './operator-settings.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {operatorAvailability,createOperatorPicker} from './operator-picker.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {cashVisibility,cashVisibilityHtml} from './cash-visibility.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createAccessBatchPanel} from './workstation-access-batch.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createSignaturePanel} from './signature-panel.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {signatureOptions,signatureOptionsFromForm,signatureOptionsHtml} from './signature-options.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {tenderSummaryHtml} from './tender-summary.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {returnPolicy,returnPolicyHtml} from './return-policy.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {menuLinks as normalizeMenuLinks,menuLinksFromForm,menuLinksHtml,menuLinksActions} from './menu-links.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createCatalogueBackground} from './catalogue-background.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {mountSettingsNavigation} from './settings-navigation.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {roundPriceMicros,roundPriceSubtotal} from './offline-rounding.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createOfflineSync} from './offline-sync.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createOfflineJournal} from './offline-journal.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {offlineDevice} from './offline-device.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {submitWithLocalReceipt} from './local-sale-submission.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createOfflinePanel} from './offline-panel.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {lineName,createLineNameEditor} from './line-name.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {budgetDocumentHtml,budgetStatus} from './budget-document.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {saleNote} from './sale-note.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {paymentFormMethods,paymentSettingsHtml,paymentSettingsFromForm} from './payment-options.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {paymentReferenceFields,referenceForTender} from './payment-reference.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {parkingOptions,parkingOptionsHtml,parkingOptionsFromForm,parkingExpiry} from './parking-options.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {lineOptions,lineOptionsHtml,lineOptionsFromForm,lineAdjustment} from './line-options.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {stockPolicy,stockPolicyFromForm,stockPolicyHtml,canExceedStock,canSellProduct,stockWarning} from './stock-policy.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createQuantityPicker} from './quantity-picker.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createTpvPracticeAdapter} from './practice-adapter.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {cashTenderPreview} from './model.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {taxSummaryHtml} from './tax-summary.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {receiptHtml as nativeReceiptHtml,receiptPreviewHtml,giftReceiptPreviewHtml,downloadNativePdf,printReceipt,printTpvMarkup} from './documents.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError,receiptNumber} from './receipt-series.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {receiptOptions,receiptOptionsHtml,receiptOptionsFromForm} from './receipt-options.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createReceiptDelivery} from './receipt-delivery.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {orderLookupInput} from './central-adapter.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createTpvCustomerPanel} from './customers.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createCashReportsPanel} from './cash-reports.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createStockIntake} from './stock-intake.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createBarcodePanel} from './barcode-panel.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createProductIntakePanel} from './product-intake.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {cashOptions,cashOptionsHtml,cashOptionsFromForm,cashCountHtml,updateCashCount,clearCashCount,mountCashOptions} from './cash-counting.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createWorkstationAccessPanel} from './workstation-access.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createCustomerDisplay,customerDisplayOptions,customerDisplayOptionsHtml,customerDisplayOptionsFromForm} from './customer-display.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {createCatalogueTable,priceBuildHtml} from './catalogue-table.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {displayPreferences,displayPreferencesHtml,displayPreferencesFromForm,cataloguePriceCents,variantOrder,TPV_VARIANT_ORDERS} from './display-preferences.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {searchPreferences,searchPreferencesFromForm,searchPreferencesHtml,TPV_SEARCH_FIELDS} from './search-preferences.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {cataloguePreferences,cataloguePreferencesFromForm,cataloguePreferencesHtml,visibleCatalogueCategories,catalogueDetails,variantDetails} from './catalogue-preferences.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
+import {discoverWorkstations} from './workstation-discovery.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {productInformationAmounts} from './product-information.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {localOrderLookupInput} from './local-adapter.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {chooseNativeCustomer} from './native-customer-picker.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createCreditCollections} from './credit-collections.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {openCentralCheckoutDialog,confirmCentralOperator} from './central-checkout-dialog.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createOrderNoticeWatcher,orderNoticeInbox,orderNoticeOptions,orderNoticeFields,orderNoticeFromForm,orderNoticePolicy} from './order-notices.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createOwnedTpvSetup} from './owned-configuration.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createCheckoutRulesPanel,CHECKOUT_DEFAULTS,checkoutRules,checkoutReceived} from './checkout-rules.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createCashSetup} from './cash-setup.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createPromotionPanel} from './promotions.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createLoyaltyPanel} from './loyalty.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createReceiptSetup} from './receipt-setup.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createGeneralSetup} from './general-setup.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {taxPreference,taxPreferenceHtml,createTaxGroupPicker} from './catalogue-tax.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createTicketBranding} from './ticket-branding.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {workstationHeader,workstationDialog,workstationIcon} from './workstation-visual.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {referencePolicyPayload,confirmReferencePolicy} from './reference-policy-settings.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {applyReferencePreferences,normalizeReferencePreferences} from './reference-preferences.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {referenceSettingsHtml,referenceActionsHtml,folderIcon,productIcon} from './reference-interface.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {customerSettings} from './customer-settings.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createInventoryPanel} from './inventory-panel.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {customerOptionsHtml,customerSettingsFormValues,customerSettingsFromForm,customerSettingsError,changeCustomerFieldPosition} from './customer-options.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {budgetOptions,budgetOptionsFromForm,budgetOptionsHtml,budgetSettingsError} from './budget-options.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {operatorSwitchPolicy,operatorSwitchPolicyHtml,saveOperatorSwitchPolicy} from './operator-switch-policy.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {sensitiveSettings,sensitiveSettingsHtml,createPasswordPrompt} from './sensitive-actions.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {loadGiftReceipt} from './gift-discounts.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {operatorSettings,operatorSettingsHtml} from './operator-settings.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {operatorAvailability,createOperatorPicker} from './operator-picker.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {cashVisibility,cashVisibilityHtml} from './cash-visibility.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createAccessBatchPanel} from './workstation-access-batch.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createSignaturePanel} from './signature-panel.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {signatureOptions,signatureOptionsFromForm,signatureOptionsHtml} from './signature-options.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {tenderSummaryHtml} from './tender-summary.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {returnPolicy,returnPolicyHtml} from './return-policy.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {menuLinks as normalizeMenuLinks,menuLinksFromForm,menuLinksHtml,menuLinksActions} from './menu-links.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createCatalogueBackground} from './catalogue-background.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {mountSettingsNavigation} from './settings-navigation.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {roundPriceMicros,roundPriceSubtotal} from './offline-rounding.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createOfflineSync} from './offline-sync.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createOfflineJournal} from './offline-journal.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {offlineDevice} from './offline-device.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {submitWithLocalReceipt} from './local-sale-submission.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createOfflinePanel} from './offline-panel.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {lineName,createLineNameEditor} from './line-name.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {budgetDocumentHtml,budgetStatus} from './budget-document.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {saleNote} from './sale-note.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {paymentFormMethods,paymentSettingsHtml,paymentSettingsFromForm} from './payment-options.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {paymentReferenceFields,referenceForTender} from './payment-reference.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {parkingOptions,parkingOptionsHtml,parkingOptionsFromForm,parkingExpiry} from './parking-options.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {lineOptions,lineOptionsHtml,lineOptionsFromForm,lineAdjustment} from './line-options.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {stockPolicy,stockPolicyFromForm,stockPolicyHtml,canExceedStock,canSellProduct,stockWarning} from './stock-policy.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createQuantityPicker} from './quantity-picker.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createTpvPracticeAdapter} from './practice-adapter.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {cashTenderPreview} from './model.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {taxSummaryHtml} from './tax-summary.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {receiptHtml as nativeReceiptHtml,receiptPreviewHtml,giftReceiptPreviewHtml,downloadNativePdf,printReceipt,printTpvMarkup} from './documents.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError,receiptNumber} from './receipt-series.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {receiptOptions,receiptOptionsHtml,receiptOptionsFromForm} from './receipt-options.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createReceiptDelivery} from './receipt-delivery.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {orderLookupInput} from './central-adapter.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createTpvCustomerPanel} from './customers.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createCashReportsPanel} from './cash-reports.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createStockIntake} from './stock-intake.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createBarcodePanel} from './barcode-panel.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createProductIntakePanel} from './product-intake.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {cashOptions,cashOptionsHtml,cashOptionsFromForm,cashCountHtml,updateCashCount,clearCashCount,mountCashOptions} from './cash-counting.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createWorkstationAccessPanel} from './workstation-access.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createCustomerDisplay,customerDisplayOptions,customerDisplayOptionsHtml,customerDisplayOptionsFromForm} from './customer-display.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {createCatalogueTable,priceBuildHtml} from './catalogue-table.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {displayPreferences,displayPreferencesHtml,displayPreferencesFromForm,cataloguePriceCents,variantOrder,TPV_VARIANT_ORDERS} from './display-preferences.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {searchPreferences,searchPreferencesFromForm,searchPreferencesHtml,TPV_SEARCH_FIELDS} from './search-preferences.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {cataloguePreferences,cataloguePreferencesFromForm,cataloguePreferencesHtml,visibleCatalogueCategories,catalogueDetails,variantDetails} from './catalogue-preferences.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 export function inputCents(value) {
@@ -258,6 +258,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   if(scanInputState){const next=host.querySelector('[data-tpv-search]');if(next){next.value=scanInputState.value;if(scanInputState.focused){next.focus();next.setSelectionRange(scanInputState.start,scanInputState.end);}}}
   const stationDialog=host.querySelector('.tpv-workstation-dialog');if(stationDialog){stationDialog.showModal();stationDialog.addEventListener('cancel',event=>{event.preventDefault();workstationOpen=false;render();});}
   const variantDialog=host.querySelector('.tpv-variant-dialog');if(variantDialog){variantDialog.showModal();variantDialog.addEventListener('cancel',event=>{event.preventDefault();if(!busy)variantDialog.querySelector('[data-tpv-action=back-products]').click();});}
+  const paymentDialog=host.querySelector('.tpv-payment-dialog');if(paymentDialog){paymentDialog.showModal();paymentDialog.addEventListener('cancel',event=>{event.preventDefault();if(!busy)paymentDialog.querySelector('[data-tpv-action=cancel-payment]')?.click();});}
   mountProductInformation();
   catalogueTable.mount(host);
   productIntake.mount(host);
@@ -473,7 +474,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   ${!payment?`<div class="inline-actions">${button('clear','Vaciar ticket','secondary',!lines.length&&!draftInfo||!canSell())}${(live()||central()&&adapter?.park)?button('park','Aparcar ticket','secondary',!lines.length||!canSell()||!parkingRules.enabled):''}<div class="tpv-reference-payments" role="group" aria-label="Medios de cobro">${quickPaymentMethods().map(method=>{const label=drawerPayments?.options?.labels?.[method]||paymentLabel(method);return `<button type="button" class="${quickPaymentMethod===method?'active':''}" data-tpv-quick-method="${method}" ${!quickPaymentMethods().includes(method)?'disabled title="No está habilitado en esta caja"':''}>${esc(label)}</button>`;}).join('')}${button('payment','FINALIZAR','primary',!lines.length||!canSell())}</div></div>${live()&&!parkingRules.enabled?'<p class="small muted" role="status">El aparcado está desactivado para tu cuenta y esta caja. Los tickets anteriores siguen en Más acciones · Tickets aparcados.</p>':''}`:''}
   ${!payment?'</footer>':''}${payment?paymentHtml():''}</section><div class="tpv-mobile-total"><strong>${previewTotal()===null?'Por calcular':money(previewTotal())}</strong>${button('show-ticket','Ver ticket','primary',!lines.length)}</div></div>`;}
  const allowedPaymentForms=methods=>paymentFormMethods(methods).filter(id=>id!=='mixed'||checkoutStyle.allowMixed);
- function paymentHtml(){return `<form data-tpv-form="pay" class="tpv-payment"><h4>${payment.localEstimate?'Cobro sin conexión':wording('Cobro de práctica','Cobro · cálculo verificado en la tienda')}</h4>${payment.localEstimate?'<p>Importe calculado con el catálogo guardado. La venta quedará pendiente de comprobar y registrar cuando vuelva la conexión.</p>':''}${payment.discountCents?`<p>Descuento del ticket: −${money(payment.discountCents)}</p>`:''}${taxSummaryHtml(payment,displayOptions.showTaxBreakdown)}<p class="tpv-payment-amount">Total <strong>${money(payment.totalCents)}</strong></p>
+ function paymentHtml(){return `<dialog class="tpv-payment-dialog" aria-labelledby="tpv-payment-title"><form data-tpv-form="pay" class="tpv-payment">${failure?`<p role="alert" class="note bad">${esc(failure)}</p>`:''}<h4 id="tpv-payment-title">${payment.localEstimate?'Cobro sin conexión':wording('Cobro de práctica','Cobro · cálculo verificado en la tienda')}</h4>${payment.localEstimate?'<p>Importe calculado con el catálogo guardado. La venta quedará pendiente de comprobar y registrar cuando vuelva la conexión.</p>':''}${payment.discountCents?`<p>Descuento del ticket: −${money(payment.discountCents)}</p>`:''}${taxSummaryHtml(payment,displayOptions.showTaxBreakdown)}<p class="tpv-payment-amount">Total <strong>${money(payment.totalCents)}</strong></p>
   <label>Forma de pago<select name="method" data-tpv-method>${allowedPaymentForms(payment.paymentMethods).map(key=>`<option value="${key}" ${paymentValues.method===key?'selected':''}>${esc(payment.paymentLabels?.[key]||paymentLabel(key))}${!live()?' · práctica':''}</option>`).join('')}</select></label>
   <label data-tpv-external-method hidden>Segundo medio de pago<select name="externalMethod">${(payment.paymentMethods||['cash','card']).filter(method=>method!=='cash').map(method=>`<option value="${method}" ${paymentValues.externalMethod===method?'selected':''}>${esc(payment.paymentLabels?.[method]||paymentLabel(method))}</option>`).join('')}</select></label>
   <label data-tpv-cash-part hidden>Parte en efectivo · €<input name="cashPart" inputmode="decimal" value="${esc(paymentValues.cashPart??'0,00')}"></label>
@@ -485,7 +486,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   ${paymentReferenceFields(payment,paymentValues)}<output class="tpv-tender-preview" data-tpv-tender-preview role="status" aria-label="Cambio del cobro" aria-live="polite"></output>
   <label class="tpv-check" data-tpv-card-accept hidden><input type="checkbox" name="cardAccepted" ${paymentValues.cardAccepted==='on'?'checked':''}> ${wording('Acepto el pago externo ficticio','He comprobado que el cobro externo está recibido. TotusTPV registra el cobro; no opera el datáfono ni el banco.')}</label>
   ${!live()?`<label>Simular resultado<select name="scenario">${[['normal','Venta correcta'],['lost-response','Respuesta perdida: recuperar sin repetir'],['rejected','Pago rechazado']].map(([key,label])=>`<option value="${key}" ${paymentValues.scenario===key?'selected':''}>${label}</option>`).join('')}</select></label>`:''}
-  <div class="inline-actions">${button('cancel-payment','Volver al ticket')}<button class="btn primary" type="submit">${payment.localEstimate?'Guardar venta en este dispositivo':wording('Confirmar venta de práctica','Confirmar cobro y crear pedido')}</button></div></form>`;}
+  <div class="inline-actions">${button('cancel-payment','Volver al ticket')}<button class="btn primary" type="submit">${payment.localEstimate?'Guardar venta en este dispositivo':wording('Confirmar venta de práctica','Confirmar cobro y crear pedido')}</button></div></form></dialog>`;}
  function receiptHtml(){if(receipt.localQueued)return `<section class="card card-pad tpv-receipt tpv-receipt-pending" aria-label="Resultado de venta"><span class="tpv-receipt-status" aria-hidden="true">↻</span><h3>Venta guardada en este dispositivo</h3><p><b>${esc(receipt.reference)}</b> · ${money(receipt.totalCents)}</p><p>Cambio: ${money(receipt.changeCents||0)}</p><p>Se enviará automáticamente cuando vuelva la conexión. No vuelvas a cobrar esta venta.</p><small>Pendiente de registrar en la tienda.</small><div class="inline-actions">${button('recover','Sincronizar ahora','primary')}${button('next','Nuevo ticket')}</div></section>`;if(receipt.status==='cancelled')return `<section class="card card-pad tpv-receipt tpv-receipt-cancelled"><span class="tpv-receipt-status" aria-hidden="true">—</span><h3>Intento cerrado sin pedido</h3><p>Se conserva la incidencia y su revisión. No se ha vuelto a enviar la venta.</p>${button('next','Nuevo ticket','primary')}</section>`;const uncertain=receipt.status!=='confirmed';return `<section class="card card-pad tpv-receipt ${uncertain||receipt.needsReview?'tpv-receipt-pending':'tpv-receipt-confirmed'}" aria-label="Resultado de venta"><span class="tpv-receipt-status" aria-hidden="true">${uncertain||receipt.needsReview?'!':'✓'}</span><h3>${receipt.needsReview?'Venta pendiente de revisión':uncertain?'Respuesta pendiente de recuperar':central()?'Venta registrada en Central':wording('Venta de práctica registrada','Pedido verificado en PrestaShop')}</h3>
   <p><b>${esc(receipt.reference)}</b> · ${money(receipt.totalCents)}</p>${uncertain?'':taxSummaryHtml(receipt,displayOptions.showTaxBreakdown)}${central()&&!uncertain?`<dl><div><dt>Cobrado</dt><dd>${money(receipt.paidCents||0)}</dd></div><div><dt>Saldo pendiente</dt><dd>${money(receipt.outstandingCents||0)}</dd></div>${receipt.dueDate?`<div><dt>Vencimiento</dt><dd>${esc(receipt.dueDate)}</dd></div>`:''}</dl>`:''}<p>${receipt.needsReview?'El cálculo o los datos de la venta necesitan revisión. No se enviará automáticamente ni debes volver a cobrar al cliente.':uncertain?'No confirmes otro ticket para repetir esta venta. Recupera el resultado de la misma operación.':wording('Cambio de práctica: ','Cambio devuelto: ')+money(receipt.changeCents||0)}</p>
   <small>${wording('Simulación: no existe pedido ni pago real en PrestaShop.',uncertain?'No se ha confirmado el resultado; consulta la misma operación.':central()?'Venta y cobros guardados en Central.':'Pedido y pago registrados en preproducción.')}</small><div class="inline-actions">${uncertain?button('recover','Recuperar resultado','primary'):button('next','Nuevo ticket','primary')}${(live()||central())&&!uncertain?documentButtons(receipt.id):''}${live()&&uncertain&&canAssign()?button('review-incident','Revisar incidencia'):''}</div>${incidentForm?`<form data-tpv-form="incident" class="tpv-payment"><h4>Cerrar intento sin pedido</h4><p>El servidor comprobará que la ejecución terminó sin pedido. Revisa también que no quede ningún cobro externo pendiente.</p><label>Resultado de la revisión<select name="settlementReview"><option value="not-collected">No se recibió ningún cobro</option><option value="returned-externally">Cobro externo devuelto y comprobado</option></select></label><label>Motivo y comprobación<input name="reason" minlength="10" maxlength="500" required></label><label class="tpv-check"><input name="accepted" type="checkbox" required> He revisado el cobro y confirmo este resultado.</label><button class="btn primary" type="submit">Verificar y cerrar incidencia</button></form>`:''}</section>`;}

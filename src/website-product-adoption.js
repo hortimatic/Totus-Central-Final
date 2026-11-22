@@ -1,5 +1,5 @@
-import {esc} from './utils.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {fieldHelp} from './components.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
+import {esc} from './utils.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {fieldHelp} from './components.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
 export async function openWebsiteProducts({rpc,website,name}){
  const dialog=document.createElement('dialog');dialog.className='api-user-dialog';
  let state=null,busy=false,stop=false,cursor=0,message='Consultando el catálogo guardado…';

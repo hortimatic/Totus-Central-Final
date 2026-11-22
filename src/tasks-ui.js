@@ -1,5 +1,5 @@
-import {fieldHelp} from './components.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
-import {taskDate,taskToday,taskRange,taskInput,taskVisibleRows,addTaskDays,TASK_STATES,TASK_PRIORITIES} from './tasks-core.js?v=e802b02448deec386cdfafbf7a5acc34ac94c543';
+import {fieldHelp} from './components.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
+import {taskDate,taskToday,taskRange,taskInput,taskVisibleRows,addTaskDays,TASK_STATES,TASK_PRIORITIES} from './tasks-core.js?v=1a7c240896b3236a0c8f7d718f652b5c088672c1';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const opt=(v,label,selected)=>'<option value="'+esc(v)+'" '+(String(v??'')===String(selected??'')?'selected':'')+'>'+esc(label)+'</option>';
 const taskButton=(label,action,attrs='',kind='secondary')=>'<button type="button" class="btn '+kind+'" data-task="'+action+'" '+attrs+'>'+esc(label)+'</button>';
