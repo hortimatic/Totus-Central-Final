@@ -1,6 +1,6 @@
-import {esc} from './utils.js?v=716227ab4e97e1688cd9246487dd4053ee9986ff';
-import {fieldHelp} from './components.js?v=716227ab4e97e1688cd9246487dd4053ee9986ff';
-import {productPhoto} from './productos-catalog.js?v=716227ab4e97e1688cd9246487dd4053ee9986ff';
+import {esc} from './utils.js?v=8166b11adce6af11b8cacc08ed44fa9e7f6836f9';
+import {fieldHelp} from './components.js?v=8166b11adce6af11b8cacc08ed44fa9e7f6836f9';
+import {productPhoto} from './productos-catalog.js?v=8166b11adce6af11b8cacc08ed44fa9e7f6836f9';
 
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(value);
 const fold=value=>String(value||'').normalize('NFKC').trim().toLocaleLowerCase('es');
