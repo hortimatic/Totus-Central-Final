@@ -49,6 +49,19 @@ try{
   await page.getByRole('button',{name:'Cancelar edición',exact:true}).click();
  }
  console.log('AFTER CONFIG',await page.evaluate(()=>({edit:document.querySelector('.dashboard-page').className,dirty:window.api.hasUnsaved()})));
+ // The right-hand source widgets must resize, retain scroll access and survive save.
+ for(const id of ['documents','billing','system']){
+  await page.locator('[data-home-widget="'+id+'"] [data-home-command="select"]').click();
+  await page.locator('[data-home-config="height"]').selectOption('4');
+  assert.equal(await page.locator('[data-home-widget="'+id+'"]').evaluate(n=>n.getBoundingClientRect().height),200);
+  await page.locator('[data-home-config="width"]').selectOption('12');
+  assert.equal(await page.locator('[data-home-widget="'+id+'"]').evaluate(n=>n.style.getPropertyValue('--span')),'12');
+  await page.locator('[data-home-command="save"]').first().click();await page.waitForFunction(()=>!window.api.hasUnsaved());
+  assert.equal(await page.locator('[data-home-widget="'+id+'"]').evaluate(n=>n.getBoundingClientRect().height),200);
+  assert.equal(await page.locator('[data-home-widget="'+id+'"] .home-widget-body').evaluate(n=>getComputedStyle(n).overflowY),'auto');
+  await page.locator('[data-home-widget="'+id+'"] [data-home-command="select"]').click();await page.locator('[data-home-config="heightMode"]').selectOption('auto');
+  await page.locator('[data-home-config="width"]').selectOption('6');await page.locator('[data-home-command="save"]').first().click();await page.waitForFunction(()=>!window.api.hasUnsaved());
+ }
  const activity=page.locator('[data-home-widget="activity"]');
  await activity.locator('[data-home-command="period-week"]').click();
  assert.equal(await activity.locator('[data-home-command="period-week"]').getAttribute('aria-pressed'),'true');
@@ -82,7 +95,7 @@ try{
  await page.locator('[data-home-command="save"]').first().click();
  await page.waitForFunction(()=>!window.api.hasUnsaved());
  assert.deepEqual(errors,[]);
- for(const width of [1600,1100,600,390]){await page.setViewportSize({width,height:1000});const overflow=await page.locator('.home-widget-grid').evaluate(el=>el.scrollWidth>el.clientWidth+2);if(overflow)console.log(await page.locator('.home-widget-grid').evaluate(el=>({grid:[el.clientWidth,el.scrollWidth],children:[...el.children].map(n=>({id:n.dataset.homeWidget,width:n.clientWidth,scroll:n.scrollWidth})).filter(n=>n.scroll>n.width+2)})));assert.equal(overflow,false,'Sin desbordamiento del tablero a '+width);}
+ for(const width of [1600,1100,600,390]){await page.setViewportSize({width,height:1000});assert.equal(await page.locator('[data-home-widget="orders"] .home-orders-scroll').isVisible(),true,'La tabla permanece visible a '+width);assert.equal(await page.locator('[data-home-widget="orders"] .home-orders-cards').isVisible(),false,'Sin fichas grandes a '+width);const overflow=await page.locator('.home-widget-grid').evaluate(el=>el.scrollWidth>el.clientWidth+2);if(overflow)console.log(await page.locator('.home-widget-grid').evaluate(el=>({grid:[el.clientWidth,el.scrollWidth],children:[...el.children].map(n=>({id:n.dataset.homeWidget,width:n.clientWidth,scroll:n.scrollWidth})).filter(n=>n.scroll>n.width+2)})));assert.equal(overflow,false,'Sin desbordamiento del tablero a '+width);}
 
  await page.evaluate(async()=>{const {applyInterfaceAppearance}=await import('../src/appearance-ui.js');applyInterfaceAppearance({theme:'dark',card:'#172230',surface:'#263849',text:'#eeeeee',primary:'#aabbcc',borderColor:'#aabbcc',borderWidth:3,borderStrength:24,radius:24,shadow:'strong',cardGlow:8,fontSize:18,inputBackground:'#112233'});});
  await page.setViewportSize({width:1600,height:1000});
