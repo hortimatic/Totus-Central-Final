@@ -1,8 +1,8 @@
-import {displayPreferences,TPV_VARIANT_ORDERS} from './display-preferences.js?v=2641f1499763295334ff9efaacc1bf1243a7e5c4';
-import {receiptOptions} from './receipt-options.js?v=2641f1499763295334ff9efaacc1bf1243a7e5c4';
-import {customerDisplayOptions} from './customer-display.js?v=2641f1499763295334ff9efaacc1bf1243a7e5c4';
-import {searchPreferences} from './search-preferences.js?v=2641f1499763295334ff9efaacc1bf1243a7e5c4';
-import {cataloguePreferences} from './catalogue-preferences.js?v=2641f1499763295334ff9efaacc1bf1243a7e5c4';
+import {displayPreferences,TPV_VARIANT_ORDERS} from './display-preferences.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
+import {receiptOptions} from './receipt-options.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
+import {customerDisplayOptions} from './customer-display.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
+import {searchPreferences} from './search-preferences.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
+import {cataloguePreferences} from './catalogue-preferences.js?v=9669dc9ab5316f7bafc40dffe333e19b6b110e3c';
 
 // These are presentation preferences only. Fiscal, permission and payment policies
 // deliberately remain with their own authorized services.
