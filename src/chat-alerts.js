@@ -1,4 +1,4 @@
-import {chatPreferences,isChatBuzz} from './chat-preferences.js?v=1506befdc97cea2a86a08039583c63e6c7cb0716';
+import {chatPreferences,isChatBuzz} from './chat-preferences.js?v=716227ab4e97e1688cd9246487dd4053ee9986ff';
 // Browser-only delivery. No push subscription, API billing or local persistence.
 let audio;
 export async function prepareChatSound(){

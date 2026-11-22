@@ -1,4 +1,4 @@
-import {assertParallelBackend} from './parallel-environment.js?v=1506befdc97cea2a86a08039583c63e6c7cb0716';
+import {assertParallelBackend} from './parallel-environment.js?v=716227ab4e97e1688cd9246487dd4053ee9986ff';
 // Existing isolated project rebuilt as Totus Central final.
 // TPV acceptance is still pending. Never fall back to the production backend.
 export const PARALLEL_PROJECT_REF='ltwfmhilbvpzqdgjhvjb';
