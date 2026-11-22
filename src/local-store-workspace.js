@@ -1,6 +1,6 @@
-import {esc} from './utils.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
-import {createCentralStoreData} from './central-store-data.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
-import {centralDefaultCatalogue} from './central-product-adapter.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {esc} from './utils.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {createCentralStoreData} from './central-store-data.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {centralDefaultCatalogue} from './central-product-adapter.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
 
 const names={sales:['Ventas','venta'],products:['Productos','producto'],customers:['Clientes','cliente'],suppliers:['Proveedores','proveedor'],brands:['Marcas','marca']};
 export const localStoreHost=(kind,external='')=>`<section class="card card-pad" data-local-store-workspace="${kind}"><p role="status">Consultando establecimientos…</p></section>${external?`<details class="card card-pad" style="margin-top:18px"><summary>Webs conectadas y referencias generales</summary>${external}</details>`:''}`;

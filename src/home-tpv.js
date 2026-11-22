@@ -1,8 +1,8 @@
-import {esc,money} from './utils.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
-import {expenseCostAmount} from './calculations.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
-import {activityChartHtml} from './dashboard-activity.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
-import {homeDateRange} from './home-period.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
-import {fieldHelp} from './components.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {esc,money} from './utils.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {expenseCostAmount} from './calculations.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {activityChartHtml} from './dashboard-activity.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {homeDateRange} from './home-period.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {fieldHelp} from './components.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
@@ -10,7 +10,7 @@ export function createHomeReader(rpc){
 }
 const madrid=value=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date(value));
 /** Adapt the native store ledger to the existing dashboard view contract. */
-export function nativeHomeRead(reads,shop,range,sales=[]){
+export function nativeHomeRead(reads,shop,range,sales=[],media=new Map()){
  if(!reads.length||reads.some(r=>!r||r.error))return null;
  const summaries=reads.map(r=>r.native||r),native={series:summaries.flatMap(r=>r.series||[]),top:summaries.flatMap(r=>r.top||[])};
  for(const field of ['salesCents','refundCents','saleCount','refundCount','marginCents'])native[field]=summaries.reduce((n,r)=>n+Number(r[field]||0),0);
@@ -24,12 +24,12 @@ export function nativeHomeRead(reads,shop,range,sales=[]){
    const methods=[...new Set((sale.payments||[]).map(p=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'}[p.method]||p.method)))];
    const row={id:sale.id,reference:sale.ticket_number||'TC-'+sale.id.slice(0,8),date_add:date,valid:'1',id_currency:'EUR',currency_code:'EUR',total_paid_tax_incl:(sale.total_cents/100).toFixed(2),payment:methods.join(' + ')||(sale.on_credit?'Crédito':'Sin cobro'),customer_name:snapshot.customerName||'',employee_name:snapshot.operatorName||'',margin_value:null,current_state:'Confirmada'};
    rows.push(row);chartRows.push(row);
-   detail.set(String(sale.id),snapshot.lines.map((l,i)=>({id:sale.id+':'+i,id_order:sale.id,product_id:l.productId,product_attribute_id:l.variantId||'0',name:l.name,product_name:l.name,qty:l.qty,product_quantity:l.qty,image:l.imageUrl||l.image||'',reference:l.reference||'',product_reference:l.reference||'',total_price_tax_incl:(l.totalCents/100).toFixed(2),total_price_tax_excl:(l.netCents/100).toFixed(2)})));
+   detail.set(String(sale.id),snapshot.lines.map((l,i)=>({id:sale.id+':'+i,id_order:sale.id,product_id:l.productId,product_attribute_id:l.variantId||'0',name:l.name,product_name:l.name,qty:l.qty,product_quantity:l.qty,image:l.imageUrl||l.image||media.get(String(l.productId))||'',reference:l.reference||'',product_reference:l.reference||'',total_price_tax_incl:(l.totalCents/100).toFixed(2),total_price_tax_excl:(l.netCents/100).toFixed(2)})));
   }
   for(const refund of sale.refunds||[]){const d=madrid(refund.created_at);if(refund.status==='confirmed'&&d.slice(0,10)>=range.from&&d.slice(0,10)<=range.to)chartRows.push({id:'refund-'+refund.id,date_add:d,valid:'1',id_currency:'EUR',total_paid_tax_incl:(-refund.total_cents/100).toFixed(2)});}
  }
  const total=(native.salesCents-native.refundCents)/100;
- return {shop,rows:sales.length?rows:reads.flatMap(r=>r.rows||[]),chartRows:sales.length?chartRows:reads.flatMap(r=>r.chartRows||[]),currencies:new Map([['EUR','EUR']]),detailsByOrder:sales.length?detail:new Map(reads.flatMap(r=>[...(r.detailsByOrder||[])])),complete:true,native,nativeStats:{count:native.saleCount,total,ticket:native.saleCount?native.salesCents/100/native.saleCount:null,complete:true},top:native.top.map(p=>({name:p.name,qty:p.quantity,reference:p.reference||'',productId:p.id,attributeId:'0'})),totalUnits:native.top.reduce((n,p)=>n+Number(p.quantity),0),...range,checked:new Date().toLocaleString('es-ES')};
+ return {shop,rows:sales.length?rows:reads.flatMap(r=>r.rows||[]),chartRows:sales.length?chartRows:reads.flatMap(r=>r.chartRows||[]),currencies:new Map([['EUR','EUR']]),detailsByOrder:sales.length?detail:new Map(reads.flatMap(r=>[...(r.detailsByOrder||[])])),complete:true,native,nativeStats:{count:native.saleCount,total,ticket:native.saleCount?native.salesCents/100/native.saleCount:null,complete:true},top:native.top.map(p=>({name:p.name,qty:p.quantity,reference:p.reference||'',productId:p.id,attributeId:'0',image:media.get(String(p.id))||''})),totalUnits:native.top.reduce((n,p)=>n+Number(p.quantity),0),...range,checked:new Date().toLocaleString('es-ES')};
 }
 function nativeFinance(w,data,expenses){
  const reads=Object.values(data||{}),range=homeDateRange(w),expected=w.scope.store==='all'?null:w.scope.store;

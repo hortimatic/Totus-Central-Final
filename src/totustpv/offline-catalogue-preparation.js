@@ -1,7 +1,7 @@
 /** Enrich Central's existing product IDs with native variant/stock/price data.
  * Sequential reads keep store load bounded. This never creates carts or orders.
  */
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
 export async function prepareOfflineCatalogue({source,readPage,readCachedPage=async()=>null,isCurrent=()=>true,onProgress=()=>{},signal,beforePage=async()=>{},now=Date.now}){
  let pricingContext=null,validUntil=null,lastObserved=now();
  const checkTime=()=>{const instant=now();if(!Number.isSafeInteger(instant)||instant<lastObserved)throw Error('El reloj ha cambiado durante la preparación.');lastObserved=instant;if(validUntil!==null&&instant>=validUntil)throw Error('Un precio ha caducado durante la preparación. Vuelve a actualizar el catálogo.');return instant;};

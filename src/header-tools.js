@@ -1,5 +1,5 @@
-import {createOnlineOrderBell} from './header-online-orders.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
-import {esc} from './utils.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {createOnlineOrderBell} from './header-online-orders.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {esc} from './utils.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
 
 export function calendarDays(year,month){
  const first=new Date(Date.UTC(year,month,1)),offset=(first.getUTCDay()+6)%7;
