@@ -1,6 +1,7 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
-import {textValue,associationIds} from './productos-core.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
-import {csvCell} from './utils.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {productDisplayId} from './record-identifiers.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {textValue,associationIds} from './productos-core.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {csvCell} from './utils.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
 export const PRODUCT_COLUMNS=Object.freeze([
  ['image','Foto'],['name','Producto'],['id','ID'],['reference','Ref.'],['ean13','EAN'],['brand','Marca'],['supplier','Proveedor'],['category','Categoría'],['store','Tienda'],['cost','Coste neto'],['costVat','Coste +IVA'],['costTotal','Coste total'],['price','PVP neto'],['gross','PVP final'],['margin','Margen %'],['marginTotal','Margen €'],['stock','Stock'],['variants','Variantes'],['active','Estado'],['weight','Peso'],['width','Ancho'],['height','Alto'],['depth','Fondo'],['date_add','Creado'],['creator','Autor'],['date_upd','Actualizado']
 ]);
@@ -29,7 +30,7 @@ export function productWebUrl(item,store){
 export function filterProductCatalog(rows,{query='',category='',brand='',active=''}={}){
  const q=query.trim().toLocaleLowerCase('es');
  const relation=(row,key,current,ids=[])=>{if(!current)return true;const [shop,id]=current.includes('|')?current.split('|'):[null,current];return (!shop||row.__store===shop)&&(String(row[key])===id||ids.includes(id));};
- return rows.filter(r=>(!q||[r.id,r.name,r.reference,r.ean13].map(textValue).join(' ').toLocaleLowerCase('es').includes(q))&&relation(r,'id_category_default',category,associationIds(r,'categories'))&&relation(r,'id_manufacturer',brand)&&(active===''||String(r.active)===active));
+ return rows.filter(r=>(!q||[productDisplayId(r),r.id,r.name,r.reference,r.ean13].map(textValue).join(' ').toLocaleLowerCase('es').includes(q))&&relation(r,'id_category_default',category,associationIds(r,'categories'))&&relation(r,'id_manufacturer',brand)&&(active===''||String(r.active)===active));
 }
 export function productCatalogCsv(rows,columns,value){
  const cell=csvCell;

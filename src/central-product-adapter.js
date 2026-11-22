@@ -1,5 +1,6 @@
-import {createCentralStoreData} from './central-store-data.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
-import {savedWebsiteTranslations} from './website-localization.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {productDisplayId} from './record-identifiers.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {createCentralStoreData} from './central-store-data.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {savedWebsiteTranslations} from './website-localization.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
 
 const clone=value=>structuredClone(value);
 export const centralDefaultCatalogue=p=>{
@@ -114,7 +115,7 @@ export function createCentralProductAdapter({rpc,actor}){
   if(!projections.has(key)){const pending=project(store,resource);projections.set(key,pending);pending.catch(()=>{if(projections.get(key)===pending)projections.delete(key);});}
   const pending=projections.get(key),rows=await pending;ensure(store);if(projections.get(key)!==pending)throw Error('El catálogo cambió durante la consulta. Actualiza la selección.');return rows;
  }
- async function read(store,resource,{id=null,search='',page=0,size=100,product_ids=null,references=null,search_field=null}={}){
+ async function read(store,resource,{id=null,search='',page=0,size=100,product_ids=null,display_ids=null,references=null,search_field=null}={}){
   ensure(store);if(!Number.isSafeInteger(page)||page<0||!Number.isInteger(size)||size<1||size>100||!Number.isSafeInteger(page*size))throw Error('Página no válida.');
   let rows;
   if(id&&resource==='combinations'){
@@ -128,6 +129,7 @@ export function createCentralProductAdapter({rpc,actor}){
   }else rows=id&&resource==='products'?[centralProductRecord(await product(store,id))]:await snapshot(store,resource);
   if(id)rows=rows.filter(r=>r.id===id);
   if(product_ids!==null){if(!Array.isArray(product_ids)||product_ids.some(v=>typeof v!=='string'||!v))throw Error('Identificadores de producto no válidos.');const ids=new Set(product_ids);rows=rows.filter(r=>ids.has(String(resource==='products'?r.id:r.id_product)));}
+  if(display_ids!==null){if(resource!=='products'||!Array.isArray(display_ids)||display_ids.some(v=>typeof v!=='string'||!v))throw Error('Numeración no válida.');const ids=new Set(display_ids);rows=rows.filter(r=>ids.has(productDisplayId(r)));}
   if(references!==null){if(!Array.isArray(references)||references.some(v=>typeof v!=='string'||!v))throw Error('Referencias no válidas.');const refs=new Set(references);rows=rows.filter(r=>refs.has(String(r.reference||'')));}
   if(search){const needle=search.toLocaleLowerCase('es'),fields=search_field?[search_field]:['name','reference','ean13'];if(fields.some(f=>!['name','reference','ean13'].includes(f)))throw Error('Campo de búsqueda no válido.');rows=rows.filter(r=>fields.some(f=>String(r[f]||'').toLocaleLowerCase('es').includes(needle)));}
   const start=page*size;return {rows:clone(rows.slice(start,start+size)),possibly_more:start+size<rows.length,total:rows.length};

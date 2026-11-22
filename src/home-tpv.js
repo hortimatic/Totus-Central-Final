@@ -1,8 +1,9 @@
-import {esc,money} from './utils.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
-import {expenseCostAmount} from './calculations.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
-import {activityChartHtml} from './dashboard-activity.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
-import {homeDateRange} from './home-period.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
-import {fieldHelp} from './components.js?v=6c861e082b63ef525821eff77ef1b65fb53728de';
+import {saleDisplayReference} from './record-identifiers.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {esc,money} from './utils.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {expenseCostAmount} from './calculations.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {activityChartHtml} from './dashboard-activity.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {homeDateRange} from './home-period.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {fieldHelp} from './components.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
@@ -22,7 +23,7 @@ export function nativeHomeRead(reads,shop,range,sales=[],media=new Map()){
   if(date.slice(0,10)>=range.from&&date.slice(0,10)<=range.to){
    if(!Number.isSafeInteger(sale.total_cents)||!Array.isArray(snapshot.lines))throw Error('Venta incompleta.');
    const methods=[...new Set((sale.payments||[]).map(p=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'}[p.method]||p.method)))];
-   const row={id:sale.id,reference:sale.ticket_number||'TC-'+sale.id.slice(0,8),date_add:date,valid:'1',id_currency:'EUR',currency_code:'EUR',total_paid_tax_incl:(sale.total_cents/100).toFixed(2),payment:methods.join(' + ')||(sale.on_credit?'Crédito':'Sin cobro'),customer_name:snapshot.customerName||'',employee_name:snapshot.operatorName||'',margin_value:null,current_state:'Confirmada'};
+   const row={id:sale.id,reference:saleDisplayReference(sale),display_number:sale.display_number,date_add:date,valid:'1',id_currency:'EUR',currency_code:'EUR',total_paid_tax_incl:(sale.total_cents/100).toFixed(2),payment:methods.join(' + ')||(sale.on_credit?'Crédito':'Sin cobro'),customer_name:snapshot.customerName||'',employee_name:snapshot.operatorName||'',margin_value:null,current_state:'Confirmada'};
    rows.push(row);chartRows.push(row);
    detail.set(String(sale.id),snapshot.lines.map((l,i)=>({id:sale.id+':'+i,id_order:sale.id,product_id:l.productId,product_attribute_id:l.variantId||'0',name:l.name,product_name:l.name,qty:l.qty,product_quantity:l.qty,image:l.imageUrl||l.image||media.get(String(l.productId))||'',reference:l.reference||'',product_reference:l.reference||'',total_price_tax_incl:(l.totalCents/100).toFixed(2),total_price_tax_excl:(l.netCents/100).toFixed(2)})));
   }

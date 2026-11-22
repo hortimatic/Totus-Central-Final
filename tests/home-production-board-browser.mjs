@@ -15,12 +15,15 @@ try{
   let saved=null,revision=0;window.calls=[];window.api=createHomeWidgetsUI({confirm:async()=>true,onOpenCash:()=>window.openedNativeCash=true,rpc:async(name,p)=>{
    window.calls.push({name,p});const suffix=p?.p_store?.startsWith('1111')?'local':'web';
    if(name==='totus_home_dashboard'){if(p.p_action==='save'){for(const w of p.p_layout.widgets)if(w.scope.store!=='all'&&!/^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i.test(w.scope.store))throw Error('Datos de widget no admitidos');saved=p.p_layout;revision++;}return {layout:saved,revision};}
-   if(name==='totus_home_tpv_summary')return {storeId:p.p_store,from:p.p_from,to:p.p_to,source:'totustpv',salesCents:p.p_store==='11111111-1111-4111-8111-111111111111'?1000:2000,refundCents:200,saleCount:1,refundCount:1,marginCents:300,marginComplete:true,top:[{id:'product',name:'Artículo '+suffix,quantity:1}],series:[{date:today,salesCents:800,orders:1}]};
-   if(name==='totus_local_store_workspace')return {storeId:p.p_store,items:p.p_kind==='sales'?[{id:suffix+'-sale',store_id:p.p_store,created_at:today+'T12:00:00Z',total_cents:p.p_store==='11111111-1111-4111-8111-111111111111'?1000:2000,payments:[{method:'card'}],refunds:[],snapshot:{customerName:'Cliente '+suffix,lines:[{productId:'product',name:'Artículo '+suffix,qty:1,totalCents:1000,netCents:826}]}}]:[]};
+   if(name==='totus_home_tpv_summary')return {storeId:p.p_store,from:p.p_from,to:p.p_to,source:'totustpv',salesCents:p.p_store==='11111111-1111-4111-8111-111111111111'?1000:2000,refundCents:200,saleCount:1,refundCount:1,marginCents:300,marginComplete:true,top:[{id:'33333333-3333-4333-8333-333333333333',name:'Artículo '+suffix,quantity:1}],series:[{date:today,salesCents:800,orders:1}]};
+   if(name==='totus_home_product_media')return {storeId:p.p_store,items:p.p_ids.map(id=>({id,imageUrl:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aXioAAAAASUVORK5CYII='}))};
+   if(name==='totus_local_store_workspace')return {storeId:p.p_store,items:p.p_kind==='sales'?[{id:suffix+'-sale',store_id:p.p_store,created_at:today+'T12:00:00Z',total_cents:p.p_store==='11111111-1111-4111-8111-111111111111'?1000:2000,payments:[{method:'card'}],refunds:[],snapshot:{customerName:'Cliente '+suffix,lines:[{productId:'33333333-3333-4333-8333-333333333333',name:'Artículo '+suffix,qty:1,totalCents:1000,netCents:826}]}}]:[]};
    return {rows:[]};
   },invoke:()=>{throw Error('No se permite consultar una web para los datos nativos.');},can:()=>true});window.api.mount(document.body);const draft=await import('../src/form-drafts.js');draft.captureFormDraft(document.body);window.hasBusinessDraft=()=>draft.hasFormDraft(document.body);
  });
  await page.waitForFunction(()=>document.querySelector('[data-home-widget="orders"]')?.textContent.includes('Artículo local'),null,{timeout:5000}).catch(async e=>{console.log({errors,calls:await page.evaluate(()=>window.calls.map(c=>c.name))});throw e;});
+ await page.waitForFunction(()=>[...document.querySelectorAll('[data-home-widget="orders"] img')].some(img=>img.complete&&img.naturalWidth>0));
+ assert.ok(await page.locator('[data-home-widget="shop-h"] img').count()>0);
  await page.getByRole('button',{name:'Cajas del TPV',exact:true}).click();assert.equal(await page.evaluate(()=>window.openedNativeCash),true);
  const expected=['opening','income','expense','result','internal','gain-summary','activity','shop-h','shop-n','orders','tasks','store','price','documents','expense-quarter','billing','fiscal','system','recent-closings','quick-links'];
  assert.deepEqual(await page.locator('[data-home-widget]').evaluateAll(nodes=>nodes.map(n=>n.dataset.homeWidget)),expected);
@@ -47,7 +50,7 @@ try{
  assert.doesNotMatch(await page.locator('[data-home-widget="orders"] tbody').innerText(),/Artículo web/);
  await page.locator('[data-home-widget="orders"] [data-home-command="open-order"]').first().click();
  assert.equal(await page.locator('dialog[open]').count(),1);
- assert.match(await page.locator('dialog').innerText(),/Artículo local/);
+ assert.match(await page.locator('dialog').innerText(),/Artículo local/);assert.equal(await page.locator('dialog img').count(),1);
  await page.getByRole('button',{name:'Cerrar ticket',exact:true}).click();
  assert.equal(await page.locator('dialog').count(),0);
  for(const id of ['shop-h','shop-n','orders','gain-summary']){

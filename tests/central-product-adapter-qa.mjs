@@ -16,6 +16,7 @@ assert.equal((await adapter.read(shop,'products',{references:['missing']})).tota
 assert.equal((await adapter.read(shop,'products',{references:['SKU']})).rows[0].id,id);
 assert.equal((await adapter.read(shop,'products',{product_ids:['42']})).total,0,'Source numeric IDs never substitute native identities');
 assert.equal((await adapter.read(shop,'products',{product_ids:[id]})).total,1);
+assert.equal((await adapter.read(shop,'products',{display_ids:['42']})).rows[0].id,id,'Human-facing source ID search resolves to the unchanged native key');
 assert.equal((await adapter.read(shop,'stock_availables',{product_ids:['missing']})).total,0);
 assert.equal((await adapter.read(shop,'products',{search:'SKU',search_field:'name'})).total,0);
 assert.deepEqual(centralProductRecord({...native,details:{sourceData:{name:[{id:'2',value:'Nombre'}],images:[{id:'999'}]}}}).__language_ids,['2'],'Image IDs are not language IDs');
