@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
 import {readFile} from 'node:fs/promises';
-import {createHomeReader,homeTpvContent} from '../src/home-tpv.js';
+import {createHomeReader,homeTpvContent,nativeHomeActivity} from '../src/home-tpv.js';
 const db=new PGlite();
 try{
  await db.exec(`create schema private;create schema auth;create role anon;create role authenticated;
@@ -18,8 +18,18 @@ try{
  await db.exec(await readFile('supabase/totus_home_tpv_summary.sql','utf8'));
  const r=(await db.query("select public.totus_home_tpv_summary('00000000-0000-0000-0000-000000000002','2026-11-21','2026-11-21') r")).rows[0].r;
  assert.equal(r.salesCents,1210);assert.equal(r.saleCount,1);assert.equal(r.source,'totustpv');
+ const pid='00000000-0000-0000-0000-000000000008';
+ await db.exec(`insert into products values('${pid}','{"costNet":"2.50"}','00000000-0000-0000-0000-000000000002');insert into private.totus_tpv_local_catalogue values('${pid}','${pid}',null,'','00000000-0000-0000-0000-000000000002');update private.totus_tpv_local_sales set snapshot='{"lines":[{"productId":"${pid}","name":"Producto","qty":2,"netCents":1000,"totalCents":1210}]}';insert into private.totus_tpv_local_refunds values('[{"productId":"${pid}","name":"Producto","qty":1,"totalCents":605}]',605,'00000000-0000-0000-0000-000000000002','confirmed','2026-11-22','00000000-0000-0000-0000-000000000003');`);
+ const series=(await db.query("select public.totus_home_tpv_summary('00000000-0000-0000-0000-000000000002','2026-11-21','2026-11-22') r")).rows[0].r;
+ assert.equal(series.marginCents,250);assert.equal(series.marginComplete,true);assert.deepEqual(series.series.map(p=>p.marginCents),[500,-250]);
+ await db.exec(`update products set details='{}'`);
+ const missing=(await db.query("select public.totus_home_tpv_summary('00000000-0000-0000-0000-000000000002','2026-11-21','2026-11-22') r")).rows[0].r;assert.equal(missing.marginComplete,false);assert(missing.series.every(p=>p.marginComplete===false));
  await assert.rejects(()=>db.query("select public.totus_home_tpv_summary('00000000-0000-0000-0000-000000000004','2026-11-21','2026-11-21')"));
 }finally{await db.close();}
 let calls=0;const reader=createHomeReader(async()=>{calls++;return {storeId:'s',from:'a',to:'b',source:'totustpv'};});await Promise.all([reader.read('s','a','b'),reader.read('s','a','b')]);assert.equal(calls,1);
 assert.ok(homeTpvContent({type:'home.income'},{salesCents:1210,refundCents:0}).includes('12,10'));
+const activity=nativeHomeActivity({id:'activity',type:'home.activity',scope:{store:'all'},filters:{from:'2026-11-20',to:'2026-11-22'}},{s:{native:{salesCents:1210,refundCents:605,marginCents:250,marginComplete:false,series:[{date:'2026-11-20',salesCents:1210,marginCents:500,marginComplete:true},{date:'2026-11-21',salesCents:0,marginCents:0,marginComplete:false},{date:'2026-11-22',salesCents:-605,marginCents:-250,marginComplete:true}]}}},[]);
+assert(activity.includes('data-activity-toggle="margin"'));assert(activity.includes('Faltan costes'));assert(!activity.includes('NaN'));const margin=activity.match(/<g data-activity-series="margin">([\s\S]*?)<\/g>/)[1];assert.equal((margin.match(/<polyline/g)||[]).length,2,'No unir días a través de costes desconocidos');assert(margin.includes('-2,50'));
+const widget={id:'activity',type:'home.activity',scope:{store:'all'},filters:{from:'2026-11-20',to:'2026-11-22'}},data={s:{native:{salesCents:100,refundCents:0,marginCents:50,marginComplete:true,series:[{date:'2026-11-20',salesCents:100,marginCents:50,marginComplete:true}]}}};
+const scoped=nativeHomeActivity(widget,data,[],[{id:'s',name:'Nueva tienda física'},{id:'deleted',name:'Eliminada',active:false}]);assert(scoped.includes('Ventas · Nueva tienda física'));assert(scoped.includes('Ganancia · Nueva tienda física'));assert(!scoped.includes('Eliminada'));assert(!scoped.includes('NaN'));
 console.log('Native home summary: store isolation, period and cached reads verified');

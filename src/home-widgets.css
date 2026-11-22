@@ -710,3 +710,5 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 #content .dashboard-page .home-widgets-drawer[data-side="left"]{right:auto!important;left:var(--home-editor-left,12px)!important}
 @media(max-width:700px){#content .dashboard-page .home-widgets-drawer[data-side="left"]{left:12px!important;right:12px!important}}
 #content .dashboard-page.home-pointer-editing .home-widgets-drawer{visibility:hidden!important;pointer-events:none!important}
+.home-activity-margin{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;padding:12px;background:color-mix(in srgb,var(--accent,#2563eb) 5%,var(--panel,#fff));border-radius:var(--r,10px)}
+.home-activity-margin .kpi{margin:0;min-width:0}.home-activity-margin .kpi strong{font-size:24px}.home-activity-margin .btn{flex:none}

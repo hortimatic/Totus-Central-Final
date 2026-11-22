@@ -1,5 +1,5 @@
-import {lineAdjustment} from './line-options.js?v=67c33f8290725233b72e3443fe35b304f206c2a0';
-import {lineName} from './line-name.js?v=67c33f8290725233b72e3443fe35b304f206c2a0';
+import {lineAdjustment} from './line-options.js?v=99d340b4264888b6f2d5fb30d0d43d60d10a5060';
+import {lineName} from './line-name.js?v=99d340b4264888b6f2d5fb30d0d43d60d10a5060';
 /** Only operator changes, kept separately from native calculated amounts. */
 export function saleModifiers(value){
  const result={};

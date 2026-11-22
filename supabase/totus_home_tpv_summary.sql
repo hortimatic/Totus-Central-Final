@@ -15,10 +15,10 @@ begin
  select (s.created_at at time zone 'Europe/Madrid')::date day_key,s.total_cents amount,1 orders,0 as return_count from sales s
  union all select (r.created_at at time zone 'Europe/Madrid')::date,-r.total_cents,0,1 from refunds r
  ), lines as (
- select l.value line,1 direction,s.id sale_id from sales s cross join lateral jsonb_array_elements(s.snapshot->'lines') l
- union all select l.value,-1,r.sale_id from refunds r cross join lateral jsonb_array_elements(r.lines) l
+ select l.value line,1 direction,s.id sale_id,(s.created_at at time zone 'Europe/Madrid')::date day_key from sales s cross join lateral jsonb_array_elements(s.snapshot->'lines') l
+ union all select l.value,-1,r.sale_id,(r.created_at at time zone 'Europe/Madrid')::date from refunds r cross join lateral jsonb_array_elements(r.lines) l
  ), priced as (
- select l.*,coalesce(v.cost_net,case when coalesce(p.details#>>'{sourceData,wholesale_price}',p.details->>'costNet','')~'^\d+(\.\d+)?$' then coalesce(p.details#>>'{sourceData,wholesale_price}',p.details->>'costNet')::numeric end) cost,
+ select l.*,coalesce(v.cost_net,case when coalesce(p.details#>>'{sourceData,wholesale_price}',p.details->>'costNet','')~'^[0-9]+([.][0-9]+)?$' then coalesce(p.details#>>'{sourceData,wholesale_price}',p.details->>'costNet')::numeric end) cost,
  case when l.direction=1 then (l.line->>'netCents')::numeric
  else round((l.line->>'totalCents')::numeric*(original.line->>'netCents')::numeric/nullif((original.line->>'totalCents')::numeric,0)) end net
  from lines l left join private.totus_tpv_local_catalogue c on c.store_id=p_store and c.id::text=l.line->>'productId'
@@ -36,7 +36,9 @@ begin
  'refundCents',coalesce((select sum(total_cents) from refunds),0),'refundCount',(select count(*) from refunds),
  'marginCents',coalesce((select sum(direction*(net-round(cost*(line->>'qty')::numeric*100))) from priced where cost is not null and net is not null),0),
  'marginComplete',not exists(select 1 from priced where cost is null or net is null),'costBasis','current_catalogue',
- 'series',coalesce((select jsonb_agg(jsonb_build_object('date',day_key,'salesCents',amount,'orders',orders,'returns',return_count) order by day_key) from daily),'[]'),
+ 'series',coalesce((select jsonb_agg(jsonb_build_object('date',d.day_key,'salesCents',amount,'orders',orders,'returns',return_count,
+ 'marginCents',coalesce((select sum(direction*(net-round(cost*(line->>'qty')::numeric*100))) from priced where day_key=d.day_key and cost is not null and net is not null),0),
+ 'marginComplete',not exists(select 1 from priced where day_key=d.day_key and (cost is null or net is null))) order by d.day_key) from daily d),'[]'),
  'payments',coalesce((select jsonb_object_agg(method,amount) from(select p.method,sum(p.amount_cents) amount from private.totus_tpv_local_payments p join private.totus_tpv_local_sales s on s.id=p.sale_id and s.store_id=p_store where p.created_at>=p_from::timestamp at time zone 'Europe/Madrid' and p.created_at<(p_to+1)::timestamp at time zone 'Europe/Madrid' group by p.method)t),'{}'),
  'top',coalesce((select jsonb_agg(to_jsonb(t)) from(select line->>'name' name,line->>'productId' id,sum(direction*(line->>'qty')::numeric) quantity,sum(direction*(line->>'totalCents')::numeric) cents from lines group by line->>'productId',line->>'name' order by sum(direction*(line->>'qty')::numeric) desc limit 25)t),'[]')) into result;
  return result;
