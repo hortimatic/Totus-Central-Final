@@ -5,7 +5,7 @@ export function taskToday(){return new Intl.DateTimeFormat('sv-SE',{timeZone:'Eu
 export function taskDate(value){if(!/^\d{4}-\d{2}-\d{2}$/.test(value||'')||new Date(value+'T12:00:00Z').toISOString().slice(0,10)!==value)throw new Error('Fecha no válida.');return value;}
 export function addTaskDays(date,n){const d=new Date(taskDate(date)+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
 export function taskRange(anchor,view='month'){
- taskDate(anchor);const d=new Date(anchor+'T12:00:00Z');
+ taskDate(anchor);if(view==='day')return {from:anchor,to:anchor};const d=new Date(anchor+'T12:00:00Z');
  if(view==='week'){const from=addTaskDays(anchor,-((d.getUTCDay()+6)%7));return {from,to:addTaskDays(from,6)};}
  const first=anchor.slice(0,7)+'-01',from=addTaskDays(first,-((new Date(first+'T12:00:00Z').getUTCDay()+6)%7));
  d.setUTCMonth(d.getUTCMonth()+1,0);const last=d.toISOString().slice(0,10);
