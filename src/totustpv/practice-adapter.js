@@ -2,8 +2,8 @@
  * Synthetic tickets live in a separate, per-user browser namespace. They are
  * not orders, payments, stock receipts or cash closings of the business.
  */
-import {catalogueSearchFields} from './search-preferences.js?v=6d784e195e29a23adea9a6d62073afdf93d0767e';
-import {catalogueFilters as readCatalogueFilters} from './catalogue-preferences.js?v=6d784e195e29a23adea9a6d62073afdf93d0767e';
+import {catalogueSearchFields} from './search-preferences.js?v=d9c8e23fa7a8e657e6f5ca72380b00dc74f93884';
+import {catalogueFilters as readCatalogueFilters} from './catalogue-preferences.js?v=d9c8e23fa7a8e657e6f5ca72380b00dc74f93884';
 const need=(ok,message)=>{if(!ok)throw new Error(message);};
 const integer=value=>Number.isSafeInteger(value)&&value>=0;
 const copy=value=>structuredClone(value);
