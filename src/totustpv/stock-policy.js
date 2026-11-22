@@ -5,7 +5,7 @@ export function stockPolicy(value){
   ['allowOutOfStock','allowInactive'].every(key=>value[key]===undefined||typeof value[key]==='boolean'),'Revisa la política de existencias.');
  return {allowOutOfStock:value.allowOutOfStock===true,...(Object.hasOwn(value,'allowInactive')?{allowInactive:value.allowInactive===true}:{})};
 }
-export function canSellProduct(product,policy){return product?.saleEnabled!==false||product?.localTpv===true&&policy?.allowInactive===true;}
+export function canSellProduct(product,policy){return product?.saleEnabled!==false||(product?.localTpv===true||product?.allowInactive===true)&&policy?.allowInactive===true;}
 export function canExceedStock(product,policy){return policy?.allowOutOfStock===true&&product?.allowOutOfStock===true;}
 export function stockWarning(line){
  if(!Number.isSafeInteger(line?.stock)||!Number.isSafeInteger(line?.qty)||line.qty<=line.stock)return '';
