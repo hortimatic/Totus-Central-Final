@@ -1,4 +1,4 @@
-import {paymentSummary} from '../model.js?v=8f173a6a7e708aa1645f1115adee9fde2dd3d4b7';
+import {paymentSummary} from '../model.js?v=202a0e5d491e073509b5023aea6c0401b021ce9e';
 const need=(ok,code)=>{if(!ok)throw new Error(code);};
 /** The remote paid total alone cannot prove the selected payment method.
  * Compare actual native payment labels with the immutable configured labels.

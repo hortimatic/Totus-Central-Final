@@ -1,7 +1,7 @@
-import {localCategories,categoryFilterIds} from './local-categories.js?v=8f173a6a7e708aa1645f1115adee9fde2dd3d4b7';
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=8f173a6a7e708aa1645f1115adee9fde2dd3d4b7';
+import {localCategories,categoryFilterIds} from './local-categories.js?v=202a0e5d491e073509b5023aea6c0401b021ce9e';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=202a0e5d491e073509b5023aea6c0401b021ce9e';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=8f173a6a7e708aa1645f1115adee9fde2dd3d4b7';
+import {catalogueSearchFields} from './search-preferences.js?v=202a0e5d491e073509b5023aea6c0401b021ce9e';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
@@ -10,6 +10,7 @@ export function localOrderLookupInput(value){const text=String(value??'').trim()
 export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,provePrice,proveOperator,uuid=()=>crypto.randomUUID()}){
  need(typeof invoke==='function'&&actorId&&typeof currentActor==='function'&&storage,'Falta la sesión de Central.');
  let context=null,selected=null,session=null,customer=null,workspace=null,activeDraft=null,categoryTree=[];
+ const catalogueSnapshots=new Map();
  const guard=()=>need(currentActor()===actorId,'La cuenta ha cambiado. Vuelve a abrir el mostrador.');
  const call=async(name,args={})=>{guard();let result;try{result=await invoke(name,copy(args));}catch(error){if(typeof error?.message==='string'&&error.message.startsWith(name+': '))error.message=error.message.slice(name.length+2);throw error;}guard();return result;};
  const station=()=>{guard();need(selected,'Selecciona una caja de Central.');return selected;};
@@ -22,6 +23,14 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
  const quoteView=row=>({...row,status:'ready',quoteExpiresAt:Date.parse(row.expiresAt),createdAt:Date.now(),paymentMethods:row.method==='credit'?[]:row.method.startsWith('mixed-')?['cash',row.method.slice(6)]:[row.method],paymentLabels:normalizeLocalPayments(workspace?.payments,LOCAL_PAYMENT_METHODS).labels,referencePolicy:normalizeLocalPayments(workspace?.payments,LOCAL_PAYMENT_METHODS).referencePolicy,...(row.feeCents===0?{totalTaxExclCents:row.productsNetCents}:{})});
  async function workspaceOptions(){const id=station().id,result=await call('totus_tpv_local_workspace',{p_drawer:id});need(station().id===id&&result?.drawerId===id,'La caja cambió durante la lectura de sus ajustes.');workspace=result;return copy(result);}
  async function page(kind,options={}){const drawerId=station().id,all=[];for(let offset=0;offset<=1000000;offset+=200){const result=await call('totus_tpv_local_read',{p_drawer:drawerId,p_kind:kind,p_search:options.search||'',p_limit:200,p_offset:offset});need(station().id===drawerId,'La caja ha cambiado durante la consulta.');need(Array.isArray(result?.items),'No se han podido leer los datos de Central.');all.push(...result.items);if(!result.hasMore)return all;}throw Error('El catálogo supera el límite de lectura. Ajusta la búsqueda.');}
+ async function catalogue(){
+  const drawer=station(),cacheKey=JSON.stringify([drawer.storeId,drawer.id]),version=await call('totus_tpv_local_read',{p_drawer:drawer.id,p_kind:'catalogue-version'});
+  need(station().id===drawer.id&&version?.storeId===drawer.storeId&&typeof version.revision==='string','No se pudo verificar la versión del catálogo de esta tienda.');
+  const cached=catalogueSnapshots.get(cacheKey);if(cached?.revision===version.revision)return cached.items;
+  const items=await page('catalogue'),after=await call('totus_tpv_local_read',{p_drawer:drawer.id,p_kind:'catalogue-version'});
+  need(station().id===drawer.id&&after?.storeId===drawer.storeId&&after.revision===version.revision,'El catálogo ha cambiado durante la lectura. Vuelve a consultar.');
+  catalogueSnapshots.set(cacheKey,{revision:version.revision,items});return items;
+ }
 
  async function readHistory(){const rows=await page('sales'),refunds=await call('totus_tpv_local_refund',{p_drawer:station().id});return rows.map(row=>({...sale(row),refunds:refunds.items.filter(r=>r.sale_id===row.id).map(r=>({...r,totalCents:r.total_cents}))}));}
  async function draftCommand(action,{draftId=null,version=null,data={}}={}){const s=active(),markerKey=key('pending-draft-'+station().id),pending=JSON.parse(storage.getItem(markerKey)||'null');const fresh={p_id:uuid(),p_session:s.id,p_action:action,p_draft:draftId,p_version:version,p_data:data};if(pending)need(pending.p_session===s.id&&pending.p_action===action&&pending.p_draft===draftId&&(action!=='save'||same(pending.p_data,data)),'Recupera primero la operación pendiente del ticket aparcado.');const request=pending||fresh;storage.setItem(markerKey,JSON.stringify(request));try{const result=await call('totus_tpv_local_draft',request);need(result?.id===(draftId||request.p_id)&&Number.isSafeInteger(result.version),'No se ha verificado el ticket aparcado.');storage.removeItem(markerKey);return result;}catch(error){if(/^TPV_LOCAL_(DRAFT_|PARKING_DISABLED|CUSTOMER_INVALID|FORBIDDEN)/.test(error.message))storage.removeItem(markerKey);throw error;}}
@@ -46,7 +55,7 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
   async openSession({storeId,drawerId,openingCents}){need(selected?.id===drawerId&&station().storeId===storeId,'La caja no pertenece a la tienda.');const pendingKey=key('opening-'+drawerId),pending=storage.getItem(pendingKey),request=pending?JSON.parse(pending):{p_id:uuid(),p_drawer:drawerId,p_opening:openingCents};need(request.p_opening===openingCents,'Recupera primero la apertura pendiente con su importe original.');storage.setItem(pendingKey,JSON.stringify(request));remember(request.p_id,{rpc:'totus_tpv_local_open',request});const result=await call('totus_tpv_local_open',request);need(result?.id===request.p_id&&result.drawerId===drawerId,'No se ha verificado la apertura de caja.');need(station().id===drawerId,'La caja ha cambiado; recupera la apertura registrada.');session=result;storage.removeItem(pendingKey);return copy(session);},
   async categories(){const drawer=station(),result=await call('totus_tpv_local_categories',{p_drawer:drawer.id});need(station().id===drawer.id&&result?.storeId===drawer.storeId,'La tienda o la caja ha cambiado durante la consulta.');const visible=localCategories(result.categories);categoryTree=copy(result.categories);return visible;},
   async searchProducts({search='',page:pageIndex=0,sortField='name',sortDirection='asc',categoryId=0,searchFields,catalogueFilters={}}={}){
-   active();need(Number.isSafeInteger(pageIndex)&&pageIndex>=0&&pageIndex<=25000,'Página de catálogo no válida.');const fields=catalogueSearchFields(searchFields),items=await page('catalogue'),term=search.toLocaleLowerCase('es');
+   active();need(Number.isSafeInteger(pageIndex)&&pageIndex>=0&&pageIndex<=25000,'Página de catálogo no válida.');const fields=catalogueSearchFields(searchFields),items=await catalogue(),term=search.toLocaleLowerCase('es');
    const chosen=new Set(categoryId?[categoryId]:[]),excluded=new Set((catalogueFilters.excludedCategories||[]).flatMap(id=>[...categoryFilterIds(categoryTree,id)]));
    const products=items.map(p=>({id:p.id,productId:p.product_id,variantId:p.variant_id,name:p.name,reference:p.reference,ean13:p.ean,priceCents:p.price_cents,netPriceCents:Number((BigInt(p.price_cents)*10000n+BigInt(10000+p.tax_basis_points)/2n)/BigInt(10000+p.tax_basis_points)),stock:p.stock,saleEnabled:p.active!==false,quantityUnit:p.quantity_unit||'unit',revision:p.revision,categoryId:p.metadata?.categoryId||0,categoryIds:Array.isArray(p.metadata?.categoryIds)?p.metadata.categoryIds.filter(Number.isSafeInteger):[],category:p.metadata?.category||'',variantAttributes:p.metadata?.variantAttributes||[],imageUrl:p.metadata?.imageUrl||'',images:p.metadata?.images||[]}))
    .filter(p=>(!categoryId||[p.categoryId,...p.categoryIds].some(id=>chosen.has(id)))&&![p.categoryId,...p.categoryIds].some(id=>excluded.has(id))&&(!catalogueFilters.hideUnavailable||p.stock>0)&&(!term||fields.some(f=>String(p[{reference:'reference',ean13:'ean13',name:'name'}[f]||f]||'').toLocaleLowerCase('es').includes(term))));
