@@ -19,7 +19,13 @@ create table if not exists private.totus_category_edits(
  request_id uuid primary key, actor_id uuid not null, store_id uuid not null,
  signature text not null, record_id text not null, created_at timestamptz not null default clock_timestamp()
 );
-create sequence if not exists private.totus_local_category_id start 900000000000000 maxvalue 999999999999999;
+create sequence if not exists private.totus_local_category_id start 900000000 maxvalue 2147483647;
+-- Reconcile the unused initial sequence with the common TPV category ID range.
+do $$ begin
+ if (select not is_called and last_value=900000000000000 from private.totus_local_category_id) then
+  alter sequence private.totus_local_category_id start with 900000000 restart with 900000000 maxvalue 2147483647;
+ end if;
+end $$;
 alter table private.totus_category_snapshots enable row level security;
 alter table private.totus_category_reads enable row level security;
 alter table private.totus_category_edits enable row level security;

@@ -34,7 +34,7 @@ begin
  elsif p_kind='catalogue' then
   select coalesce(jsonb_agg((to_jsonb(x)-'metadata')||jsonb_build_object('metadata',jsonb_build_object(
    'imageUrl',x.metadata->'imageUrl','images',x.metadata->'images','variantAttributes',x.metadata->'variantAttributes',
-   'categoryId',case when coalesce(p.details->'sourceData'->>'id_category_default','')~'^[1-9][0-9]{0,14}$' then (p.details->'sourceData'->>'id_category_default')::bigint else coalesce((x.metadata->>'categoryId')::bigint,0) end,
+   'categoryId',case when coalesce(p.details->'sourceData'->>'id_category_default','')~'^[1-9][0-9]{0,14}$' then (p.details->'sourceData'->>'id_category_default')::bigint else case when coalesce(x.metadata->>'categoryId','')~'^[1-9][0-9]{0,14}$' then (x.metadata->>'categoryId')::bigint else 0 end end,
    'categoryIds',coalesce((select jsonb_agg((r->>'id')::bigint) from jsonb_array_elements(case when jsonb_typeof(p.details->'sourceData'->'associations'->'categories')='array' then p.details->'sourceData'->'associations'->'categories' else '[]' end)r where coalesce(r->>'id','')~'^[1-9][0-9]{0,14}$'),'[]'),
    'category',x.metadata->'category')) order by lower(x.name),x.id),'[]') into result
   from (select * from private.totus_tpv_local_catalogue where store_id=store and active and (p_search='' or position(lower(p_search) in lower(name||' '||reference||' '||ean))>0) order by lower(name),id limit p_limit offset p_offset)x

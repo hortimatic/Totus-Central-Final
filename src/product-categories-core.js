@@ -1,14 +1,15 @@
-import {textValue} from './productos-core.js?v=d5d8d2e125397d81ca0735e0040c664bdbd613ed';
-import {compareTableValues} from './table-sort.js?v=d5d8d2e125397d81ca0735e0040c664bdbd613ed';
+import {textValue} from './productos-core.js?v=f159ae4b47c24b3dc768a2ac0c4d3cc25bf66c5e';
+import {compareTableValues} from './table-sort.js?v=f159ae4b47c24b3dc768a2ac0c4d3cc25bf66c5e';
 export const categoryId=value=>/^[1-9]\d{0,14}$/.test(String(value));
 export function categoryDescendants(rows,id){
  const children=new Map();for(const row of rows){const parent=String(row.id_parent||'0');if(!children.has(parent))children.set(parent,[]);children.get(parent).push(String(row.id));}
  const seen=new Set([String(id)]),queue=[String(id)];for(let i=0;i<queue.length;i++)for(const next of children.get(queue[i])||[])if(!seen.has(next)){seen.add(next);queue.push(next);}return seen;
 }
-export function categoryHierarchy(rows,{query='',direction='asc'}={}){
+export function categoryHierarchy(rows,{query='',direction='asc',sortField='name'}={}){
+ if(!['name','id','active','date_upd'].includes(sortField))throw Error('Orden de categorías no válido.');
  const ids=new Set(),items=rows.map(row=>{const id=String(row.id);if(!categoryId(id)||ids.has(id))throw Error('La lista de categorías contiene identificadores inválidos o repetidos.');ids.add(id);return {...row,id,id_parent:String(row.id_parent||'0'),label:row.__label||textValue(row.name)||'Sin nombre'};});
  const children=new Map(),roots=[];for(const row of items){if(row.id_parent==='0'||!ids.has(row.id_parent)){roots.push(row);continue;}if(!children.has(row.id_parent))children.set(row.id_parent,[]);children.get(row.id_parent).push(row);}
- const result=[],seen=new Set(),walk=(siblings,depth,path)=>{for(const row of [...siblings].sort((a,b)=>compareTableValues(a.label,b.label,direction)||Number(a.id)-Number(b.id))){if(seen.has(row.id))continue;seen.add(row.id);const next=[...path,row.label];result.push({...row,depth,path:next.join(' / '),orphan:row.id_parent!=='0'&&!ids.has(row.id_parent)});walk(children.get(row.id)||[],depth+1,next);}};
+ const result=[],seen=new Set(),walk=(siblings,depth,path)=>{if(depth>100)throw Error('La jerarquía supera cien niveles.');for(const row of [...siblings].sort((a,b)=>compareTableValues(sortField==='name'?a.label:a[sortField],sortField==='name'?b.label:b[sortField],direction)||Number(a.id)-Number(b.id))){if(seen.has(row.id))continue;seen.add(row.id);const next=[...path,row.label];result.push({...row,depth,path:next.join(' / '),orphan:row.id_parent!=='0'&&!ids.has(row.id_parent)});walk(children.get(row.id)||[],depth+1,next);}};
  walk(roots,0,[]);for(const row of items)if(!seen.has(row.id))throw Error('Hay un ciclo en la jerarquía de categorías. Corrígelo antes de mover categorías.');
  const term=query.trim().toLocaleLowerCase('es');if(!term)return result;
  const matching=new Set(result.filter(row=>[row.id,row.label,row.path].join(' ').toLocaleLowerCase('es').includes(term)).map(row=>row.id));
