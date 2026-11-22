@@ -1,7 +1,36 @@
-import {positionColumnPanel,standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
+import {positionColumnPanel,standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {compareTableValues} from './table-sort.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
 /** Shared presentation and personal layouts; never writes business records. */
 export function installSharedTableArrows(root=document,{owner=()=>null}={}){
  const entries=new Map(),abort=new AbortController();let frame=0;
+ const sorting=new WeakMap();
+ const scanSorting=()=>{for(const table of root.querySelectorAll('table')){
+  if(table.closest('.invoice-preview,[data-tc-static-table],.record-page,[data-draft-form],form')||!table.tHead||table.tHead.rows.length!==1)continue;
+  const headers=[...table.tHead.rows[0].cells];
+  // Existing controllers sort their complete result sets and own pagination.
+  const managed=table.querySelector('thead [data-pr-sort-field],thead [data-directory-sort],thead [data-ps-table-action="sort"],thead [data-tpv-sort]');
+  if(managed){for(const button of table.querySelectorAll('thead button:not([disabled])')){
+    if(!button.matches('[data-pr-sort-field],[data-directory-sort],[data-ps-table-action="sort"],[data-tpv-sort]'))continue;
+    const text=button.textContent.trim(),head=button.closest('th');if(!head.hasAttribute('aria-sort'))head.setAttribute('aria-sort',text.endsWith('↑')?'ascending':text.endsWith('↓')?'descending':'none');
+    if(!/[↑↓↕]/.test(text)){const arrow=document.createElement('span');arrow.className='tc-sort-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent=' ↕';button.append(arrow);}
+   }continue;}
+  if(headers.length<2||headers.some(h=>h.colSpan!==1)||!table.tBodies.length)continue;
+  const body=table.tBodies[0],rows=[...body.rows];if(rows.some(r=>r.cells.length!==headers.length||[...r.cells].some(c=>c.colSpan!==1)))continue;
+  // A custom interactive header owns its contract; do not replace its controls.
+  if(headers.some(h=>h.querySelector('button:not([data-tc-sort-column]),a')))continue;
+  let state=sorting.get(table);if(!state){state={field:null,direction:'asc',lastRows:[]};sorting.set(table,state);}
+  if(state.field&&!headers.includes(state.field)){state.field=null;state.lastRows=[];}
+  const apply=()=>{const body=table.tBodies[0],current=[...body.rows];if(state.field===null)return;const field=state.field.cellIndex;
+   const sorted=current.map((row,index)=>({row,index,value:row.cells[field]?.dataset.sortValue??row.cells[field]?.innerText??''})).sort((a,b)=>compareTableValues(a.value,b.value,state.direction)||a.index-b.index);
+   body.append(...sorted.map(item=>item.row));state.lastRows=sorted.map(item=>item.row);
+   headers.forEach((h,i)=>{const button=h.querySelector('[data-tc-sort-column]');if(!button)return;h.setAttribute('aria-sort',h===state.field?(state.direction==='asc'?'ascending':'descending'):'none');button.querySelector('.tc-sort-arrow').textContent=h===state.field?(state.direction==='asc'?'↑':'↓'):'↕';});
+  };
+  headers.forEach((head,index)=>{if(head.querySelector('[data-tc-sort-column]'))return;const caption=head.textContent.trim();if(!caption||/^(?:acciones?|foto|imagen|selecci[oó]n)$/i.test(caption)||head.querySelector('input,select,details'))return;
+   const button=document.createElement('button');button.type='button';button.className='tc-sort-button';button.dataset.tcSortColumn=String(index);button.title='Ordenar las filas mostradas por '+caption;button.setAttribute('aria-label','Ordenar por '+caption);button.append(...head.childNodes);const arrow=document.createElement('span');arrow.className='tc-sort-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='↕';button.append(arrow);head.append(button);head.setAttribute('aria-sort','none');
+   button.addEventListener('click',()=>{state.direction=state.field===head&&state.direction==='asc'?'desc':'asc';state.field=head;apply();},{signal:abort.signal});
+  });
+  if(state.field!==null&&(rows.length!==state.lastRows.length||rows.some((row,index)=>row!==state.lastRows[index])))apply();
+ }};
  const shift=(row,direction)=>{const select=row?.querySelector('.tc-column-move select');if(!select||select.disabled)return;const next=Math.max(0,Math.min(select.options.length-1,Number(select.value)+direction));if(next!==Number(select.value)){select.value=String(next);select.dispatchEvent(new Event('change',{bubbles:true}));}};
  root.addEventListener('click',e=>{const button=e.target.closest?.('[data-tc-column-step]');if(button&&!button.disabled)shift(button.closest('.tc-column-row'),Number(button.dataset.tcColumnStep));},{signal:abort.signal});
  root.addEventListener('keydown',e=>{if(e.altKey&&['ArrowUp','ArrowDown'].includes(e.key)&&e.target.matches?.('[data-tc-column-grip]')){e.preventDefault();shift(e.target.closest('.tc-column-row'),e.key==='ArrowUp'?-1:1);}},{signal:abort.signal});
@@ -16,6 +45,7 @@ export function installSharedTableArrows(root=document,{owner=()=>null}={}){
  const selector='.table-wrap,.directory-table-viewport,.ps-orders-table-viewport,.home-orders-table-wrap';
  const scan=()=>{
   frame=0;
+
   for(const [viewport,item] of entries)if(!viewport.isConnected){item.observer.disconnect();item.arrows.remove();item.columns?.remove();entries.delete(viewport);}
   for(const viewport of root.querySelectorAll(selector)){
    if(entries.has(viewport)||!viewport.querySelector('table'))continue;
@@ -31,6 +61,7 @@ export function installSharedTableArrows(root=document,{owner=()=>null}={}){
    const table=viewport.querySelector('table'),columns=!viewport.hasAttribute('data-tc-columns-managed')&&viewport.matches('.table-wrap,.directory-table-viewport')&&table.matches('.data-table,.directory-table')&&owner()?installColumns(table,viewport,owner()):null;
    const observer=new ResizeObserver(update);observer.observe(viewport);observer.observe(table);entries.set(viewport,{arrows,observer,columns});update();
   }
+  scanSorting();
  };
  const observer=new MutationObserver(()=>{if(!frame)frame=requestAnimationFrame(scan);});observer.observe(root,{childList:true,subtree:true});scan();
  return ()=>{abort.abort();observer.disconnect();cancelAnimationFrame(frame);for(const item of entries.values()){item.observer.disconnect();item.arrows.remove();item.columns?.remove();}entries.clear();};

@@ -1,9 +1,9 @@
-import {createOfflineJournal} from './offline-journal.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createOfflineSync} from './offline-sync.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
+import {createOfflineJournal} from './offline-journal.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createOfflineSync} from './offline-sync.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
-import {offlineDevice} from './offline-device.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-export {offlineDevice} from './offline-device.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
+import {offlineDevice} from './offline-device.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+export {offlineDevice} from './offline-device.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
 export function createOfflinePanel({getScope,getAdapter,isCurrent,storage,getOperatorAcknowledgement=async()=>undefined,getActionApproval=null}){
  let rows=[],journal=null,sync=null,scope=null,version=0;
  const current=()=>scope&&isCurrent()&&JSON.stringify(getScope())===JSON.stringify(scope);

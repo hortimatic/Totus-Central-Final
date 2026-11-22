@@ -1,43 +1,43 @@
-import {productDisplayId} from './record-identifiers.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createCentralProductEditorSession} from './central-product-editor-session.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createCentralProductSyncClient} from './central-product-sync-client.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createCentralProductSyncHistory} from './central-product-sync-history.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createCentralProductCopyUI} from './central-product-copy-ui.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createCentralAttributeSession} from './central-attribute-session.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {openAttributeRecord} from './productos-attribute-editor.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createProductMovementsUI} from './productos-movements-ui.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {normalizeProductImage} from './productos-image-editor.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {openTableViewProfiles} from './table-view-profiles.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {openProductMasters} from './productos-masters-ui.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {attachProductTableLayout} from './productos-table-layout.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {adaptProductTexts} from './productos-copy-text.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {showProductDialog} from './productos-dialogs.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {enhanceProductSelects} from './productos-controls.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createProductTableEditor} from './productos-table-editor.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {openCatalogPriceBatch} from './catalog-price-batch.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,productCatalogCsv} from './productos-catalog.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {productStockSummary} from './product-stock-summary.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {readPool} from './read-pool.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {storeConnection} from './prestashop-readonly.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createProductWizard} from './productos-create-ui.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {esc} from './utils.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {fieldHelp} from './components.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {productDraftStore} from './productos-draft-store.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {productPriceStudy} from './pricing-core.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
+import {productDisplayId} from './record-identifiers.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createCentralProductEditorSession} from './central-product-editor-session.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createCentralProductSyncClient} from './central-product-sync-client.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createCentralProductSyncHistory} from './central-product-sync-history.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createCentralProductCopyUI} from './central-product-copy-ui.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createCentralAttributeSession} from './central-attribute-session.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {openAttributeRecord} from './productos-attribute-editor.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createProductMovementsUI} from './productos-movements-ui.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {normalizeProductImage} from './productos-image-editor.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {openTableViewProfiles} from './table-view-profiles.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {openProductMasters} from './productos-masters-ui.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {attachProductTableLayout} from './productos-table-layout.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {adaptProductTexts} from './productos-copy-text.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {showProductDialog} from './productos-dialogs.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {enhanceProductSelects} from './productos-controls.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createProductTableEditor} from './productos-table-editor.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {openCatalogPriceBatch} from './catalog-price-batch.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,sortProductCatalog,productCatalogCsv} from './productos-catalog.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {productStockSummary} from './product-stock-summary.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {readPool} from './read-pool.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {storeConnection} from './prestashop-readonly.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createProductWizard} from './productos-create-ui.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {esc} from './utils.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {fieldHelp} from './components.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {productDraftStore} from './productos-draft-store.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {productPriceStudy} from './pricing-core.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
 
 export const productosWorkspacePage=(workspace='products')=>'<div class="page productos-page"><section id="productosRoot" data-pr-workspace="'+workspace+'" aria-label="'+(workspace==='pricing'?'Precios y ofertas':'Gestión de productos')+'"><p role="status">Cargando Productos…</p></section></div>';
 const h=x=>esc(String(x??''));
@@ -66,6 +66,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  let catalogScope='',catalogMore=new Map(),catalogMeta=new Map();
  let catalogTaxContext={countries:[],rules:[],taxes:[]};
  const catalogKey=p=>catalogProductKey(p,store);
+ let catalogSort={field:'date_add',direction:'desc'};
  let catalogColumns=[...DEFAULT_PRODUCT_COLUMNS],catalogSelected=new Set(),catalogFilters={category:'',brand:'',active:''},catalogCategories=[],catalogBrands=[],catalogStock=new Map(),editorSection='general';
  let productPickerQuery='',productPickerPage=0;
  let listSize=20,listPage=0,parallelSection='general',bulkField='price',bulkValue='',bulkItems=[],bulkConfirm='';
@@ -170,7 +171,8 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   if(key==='active')return String(p.active)==='1'?'Activo':'Inactivo';
   return textValue(p[key])||'—';
  }
- function visibleCatalog(){return filterProductCatalog(rows,{query,...catalogFilters});}
+ function visibleCatalog(){return sortProductCatalog(filterProductCatalog(rows,{query,...catalogFilters}),catalogSort,catalogValue);}
+ async function changeCatalogSort(field,direction){if(!PRODUCT_COLUMNS.some(([key])=>key===field)||field==='image')return;catalogSort={field,direction:direction==='asc'?'asc':'desc'};listPage=0;if(hasMore){++prefetchVersion;let reads=0;while(hasMore){if(++reads>1000)throw Error('No se ha podido completar el catálogo para ordenar todos los resultados.');await loadCatalog(true,{stock:false});}}await loadCatalogStock();}
  function saveCatalogPreferences(){++layoutVersion;const key=owner,snapshot={columns:[...catalogColumns],widths:{...columnWidths},views:structuredClone(catalogViews),viewName:catalogViewName};try{localStorage.setItem(layoutPrefix()+'columns:'+key,JSON.stringify(catalogColumns));localStorage.setItem(layoutPrefix()+'widths:'+key,JSON.stringify(columnWidths));localStorage.setItem(layoutPrefix()+'views:'+key,JSON.stringify(catalogViews));layoutSaveState='Guardado en este equipo.';}catch{layoutSaveState='No se pudo guardar en este equipo.';}if(tableLayout&&!pricingMode()){layoutSaveState='Guardando en tu cuenta…';layoutQueue=layoutQueue.catch(()=>{}).then(async()=>{if(actor()!==key)return;await tableLayout.save(snapshot,key);if(actor()===key){layoutSaveState='Guardado automáticamente en tu cuenta.';const label=root?.querySelector('[data-pr-layout-status]');if(label)label.textContent=layoutSaveState;}}).catch(()=>{if(actor()===key){layoutSaveState='Guardado local. Sincronización pendiente: pulsa Guardar distribución.';const label=root?.querySelector('[data-pr-layout-status]');if(label)label.textContent=layoutSaveState;}});}}
  function moveCatalogColumn(key,index){catalogColumns=moveProductColumn(catalogColumns,key,index);saveCatalogPreferences();render();}
 
@@ -179,7 +181,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   const filtered=visibleCatalog(),pages=Math.max(1,Math.ceil(filtered.length/listSize));listPage=Math.min(listPage,pages-1);
   const visibleIds=new Set(filtered.map(catalogKey));
   const metaOptions=kind=>catalogScope==='both'?PRODUCT_STORES.flatMap(shop=>(catalogMeta.get(shop.key)?.[kind]||[]).map(r=>[shop.key+'|'+r.id,shop.label+' · '+textValue(r.name)])):(kind==='brands'?catalogBrands:catalogCategories).map(r=>[r.id,textValue(r.name)]);
-  return stitchCatalog({stores:centralData?PRODUCT_STORES:undefined,central:!!centralData,pricingMode:pricingMode(),backendLink:p=>productBackofficeUrl(p,p.__store||store,owner),canDelete:canDelete(),canCreate:canCreate(),canExport:canExport(),canEdit:canEdit(),activeKey:record?.id?store+'|'+record.id:'',tableEdits:tableEditor.rows,purchaseSurcharge:priceOptions.re,offerPending:offerBatch.pending(),views:catalogViews,viewName:catalogViewName,columnWidths,layoutStatus:layoutSaveState,store:catalogScope,rows:rows.map(p=>({...p,__visible:visibleIds.has(catalogKey(p))})),columns:catalogColumns,selected:catalogSelected,query,filters:catalogFilters,brands:metaOptions('brands'),categories:metaOptions('categories'),page:listPage,size:listSize,hasMore,pending,ready:catalogScope==='both'?PRODUCT_STORES.length>0&&PRODUCT_STORES.every(s=>ready(s.key)):ready(store),value:catalogValue,photo:p=>photo(p,p.__store||store),rowKey:catalogKey});
+  return stitchCatalog({stores:centralData?PRODUCT_STORES:undefined,central:!!centralData,pricingMode:pricingMode(),backendLink:p=>productBackofficeUrl(p,p.__store||store,owner),canDelete:canDelete(),canCreate:canCreate(),canExport:canExport(),canEdit:canEdit(),activeKey:record?.id?store+'|'+record.id:'',tableEdits:tableEditor.rows,purchaseSurcharge:priceOptions.re,offerPending:offerBatch.pending(),views:catalogViews,viewName:catalogViewName,columnWidths,layoutStatus:layoutSaveState,store:catalogScope,sort:catalogSort,rows:sortProductCatalog(rows,catalogSort,catalogValue).map(p=>({...p,__visible:visibleIds.has(catalogKey(p))})),columns:catalogColumns,selected:catalogSelected,query,filters:catalogFilters,brands:metaOptions('brands'),categories:metaOptions('categories'),page:listPage,size:listSize,hasMore,pending,ready:catalogScope==='both'?PRODUCT_STORES.length>0&&PRODUCT_STORES.every(s=>ready(s.key)):ready(store),value:catalogValue,photo:p=>photo(p,p.__store||store),rowKey:catalogKey});
  }
 
  function photo(p,shop,large=false){const url=productPhoto(p,shop);return url?'<img class="'+(large?'prd-product-photo':'prd-thumb')+'" src="'+h(url)+'" alt="'+h(text(p?.name)||'Producto')+'" loading="lazy">':'<span class="'+(large?'prd-product-photo':'prd-thumb')+' prd-no-photo" aria-label="Sin imagen">Sin imagen</span>';}
@@ -491,7 +493,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  async function loadCatalog(more,{stock=true}={}){
   if(centralData){
    const generation=epoch,shops=catalogScope==='both'?PRODUCT_STORES.map(s=>s.key):[catalogScope],nextRows=[],nextMeta=new Map(),nextStock=new Map();
-   const {centralProductRecord}=await import('./central-product-adapter.js?v=874c6938e6739ddf493afd7e1440d80388d46f15');
+   const {centralProductRecord}=await import('./central-product-adapter.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9');
    for(const shop of shops){if(!shop)continue;const native=await centralData.catalogue(shop);
     const directories=await Promise.allSettled([centralData.directory(shop,'brands'),centralData.directory(shop,'suppliers')]);const brands=directories[0].status==='fulfilled'?directories[0].value:[],suppliers=directories[1].status==='fulfilled'?directories[1].value:[];
     if(!current()||epoch!==generation)throw Error('La sesión ha cambiado.');
@@ -717,6 +719,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
    if(e.target.matches('[data-pr-create-language],[data-pr-create-field="reference"],[data-pr-create-field="related_reference"]')&&createWizard.handleChange(e.target)){persistDraft();root.querySelectorAll('.prd-create-confirm').forEach(n=>n.hidden=true);return;}
    if(e.target.matches('[data-pr-table-position]')){const viewport=root.querySelector('.prd-catalog-table');if(viewport)viewport.scrollLeft=(viewport.scrollWidth-viewport.clientWidth)*Number(e.target.value)/1000;return;}if(e.target.matches('[data-pr-create-confirm],[data-pr-create-retry-confirm],[data-pr-stage-remove-confirm]')&&createWizard.handleChange(e.target)){syncWizardTextControls(e.target);return;}if(e.target.matches('[data-pr-search]')){query=e.target.value;listPage=0;render();queueCatalogSearch(query);const f=root.querySelector('[data-pr-search]');f?.focus();f?.setSelectionRange(query.length,query.length);}};
   root.onchange=e=>{
+   if(e.target.matches('[data-pr-sort]')){const [field,direction]=e.target.value.split(':');void work(()=>changeCatalogSort(field,direction));return;}
    if(e.target.matches('[data-pr-publication-scope]')){publicationScope=e.target.value;persistDraft();return;}
    if(e.target.matches('[data-pr-draft-files]')){const files=[...e.target.files];void work(()=>prepareDraftPhotos(files));return;}
 
@@ -787,6 +790,7 @@ if(['Enter',' '].includes(e.key)&&e.target.matches('[data-pr-action="photo-zoom"
    if(a==='picker-open'){const nextMode=mode==='comparar'?'comparar':'ficha';void work(async()=>{await openProduct(b.dataset.id,b.dataset.prShop,{keepCatalog:true});mode=nextMode;});return;}
    if(a==='catalog-activate'){catalogSelected=new Set([b.dataset.prShop+'|'+b.dataset.id]);activateCatalogProduct(b.dataset.id,b.dataset.prShop);return;}
    if(a==='variant-scroll'){root.querySelector('.prd-table-viewport')?.scrollBy({left:Number(b.dataset.direction)*Math.max(240,root.querySelector('.prd-table-viewport').clientWidth*.7),behavior:'smooth'});return;}
+   if(a==='catalog-sort'){const field=b.dataset.prSortField;void work(()=>changeCatalogSort(field,catalogSort.field===field&&catalogSort.direction==='asc'?'desc':'asc'));return;}
    if(a==='catalog-clear-filters'){clearTimeout(catalogSearchTimer);query='';productPickerQuery='';catalogSearchTerm='';catalogFilters={category:'',brand:'',active:''};listPage=0;void work(()=>loadCatalog(false));return;}
    if(a==='catalog-find'){clearTimeout(catalogSearchTimer);++prefetchVersion;void work(async()=>{const exact=query.trim();if(!exact)throw Error('Escribe un ID o una referencia exacta en el buscador.');const shops=catalogScope==='both'?PRODUCT_STORES.map(s=>s.key):[catalogScope];let found=0;for(const shop of shops){const data=await invokeShop(shop,'prestashop_read',{resource:'products',page:0,page_size:100,...(/^(?:\d+|P-\d+)$/i.test(exact)?{[centralData?'display_ids':'product_ids']:[exact.toUpperCase()]}:{references:[exact]})});if(data.possibly_more)throw Error('La referencia tiene más resultados; consulta el catálogo completo.');for(const item of data.rows){const row={...item,__store:shop},i=rows.findIndex(p=>catalogKey(p)===catalogKey(row));if(i<0)rows.push(row);else rows[i]=row;found++;}}listPage=0;await loadCatalogStock();status=found?found+' productos encontrados en la tienda por ID o referencia exacta.':'No hay coincidencias por ID o referencia exacta. Para buscar por nombre, consulta todo el catálogo.';});return;}
    if(a==='catalog-scroll'){const table=root.querySelector('.prd-catalog-table');if(table)table.scrollBy({left:Number(b.dataset.direction)*Math.max(240,table.clientWidth*.7),behavior:'smooth'});return;}

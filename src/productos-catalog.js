@@ -1,7 +1,8 @@
-import {productDisplayId} from './record-identifiers.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {textValue,associationIds} from './productos-core.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {csvCell} from './utils.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
+import {productDisplayId} from './record-identifiers.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {textValue,associationIds} from './productos-core.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {csvCell} from './utils.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {compareTableValues} from './table-sort.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
 export const PRODUCT_COLUMNS=Object.freeze([
  ['image','Foto'],['name','Producto'],['id','ID'],['reference','Ref.'],['ean13','EAN'],['brand','Marca'],['supplier','Proveedor'],['category','Categoría'],['store','Tienda'],['cost','Coste neto'],['costVat','Coste +IVA'],['costTotal','Coste total'],['price','PVP neto'],['gross','PVP final'],['margin','Margen %'],['marginTotal','Margen €'],['stock','Stock'],['variants','Variantes'],['active','Estado'],['weight','Peso'],['width','Ancho'],['height','Alto'],['depth','Fondo'],['date_add','Creado'],['creator','Autor'],['date_upd','Actualizado']
 ]);
@@ -35,6 +36,11 @@ export function filterProductCatalog(rows,{query='',category='',brand='',active=
 export function productCatalogCsv(rows,columns,value){
  const cell=csvCell;
  return '\uFEFF'+[columns.map(k=>cell(PRODUCT_COLUMNS.find(c=>c[0]===k)?.[1]||k)).join(';'),...rows.map(r=>columns.map(k=>cell(value(r,k))).join(';'))].join('\r\n');
+}
+export function sortProductCatalog(rows,{field='date_add',direction='desc'}={},value=(row,key)=>row[key]){
+ if(!PRODUCT_COLUMNS.some(([key])=>key===field)||field==='image')return [...rows];
+ const read=row=>['date_add','date_upd'].includes(field)?textValue(row[field]):value(row,field);
+ return rows.map((row,index)=>({row,index,value:read(row)})).sort((a,b)=>compareTableValues(a.value,b.value,direction)||compareTableValues(productDisplayId(a.row),productDisplayId(b.row),direction)||a.index-b.index).map(item=>item.row);
 }
 
 export const PRODUCT_COLUMN_MIN_WIDTH=80;

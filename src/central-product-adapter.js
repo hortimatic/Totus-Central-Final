@@ -1,6 +1,6 @@
-import {productDisplayId} from './record-identifiers.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {createCentralStoreData} from './central-store-data.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
-import {savedWebsiteTranslations} from './website-localization.js?v=874c6938e6739ddf493afd7e1440d80388d46f15';
+import {productDisplayId} from './record-identifiers.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {createCentralStoreData} from './central-store-data.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
+import {savedWebsiteTranslations} from './website-localization.js?v=a45d1f32e981d95eb99a88b5dd183d2bf97403c9';
 
 const clone=value=>structuredClone(value);
 export const centralDefaultCatalogue=p=>{
@@ -37,7 +37,7 @@ export function centralProductRecord(p){
   active:p.catalogue.some(entry=>entry.active)?'1':'0',ean13:p.variants.length?String(p.details?.ean??raw.ean13??''):c?.ean||'',id_manufacturer:p.brand_id||'0',id_supplier:p.supplier_id||'0',
   meta_title:p.details?.metaTitle??raw.meta_title??'',meta_description:p.details?.metaDescription??raw.meta_description??'',
   link_rewrite:p.details?.slug??raw.link_rewrite??'',description:p.details?.description??raw.description??'',
-  description_short:p.details?.descriptionShort??raw.description_short??'',date_add:p.created_at,date_upd:p.updated_at,
+  description_short:p.details?.descriptionShort??raw.description_short??'',date_add:raw.date_add||p.created_at,date_upd:p.updated_at,
   __language_ids:ids,__primary_language_id:primary,__language_names:Object.fromEntries((raw.__i18n?.languages||[]).map(row=>[String(row.id),row.name])),__localized:localized,associations:{...raw.associations,combinations:p.variants.map(v=>({id:v.id}))}};
 }
 // The legacy product view and Central's TPV consume the same persistent records.
