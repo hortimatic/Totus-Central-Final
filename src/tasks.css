@@ -34,3 +34,13 @@
 .tasks-date-jump input{max-width:100%;box-sizing:border-box}
 @container tasks (max-width:900px){.task-weekday-full{display:none}.task-weekday-short{display:inline}.tasks-toolbar h3{order:-1;flex-basis:100%}.task-day{padding:5px}.task-day header{gap:2px}.task-day header .btn{padding:2px 5px;min-width:24px}.task-day-number{min-width:24px;padding:2px}}
 @container tasks (max-width:480px){.task-day{padding:3px}.task-day header{flex-direction:column;gap:0}.task-day header .btn{min-height:24px;width:100%}.tasks-weekdays b{padding:8px 1px;font-size:11px}.tasks-calendar .task-chip{padding:4px 2px!important}.tasks-calendar .task-chip strong{font-size:10px}.tasks-module .task-more{font-size:10px;padding:3px 1px}.tasks-toolbar .inline-actions{gap:5px}.tasks-toolbar .btn{padding:6px 8px;font-size:12px}}
+.tasks-toolbar{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center}
+.tasks-toolbar .tasks-period-title{order:0;flex-basis:auto;text-align:right;font-size:18px}
+.tasks-calendar-controls{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(140px,170px) auto 1fr;gap:12px;align-items:end;padding-top:12px;border-top:1px solid var(--line,#dbe3ee)}
+.tasks-toolbar :is(.tasks-view-switch,.tasks-file-actions,.tasks-period-nav){display:flex;gap:6px;align-items:center;flex-wrap:nowrap}
+.tasks-toolbar .tasks-file-actions{justify-content:flex-end}
+.tasks-toolbar .btn{min-height:38px;height:38px;padding:7px 12px;white-space:nowrap;font-size:13px}
+.tasks-toolbar .tasks-date-jump{width:auto;margin:0}.tasks-toolbar .tasks-date-jump input{height:38px;min-height:38px;width:100%}
+.tasks-calendar-controls>.field-help{align-self:end;margin:0 0 8px}
+@container tasks (max-width:900px){.tasks-calendar-controls{grid-template-columns:1fr minmax(140px,170px) auto}.tasks-file-actions{grid-column:1/-1;justify-content:flex-start!important}.tasks-toolbar .tasks-period-title{order:0;flex-basis:auto}}
+@container tasks (max-width:480px){.tasks-toolbar{grid-template-columns:1fr;gap:10px}.tasks-toolbar .tasks-period-title{grid-row:1;text-align:left}.tasks-calendar-controls{grid-template-columns:1fr auto;gap:10px}.tasks-view-switch{grid-column:1/-1;display:grid!important;grid-template-columns:repeat(4,1fr)}.tasks-toolbar .tasks-file-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%}.tasks-toolbar .btn{font-size:12px;padding:6px}.tasks-calendar-controls>.field-help{grid-column:2;grid-row:2}}

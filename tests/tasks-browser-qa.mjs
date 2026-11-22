@@ -110,6 +110,9 @@ try{
   assert(geometry.scroll<=geometry.width+1,'Los siete días caben sin desplazamiento horizontal a '+width);
   assert(geometry.days.every(d=>d.right<=geometry.right+1),'Domingo queda visible a '+width);
   assert(await page.locator('[data-task-anchor]').isVisible(),'Fecha accesible a '+width);
+  const buttons=await page.locator('.tasks-toolbar .btn').evaluateAll(nodes=>nodes.map(n=>n.getBoundingClientRect().height));assert(Math.max(...buttons)-Math.min(...buttons)<1,'Altura uniforme de botones a '+width);
+  assert.equal(await page.getByRole('group',{name:'Vista del calendario',exact:true}).count(),1);
+  assert.equal(await page.getByRole('group',{name:'Acciones de tareas',exact:true}).count(),1);
  }
  const overflow=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,wide:[...document.querySelectorAll('.tasks-module *')].filter(e=>e.getBoundingClientRect().right>innerWidth&&!e.closest('.tasks-calendar')).slice(0,8).map(e=>({tag:e.tagName,class:e.className,right:e.getBoundingClientRect().right}))}));assert(overflow.scroll<=overflow.width+1,JSON.stringify(overflow));
  await page.getByRole('button',{name:'Nueva tarea',exact:true}).click();
