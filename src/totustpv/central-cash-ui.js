@@ -1,5 +1,5 @@
-import {esc,csv,download} from '../utils.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
-import {printTpvMarkup} from './documents.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
+import {esc,csv,download} from '../utils.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
+import {printTpvMarkup} from './documents.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
 const money=(value,currency='EUR')=>new Intl.NumberFormat('es-ES',{style:'currency',currency}).format(value/100);
 const recordedMoney=(value,currency)=>Number.isSafeInteger(value)?money(value,currency):'Sin dato';
 const date=value=>value?new Date(value).toLocaleString('es-ES'):'—';

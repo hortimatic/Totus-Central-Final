@@ -1,8 +1,8 @@
-import {bindChatViewport} from './chat-viewport.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
-import {CHAT_SOUNDS,CHAT_BACKGROUNDS,CHAT_BUZZ,isChatBuzz,chatPreferences,applyChatBackground,prepareChatBackground} from './chat-preferences.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
-import {prepareChatSound,playChatSound,requestChatDesktopPermission,chatDesktopStatus} from './chat-alerts.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
-import {uploadChatFile,chatFileMetadata,chatFileHash} from './chat-files.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
-import {CHAT_CHANNEL_ICONS,chatRetiredDirect,chatChannelIdentity,chatChannelMatches,chatSearchText,chatMoveChannel,chatText,chatChannelInput,chatDateRange,chatGroups,chatLayout,chatTaskPrompt,CHAT_REACTIONS,CHAT_TASK_STATES,CHAT_GROUPS} from './team-chat-core.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
+import {bindChatViewport} from './chat-viewport.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
+import {CHAT_SOUNDS,CHAT_BACKGROUNDS,CHAT_BUZZ,isChatBuzz,chatPreferences,applyChatBackground,prepareChatBackground} from './chat-preferences.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
+import {prepareChatSound,playChatSound,requestChatDesktopPermission,chatDesktopStatus} from './chat-alerts.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
+import {uploadChatFile,chatFileMetadata,chatFileHash} from './chat-files.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
+import {CHAT_CHANNEL_ICONS,chatRetiredDirect,chatChannelIdentity,chatChannelMatches,chatSearchText,chatMoveChannel,chatText,chatChannelInput,chatDateRange,chatGroups,chatLayout,chatTaskPrompt,CHAT_REACTIONS,CHAT_TASK_STATES,CHAT_GROUPS} from './team-chat-core.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const chatIcons={'mobile-channels':'←','channel-files':'▱','search-toggle':'⌕','refresh':'↻'};
 const chatButton=(label,action,attrs='',kind='secondary')=>'<button type="button" class="btn '+kind+'" data-chat="'+action+'" '+attrs+(chatIcons[action]&&!attrs.includes('title=')?' title="'+esc(label)+'"':'')+'>'+(chatIcons[action]?'<span class="chat-action-icon" aria-hidden="true">'+chatIcons[action]+'</span><span class="chat-action-label">'+esc(label)+'</span>':esc(label))+'</button>';
@@ -208,7 +208,7 @@ export function createTeamChat({rpc:rawRpc,actor,can=()=>true,onError=()=>{},con
   closeDialog();
   dialog=document.createElement('dialog');dialog.className='chat-dialog';
   dialog.innerHTML='<form><header><h2>'+esc(title)+'</h2><button type="button" class="btn secondary" data-chat-close aria-label="Cerrar">×</button></header><div class="chat-dialog-body">'+body+'</div><p role="alert" data-dialog-error hidden></p><footer>'+(save?.label==='Cerrar'?'':button('Cancelar','dialog-cancel'))+'<button class="btn primary" type="submit">'+esc(save?.label||'Guardar')+'</button></footer></form>';
-  host.append(dialog);dialog.querySelector('[data-chat-close]').onclick=requestDialogClose;
+  document.body.append(dialog);dialog.querySelector('[data-chat-close]').onclick=requestDialogClose;
   const cancel=dialog.querySelector('[data-chat="dialog-cancel"]');if(cancel)cancel.onclick=requestDialogClose;
   dialog.addEventListener('input',event=>event.target.dataset.dirty='true');
   dialog.addEventListener('cancel',event=>{event.preventDefault();requestDialogClose().catch(showError);});
@@ -217,7 +217,7 @@ export function createTeamChat({rpc:rawRpc,actor,can=()=>true,onError=()=>{},con
    event.preventDefault();if(busy)return;busy=true;
    const values=Object.fromEntries(new FormData(event.target));
    const controls=[...dialog.querySelectorAll('button,input,select,textarea')];controls.forEach(c=>c.disabled=true);
-   try{await save.run(values);closeDialog();if(save.refresh!==false)await refresh();}
+   try{await save.run(values);if(save.refresh!==false){try{await refresh();}catch(error){showError(error);}}closeDialog();}
    catch(error){if(error?.contextChanged)return;const box=dialog?.querySelector('[data-dialog-error]');if(box){box.textContent=error.message;box.hidden=false;}else showError(error);}
    finally{unlock(stamp);controls.forEach(c=>c.disabled=false);}
   });

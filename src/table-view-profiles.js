@@ -1,5 +1,5 @@
-import {esc} from './utils.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
-import {showProductDialog} from './productos-dialogs.js?v=c2172219ebb23fb4d56dfde737b92e11e204c14d';
+import {esc} from './utils.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
+import {showProductDialog} from './productos-dialogs.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
 
 // Share presentation only: never queries, product data, sessions or credentials.
 export async function openTableViewProfiles({root,trigger,rpc,table,layout,onApply,current=()=>true}){
