@@ -1,6 +1,6 @@
-import {fieldHelp} from './components.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {API_PRESETS,managementApiPreset} from './api-presets.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {esc} from './utils.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
+import {fieldHelp} from './components.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {API_PRESETS,managementApiPreset} from './api-presets.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {esc} from './utils.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
 export const API_PROTOCOLS=[['http','API HTTP / REST'],['prestashop','PrestaShop'],['github','GitHub'],['cloudflare','Cloudflare Workers AI'],['openai_compatible','IA compatible con Chat Completions'],['anthropic','Claude / Anthropic']];
 const option=(v,label,current)=>'<option value="'+esc(v)+'" '+(v===current?'selected':'')+'>'+esc(label)+'</option>';
 export const apiManagerHtml=()=>'<article class="card card-pad" data-api-manager><div class="section-head"><div><h2>Mis conexiones</h2><p>Conecta tus tiendas y servicios. Las tiendas usan su API; solo los asistentes de IA necesitan una identidad propia.</p></div><div class="inline-actions"><button type="button" class="btn secondary" data-api="refresh">Actualizar</button><button type="button" class="btn primary" data-api="new">+ Nueva conexión</button></div></div><p role="status" data-api-status>Cargando conexiones…</p><div data-api-list></div><div data-api-editor hidden></div><p class="small muted">Las claves se guardan cifradas en el servidor y no vuelven al navegador. Los duplicados se crean desactivados y sin copiar la clave. Los límites locales no representan el saldo del proveedor.</p></article>';

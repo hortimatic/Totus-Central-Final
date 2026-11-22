@@ -1,24 +1,24 @@
-import {openWebsiteImport} from './website-import-ui.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {centralSaleRow,centralSaleLines} from './central-sales-data.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {websiteName} from './website-registry.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {concurrentRead} from './concurrent-read.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {catalogQualityPanel} from './catalog-quality-ui.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {catalogQualityReport} from './catalog-quality.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {createOrdersTablePreferences,sortOrderRows,renderOrdersTable,attachOrdersTable} from './prestashop-orders-table.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {enhanceProductSelects} from './productos-controls.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {approximateOrderMargin} from './prestashop-margin.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {listPage,catalogCategoryChoices,filterCatalogRows} from './prestashop-list-page.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {paymentFilterChoices,matchesPaymentFilter} from './prestashop-payment-filter.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {PRESTASHOP_STORES as REGISTERED_STORES,storeConnection,PRESTASHOP_RESOURCES,prestashopProductImage} from './prestashop-readonly.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {PRESTASHOP_QUERY_RECIPES,recipeProducts,withinDailyWindow,detailedRecipe} from './prestashop-queries.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {orderInsights,catalogIssues,sourceCents,ticketSourceKey,rotationOpportunities} from './prestashop-insights.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {esc,money,fmtDate,isoToday,csv,download} from './utils.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {interfaceIcon} from './interface-icons.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {fieldHelp} from './components.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {STOCK_STATES,stockReceiptStatus} from './stock-core.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {prestashopFlowStore,prestashopFlowRange} from './prestashop-flows.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
+import {openWebsiteImport} from './website-import-ui.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {centralSaleRow,centralSaleLines} from './central-sales-data.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {websiteName} from './website-registry.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {concurrentRead} from './concurrent-read.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {catalogQualityPanel} from './catalog-quality-ui.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {catalogQualityReport} from './catalog-quality.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {createOrdersTablePreferences,sortOrderRows,renderOrdersTable,attachOrdersTable} from './prestashop-orders-table.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {enhanceProductSelects} from './productos-controls.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {approximateOrderMargin} from './prestashop-margin.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {listPage,catalogCategoryChoices,filterCatalogRows} from './prestashop-list-page.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {paymentFilterChoices,matchesPaymentFilter} from './prestashop-payment-filter.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {PRESTASHOP_STORES as REGISTERED_STORES,storeConnection,PRESTASHOP_RESOURCES,prestashopProductImage} from './prestashop-readonly.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {PRESTASHOP_QUERY_RECIPES,recipeProducts,withinDailyWindow,detailedRecipe} from './prestashop-queries.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {orderInsights,catalogIssues,sourceCents,ticketSourceKey,rotationOpportunities} from './prestashop-insights.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {esc,money,fmtDate,isoToday,csv,download} from './utils.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {interfaceIcon} from './interface-icons.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {fieldHelp} from './components.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {STOCK_STATES,stockReceiptStatus} from './stock-core.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {prestashopFlowStore,prestashopFlowRange} from './prestashop-flows.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
 const tabs=[['summary','Resumen'],['orders','Pedidos y ventas'],['catalog','Catálogo'],['queries','Consultas'],['cash','Cajas y facturas'],['receipts','Recepciones y cotejo'],['saved_queries','Consultas guardadas'],['connection','Conexión']];
 const labels={id:'ID',id_product:'Producto',id_product_attribute:'Variante',quantity:'Existencias',physical_quantity:'Unidades',sign:'Signo',date_add:'Fecha',id_stock_mvt_reason:'Motivo',id_employee:'Empleado',id_order:'Pedido',id_supply_order:'Pedido proveedor',id_shop:'Tienda origen'};
 const amount=(value,code=null)=>{const cents=sourceCents(typeof value==='number'&&Number.isFinite(value)?value.toFixed(2):value);if(cents===null)return 'Sin importe válido';try{return code?new Intl.NumberFormat('es-ES',{style:'currency',currency:code}).format(cents/100):new Intl.NumberFormat('es-ES').format(cents/100)+' · moneda sin verificar';}catch{return 'Moneda no válida';}};
@@ -80,9 +80,9 @@ export function createPrestashopUI({rpc,invoke,actor,allowed,onManage=()=>{},onB
  function metrics(){
   const r=get('orders'),s=orderInsights(r?.rows||[]),catalog=get('products'),quality=catalog?catalogQualityReport(catalog.rows,{complete:!catalog.possibly_more,readAt:catalog.readAt}):null;
   const cards=[['Ventas consultadas',r?money(s.amount/100):'—',r?s.valid+' pedidos válidos en EUR':'Selecciona el periodo','informes'],['Pedidos',r?String(s.valid):'—',r?s.excluded+' no válidos excluidos':'Datos separados por tienda','facturacion'],['Ticket medio',r&&s.average!==null?money(s.average/100):'—','Margen orientativo en cada pedido','pricing'],['Catálogo con avisos',quality?String(quality.affected):'Sin consultar',quality?(quality.complete?'Catálogo completo':'Consulta parcial')+' · '+quality.count+' fichas'+(quality.readAt?' · '+new Date(quality.readAt).toLocaleString('es-ES',{timeZone:'Europe/Madrid'}):''):'Consulta el catálogo para obtener avisos reales','cotejos']];
-  return '<div class="ps-kpis">'+cards.filter((_,i)=>!salesOnly||i!==3).map(([label,value,hint,icon],i)=>`<article class="card ps-kpi ps-kpi-${i}"><div><span>${label}</span><i>${interfaceIcon(icon)}</i></div><strong>${value}</strong><small>${hint}</small></article>`).join('')+'</div>'+(r?'<p class="ps-scope ps-summary-scope">'+coverage(r)+' · '+s.unknown+' sin importe o moneda EUR verificada. No descuenta abonos ni sustituye el cierre TPV.</p>':'');
+  return '<div class="ps-kpis">'+cards.filter((_,i)=>!salesOnly||i!==3).map(([label,value,hint,icon],i)=>`<article class="card ps-kpi ps-kpi-${i}"><div><span>${label}</span><i>${interfaceIcon(icon)}</i></div><strong>${value}</strong><small>${hint}</small></article>`).join('')+(centralData?'<article class="card ps-kpi ps-native-summary"><span>Importes de las ventas</span>'+(r?orderTotals(filteredOrders(),r.possibly_more):'<small>Consulta un periodo</small>')+'</article>':'')+'</div>'+(r?'<p class="ps-scope ps-summary-scope">'+coverage(r)+' · '+s.unknown+' sin importe o moneda EUR verificada. No descuenta abonos ni sustituye el cierre TPV.</p>':'');
  }
- function summary(){const r=get('orders');return '<section class="ps-section-heading"><div><h3>Resumen de la tienda</h3><p>'+ (salesOnly?'Ventas de ':'Ventas y catálogo de ')+esc(displayStore(store))+'</p></div>'+salesFilters()+'</section>'+metrics()+'<div class="ps-summary-grid">'+(r?salesChart(r):'<article class="card card-pad">'+empty('Ventas por horas','Consulta hoy o un periodo de fechas para ver la evolución real.',button('Consultar pedidos','tab','data-tab="orders"'))+'</article>')+rankingPanel()+'</div><div class="ps-bottom-grid">'+(salesOnly?'':'<article class="card card-pad ps-catalog-alerts">'+catalogQualityPanel(get('products'),{store,busy,ready:ready()})+'</article>')+'<article class="card card-pad ps-cost-note"><h3>Costes y márgenes de las ventas</h3>'+(r?orderTotals(filteredOrders(),r.possibly_more):'<p>Consulta las ventas para calcular su coste y margen.</p>')+'</article></div>';}
+ function summary(){const r=get('orders');return '<section class="ps-section-heading"><div><h3>Resumen de la tienda</h3><p>'+ (salesOnly?'Ventas de ':'Ventas y catálogo de ')+esc(displayStore(store))+'</p></div>'+salesFilters()+'</section>'+metrics()+'<div class="ps-summary-grid">'+(r?salesChart(r):'<article class="card card-pad">'+empty('Ventas por horas','Consulta hoy o un periodo de fechas para ver la evolución real.',button('Consultar pedidos','tab','data-tab="orders"'))+'</article>')+rankingPanel()+'</div>'+(centralData?'':'<div class="ps-bottom-grid">'+(salesOnly?'':'<article class="card card-pad ps-catalog-alerts">'+catalogQualityPanel(get('products'),{store,busy,ready:ready()})+'</article>')+'<article class="card card-pad ps-cost-note"><h3>Costes y márgenes de las ventas</h3>'+(r?orderTotals(filteredOrders(),r.possibly_more):'<p>Consulta las ventas para calcular su coste y margen.</p>')+'</article></div>');}
  const pager=resource=>{const r=get(resource);return r?`<div class="ps-footer"><span>${coverage(r)}</span><div class="inline-actions">${['orders','products'].includes(resource)?'':button('Cargar siguiente página','more',`data-resource="${resource}"`,busy||!r.possibly_more)}${button('Exportar consulta CSV','export',`data-resource="${resource}"`,busy||!r.rows.length)}</div></div>`:'';};
  function marginHtml(row,detail){
   const estimate=approximateOrderMargin(row,detail),format=value=>value===null?'No disponible':amount(value.toFixed(2),row.currency_code);

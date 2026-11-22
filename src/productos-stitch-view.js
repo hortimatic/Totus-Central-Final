@@ -1,14 +1,14 @@
-import {productDisplayId} from './record-identifiers.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {columnSettingsRow} from './column-settings.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {productGallery} from './productos-gallery.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {esc} from './utils.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
-import {fieldHelp} from './components.js?v=364b0053b3635e258790124339f09e45e2fc1fb6';
+import {productDisplayId} from './record-identifiers.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {columnSettingsRow} from './column-settings.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {productGallery} from './productos-gallery.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {esc} from './utils.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
+import {fieldHelp} from './components.js?v=8bbe57e845eaa74fec8c407006184fcdfcb11b29';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -26,7 +26,7 @@ function serialize(node){for(const panel of node.querySelectorAll('.rounded-xl')
 function label(button,value){const spans=button.querySelectorAll('span');setText(spans[1]||button,value);}
 function webLink(record,store,backendUrl=''){const backend=record?.id?(backendUrl?'<a class="prd-web-link prd-table-button" href="'+esc(backendUrl)+'" target="_blank" rel="noopener noreferrer" title="Abrir la ficha en la administración de esta tienda usando tu sesión de PrestaShop">Abrir en administración ↗</a>':'<button type="button" class="prd-table-button" data-pr-action="backend-config" data-pr-shop="'+store+'" data-pr-id="'+esc(record.id)+'" title="Vincular un enlace de tu sesión del catálogo de PrestaShop">Vincular administración</button>'):'';const url=productWebUrl(record,store);return url?'<a class="prd-web-link prd-table-button" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" title="Abrir en '+(websiteName(store))+'. Un producto inactivo puede no estar disponible públicamente.">Ver en la web ↗</a>'+backend:'<span class="prd-web-unavailable">Sin enlace: producto aún no creado</span>';}
 export function stitchHeader({pricingMode=false,store,mode,status,count,product,pending,connected,draftCount=0,stores=WEBSITE_CHOICES,central=false}){
- if(pricingMode)return '<header class="prd-v4-header"><strong>Precios y ofertas</strong><label>Tienda de trabajo <select data-pr-store aria-label="Tienda de trabajo">'+stores.map(s=>[s.key,s.name]).map(([key,name])=>'<option value="'+key+'" '+(key===store?'selected':'')+'>'+name+'</option>').join('')+'</select></label><span role="status">'+esc(status)+'</span></header>';
+ if(pricingMode)return '<header class="prd-v4-header"><strong>Precios y ofertas</strong><label>Tienda de trabajo <select data-pr-store aria-label="Tienda de trabajo" '+(pending?'disabled aria-busy="true"':'')+'>'+stores.map(s=>[s.key,s.name]).map(([key,name])=>'<option value="'+key+'" '+(key===store?'selected':'')+'>'+name+'</option>').join('')+'</select></label><span role="status">'+esc(status)+'</span></header>';
  return compactStitchHeader({store,mode,status,count,product,pending,connected,draftCount,stores,central});
 }
 function compactStitchHeader({store,mode,status,count,product,pending,connected,draftCount,stores,central}){
