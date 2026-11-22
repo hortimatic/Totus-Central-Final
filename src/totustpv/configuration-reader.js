@@ -18,7 +18,9 @@ export function createTpvConfigurationReader({actor,rpc,readDrawers,readOperator
   const selected=connectionId?choices.find(row=>row.connectionId===connectionId):choices.length===1?choices[0]:null;
   if(!selected)return {mode:'choose-connection',connections:choices,connectionId:null,revision:null,origin:null,stores:[],drawers:[],operators:[],actorId:owner,accesses:null};
   const connection={id:selected.connectionId,revision:selected.revision},website={origin:selected.origin};
-  if(readTarget){const target=await readTarget({connectionId:connection.id});
+  if(readTarget){let target;
+   try{target=await readTarget({connectionId:connection.id});}
+   catch(error){if(/^(?:totus_tpv_target_policy: )?TPV_TARGET_NOT_REGISTERED$/.test(error?.message||''))target=null;else throw error;}
    if(actor()?.id!==owner||request!==generation)throw Error('La sesión o la selección ha cambiado.');
    if(target===null)return {mode:'register-target',connections:choices,connectionId:connection.id,revision:connection.revision,origin:website.origin,stores:[],drawers:[],operators:[],actorId:owner,accesses:null};
    if(target?.connectionId!==connection.id||target.origin!==website.origin)throw Error('No se ha podido comprobar la web del puesto. Actualiza la configuración.');
