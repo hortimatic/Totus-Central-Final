@@ -1,4 +1,4 @@
-import {UncertainWriteError} from './write-safety.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {UncertainWriteError} from './write-safety.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 function formSignature(root){
  return JSON.stringify([...root.querySelectorAll('input,select,textarea')].map(el=>[

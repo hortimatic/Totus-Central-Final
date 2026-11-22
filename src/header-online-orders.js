@@ -1,6 +1,6 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
-import {esc} from './utils.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
-import {headerWatchHtml,headerWatchData} from './header-order-watch.js?v=4c89eeff498ba3cee0a02bbae358fa79f3625a60';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
+import {esc} from './utils.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
+import {headerWatchHtml,headerWatchData} from './header-order-watch.js?v=ab758a884192e14febe1936565ab15c5346d4d21';
 
 // Header consumes the scheduler's confirmed online deliveries. No additional
 // catalogue polling and no classification based on the payment description.
