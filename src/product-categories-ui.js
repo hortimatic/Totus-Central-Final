@@ -1,8 +1,8 @@
-import {esc} from './utils.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
-import {directoryText} from './contact-directory-core.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
-import {confirmProductDialog} from './productos-dialogs.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
-import {createCategorySession} from './product-categories-session.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
-import {categoryHierarchy,categoryDescendants} from './product-categories-core.js?v=02708a426d908ba5f0c1b538a0a41db2b27146f6';
+import {esc} from './utils.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
+import {directoryText} from './contact-directory-core.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
+import {confirmProductDialog} from './productos-dialogs.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
+import {createCategorySession} from './product-categories-session.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
+import {categoryHierarchy,categoryDescendants} from './product-categories-core.js?v=9bbe97b2be94de9cab1420c9e6597be440cea629';
 
 export function createCategoriesWorkspace({rpc,invoke,actor,can,storeName,onChanged=()=>{},onState=()=>{}}){
  const session=createCategorySession({rpc,invoke,actor,can}),cache=new Map();
