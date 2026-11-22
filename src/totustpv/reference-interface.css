@@ -297,6 +297,11 @@
 .tpv-item-info-content dl>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px;line-height:1.4}
 .tpv-item-info-content dt{font-size:12px;color:var(--muted,#687e91)}
 .tpv-item-info-content dd{margin:0;font-size:14px;overflow-wrap:anywhere}
+.tpv-item-info-dialog [data-tpv-product-financials]{padding:0 18px 18px}
+.tpv-item-costs{display:grid;gap:8px;margin:12px 0}
+.tpv-item-costs>div{display:flex;gap:16px;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line,#dce5ed)}
+.tpv-item-costs dt{min-width:0;font-size:14px}
+.tpv-item-costs dd{margin:0;font-weight:600;white-space:nowrap}
 :is(#content,main) .totus-tpv .tpv-actions .btn.active{background:var(--accent,#1773c9);color:var(--accent-ink,#fff)}
 @media(max-width:520px){.tpv-item-info-content{grid-template-columns:minmax(0,1fr);gap:16px}.tpv-item-info-content>img,.tpv-item-info-image{width:120px;height:120px;justify-self:center}.tpv-item-info-content dl>div{grid-template-columns:90px minmax(0,1fr)}}
 :is(#content,main) .totus-tpv.tpv-active .tpv-workspace-bar{position:relative;z-index:60;overflow:visible}
