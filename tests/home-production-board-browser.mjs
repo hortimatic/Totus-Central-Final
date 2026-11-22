@@ -28,6 +28,8 @@ try{
  const expected=['opening','income','expense','result','internal','gain-summary','activity','shop-h','shop-n','orders','tasks','store','price','documents','expense-quarter','billing','fiscal','system','recent-closings','quick-links'];
  assert.deepEqual(await page.locator('[data-home-widget]').evaluateAll(nodes=>nodes.map(n=>n.dataset.homeWidget)),expected);
  assert.equal(await page.evaluate(()=>window.api.hasUnsaved()),false);
+ for(const id of ['price','documents','billing','system'])assert.equal(await page.locator('[data-home-widget="'+id+'"] .home-widget-body :is(h2,h3)').count(),0,id+' sin cabecera duplicada');
+ assert.equal(await page.locator('[data-home-widget="orders"] .home-order-footer [data-route="ventas"]').innerText(),'Abrir Ventas');
  assert.match(await page.locator('[data-home-widget="shop-h"]').innerText(),/8,00/);
  assert.match(await page.locator('[data-home-widget="shop-n"]').innerText(),/18,00/);
  assert.equal(await page.locator('[data-home-widget="activity"] .activity-chart svg').count(),1);
