@@ -1,37 +1,37 @@
-import {localStoreHost} from '../local-store-workspace.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {directoryPageHtml} from '../contact-directory-ui.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {apiManagerHtml} from '../api-manager.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {automationsPage} from '../automations-ui.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {prestashopWorkspacePage} from '../prestashop-ui.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {productosWorkspacePage} from '../productos-ui.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {appearancePage} from '../appearance-ui.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {discountScenarios} from '../pricing-discounts.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {draftVariantRow} from '../pricing-drafts.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {stockPage} from '../stock-ui.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {normalizeReportOrder} from '../report-layout.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {taxExpenseRecord} from '../tax-expense.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {incomeBreakdown} from '../income-breakdown.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {planStorage} from '../storage-planning.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {SUPABASE_URL} from '../config.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {expenseAttachedInvoices} from '../expense-register.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {selectExpenses} from '../expense-selection.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
+import {localStoreHost} from '../local-store-workspace.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {directoryPageHtml} from '../contact-directory-ui.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {apiManagerHtml} from '../api-manager.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {automationsPage} from '../automations-ui.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {prestashopWorkspacePage} from '../prestashop-ui.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {productosWorkspacePage} from '../productos-ui.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {appearancePage} from '../appearance-ui.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {discountScenarios} from '../pricing-discounts.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {draftVariantRow} from '../pricing-drafts.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {stockPage} from '../stock-ui.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {normalizeReportOrder} from '../report-layout.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {taxExpenseRecord} from '../tax-expense.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {incomeBreakdown} from '../income-breakdown.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {planStorage} from '../storage-planning.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {SUPABASE_URL} from '../config.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {expenseAttachedInvoices} from '../expense-register.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {selectExpenses} from '../expense-selection.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
 
 const stores=()=>state.data.stores.filter(x=>x.active!==false);
 const storeName=id=>state.data.stores.find(x=>x.id===id)?.name||'—';
@@ -182,13 +182,13 @@ export function inicio(homeData=state.data){
   </div></section>
 
   <section class="home-zone"><div class="home-zone-head"><div><div class="eyebrow">Mesa de trabajo</div><h2>Precios y ventas</h2><p>Consulta un precio al vuelo y controla los cobros abiertos.</p></div></div><div class="dashboard-grid">
-   <article class="card card-pad"><div class="section-head"><div><h3>Consulta rápida de precio</h3>${fieldHelp('Introducir importes','Escribe el precio con coma o punto decimal: 12,50 o 12.50. Para un importe de mil doscientos treinta y cuatro euros con cincuenta céntimos, escribe 1.234,50.')}</div><button class="btn secondary" data-route="pricing">Abrir Precio</button></div><div class="home-quick-grid"><input id="homePriceQuery" aria-label="Producto o referencia" placeholder="Producto / referencia"><input id="homePriceCost" aria-label="Coste de compra sin IVA ni RE" inputmode="decimal" placeholder="Coste sin impuestos"><input id="homePricePvp" aria-label="PVP final" inputmode="decimal" placeholder="PVP final"><input id="homePriceCompetitor" aria-label="Precio de la competencia" inputmode="decimal" placeholder="Competencia"><input id="homePriceDiscount" aria-label="Descuento de venta en porcentaje" inputmode="decimal" placeholder="Descuento %"></div><div class="home-price-metrics"><div><span>Coste real</span><b id="homePriceReal">0,00 €</b></div><div><span>Venta final</span><b id="homePriceSale">0,00 €</b></div><div><span>Margen €</span><b id="homePriceMargin">0,00 €</b></div><div><span>Margen %</span><b id="homePriceMarginPct">0,00 %</b></div><div><span>Vs competencia</span><b id="homePriceCompetition">—</b></div></div><p id="homePriceError" class="small danger-text" role="status" aria-live="polite" hidden></p><div class="form-actions">${btn('Guardar consulta','home-price-save','primary')}</div></article>
+   <article class="card card-pad"><div class="section-head"><div><h3>Consulta rápida de precio</h3>${fieldHelp('Introducir importes','Escribe el precio con coma o punto decimal: 12,50 o 12.50. Para un importe de mil doscientos treinta y cuatro euros con cincuenta céntimos, escribe 1.234,50.')}</div><button class="btn secondary" data-route="pricing">Abrir Precio</button></div><div class="home-quick-grid"><label>Producto o referencia<input id="homePriceQuery" aria-label="Producto o referencia" placeholder="Producto / referencia"></label><label>Coste sin impuestos<input id="homePriceCost" aria-label="Coste de compra sin IVA ni RE" inputmode="decimal" placeholder="Coste sin impuestos"></label><label>PVP final<input id="homePricePvp" aria-label="PVP final" inputmode="decimal" placeholder="PVP final"></label><label>Precio de la competencia<input id="homePriceCompetitor" aria-label="Precio de la competencia" inputmode="decimal" placeholder="Competencia"></label><label>Descuento (%)<input id="homePriceDiscount" aria-label="Descuento de venta en porcentaje" inputmode="decimal" placeholder="Descuento %"></label></div><div class="home-price-metrics"><div><span>Coste real</span><b id="homePriceReal">0,00 €</b></div><div><span>Venta final</span><b id="homePriceSale">0,00 €</b></div><div><span>Margen €</span><b id="homePriceMargin">0,00 €</b></div><div><span>Margen %</span><b id="homePriceMarginPct">0,00 %</b></div><div><span>Vs competencia</span><b id="homePriceCompetition">—</b></div></div><p id="homePriceError" class="small danger-text" role="status" aria-live="polite" hidden></p><div class="form-actions">${btn('Guardar consulta','home-price-save','primary')}</div></article>
    <article class="card card-pad"><div class="section-head"><div><h3>Facturación y cobros</h3><p>${pendingInvoices.length} factura${pendingInvoices.length===1?'':'s'} pendientes · ${money(pendingInvoiceAmount)}</p></div></div><div class="summary-row"><span>Pendiente de cobro</span><strong>${money(pendingInvoiceAmount)}</strong></div><div class="stack">${invoiceRows||'<div class="empty compact-empty"><strong>Sin cobros pendientes</strong><span>No hay facturas emitidas pendientes de cobro.</span></div>'}</div><div class="dashboard-links"><button class="btn secondary" data-route="facturacion">Abrir facturación</button>${btn('Nueva proforma','proforma-new','secondary')}</div></article>
   </div></section>
 
   <section class="home-zone"><div class="home-zone-head"><div><div class="eyebrow">Mesa de trabajo</div><h2>Documentos y fiscalidad</h2><p>Acceso rápido a archivo documental y previsión fiscal.</p></div></div><div class="dashboard-grid">
    <article class="card card-pad"><div class="section-head"><div><h3>Documentos recientes</h3><p>${pendingDocs} pendientes de revisar.</p></div></div><div class="stack">${docRows||'<div class="empty compact-empty"><strong>Sin documentos</strong><span>Todavía no hay documentos archivados.</span></div>'}</div><div class="dashboard-links"><button class="btn secondary" data-route="documentos">Buscar documentos</button></div></article>
-   <article class="card card-pad"><div class="section-head"><div><h3>Fiscalidad · ${quarter}T ${year}</h3><p>Previsión propia con los datos que llevas registrados.</p></div><button class="btn secondary" data-route="fiscalidad">Abrir fiscalidad</button></div><div class="summary-row"><span class="field-caption">Ingresos acumulados${fieldHelp('Ingresos acumulados','Ingresos incluidos desde el 1 de enero hasta la fecha de cálculo: cierres aceptados, facturas que suman ingresos y anotaciones manuales. El modelo 130 es acumulativo; no muestra solo las ventas de este trimestre.')}</span><strong>${money(incomeYtd)}</strong></div><div class="summary-row"><span>Gasto deducible</span><strong>− ${money(deductedYtd)}</strong></div>${homeForecast.map(([model,amount])=>`<div class="summary-row"><span>${model==='130'?'Anticipo de IRPF estimado':model==='111'?'Retenciones de nóminas y profesionales':'Retención del alquiler de Azuqueca'} · ${model}</span><strong>${money(amount)}</strong></div>`).join('')}<div class="summary-row"><b>Total por reservar este trimestre</b><strong>${money(homeReserve)}</strong></div><p class="small muted">Se actualiza con tu actividad, sin sustituir el cálculo por cifras de gestoría. No supone ingresos ni gastos de los días que faltan. Consulta el desglose y los anticipos utilizados en Fiscalidad.</p></article>
+   <article class="card card-pad"><div class="section-head"><div><h3>Fiscalidad · ${quarter}T ${year}</h3><p>Previsión propia con los datos que llevas registrados.</p></div><button class="btn secondary" data-route="fiscalidad">Abrir fiscalidad</button></div><div class="summary-row"><span class="field-caption">Ingresos acumulados${fieldHelp('Ingresos acumulados','Ingresos incluidos desde el 1 de enero hasta la fecha de cálculo: cierres aceptados, facturas que suman ingresos y anotaciones manuales. El modelo 130 es acumulativo; no muestra solo las ventas de este trimestre.')}</span><strong>${money(incomeYtd)}</strong></div><div class="summary-row"><span>Gasto deducible</span><strong>− ${money(deductedYtd)}</strong></div>${homeForecast.map(([model,amount])=>`<div class="summary-row"><span>${model==='130'?'Anticipo de IRPF estimado':model==='111'?'Retenciones de nóminas y profesionales':'Retención del alquiler'} · ${model}</span><strong>${money(amount)}</strong></div>`).join('')}<div class="summary-row"><b>Total por reservar este trimestre</b><strong>${money(homeReserve)}</strong></div><p class="small muted">Se actualiza con tu actividad, sin sustituir el cálculo por cifras de gestoría. No supone ingresos ni gastos de los días que faltan. Consulta el desglose y los anticipos utilizados en Fiscalidad.</p></article>
   </div></section>
 
   <section class="home-zone"><div class="home-zone-head"><div><div class="eyebrow">Mesa de trabajo</div><h2>Seguimiento y sistema</h2><p>Informes, usuarios y almacenamiento en un vistazo.</p></div></div><div class="dashboard-grid">

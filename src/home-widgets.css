@@ -740,3 +740,9 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 .home-task-controls button{height:34px;min-height:34px;white-space:nowrap;padding:5px 9px;font-size:12px}
 @container home-task (max-width:850px){.home-task-controls{grid-template-columns:minmax(0,1fr) minmax(140px,1fr)}.home-task-views{grid-column:1}.home-task-nav{grid-column:2;justify-content:flex-end}}
 @container home-task (max-width:350px){.home-task-controls{gap:8px}.home-task-controls button{padding:5px 7px}.home-task-controls .home-task-date{width:auto}}
+.dashboard-page .home-quick-grid>label{display:grid;gap:4px;min-width:0;font-size:12px;color:var(--muted,#64748b)}
+.dashboard-page .home-quick-grid>label:first-child{grid-column:1/-1}
+.dashboard-page .home-quick-grid>label>input{width:100%;box-sizing:border-box;min-width:0}
+.home-summary-quality{margin-top:10px;border-top:1px solid var(--line,#dbe3ee);padding-top:6px}
+.home-summary-quality>summary{cursor:pointer;font-size:13px;min-height:var(--tc-control-height,36px);display:flex;align-items:center;gap:6px;color:var(--accent,#2563eb)}
+.home-summary-quality>summary::before{content:'▸';font-size:12px}.home-summary-quality[open]>summary::before{content:'▾'}

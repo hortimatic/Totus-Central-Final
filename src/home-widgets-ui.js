@@ -1,27 +1,27 @@
-import {fieldHelp} from './components.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {productDisplayId} from './record-identifiers.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {inicio as renderHomeSources} from './pages/main.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {readPool} from './read-pool.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
+import {fieldHelp} from './components.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {productDisplayId} from './record-identifiers.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {inicio as renderHomeSources} from './pages/main.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {readPool} from './read-pool.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {nextOpeningSummary} from './home-openings-view.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {state,getFilters} from './state.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {esc,money} from './utils.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {storeConnection} from './prestashop-readonly.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {prestashopReadiness} from './prestashop-ui.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {productPhoto} from './productos-catalog.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {centralProductRecord} from './central-product-adapter.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
-import {archiveAccepted} from './historical-acceptance.js?v=a4021778cdccea1a1a6d7d008e62c6b07d9c4bb8';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {nextOpeningSummary} from './home-openings-view.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {state,getFilters} from './state.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {esc,money} from './utils.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {storeConnection} from './prestashop-readonly.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {prestashopReadiness} from './prestashop-ui.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {productPhoto} from './productos-catalog.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {centralProductRecord} from './central-product-adapter.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
+import {archiveAccepted} from './historical-acceptance.js?v=25894ea75f8349bb21e30e2da302baaab9a40d00';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],
@@ -173,7 +173,7 @@ function prestashopChart(w,read){
    '<span class="home-chart-bar" style="height:'+Math.round(value/max*100)+'%" title="'+esc(key+': '+tip)+'"></span>';
   return '<div class="home-chart-column"><div class="home-chart-track">'+click+'</div><small aria-hidden="true">'+(showLabel?esc(label):'')+'</small></div>';
  }).join('');
- return '<figure class="home-ps-chart" role="group" aria-label="'+esc(title+' por '+typeLabel+', desde '+from+' hasta '+to)+'"><figcaption><span>'+esc(title+' por '+typeLabel)+'</span><strong>'+esc(measured==='sales'?money(total/100):String(total))+'</strong></figcaption><div class="home-chart-plot"><div class="home-chart-columns">'+series+'</div></div><small class="muted">Periodo '+esc(from)+' — '+esc(to)+(group==='hours'&&days>1?' · perfil horario agregado del periodo':'')+'. Selecciona una barra diaria para abrir sus pedidos.</small></figure>';
+ return '<figure class="home-ps-chart" role="group" aria-label="'+esc(title+' por '+typeLabel+', desde '+from+' hasta '+to)+'"><figcaption><span>'+esc(title+' por '+typeLabel)+'</span><strong>'+esc(measured==='sales'?money(total/100):String(total))+'</strong></figcaption><div class="home-chart-plot"><div class="home-chart-columns">'+series+'</div></div>'+fieldHelp('Gráfica de ventas',(group==='hours'&&days>1?'Perfil por horas sumando todos los días del periodo. ':group==='hours'?'Ventas por hora del día elegido. ':'Ventas agrupadas por '+typeLabel+'. ')+((group==='days'||group==='hours'&&from===to)?'Selecciona una barra para filtrar las ventas de su fecha. ':'Las barras resumen el periodo; usa Ventas para consultar los detalles. '))+'</figure>';
 }
 function psSummary(w,data,catalog){
  const shop=safeStore(w.scope.store),r=data?.[shop]||nativeHomeRead(Object.values(data||{}),shop,dateRange(w));
@@ -184,7 +184,8 @@ function psSummary(w,data,catalog){
  const topLimit=[4,8,12].includes(Number(w.filters.topLimit))?Number(w.filters.topLimit):4;
  const metrics=showMetrics?'<div class="home-ps-metrics">'+metric('Ventas',complete?money(total):'Sin total fiable')+metric('Pedidos válidos',countText)+metric('Ticket medio',ticket!==null?money(ticket):'—')+'<div class="home-ps-metric"><small>Calidad del catálogo</small><strong>'+esc(catalog?(catalog.complete?'':'Parcial · ')+catalog.issues.filter(x=>x.issues.length).length+' avisos':'Sin consulta')+'</strong><button type="button" data-home-command="catalog-quality" data-id="'+esc(w.id)+'">'+(catalog?'Actualizar calidad':'Consultar calidad')+'</button></div>'+metric('Margen comercial',r.native?(r.native.marginComplete?money(r.native.marginCents/100):'Faltan costes'):marginText(r.rows,r.complete))+'</div>':'';
  const chart=prestashopChart(w,r);
- const top=showTop?'<section class="home-ps-products"><h4>Productos más vendidos</h4>'+(r.top?.length?'<ol class="home-ps-top">'+r.top.slice(0,topLimit).map(p=>'<li><span class="home-top-item">'+homeOrderProductImage(p)+'<span><span class="home-top-name" title="'+esc(p.name)+'">'+esc(p.name)+'</span><small>'+esc(p.reference||'Sin referencia')+'</small></span></span> <b>'+esc(String(p.qty))+' uds</b></li>').join('')+'</ol>':'<p class="small muted">Sin productos vendidos en este periodo.</p>')+'</section>':'';
+ const topItems=(r.top||[]).filter(p=>Number(p.qty)>0);
+ const top=showTop?'<section class="home-ps-products"><h4>Productos más vendidos</h4>'+(topItems.length?'<ol class="home-ps-top">'+topItems.slice(0,topLimit).map(p=>'<li><span class="home-top-item">'+homeOrderProductImage(p)+'<span><span class="home-top-name" title="'+esc(p.name)+'">'+esc(p.name)+'</span><small>'+esc(p.reference||'Sin referencia')+'</small></span></span> <b>'+esc(String(p.qty))+' uds</b></li>').join('')+'</ol>':'<p class="small muted">Sin productos vendidos en este periodo.</p>')+'</section>':'';
  return '<div class="home-ps-content">'+periodControls(w)+metrics+(r.refreshing?'<p class="small muted" role="status">Actualizando…</p>':!r.complete?'<p class="small muted" role="status">Datos parciales: actualiza para completar la consulta.</p>':'')+'<div class="home-ps-panels '+(chart&&top?'has-chart-and-top':'')+'">'+chart+top+'</div><div class="home-widget-actions"><button type="button" class="btn secondary" data-home-command="fetch" data-id="'+esc(w.id)+'">Actualizar</button><button type="button" class="btn secondary" data-route="ventas">Abrir Ventas</button></div></div>';
 }
 function prestashopProductsTable(w,data){
@@ -216,7 +217,7 @@ function prestashopCatalogQuality(w,data,canOpen=false){
   if(current.error)return '<section class="home-quality-shop"><h4>'+esc(labelStore(shop))+'</h4><p role="alert">'+esc(current.error)+'</p></section>';
   const report=catalogQualityReport(current.rows,{complete:current.complete,readAt:current.readAt}),rows=report.rows.filter(x=>x.qualityChecks.length),labels=new Map(report.checks.map(c=>[c.id,c.label]));
   return '<section class="home-quality-shop"><h4>'+esc(labelStore(shop))+'</h4><p class="small muted">'+esc(qualityReadLabel(report))+'</p><p>'+report.affected+' fichas con avisos'+(report.complete?'':'; resultado parcial')+'. Una ficha puede tener varios avisos.</p><div class="home-quality-metrics">'+report.checks.map(c=>'<div title="'+esc(c.help)+'"><small>'+esc(c.label)+'</small><strong>'+c.count+'</strong></div>').join('')+'</div><div class="home-quality-list">'+rows.slice(0,8).map(row=>{const image=productPhoto(row,shop);return '<article class="home-quality-product">'+(image?'<img src="'+esc(image)+'" alt="" loading="lazy">':'<span class="home-quality-no-photo">Sin foto</span>')+'<div><b>'+esc(row.name||'Producto #'+row.id)+'</b><small>#'+esc(productDisplayId(row))+' · '+esc(row.reference||'Sin referencia')+'</small><small>'+esc(row.qualityChecks.map(id=>labels.get(id)).join(' · '))+'</small></div>'+(canOpen?'<button type="button" class="btn secondary" data-home-command="quality-product" data-shop="'+esc(shop)+'" data-product-id="'+esc(row.id)+'">Abrir ficha</button>':'')+'</article>';}).join('')+(rows.length>8?'<p class="small muted">Mostrando 8 de '+rows.length+' fichas con avisos. Abre Catálogo para recorrer el resto.</p>':rows.length?'':'<p class="small muted">Sin incidencias en las fichas leídas.</p>')+'</div></section>';
- }).join('')+'<div class="home-widget-actions"><button type="button" class="btn secondary" data-home-command="fetch" data-id="'+esc(w.id)+'">Actualizar calidad</button><button type="button" class="btn secondary" data-home-command="open-prestashop-tab" data-tab="catalog">Abrir catálogo</button></div></div>';
+ }).join('')+'<div class="home-widget-actions"><button type="button" class="btn secondary" data-home-command="catalog-quality" data-id="'+esc(w.id)+'">Actualizar calidad</button><button type="button" class="btn secondary" data-route="productos">Abrir catálogo</button></div></div>';
 }
 
 function homeOrderProductImage(item){const image=String(item.image||'');let url;try{url=new URL(image);}catch{return '<span class="home-order-no-image" aria-label="Producto sin imagen">▧</span>';}return url.protocol==='https:'&&!url.username&&!url.password||/^data:image\/(png|jpeg|webp);base64,/i.test(image)?'<img class="home-order-product-image" src="'+esc(url.href)+'" alt="'+esc(item.name||'Producto')+'" loading="lazy" decoding="async">':'<span class="home-order-no-image" aria-label="Producto sin imagen">▧</span>';}
@@ -332,7 +333,11 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   if(w.type==='home.activity')return periodControls(w)+nativeHomeActivity(w,dataFor(w),state.data.expenses,homeStores());
   if(w.type==='home.gain')return (w.id==='gain-summary'?'':periodControls(w))+nativeHomeFinance(w,dataFor(w),state.data.expenses)+'<button type="button" class="btn secondary" data-home-command="fetch" data-id="'+esc(w.id)+'">Actualizar margen</button>';
   if(w.type==='cash.openings'&&safeStore(w.scope.store)!=='all')return storeOpeningWidget(w);
-  if(w.type==='prestashop.summary')return psSummary(w,dataFor(w),catalogData.get(safeStore(w.scope.store)));
+  if(w.type==='prestashop.summary'){
+   const shops=PRESTA_SHOPS(w),loaded=shops.map(shop=>catalogData.get(shop)).filter(Boolean);
+   const catalog=loaded.length?{issues:loaded.flatMap(c=>c.issues||[]),complete:loaded.length===shops.length&&loaded.every(c=>c.complete)}:null;
+   return psSummary(w,dataFor(w),catalog)+(catalog?'<details class="home-summary-quality"><summary>Ver avisos del catálogo</summary>'+prestashopCatalogQuality(w,catalogData,!!onOpenProduct&&can('productos','view'))+'</details>':'');
+  }
   if(w.type==='prestashop.quality')return prestashopCatalogQuality(w,catalogData,!!onOpenProduct&&can('productos','view'));
   if(w.type==='prestashop.orders')return psOrders(w,dataFor(w));
   if(w.type==='prestashop.top')return prestashopProductsTable(w,dataFor(w));
