@@ -1,4 +1,4 @@
-import {esc} from '../utils.js?v=1e404d598ffbe91bdc5403a09e4e799843b7bf74';
+import {esc} from '../utils.js?v=c421d15ba55ece12c883368bad695cdcadfac450';
 export function chooseNativeCustomer({adapter,current}){
  return new Promise((resolve,reject)=>{
   const dialog=document.createElement('dialog');dialog.className='tpv-variant-dialog';dialog.setAttribute('aria-label','Elegir cliente de esta tienda');let offset=0,search='',rows=[],more=false,busy=false,closed=false;
