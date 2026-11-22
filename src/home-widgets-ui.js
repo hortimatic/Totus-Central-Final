@@ -1,24 +1,24 @@
-import {inicio as renderHomeSources} from './pages/main.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {readPool} from './read-pool.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
+import {inicio as renderHomeSources} from './pages/main.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {readPool} from './read-pool.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {nextOpeningSummary} from './home-openings-view.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {state,getFilters} from './state.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {esc,money} from './utils.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {storeConnection} from './prestashop-readonly.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {prestashopReadiness} from './prestashop-ui.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {prestashopProductImage} from './prestashop-readonly.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
-import {archiveAccepted} from './historical-acceptance.js?v=a58f9c4f48eb599616e7cc8844993337c1dd26d7';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {nextOpeningSummary} from './home-openings-view.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {state,getFilters} from './state.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {esc,money} from './utils.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {storeConnection} from './prestashop-readonly.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {prestashopReadiness} from './prestashop-ui.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {prestashopProductImage} from './prestashop-readonly.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
+import {archiveAccepted} from './historical-acceptance.js?v=0a93a633146f84ce46a1642276f1046c9046241e';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],
@@ -26,7 +26,7 @@ const defaultSpecs=[
  ['prestashop.summary','shop-h',6],['prestashop.summary','shop-n',6],['prestashop.orders','orders',12],
  ['tasks.today','tasks',12],['cash.store','store',12],['pricing.quick','price',6],
  ['documents.latest','documents',6],['expenses.quarter','expense-quarter',6],['billing.pending','billing',6],
- ['fiscal.forecast','fiscal',6],['system.status','system',6],['home.gain','gain',8],
+ ['fiscal.forecast','fiscal',6],['system.status','system',6],
  ['cash.history','recent-closings',3],['home.shortcuts','quick-links',1]
 ];
 const homeStores=()=>state.data.stores.filter(s=>s.active!==false).map(s=>({...s,key:s.id}));
@@ -34,7 +34,6 @@ const homeStores=()=>state.data.stores.filter(s=>s.active!==false).map(s=>({...s
 const scopedSourceTypes=new Set(['cash.store','documents.latest','expenses.quarter','billing.pending','fiscal.forecast']);
 const hasStore=w=>usesShopData(w)||scopedSourceTypes.has(w.type)||['cash.openings','cash.withdrawals','cash.history','expenses.pending'].includes(w.type);
 const nonClonable=new Set(['pricing.quick','home.activity','tasks.today','system.status','home.alerts']);
-const confirmDiscard=()=>typeof window==='undefined'||window.confirm('Hay cambios del Inicio sin guardar. ¿Descartarlos?');
 const safeStore=key=>homeStores().some(s=>s.key===key)?key:'all';
 const safeDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(String(s||''))?s:'';
 const labelStore=k=>homeStores().find(s=>s.key===k)?.name||'Todas las tiendas';
@@ -73,7 +72,7 @@ const permitted=(w,can)=>usesShopData(w)?can('inicio','view'):
  w.type.startsWith('receptions.')?can('documentos','view'):
  w.type.startsWith('products.')?can('productos','view'):true;
 function createDefault(){
- const sizes=[[2,7,8],[4,2,2],[6,2,2],[4,2,2],[4,2,2],[4,2,2],[8,5,5],[4,8,8],[7,8,8],[6,9,9],[5,4,4],[6,4,4],[8,5,5],[8,4,4],[6,4,4],[8,4,4],[8,5,5],[7,4,4],[2,2,2],[2,3,3],[2,2,2]];
+ const sizes=[[2,7,8],[4,2,2],[6,2,2],[4,2,2],[4,2,2],[4,2,2],[8,5,5],[4,8,8],[7,8,8],[6,9,9],[5,4,4],[6,4,4],[8,5,5],[8,4,4],[6,4,4],[8,4,4],[8,5,5],[7,4,4],[2,3,3],[2,2,2]];
  return createHomeDashboard(defaultSpecs.map(([type,id,width],i)=>({type,id,title:type==='prestashop.summary'?'Resumen TotusTPV':type==='prestashop.orders'?'Ventas TotusTPV':undefined,scope:{store:type==='prestashop.summary'?(homeStores()[id==='shop-n'?1:0]?.key||homeStores()[0]?.key||'all'):'all'},layout:{desktop:{x:0,y:i,w:width,h:sizes[i][0]},tablet:{order:i,w:width>=6?6:3,h:sizes[i][1]},mobile:{order:i,h:sizes[i][2]}}})));
 }
 function collectExisting(root){
@@ -291,7 +290,9 @@ function configureOrderColumns(host,w){
   HOME_ORDER_COLUMNS.filter(key=>!visible.includes(key)).forEach(key=>cells[HOME_ORDER_COLUMNS.indexOf(key)].remove());
  }
 }
-export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=()=>{},onOpenProduct=null,onOpenTasks=()=>{},onOpenExpense=()=>{}}){
+export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=()=>{},onOpenProduct=null,onOpenTasks=()=>{},onOpenExpense=()=>{},onOpenCash=()=>{},confirm=async message=>window.confirm(message)}){
+ const confirmDiscard=()=>confirm('Hay cambios del Inicio sin guardar. ¿Descartarlos?');
+ const undoStack=[],redoStack=[];
  const nativeReader=createHomeReader(rpc);
  const columnQueries=new Map();
  let root=null,grid=null,model=null,original=null,sources=new Map(),edit=false,selected=null,panelView='closed',advancedOpen=false,styleItems=[],stylesBusy=false,stylesError='',owner=null,token=0,remoteReady=false,busy=false,connections=null,connectionsTask=null;
@@ -357,6 +358,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   if(!source)return fallbackContent(w);
   let content=source;if(source.isConnected&&source.closest('[data-home-widget]'))content=source.cloneNode(true);
   if(content!==source){content.querySelectorAll('[id],[for]').forEach(el=>{el.removeAttribute('id');el.removeAttribute('for')});content.querySelectorAll('input,select,textarea').forEach(el=>el.disabled=true)}
+  if(w.type==='cash.store'){content.querySelectorAll('[data-action="closing-new"]').forEach(button=>{button.removeAttribute('data-action');button.dataset.homeCommand='open-cash';button.dataset.id=w.id;button.textContent='Ver cajas del TPV';});}
   if(w.type==='cash.openings'){
    const summary=content.querySelector('.home-opening-summary');if(summary)summary.remove();content.insertAdjacentHTML('beforeend',openingStatus());
   }
@@ -379,8 +381,10 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
     body.querySelectorAll('input,select,textarea').forEach(field=>field.setAttribute('data-draft-ignore',''));
    }else body.append(content);body.querySelectorAll('input,select,textarea').forEach(field=>field.setAttribute('data-draft-ignore',''));
    if(!edit&&['cash.openings','home.activity','home.alerts','pricing.quick','documents.latest','expenses.quarter','billing.pending','fiscal.forecast','reports.shortcut','system.status'].includes(w.type)){const inner=body.querySelector(':scope>h2,:scope>h3,:scope>:is(section,article,div)>:is(h2,h3)');if(inner){if(/\b(?:[1-4]T|20\d{2})\b/.test(inner.textContent)){const period=document.createElement('small');period.className='tc-widget-period';period.textContent=inner.textContent;inner.replaceWith(period);}else inner.remove();body.setAttribute('aria-label',w.title);}}
+   if(edit){const arrows=document.createElement('span');arrows.className='home-widget-move-actions';arrows.innerHTML='<button type="button" data-home-command="up" data-id="'+esc(w.id)+'" aria-label="Subir '+esc(w.title)+'" '+(visibleOrder()[0]?.id===w.id?'disabled':'')+'>↑</button><button type="button" data-home-command="down" data-id="'+esc(w.id)+'" aria-label="Bajar '+esc(w.title)+'" '+(visibleOrder().at(-1)?.id===w.id?'disabled':'')+'>↓</button>';heading.append(arrows);}
    card.append(heading,body);if(edit)card.insertAdjacentHTML('beforeend',`<button type="button" class="home-resize-handle" data-home-resize="${esc(w.id)}" aria-label="Estirar o encoger ${esc(w.title)}" title="Arrastrar la esquina para cambiar tamaño">↘</button>`);grid.append(card);const calendarHost=body.querySelector('[data-home-task-calendar]');if(calendarHost)taskCalendar.mount(calendarHost);
   }
+  const undoButton=root.querySelector('[data-home-command="undo"]'),redoButton=root.querySelector('[data-home-command="redo"]');if(undoButton)undoButton.disabled=!undoStack.length;if(redoButton)redoButton.disabled=!redoStack.length;
   root.classList.toggle('home-edit-mode',edit);
   root.classList.toggle('home-widgets-dirty',changed());
   const settings=homeCanvasSettings(model.settings);
@@ -546,7 +550,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
  }
  async function applyStyle(id){
   if(stylesBusy||!live()||!edit||!can('inicio','view')||!styleItems.some(t=>t.id===id))return;
-  if(!confirm('¿Aplicar este estilo a tu Inicio? No se guardará hasta que pulses «Guardar cambios». Puedes cancelar para recuperar tu distribución.'))return;
+  if(!await confirm('¿Aplicar este estilo a tu Inicio? No se guardará hasta que pulses «Guardar cambios». Puedes cancelar para recuperar tu distribución.'))return;
   stylesBusy=true;renderDrawer();
   const session=owner,epoch=token;
   try{
@@ -561,7 +565,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
  }
  async function removeStyle(id){
   if(stylesBusy||!live()||!edit||!can('inicio','view')||!styleItems.some(t=>t.id===id&&t.mine))return;
-  if(!confirm('¿Retirar este estilo de la biblioteca compartida? No modifica los Inicios que ya lo hayan aplicado.'))return;
+  if(!await confirm('¿Retirar este estilo de la biblioteca compartida? No modifica los Inicios que ya lo hayan aplicado.'))return;
   stylesBusy=true;renderDrawer();
   const session=owner,epoch=token;
   try{
@@ -608,8 +612,9 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   });
   dialog.addEventListener('toggle',e=>{if(e.newState==='closed'&&!saving)dialog.remove();});paint();root.append(dialog);dialog.showPopover();const rect=trigger.getBoundingClientRect();dialog.style.left=Math.max(12,Math.min(rect.left,innerWidth-dialog.offsetWidth-12))+'px';dialog.style.top=Math.max(12,Math.min(rect.bottom+6,innerHeight-dialog.offsetHeight-12))+'px';
  }
- const mutate=(fn,focusId=null)=>{if(!edit||busy)return;try{const next=fn(model);model=next;selected=(focusId&&find(focusId)?.id)||find(selected)?.id||model.widgets.find(w=>!w.hidden)?.id||null;draw();status('Cambios pendientes de guardar.');}catch(error){status('No se pudo aplicar el cambio: '+String(error?.message||error),true)}};
- function command(action,id,el){
+ const mutate=(fn,focusId=null)=>{if(!edit||busy)return;try{const next=fn(structuredClone(model));if(JSON.stringify(next.widgets)===JSON.stringify(model.widgets)&&JSON.stringify(next.settings)===JSON.stringify(model.settings))return;undoStack.push(structuredClone(model));if(undoStack.length>40)undoStack.shift();redoStack.length=0;model=next;selected=(focusId&&find(focusId)?.id)||find(selected)?.id||model.widgets.find(w=>!w.hidden)?.id||null;draw();status('Cambios pendientes de guardar.');}catch(error){status('No se pudo aplicar el cambio: '+String(error?.message||error),true)}};
+ const moveTo=(id,index)=>mutate(m=>{const from=m.widgets.findIndex(w=>w.id===id);if(from<0||index<0||index>=m.widgets.length)return m;const [entry]=m.widgets.splice(from,1);m.widgets.splice(index,0,entry);m.widgets.forEach((w,i)=>{w.layout.desktop.y=i;w.layout.tablet.order=i;w.layout.mobile.order=i;});return m;},id);
+ async function command(action,id,el){
   if(action==='style-refresh'){void loadStyles();return}
   if(action==='style-publish'){void publishStyle();return}
   if(action==='style-apply'){void applyStyle(id);return}
@@ -619,17 +624,18 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
    if(action==='close-panel'){panelView='closed';renderDrawer();return}
    if(action==='preset-size'){const w=find(id);if(!edit||!w)return;const widths=allowedWidths(w),def=HOME_WIDGET_CATALOG[w.type];const options={compact:widths[0],balanced:def.width,wide:widths.filter(x=>x<=9).at(-1)||widths.at(-1),full:widths.at(-1)};const width=options[el.dataset.size];if(!widths.includes(width))return;mutate(m=>setHomeWidgetConfig(m,id,{layout:{desktop:{w:width}}}),id);panelView='widget';return}
 
-  if(action==='edit'){if(edit){if(changed()&&!confirmDiscard())return;model=structuredClone(original);edit=false;selected=null;panelView='closed'}else{edit=true;selected=null;panelView='closed'}draw();return}
-  if(action==='exit'){if(changed()&&!confirmDiscard())return;edit=false;model=structuredClone(original);selected=null;panelView='closed';draw();return}
+  if(action==='undo'||action==='redo'){if(!edit)return;const from=action==='undo'?undoStack:redoStack,to=action==='undo'?redoStack:undoStack;if(!from.length)return;to.push(structuredClone(model));model=from.pop();model.revision=original.revision;draw();status(action==='undo'?'Cambio deshecho.':'Cambio recuperado.');return;}
+  if(action==='edit'){if(edit){if(changed()&&!await confirmDiscard())return;model=structuredClone(original);edit=false;selected=null;panelView='closed'}else{edit=true;selected=null;panelView='closed'}draw();return}
+  if(action==='exit'){if(changed()&&!await confirmDiscard())return;edit=false;model=structuredClone(original);selected=null;panelView='closed';draw();return}
   if(action==='order-columns'){openOrderColumns(id,el);return;}
   if(action==='select'){selected=id;edit=true;panelView='widget';advancedOpen=false;draw();return}
   if(action==='add'){panelView='widget';const type=el.dataset.type;if(nonClonable.has(type)&&model.widgets.some(w=>w.type===type)){status('Ese widget contiene controles únicos y ya está añadido. Puedes moverlo o cambiar su tamaño.',true);return}const scope=type==='prestashop.summary'?{store:homeStores()[0]?.key||'all'}:{store:'all'};const newId=makeId();mutate(m=>addHomeWidget(m,type,newId,{scope}),newId);if(type==='prestashop.quality')void fetchCatalog(find(newId));else if(type.startsWith('prestashop.'))void fetchFor(find(newId));return}
   if(action==='duplicate'){const w=find(id);if(!w||nonClonable.has(w.type))return;const newId=makeId();mutate(m=>duplicateHomeWidget(m,id,newId),newId);return}
   if(action==='hide'){panelView='library';mutate(m=>setHomeWidgetConfig(m,id,{hidden:true}),model.widgets.find(x=>x.id!==id&&!x.hidden)?.id);return}
   if(action==='show'){panelView='widget';mutate(m=>setHomeWidgetConfig(m,id,{hidden:false}),id);return}
-  if(action==='remove'){if(!confirm('¿Quitar este widget del Inicio? No se borrará ningún dato del módulo y podrás volver a añadirlo.'))return;mutate(m=>removeHomeWidget(m,id));return}
+  if(action==='remove'){mutate(m=>removeHomeWidget(m,id));status('Widget quitado del diseño. Deshacer lo recupera; no se borra ningún dato del módulo.');return}
   if(action==='up'||action==='down'){mutate(m=>reorderHomeWidget(m,id,action));return}
-  if(action==='reset'){if(!confirm('¿Restaurar la distribución inicial? Los cambios actuales quedarán pendientes de guardar y podrás descartarlos antes de confirmar.'))return;mutate(()=>createDefault());return}
+  if(action==='reset'){mutate(()=>createDefault());status('Distribución inicial preparada. Puedes deshacerla o guardarla.');return}
   if(['period-day','period-week','period-month','period-custom','period-prev','period-next'].includes(action)){
    const w=find(id);if(!w||!usesShopData(w))return;
    const cmd=action.replace('period-',''),period=['prev','next'].includes(cmd)?(w.filters.period||'day'):cmd;
@@ -647,6 +653,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   if(action==='catalog-quality'){const w=find(id);if(w)void fetchCatalog(w,true);return;}
   if(action==='financial-margin-refresh'){void fetchFor(financialWidget(),true);return;}
   if(action==='fetch'){const w=find(id);if(w?.type==='prestashop.quality')void fetchCatalog(w,true);else void fetchFor(w,true);return}
+  if(action==='open-cash'){void onOpenCash({store:el.dataset.store||safeStore(find(id)?.scope?.store)});return;}
   if(action==='open-expense'){const expenseId=el.dataset.expense;if(!expenseId||!state.data.expenses.some(row=>String(row.id)===expenseId))return;void onOpenExpense({id:expenseId});return}
   if(action==='open-orders'){root.querySelector('[data-route="ventas"]')?.click();return}
   if(action==='open-prestashop-tab'){const tab=el.dataset.tab;if(['catalog','receipts'].includes(tab))void onOpenOrders({tab});return}
@@ -665,7 +672,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   const own=owner;try{
    const saved=await rpc('totus_home_dashboard',{p_action:'read',p_layout:null,p_expected_revision:null});
    if(!live()||owner!==own)return;
-   remoteReady=true;if(saved?.layout?.schemaVersion===1){if(changed()){status('Se ha recibido el diseño guardado mientras editabas. Revisa los cambios antes de guardar.',true);model.revision=saved.revision==null?null:String(saved.revision);return;}model=readHomeDashboard(saved.layout);model.revision=saved.revision==null?null:String(saved.revision);original=structuredClone(model);draw();for(const w of model.widgets)if(usesShopData(w))void fetchFor(w);}
+   remoteReady=true;if(saved?.layout?.schemaVersion===1){if(changed()){status('Se ha recibido el diseño guardado mientras editabas. Revisa los cambios antes de guardar.',true);model.revision=saved.revision==null?null:String(saved.revision);return;}model=readHomeDashboard(saved.layout);if(model.widgets.some(w=>w.id==='gain-summary'))model.widgets=model.widgets.filter(w=>w.id!=='gain');model.revision=saved.revision==null?null:String(saved.revision);original=structuredClone(model);draw();for(const w of model.widgets)if(usesShopData(w))void fetchFor(w);}
   }catch(error){if(live()){const message=String(error?.message||error||'Error no identificado').slice(0,160);status('No se han podido cargar las preferencias: '+message+'. Revisa con Administración el estado del perfil y los permisos. No se ha modificado tu diseño.',true)}}
  }
  async function save(keepEditorOpen=false){if(busy||!live()||!model)return false;
@@ -687,7 +694,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
     status('Se verificó el guardado anterior, pero hay cambios nuevos pendientes de guardar.',true);
     return false;
    }
-   edit=keepEditorOpen;if(!keepEditorOpen){selected=null;panelView='closed'}draw();status('Tu Inicio se ha guardado y verificado en tu cuenta.');notify('Inicio personalizado guardado.');return true;
+   undoStack.length=0;redoStack.length=0;edit=keepEditorOpen;if(!keepEditorOpen){selected=null;panelView='closed'}draw();status('Tu Inicio se ha guardado y verificado en tu cuenta.');notify('Inicio personalizado guardado.');return true;
   }catch(error){
    if(live())status('Guardado sin confirmar: '+String(error.message||error)+'. Revisa el diseño antes de reintentar.',true);
    return false;
@@ -759,17 +766,17 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
 
  function mount(target){
   const identity=JSON.stringify([state.user?.id,state.user?.role]);if(completedOwner!==identity){completedOrders.clear();completedOwner=identity;}
-  scopedSources.clear();nativeReader.clear();token++;root=target?.querySelector('.dashboard-page');grid=null;connections=null;connectionsTask=null;queries.clear();readProgress.clear();ordersData.clear();catalogData.clear();catalogQueries.clear();edit=false;selected=null;panelView='closed';styleItems=[];stylesError='';stylesBusy=false;remoteReady=false;owner=state.user?.id;
+  undoStack.length=0;redoStack.length=0;scopedSources.clear();nativeReader.clear();token++;root=target?.querySelector('.dashboard-page');grid=null;connections=null;connectionsTask=null;queries.clear();readProgress.clear();ordersData.clear();catalogData.clear();catalogQueries.clear();edit=false;selected=null;panelView='closed';styleItems=[];stylesError='';stylesBusy=false;remoteReady=false;owner=state.user?.id;
   if(!root||!owner||!can('inicio','view'))return;
   target.querySelectorAll('[data-local-store-workspace]').forEach(node=>node.remove());
-  sources=collectExisting(root);for(const [type,id] of defaultSpecs)if(sources.has(id)&&!sources.has(type))sources.set(type,sources.get(id));const hero=root.querySelector('.dashboard-hero');
-  const toolbar=document.createElement('div');toolbar.className='home-dashboard-toolbar';toolbar.innerHTML=`<div class="home-toolbar-description"><strong>Operativa de hoy · Inicio personalizado</strong><p>Organiza tus indicadores y consultas sin perder las funciones actuales.</p><small data-home-status role="status" aria-live="polite"></small></div><div class="home-toolbar-actions"><button class="btn secondary home-edit-tool" data-home-command="panel-library">＋ Añadir widgets</button><button class="btn secondary home-edit-tool" data-home-command="panel-board">⚙ Diseño general</button><button class="btn secondary home-edit-tool" data-home-command="panel-styles">☆ Estilos compartidos</button><button class="btn primary home-edit-tool" data-home-command="save">Guardar cambios</button><button class="btn secondary home-edit-tool" data-home-command="reset">Restaurar diseño</button><button class="btn secondary home-settings-button" data-home-command="edit" aria-label="Personalizar inicio" title="Personalizar inicio">⚙</button></div>`;
+  sources=collectExisting(root);for(const [type,id] of defaultSpecs)if(sources.has(id)&&!sources.has(type))sources.set(type,sources.get(id));const hero=root.querySelector('.dashboard-hero');const cashEntry=hero?.querySelector('[data-action="closing-new"]');if(cashEntry){cashEntry.removeAttribute('data-action');cashEntry.dataset.homeCommand='open-cash';cashEntry.textContent='Cajas del TPV';}
+  const toolbar=document.createElement('div');toolbar.className='home-dashboard-toolbar';toolbar.innerHTML=`<div class="home-toolbar-description"><strong>Operativa de hoy · Inicio personalizado</strong><p>Organiza tus indicadores y consultas sin perder las funciones actuales.</p><small data-home-status role="status" aria-live="polite"></small></div><div class="home-toolbar-actions"><button class="btn secondary home-edit-tool" data-home-command="panel-library">＋ Añadir widgets</button><button class="btn secondary home-edit-tool" data-home-command="panel-board">⚙ Diseño general</button><button class="btn secondary home-edit-tool" data-home-command="panel-styles">☆ Estilos compartidos</button><button class="btn secondary home-edit-tool" data-home-command="undo" disabled>Deshacer</button><button class="btn secondary home-edit-tool" data-home-command="redo" disabled>Rehacer</button><button class="btn primary home-edit-tool" data-home-command="save">Guardar cambios</button><button class="btn secondary home-edit-tool" data-home-command="reset">Restaurar diseño</button><button class="btn secondary home-settings-button" data-home-command="edit" aria-label="Personalizar inicio" title="Personalizar inicio">⚙</button></div>`;
   const shell=document.createElement('div');shell.className='home-widget-shell';grid=document.createElement('div');grid.className='home-widget-grid';const drawer=document.createElement('aside');drawer.className='home-widgets-drawer';drawer.dataset.homeDrawer='';drawer.hidden=true;shell.append(grid,drawer);
   hero?.after(toolbar,shell);if(!hero)root.append(toolbar,shell);
   model=createDefault();original=structuredClone(model);
   // Source nodes are moved, never reimplemented; original data-action handlers stay intact.
   root.addEventListener('click',e=>{if(e.target.closest('[data-home-columns-popover]'))return;if(e.target.closest('.home-editor-advanced>summary'))advancedOpen=!advancedOpen;const el=e.target.closest('[data-home-command]');if(!el||!root.contains(el))return;e.preventDefault();e.stopPropagation();command(el.dataset.homeCommand,el.dataset.id,el)},true);
-  root.addEventListener('change',e=>{if(e.target.closest('[data-home-columns-popover]'))return;const el=e.target;if(el.hasAttribute('data-home-column-position')){const w=find(el.dataset.id),key=el.dataset.homeColumnPosition;if(!edit||!w||key==='order')return;const columns=selectedOrderColumns(w).slice(),index=columns.indexOf(key),dest=Math.max(1,Math.min(columns.length-1,Number(el.value)));if(index<1)return;columns.splice(index,1);columns.splice(dest,0,key);mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{columns}}));return;}if(el.hasAttribute('data-home-category')){root.querySelector('[data-home-drawer]').dataset.category=el.value;renderDrawer();return}if(el.hasAttribute('data-home-switch-widget')){if(!edit||!model.widgets.some(w=>w.id===el.value&&!w.hidden&&permitted(w,can)))return;selected=el.value;panelView='widget';draw();return}if(el.hasAttribute('data-home-general')){const key=el.dataset.homeGeneral;model.settings=homeCanvasSettings({...model.settings,[key]:el.value});draw();status('Diseño general actualizado. Guarda los cambios para conservarlo en tu cuenta.');return}if(el.hasAttribute('data-home-column')){const w=find(el.dataset.id),column=el.dataset.homeColumn;if(!w||w.type!=='prestashop.orders'||!HOME_ORDER_COLUMNS.includes(column)||column==='order')return;const current=selectedOrderColumns(w),next=el.checked?[...current,column]:current.filter(x=>x!==column);if(next.length<2){status('El widget necesita al menos dos columnas visibles.',true);draw();return}mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{columns:next}}));return}if(!el.dataset.homeConfig&&!el.dataset.homeFilter)return;const w=find(el.dataset.id);if(!w)return;
+  root.addEventListener('change',e=>{if(e.target.closest('[data-home-columns-popover]'))return;const el=e.target;if(el.hasAttribute('data-home-column-position')){const w=find(el.dataset.id),key=el.dataset.homeColumnPosition;if(!edit||!w||key==='order')return;const columns=selectedOrderColumns(w).slice(),index=columns.indexOf(key),dest=Math.max(1,Math.min(columns.length-1,Number(el.value)));if(index<1)return;columns.splice(index,1);columns.splice(dest,0,key);mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{columns}}));return;}if(el.hasAttribute('data-home-category')){root.querySelector('[data-home-drawer]').dataset.category=el.value;renderDrawer();return}if(el.hasAttribute('data-home-switch-widget')){if(!edit||!model.widgets.some(w=>w.id===el.value&&!w.hidden&&permitted(w,can)))return;selected=el.value;panelView='widget';draw();return}if(el.hasAttribute('data-home-general')){const key=el.dataset.homeGeneral;mutate(m=>({...m,settings:homeCanvasSettings({...m.settings,[key]:el.value})}));status('Diseño general actualizado. Guarda los cambios para conservarlo en tu cuenta.');return}if(el.hasAttribute('data-home-column')){const w=find(el.dataset.id),column=el.dataset.homeColumn;if(!w||w.type!=='prestashop.orders'||!HOME_ORDER_COLUMNS.includes(column)||column==='order')return;const current=selectedOrderColumns(w),next=el.checked?[...current,column]:current.filter(x=>x!==column);if(next.length<2){status('El widget necesita al menos dos columnas visibles.',true);draw();return}mutate(m=>setHomeWidgetConfig(m,w.id,{filters:{columns:next}}));return}if(!el.dataset.homeConfig&&!el.dataset.homeFilter)return;const w=find(el.dataset.id);if(!w)return;
    if(el.dataset.homeFilter){const key=el.dataset.homeFilter;let filters;
     if(key==='store'){
      model=setHomeWidgetConfig(model,w.id,{scope:{store:safeStore(el.value)},filters:{page:0}});
@@ -792,7 +799,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
    if(key==='tabletWidth')mutate(m=>setHomeWidgetConfig(m,w.id,{layout:{tablet:{w:Number(el.value)}}}));
    if(key==='tabletHeight')mutate(m=>setHomeWidgetConfig(m,w.id,{layout:{tablet:{h:Number(el.value)}}}));
    if(key==='mobileHeight')mutate(m=>setHomeWidgetConfig(m,w.id,{layout:{mobile:{h:Number(el.value)}}}));
-   if(key==='position'){const prev=model.widgets.findIndex(x=>x.id===w.id),next=Number(el.value);if(Number.isSafeInteger(next)&&next>=0&&next<model.widgets.length){model.widgets.splice(prev,1);model.widgets.splice(next,0,w);draw();status('Cambios pendientes de guardar.')}}
+   if(key==='position'){const prev=model.widgets.findIndex(x=>x.id===w.id),next=Number(el.value);if(Number.isSafeInteger(next)&&next>=0&&next<model.widgets.length){moveTo(w.id,next)}}
   },true);
   let searchTimer;root.addEventListener('input',e=>{if(e.target.matches('[data-home-column-search]')){columnQueries.set(e.target.dataset.homeColumnSearch,e.target.value);for(const row of e.target.closest('.home-columns-inspector').querySelectorAll('.tc-column-row'))row.hidden=!row.textContent.toLocaleLowerCase('es').includes(e.target.value.toLocaleLowerCase('es'));return;}if(e.target.matches('[data-home-search]')){const d=root.querySelector('[data-home-drawer]');d.dataset.search=e.target.value;const start=e.target.selectionStart;renderDrawer();const current=root.querySelector('[data-home-search]');current?.focus();current?.setSelectionRange(start,start)}},true);
   // Resize only the active breakpoint. A phone must never accidentally modify
@@ -838,6 +845,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   },true);
   root.addEventListener('keydown',e=>{
    if(e.key==='Escape'&&edit&&panelView!=='closed'){panelView='closed';renderDrawer();e.preventDefault();return}
+   const grip=e.target.closest('[data-home-grip]');if(grip&&edit&&e.altKey&&['ArrowUp','ArrowDown'].includes(e.key)){e.preventDefault();mutate(m=>reorderHomeWidget(m,grip.dataset.homeGrip,e.key==='ArrowUp'?'up':'down'),grip.dataset.homeGrip);root.querySelector('[data-home-grip="'+CSS.escape(grip.dataset.homeGrip)+'"]')?.focus();return;}
    const handle=e.target.closest('[data-home-resize]');if(!handle||!edit||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;
    const w=find(handle.dataset.homeResize);if(!w)return;e.preventDefault();
    const mode=resizeMode(),limits=rangeFor(mode,w),dx=e.key==='ArrowLeft'?-1:e.key==='ArrowRight'?1:0,dy=e.key==='ArrowUp'?-1:e.key==='ArrowDown'?1:0;
@@ -852,15 +860,15 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   const resetTouchTarget=()=>root?.querySelectorAll('.home-widget-drop-target').forEach(card=>card.classList.remove('home-widget-drop-target'));
   root.addEventListener('pointerdown',e=>{
    const grip=e.target.closest('[data-home-grip]');
-   if(!edit||busy||!grip||e.pointerType!=='touch')return;
+   if(!edit||busy||!grip||e.button!==0)return;
    touchMove={pointerId:e.pointerId,source:grip.dataset.homeGrip,startX:e.clientX,startY:e.clientY,target:null,active:false,grip};
    e.preventDefault();
    try{grip.setPointerCapture(e.pointerId)}catch{}
   },true);
   root.addEventListener('pointermove',e=>{
    const d=touchMove;if(!d||!edit||e.pointerId!==d.pointerId)return;
-   if(!d.active&&Math.hypot(e.clientX-d.startX,e.clientY-d.startY)<10)return;
-   d.active=true;e.preventDefault();
+   if(!d.active&&Math.hypot(e.clientX-d.startX,e.clientY-d.startY)<(e.pointerType==='touch'?10:4))return;
+   d.active=true;e.preventDefault();if(e.clientY<90)window.scrollBy(0,-16);else if(e.clientY>innerHeight-70)window.scrollBy(0,16);
    const card=document.elementFromPoint(e.clientX,e.clientY)?.closest('[data-home-widget]');
    resetTouchTarget();
    d.target=card?.dataset.homeWidget!==d.source?card?.dataset.homeWidget:null;
@@ -872,17 +880,17 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
    try{d.grip.releasePointerCapture(e.pointerId)}catch{}
    if(d.active&&d.target&&d.target!==d.source){
     const from=model.widgets.findIndex(w=>w.id===d.source),to=model.widgets.findIndex(w=>w.id===d.target);
-    if(from>=0&&to>=0){const [entry]=model.widgets.splice(from,1);model.widgets.splice(to,0,entry);selected=d.source;draw();status('Posición cambiada. Guarda el diseño para conservarla.')}
+    if(from>=0&&to>=0){moveTo(d.source,to);status('Posición cambiada. Guarda el diseño para conservarla.')}
    }else if(edit){selected=d.source;draw()}
   },true);
   root.addEventListener('pointercancel',e=>{if(touchMove?.pointerId===e.pointerId){touchMove=null;resetTouchTarget()}},true);
   // Native drag and drop; select/reorder controls also work with keyboard and touch.
   root.addEventListener('dragstart',e=>{const grip=e.target.closest('[data-home-grip]');if(!edit||!grip)return;activeDrag=grip.dataset.homeGrip;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',activeDrag)},true);
   root.addEventListener('dragover',e=>{if(edit&&activeDrag&&e.target.closest('[data-home-widget]'))e.preventDefault()},true);
-  root.addEventListener('drop',e=>{const target=e.target.closest('[data-home-widget]');if(!edit||!target||!activeDrag)return;e.preventDefault();const from=model.widgets.findIndex(w=>w.id===activeDrag),to=model.widgets.findIndex(w=>w.id===target.dataset.homeWidget);if(from>=0&&to>=0&&from!==to){const [entry]=model.widgets.splice(from,1);model.widgets.splice(to,0,entry);selected=entry.id;draw();status('Cambios pendientes de guardar.')}activeDrag=null},true);
+  root.addEventListener('drop',e=>{const target=e.target.closest('[data-home-widget]');if(!edit||!target||!activeDrag)return;e.preventDefault();const from=model.widgets.findIndex(w=>w.id===activeDrag),to=model.widgets.findIndex(w=>w.id===target.dataset.homeWidget);if(from>=0&&to>=0&&from!==to){moveTo(activeDrag,to);status('Cambios pendientes de guardar.')}activeDrag=null},true);
   root.addEventListener('dragend',()=>activeDrag=null,true);
   draw();void load();
-  // PrestaShop is read with the existing authenticated service, without changing stock or accounting.
+  // Read the authorized native ledger; never query or mutate an external shop from Inicio.
   for(const w of model.widgets)if(usesShopData(w))void fetchFor(w);
  }
  return {mount,dispose({clearCache=false}={}){if(clearCache){completedOrders.clear();completedOwner='';}financialObserver?.disconnect();taskCalendar.reset();token++;root=null;grid=null;ordersData.clear();queries.clear();readProgress.clear();catalogData.clear();catalogQueries.clear();connections=null;connectionsTask=null;model=null;owner=null},hasUnsaved:()=>changed()};
