@@ -1,4 +1,4 @@
-import {parseDecimal} from './calculations.js?v=944bfb74ef1c3bf969f35cf4843a5397640828ca';
+import {parseDecimal} from './calculations.js?v=9692944840db10112ade8c7e34e1e667ef699fc7';
 
 // Text inputs preserve Spanish decimals; native min/max validation does not apply to them.
 export function validateFormNumber(raw,{min=null,max=null,label='Importe'}={}){
