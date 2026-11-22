@@ -1,8 +1,8 @@
-import {esc} from './utils.js?v=f43b75112ed8f6e861602bfd43fbcac98b087796';
-import {directoryText} from './contact-directory-core.js?v=f43b75112ed8f6e861602bfd43fbcac98b087796';
-import {confirmProductDialog} from './productos-dialogs.js?v=f43b75112ed8f6e861602bfd43fbcac98b087796';
-import {createCategorySession} from './product-categories-session.js?v=f43b75112ed8f6e861602bfd43fbcac98b087796';
-import {categoryHierarchy,categoryDescendants} from './product-categories-core.js?v=f43b75112ed8f6e861602bfd43fbcac98b087796';
+import {esc} from './utils.js?v=4117cbe27d9beb275e26cbe02963d2fbef4a9972';
+import {directoryText} from './contact-directory-core.js?v=4117cbe27d9beb275e26cbe02963d2fbef4a9972';
+import {confirmProductDialog} from './productos-dialogs.js?v=4117cbe27d9beb275e26cbe02963d2fbef4a9972';
+import {createCategorySession} from './product-categories-session.js?v=4117cbe27d9beb275e26cbe02963d2fbef4a9972';
+import {categoryHierarchy,categoryDescendants} from './product-categories-core.js?v=4117cbe27d9beb275e26cbe02963d2fbef4a9972';
 
 export function createCategoriesWorkspace({rpc,invoke,actor,can,storeName,onChanged=()=>{},onState=()=>{}}){
  const session=createCategorySession({rpc,invoke,actor,can}),cache=new Map();
@@ -52,9 +52,10 @@ export function createCategoriesWorkspace({rpc,invoke,actor,can,storeName,onChan
   unmount();host=el;shop=store;owner=actor();data=cache.get(store)||null;busy=false;message='';query='';render();
   host.onclick=e=>{const b=e.target.closest('[data-category-action]');if(!b||b.disabled)return;e.stopPropagation();const a=b.dataset.categoryAction;if(a==='refresh')void refresh(true);if(a==='create')void edit();if(a==='edit')void edit(b.dataset.id);if(a==='child')void edit(null,b.dataset.id);if(a==='sort'){direction=direction==='asc'?'desc':'asc';render();}};
   host.onchange=e=>{if(e.target.matches('[data-category-query]')){e.stopPropagation();query=e.target.value;render();}};
+  host.oninput=e=>{if(e.target.matches('[data-category-query]')){e.stopPropagation();const start=e.target.selectionStart,end=e.target.selectionEnd;query=e.target.value;render();const input=host.querySelector('[data-category-query]');input.focus({preventScroll:true});if(start!==null)input.setSelectionRange(start,end);}};
   void refresh(false);
  }
- function unmount(){epoch++;if(host){host.onclick=null;host.onchange=null;}host=null;busy=false;}
+ function unmount(){epoch++;if(host){host.onclick=null;host.onchange=null;host.oninput=null;}host=null;busy=false;}
  function dispose(){unmount();editor?.close();editor=null;session.dispose();cache.clear();}
  return {mount,unmount,dispose,refresh,get dirty(){return !!editor;}};
 }

@@ -1,5 +1,9 @@
 -- Category snapshots are populated only by verified server reads. Local shop
 -- categories use the same read contract without requiring a website.
+alter table private.totus_directory_operations
+ drop constraint if exists totus_directory_operations_resource_check,
+ add constraint totus_directory_operations_resource_check check(resource in
+ ('customers','addresses','suppliers','manufacturers','product_options','product_option_values','product_features','product_feature_values','categories'));
 create table if not exists private.totus_category_snapshots(
  store_id uuid primary key references public.ops_stores(id), website_key text,
  items jsonb not null default '[]', languages jsonb not null default '[]',
