@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';
+import {centralSalesMargin} from '../src/central-sales-data.js';
+const products=[{details:{costNet:3},variants:[{id:'v',cost_net:4}],catalogue:[{id:'p',variant_id:'v'}]}];
+const sale={snapshot:{lines:[{productId:'p',qty:2,netCents:2000,totalCents:2420}]},refunds:[{status:'confirmed',total_cents:1210,lines:[{productId:'p',qty:1,totalCents:1210}]}]};
+assert.deepEqual(centralSalesMargin([sale],products),{complete:true,missing:0,marginCents:600,revenueCents:1000,percent:60});
+assert.equal(centralSalesMargin([sale],[]).complete,false);
+assert.equal(centralSalesMargin([{...sale,refunds:[{status:'confirmed',total_cents:1210}]}],products).complete,false);
+assert.equal(centralSalesMargin([],products).percent,null);
+assert.equal(centralSalesMargin([{snapshot:{lines:[{productId:'p',qty:1,netCents:200,totalCents:242}]}}],products).marginCents,-200);
+console.log('Native margin: variant cost precedence, partial refunds, missing costs, missing refund lines, empty period and losses verified');
