@@ -1,5 +1,5 @@
 // Productos · selección de campos y planes de transferencia SIN escrituras.
-import {WEBSITE_CHOICES as PRODUCT_STORES} from './website-registry.js?v=3613e4a387e90d41a22dd4f1a7a66bf7ebf9d3ef';
+import {WEBSITE_CHOICES as PRODUCT_STORES} from './website-registry.js?v=ebfe063b33c332fa1e355d58165167d0c664fbdd';
 export {PRODUCT_STORES};
 export const PRODUCT_SECTIONS=Object.freeze({
  general:['name','reference','ean13','isbn','upc','mpn','active','visibility','condition','show_condition','available_for_order','show_price','online_only','description_short','description'],
