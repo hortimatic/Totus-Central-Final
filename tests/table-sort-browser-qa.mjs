@@ -26,6 +26,15 @@ try{
  await page.getByRole('combobox',{name:'Ordenar productos',exact:true}).selectOption('gross:desc');assert.equal(await firstId(),'31');
  await page.locator('[data-pr-search]').fill('Producto 2');await page.getByRole('combobox',{name:'Ordenar productos',exact:true}).selectOption('id:asc');assert.equal(await firstId(),'2');
  await page.evaluate(async()=>{
+  const {createProductosUI,productosWorkspacePage}=await import('../src/productos-ui.js');const {productDraftStore}=await import('../src/productos-draft-store.js');
+  const a='00000000-0000-0000-0000-000000000001',b='00000000-0000-0000-0000-000000000002',owner='scope-regression';localStorage.setItem('totus.central-store.v1:'+owner,b);
+  const draft={store:b,catalogScope:a,mode:'catalogo',requestBrief:{url:'https://example.invalid/reference'},variants:[],fields:new Set(),overrides:{},variantFields:new Map(),variantOverrides:new Map(),targets:new Set(),comparison:new Map(),preview:[],targetOverrides:new Map(),preflight:new Map(),targetRaw:new Map(),targetLanguages:new Map(),targetIds:new Map(),variantPreflight:new Map(),bulkItems:[],bulkConfirm:'',parallelSection:'main',shops:[],editRequests:[],editConfirm:[]};await productDraftStore(owner,draft);
+  const product=(store,name)=>({id:'p1',store_id:store,name,sku:name,variants:[],catalogue:[],details:{}});
+  const data={context:async()=>({stores:[{id:a,key:a,name:'Web A',label:'Web A'},{id:b,key:b,name:'Tienda B',label:'Tienda B'}]}),catalogue:async store=>[product(store,store===a?'Producto de Web A':'Producto de Tienda B')],directory:async()=>[],auxiliary:async()=>[]};
+  document.querySelector('#chatHarness').innerHTML=productosWorkspacePage();await createProductosUI({rpc:async()=>({}),invoke:async()=>({}),actor:()=>owner,allowed:()=>true,centralData:data}).mount(document.querySelector('#productosRoot'));
+ });
+ assert.equal(await page.locator('#store-context-select').inputValue(),'00000000-0000-0000-0000-000000000001');assert.match(await page.locator('#catalogo-table-body').innerText(),/Producto de Web A/);assert.doesNotMatch(await page.locator('#catalogo-table-body').innerText(),/Producto de Tienda B/);
+ await page.evaluate(async()=>{
   const {installSharedTableArrows}=await import('../src/shared-table-controls.js');document.body.innerHTML='<main id="grid"><div class="table-wrap"><table class="data-table"><thead><tr><th>Fecha</th><th>Importe</th><th>Acciones</th></tr></thead><tbody><tr><td>01/02/2026</td><td>2,00 €</td><td><button>Ver A</button></td></tr><tr><td>31/01/2026</td><td>10,00 €</td><td><button>Ver B</button></td></tr></tbody></table></div><section class="invoice-preview"><table><thead><tr><th>Producto</th><th>Precio</th></tr></thead><tbody><tr><td>Ejemplo</td><td>1</td></tr></tbody></table></section></main>';installSharedTableArrows(document.querySelector('#grid'),{owner:()=> 'sort-test'});
  });
  await page.getByRole('button',{name:'Ordenar por Importe',exact:true}).click();assert.match(await page.locator('.data-table tbody tr:first-child').innerText(),/Ver A/);
