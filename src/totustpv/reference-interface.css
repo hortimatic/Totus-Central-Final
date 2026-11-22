@@ -258,3 +258,19 @@
 
 .totus-tpv .tpv-online-notice{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;margin:8px 12px;border:1px solid var(--border,#d4deed);border-radius:var(--radius,8px);background:var(--surface,#fff);color:var(--text,#172a45)}
 .totus-tpv .tpv-online-notice>span{flex:1;min-width:180px;font-size:.9em}
+
+/* All settings stay visible in the navigation; compact, shared control scale. */
+.totus-tpv .tpv-reference-settings{height:auto;min-height:0}
+.totus-tpv .tpv-reference-settings>header{margin-bottom:12px}
+.totus-tpv .tpv-reference-settings>header h3{font-size:22px;font-weight:650}
+.totus-tpv .tpv-entry-administration h4{margin:0 0 12px;font-size:15px}
+@container(max-width:760px){
+ .totus-tpv .tpv-reference-settings-layout>nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;position:static;top:auto;padding:10px}
+ .totus-tpv .tpv-reference-settings-layout>nav>.tpv-settings-mobile-section{display:none}
+ .totus-tpv .tpv-reference-settings-layout>nav>.tpv-settings-search{grid-column:1/-1}
+ .totus-tpv .tpv-reference-settings-layout>nav>button{display:block;min-width:0;min-height:36px;padding:6px 8px;font-size:12px;text-align:center;white-space:normal}
+ .totus-tpv .tpv-reference-settings-layout>nav>button[hidden]{display:none}
+}
+@container(max-width:460px){.totus-tpv .tpv-reference-settings-layout>nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.totus-tpv .tpv-reference-settings-layout>nav>.tpv-settings-mobile-section{display:none!important}

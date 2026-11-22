@@ -1,4 +1,4 @@
-import {textValue} from './productos-core.js?v=625f8270acf84b4b4b0568d90ffd4ffa20d1c75f';
+import {textValue} from './productos-core.js?v=1d7a88db3ed046d2858025d9683886d451bf521f';
 export const MOVEMENT_COLUMNS=Object.freeze({date:'Fecha y hora',kind:'Movimiento',quantity:'Unidades',reference:'Referencia',variant:'Variación',employee:'Empleado',order:'Pedido',reason:'Motivo',cost:'Coste unit.',id:'ID'});
 export const DEFAULT_MOVEMENT_COLUMNS=Object.freeze(['date','kind','quantity','reference','variant','employee','order','id']);
 const id=value=>/^[1-9]\d{0,14}$/.test(String(value));
