@@ -1,5 +1,5 @@
-import {columnSettingsRow} from '../column-settings.js?v=9fcb86f16c7f9493d9beb7e60d0a0e065d7c8d9e';
-import {customerSettings,CUSTOMER_FORM_FIELDS,ADDRESS_FORM_FIELDS} from './customer-settings.js?v=9fcb86f16c7f9493d9beb7e60d0a0e065d7c8d9e';
+import {columnSettingsRow} from '../column-settings.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
+import {customerSettings,CUSTOMER_FORM_FIELDS,ADDRESS_FORM_FIELDS} from './customer-settings.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const need=ok=>{if(!ok)throw Error('Revisa los campos y sus posiciones antes de guardar.');};
 const ids=value=>{need(typeof value==='string');const list=value?value.split(','):[];need(list.length<=20&&list.every(id=>/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(id))&&new Set(list.map(id=>id.toLowerCase())).size===list.length);return list;};
@@ -22,12 +22,12 @@ export function customerOptionsHtml(value,canEdit,draft=null){
  const fieldGroup=(group,definitions,label)=>`<fieldset data-customer-field-group="${group}"><legend>${label}</legend><div class="tc-column-list">${s[group].map((f,index)=>({f,index,position:Number(v[group+'-'+f.key+'-position']??index)})).sort((a,b)=>a.position-b.position).map(({f,index,position})=>{
   const definition=definitions.find(d=>d.key===f.key),selected=v[group+'-'+f.key+'-visible']==='on';
   return columnSettingsRow({key:f.key,label:definition.label,selected,index:position,count:s[group].length,grip:null,up:null,down:null,
-   check:{name:group+'-'+f.key+'-visible',disabled},position:{name:group+'-'+f.key+'-position','data-tpv-customer-position':group,'data-position-before':position,disabled}})
+   check:{name:group+'-'+f.key+'-visible',disabled},position:{name:group+'-'+f.key+'-position','data-tpv-customer-position':group,'data-position-before':position,'data-preserve-option-order':'',disabled}})
    +(!selected?`<input type="hidden" name="${group}-${f.key}-position" value="${position}">`:'');
  }).join('')}</div></fieldset>`;
  const extraIds=ids(v['customer-extra-ids']??'');
  return `<section class="card card-pad tpv-customer-settings"><h4>Clientes · este establecimiento</h4><form data-tpv-form="customer-settings">
- <label>Dato adicional en la lista<select name="customer-extraColumn" ${disabled?'disabled':''}>${[['none','Ninguno'],['id','Número de cliente'],['email','Email'],['company','Empresa'],['phone','Teléfono'],['phone_mobile','Móvil']].map(([id,label])=>`<option value="${id}" ${v['customer-extraColumn']===id?'selected':''}>${label}</option>`).join('')}</select></label>
+ <label>Dato adicional en la lista<select name="customer-extraColumn" data-preserve-option-order="" ${disabled?'disabled':''}>${[['none','Ninguno'],['id','Número de cliente'],['email','Email'],['company','Empresa'],['phone','Teléfono'],['phone_mobile','Móvil']].map(([id,label])=>`<option value="${id}" ${v['customer-extraColumn']===id?'selected':''}>${label}</option>`).join('')}</select></label>
  <label class="tpv-check"><input type="checkbox" name="customer-cardEnabled" ${v['customer-cardEnabled']==='on'?'checked':''} ${disabled?'disabled':''}> Habilitar tarjeta de cliente</label>
  <p class="small muted">Elige qué campos aparecen y su posición. Los datos obligatorios para facturar seguirán disponibles. Ocultar un campo conserva su información.</p>
  ${fieldGroup('customerFields',CUSTOMER_FORM_FIELDS,'Ficha del cliente')}${fieldGroup('addressFields',ADDRESS_FORM_FIELDS,'Dirección del cliente')}
