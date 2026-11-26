@@ -1,10 +1,10 @@
-import {readPrestashopPage,readPrestashopProductItem} from '../../../supabase/functions/totus-connections/prestashop.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
-import {readPrestashopProductCreateProfile,runPrestashopProductCreate} from '../../../supabase/functions/totus-connections/prestashop-create.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
-import {runPrestashopProductStage,validateProductStage} from '../../../supabase/functions/totus-connections/prestashop-product-stage.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
-import {createContactCategory,directoryMutationSignature} from '../../../supabase/functions/totus-connections/contact-directory-write.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
-import {categoryCreateRequest} from '../../category-create-contract.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
-import {TOTUS_QA_POLICY} from './deployment-qa-policy.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
-import {assertQaTarget} from './qa-policy.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
+import {readPrestashopPage,readPrestashopProductItem} from '../../../supabase/functions/totus-connections/prestashop.js?v=9c763b3418101f5c614af036a4bdef0ed77cfdf3';
+import {readPrestashopProductCreateProfile,runPrestashopProductCreate} from '../../../supabase/functions/totus-connections/prestashop-create.js?v=9c763b3418101f5c614af036a4bdef0ed77cfdf3';
+import {runPrestashopProductStage,validateProductStage} from '../../../supabase/functions/totus-connections/prestashop-product-stage.js?v=9c763b3418101f5c614af036a4bdef0ed77cfdf3';
+import {createContactCategory,directoryMutationSignature} from '../../../supabase/functions/totus-connections/contact-directory-write.js?v=9c763b3418101f5c614af036a4bdef0ed77cfdf3';
+import {categoryCreateRequest} from '../../category-create-contract.js?v=9c763b3418101f5c614af036a4bdef0ed77cfdf3';
+import {TOTUS_QA_POLICY} from './deployment-qa-policy.js?v=9c763b3418101f5c614af036a4bdef0ed77cfdf3';
+import {assertQaTarget} from './qa-policy.js?v=9c763b3418101f5c614af036a4bdef0ed77cfdf3';
 const need=(ok,code)=>{if(!ok)throw Error(code);};
 const resources=new Set(['categories','manufacturers','suppliers','tax_rule_groups','tax_rules','taxes','countries','product_options','product_option_values','languages','currencies']);
 /** The official Webservice uses id_shop for reads AND writes. Bind it here to
