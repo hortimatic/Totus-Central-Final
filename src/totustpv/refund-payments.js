@@ -1,4 +1,4 @@
-const methods=['cash','card','bizum','transfer'];
+const methods=['cash','card','bizum','transfer','cheque'];
 const valid=n=>Number.isSafeInteger(n)&&n>=0;
 /** Largest remainders, using integer cents and the verified remaining balances. */
 export function originalRefundPayments(total,balances){

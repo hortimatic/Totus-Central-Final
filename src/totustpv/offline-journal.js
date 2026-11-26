@@ -1,8 +1,8 @@
-import {operatorAcknowledgement} from './operator-acknowledgement.js?v=c756981be8312b6f10d1e8e5b0ec390c11246c7f';
-import {saleModifiers} from './sale-modifiers.js?v=c756981be8312b6f10d1e8e5b0ec390c11246c7f';
-import {saleNote} from './sale-note.js?v=c756981be8312b6f10d1e8e5b0ec390c11246c7f';
-import {offlineCommercial} from './offline-commercial.js?v=c756981be8312b6f10d1e8e5b0ec390c11246c7f';
-import {paymentReference} from './payment-reference.js?v=c756981be8312b6f10d1e8e5b0ec390c11246c7f';
+import {operatorAcknowledgement} from './operator-acknowledgement.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
+import {saleModifiers} from './sale-modifiers.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
+import {saleNote} from './sale-note.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
+import {offlineCommercial} from './offline-commercial.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
+import {paymentReference} from './payment-reference.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
 /** Local delivery journal. A saved entry is NOT a confirmed remote sale.
  * Dispatch claims never expire into a second POST. Reconcile by the same ID.
  * No authentication tokens or shop credentials belong in this store.
@@ -21,11 +21,11 @@ function validateTicket(ticket,actorId){
    if(ticket?.commercial!==undefined){const c=offlineCommercial(ticket.commercial);need((ticket.customerId===undefined||ticket.customerId===c.customerId)&&(ticket.addressId===undefined||ticket.addressId===c.invoiceAddressId)&&c.totalCents===ticket.totalCents&&c.currency===ticket.currency&&Array.isArray(ticket.lines)&&c.lines.length===ticket.lines.length&&ticket.lines.every(line=>c.lines.some(native=>native.productId===line.productId&&native.attributeId===(line.attributeId??0)&&native.qty===line.qty)),'El desglose no corresponde al ticket guardado.');}
    need(ticket&&typeof ticket==='object'&&!Array.isArray(ticket)&&Object.keys(ticket).every(key=>['lines','customerId','addressId','totalCents','currency','payments','catalogueRevision','cashSessionId','commercial','note','adjustment','coupon','operatorAcknowledgement'].includes(key)),'Datos de ticket local no válidos.');
    need(ticket.note===undefined||typeof ticket.note==='string'&&ticket.note.length>0&&saleNote(ticket.note)===ticket.note,'La nota del ticket local no es válida.');
-   need(Array.isArray(ticket.lines)&&ticket.lines.length>0&&ticket.lines.length<=200&&Array.isArray(ticket.payments)&&ticket.payments.length<=4&&ticket.currency==='EUR'&&Number.isSafeInteger(ticket.totalCents)&&ticket.totalCents>=0,'El ticket local no está completo.');
+   need(Array.isArray(ticket.lines)&&ticket.lines.length>0&&ticket.lines.length<=200&&Array.isArray(ticket.payments)&&ticket.payments.length<=5&&ticket.currency==='EUR'&&Number.isSafeInteger(ticket.totalCents)&&ticket.totalCents>=0,'El ticket local no está completo.');
    need(ticket.lines.every(line=>fields(line,['productId','attributeId','qty','unitCents','name','discount','displayName'])&&positive(line.productId)&&positive(line.qty)&&line.qty<=10000&&(line.attributeId===undefined||Number.isSafeInteger(line.attributeId)&&line.attributeId>=0)&&(line.unitCents===undefined||Number.isSafeInteger(line.unitCents)&&line.unitCents>=0)&&(line.name===undefined||typeof line.name==='string'&&line.name.length<=512)),'Los artículos del ticket local no son válidos.');
    need(new Set(ticket.lines.map(line=>`${line.productId}:${line.attributeId??0}`)).size===ticket.lines.length,'Agrupa las unidades de cada variante en una sola línea antes de guardar el ticket.');
    saleModifiers(ticket);
-   need(ticket.payments.every(row=>fields(row,['method','amountCents','receivedCents','reference'])&&['cash','card','bizum','transfer'].includes(row.method)&&positive(row.amountCents)&&(row.receivedCents===undefined||row.method==='cash'&&Number.isSafeInteger(row.receivedCents)&&row.receivedCents>=row.amountCents)&&(row.reference===undefined||row.method!=='cash'&&typeof row.reference==='string'&&row.reference.length>0&&paymentReference(row.reference)===row.reference))&&new Set(ticket.payments.map(row=>row.method)).size===ticket.payments.length&&ticket.payments.reduce((sum,row)=>sum+row.amountCents,0)===ticket.totalCents,'Los importes o referencias del ticket local no son válidos.');
+   need(ticket.payments.every(row=>fields(row,['method','amountCents','receivedCents','reference'])&&['cash','card','bizum','transfer','cheque'].includes(row.method)&&positive(row.amountCents)&&(row.method!=='cheque'||typeof row.reference==='string'&&row.reference.length>0)&&(row.receivedCents===undefined||row.method==='cash'&&Number.isSafeInteger(row.receivedCents)&&row.receivedCents>=row.amountCents)&&(row.reference===undefined||row.method!=='cash'&&typeof row.reference==='string'&&row.reference.length>0&&paymentReference(row.reference)===row.reference))&&new Set(ticket.payments.map(row=>row.method)).size===ticket.payments.length&&ticket.payments.reduce((sum,row)=>sum+row.amountCents,0)===ticket.totalCents,'Los importes o referencias del ticket local no son válidos.');
    need(['customerId','addressId'].every(key=>ticket[key]===undefined||positive(ticket[key]))&&(ticket.cashSessionId===undefined||uuid(ticket.cashSessionId))&&(ticket.catalogueRevision===undefined||typeof ticket.catalogueRevision==='string'&&/^[a-f0-9]{64}$/.test(ticket.catalogueRevision)),'La identificación del ticket local no es válida.');
 }
 export function createOfflineJournal({scope,indexedDB=globalThis.indexedDB,name='totus-tpv-offline-v1',now=Date.now}={}){

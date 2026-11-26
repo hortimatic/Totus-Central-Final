@@ -1,4 +1,4 @@
-import {PRESTASHOP_RESOURCES} from '../prestashop-readonly.js?v=c756981be8312b6f10d1e8e5b0ec390c11246c7f';
+import {PRESTASHOP_RESOURCES} from '../prestashop-readonly.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
 /** Device copy of an already imported Central catalogue; no remote import,
  * credentials, payment authority or delivery-journal mutations. */
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(value);

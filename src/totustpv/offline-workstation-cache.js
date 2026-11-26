@@ -9,7 +9,7 @@ function project(kind,data){
   nativeProfile:pick(row.nativeProfile,['counter_customer_id','counter_address_id','shop_id','currency'])}))};
  if(kind==='categories')return {has_more:data.has_more,categories:data.categories.map(row=>pick(row,['id','name','parentName']))};
  if(kind==='payment-options')return {...pick(data,['connectionId','shopId','drawerId','revision']),
-  options:{...pick(data.options,['enabledMethods']),labels:pick(data.options?.labels,['cash','card','bizum','transfer']),referencePolicy:pick(data.options?.referencePolicy,['cash','card','bizum','transfer'])},choices:data.choices?.map(row=>pick(row,['id','label','nativeLabel']))};
+  options:{...pick(data.options,['enabledMethods']),labels:pick(data.options?.labels,['cash','card','bizum','transfer','cheque']),referencePolicy:pick(data.options?.referencePolicy,['cash','card','bizum','transfer','cheque'])},choices:data.choices?.map(row=>pick(row,['id','label','nativeLabel']))};
  throw Error('Consulta local no admitida.');
 }
 export function createOfflineWorkstationCache({actorId,storage,now=Date.now}){

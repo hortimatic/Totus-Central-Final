@@ -1,7 +1,8 @@
 // Browser origins owned by this application. This is not an authentication layer.
 export const APPLICATION_ORIGINS=Object.freeze([
  'https://hortimatic.github.io',
- 'https://totuscentral.totuscode.com'
+ 'https://totuscentral.totuscode.com',
+ ...(globalThis.Deno?.env?.get?.('SUPABASE_URL')==='https://ltwfmhilbvpzqdgjhvjb.supabase.co'?['https://totuscentralfinal.totuscode.com']:[])
 ]);
 
 // Local review is allowed only by the independent final backend. A browser

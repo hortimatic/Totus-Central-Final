@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=c756981be8312b6f10d1e8e5b0ec390c11246c7f';
+import {websiteKey} from './website-registry.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
 // Productos / PrestaShop 1.7: restrictive write contract.
 // Never accept XML, URLs, arbitrary paths, numeric relationships or shop IDs from the client.
 // The source XML comes exclusively from a freshly validated server-side GET.
@@ -126,6 +126,26 @@ const unescapeXml=value=>value.replace(/&(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-
  return Number.isInteger(point)&&point>=0&&point<=0x10FFFF?String.fromCodePoint(point):m;
 });
 const xmlValue=value=>value.split(/(<!\[CDATA\[[\s\S]*?\]\]>)/g).map(part=>part.startsWith('<![CDATA[')?part.slice(9,-3):unescapeXml(part)).join('');
+// Read-only collection conversion reuses the same bounded, entity-free parser.
+export function prestashopCollectionFromXml(xml,resource){
+ const root=tree(xml),aliases={stock_movements:'stock_mvts',stock_movement_reasons:'stock_mvt_reasons',order_slip:'order_slips'};
+ const container=direct(root,root.children.some(n=>n.name===resource)?resource:aliases[resource]||resource);
+ const value=node=>{
+  if(!node.children.length)return node.name==='associations'?{}:xmlValue(xml.slice(node.contentStart,node.contentEnd));
+  if(node.children.every(child=>child.name==='language'))return node.children.map(child=>{
+   const id=child.attributes.match(/\bid\s*=\s*(["'])([1-9]\d{0,14})\1/)?.[2];if(!id)invalid('Traducción XML sin idioma.');
+   return {id,value:value(child)};
+  });
+  const names=node.children.map(child=>child.name);
+  if(node.name!=='associations'&&new Set(names).size===1&&node.children[0].name!== 'id')return node.children.map(value);
+  if(new Set(names).size!==names.length)invalid('Campos XML repetidos.');
+  return Object.fromEntries(node.children.map(child=>[child.name,value(child)]));
+ };
+ return {[resource]:container.children.map(node=>{
+  const names=node.children.map(child=>child.name);if(new Set(names).size!==names.length)invalid('Campos XML repetidos.');
+  return Object.fromEntries(node.children.map(child=>[child.name,value(child)]));
+ })};
+}
 const safeCdata=value=>'<![CDATA['+value.replaceAll(']]>',']]]]><![CDATA[>')+']]>';
 export function selectedXmlValues(xml,resource,id,changes,expectedProductId=null){
  const root=tree(xml),singular=nativeNodes[resource];if(!singular)invalid('Recurso no admitido.');
