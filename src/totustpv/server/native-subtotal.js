@@ -2,7 +2,7 @@
  * This never changes that subtotal or authorizes a payment. Stable product keys
  * make the result independent of API ordering. Original micros stay intact.
  */
-import {roundPriceSubtotal} from '../offline-rounding.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {roundPriceSubtotal} from '../offline-rounding.js?v=9fcb86f16c7f9493d9beb7e60d0a0e065d7c8d9e';
 export function reconcileNativeSubtotal(lines,totalCents,mode){
  if(!Array.isArray(lines)||!lines.length||lines.length>200||!Number.isSafeInteger(totalCents)||totalCents<0)throw Error('TPV_NATIVE_SUBTOTAL_INVALID');
  const seen=new Set();

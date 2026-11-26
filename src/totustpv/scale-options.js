@@ -1,4 +1,4 @@
-import {quantityMillis,quantityNumber} from './quantity-measure.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {quantityMillis,quantityNumber} from './quantity-measure.js?v=9fcb86f16c7f9493d9beb7e60d0a0e065d7c8d9e';
 const need=(ok,message='Revisa el formato de las etiquetas de balanza.')=>{if(!ok)throw Error(message);};
 const profileKeys=['enabled','prefixes','pluStart','pluLength','weightStart','weightLength','decimals','checkDigit'];
 const profile=(enabled,prefixes,pluStart,weightStart)=>Object.freeze({enabled,prefixes:Object.freeze(prefixes),pluStart,pluLength:5,weightStart,weightLength:5,decimals:3,checkDigit:true});

@@ -1,5 +1,5 @@
-import {createDirectorySession} from './contact-directory-session.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
-import {categoryFields,categoryHierarchy} from './product-categories-core.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {createDirectorySession} from './contact-directory-session.js?v=9fcb86f16c7f9493d9beb7e60d0a0e065d7c8d9e';
+import {categoryFields,categoryHierarchy} from './product-categories-core.js?v=9fcb86f16c7f9493d9beb7e60d0a0e065d7c8d9e';
 export function createCategorySession({rpc,invoke,actor,can}){
  let owner=null,store=null,context=null,generation=0,busy=false;
  const intents=new Map(),directory=createDirectorySession({kind:'categorias',rpc,invoke,actor,can});
