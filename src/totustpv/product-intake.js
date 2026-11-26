@@ -1,9 +1,9 @@
-import {productIntakeDraft,productIntakeTaxPrice} from './product-intake-contract.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
-import {categoryCreationDraft} from '../category-create-contract.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
-import {normalizeProductImage} from '../productos-image-editor.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
-import {productCountryTaxRate,productDisplayAmounts} from '../productos-tax.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
-import {directoryText} from '../contact-directory-core.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
-import {enhanceSearchableSelects} from '../productos-controls.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
+import {productIntakeDraft,productIntakeTaxPrice} from './product-intake-contract.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
+import {categoryCreationDraft} from '../category-create-contract.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
+import {normalizeProductImage} from '../productos-image-editor.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
+import {productCountryTaxRate,productDisplayAmounts} from '../productos-tax.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
+import {directoryText} from '../contact-directory-core.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
+import {enhanceSearchableSelects} from '../productos-controls.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const statuses={ready:'Lista para continuar',processing:'Comprobando resultado',attention:'Necesita comprobar el resultado',completed:'Alta terminada',cancelled:'Cancelada'};
 const categoryStatus=status=>status==='completed'?'Categoría creada':statuses[status]||status;
@@ -45,20 +45,21 @@ export function createProductIntakePanel({adapter,canCreate,canRead=canCreate,co
   if(!dirty&&!active&&adapter().recoverProductPreparation){const recovered=await adapter().recoverProductPreparation();if(run!==revision)return;if(recovered)active=recovered;}
   if(!canCreate()){await refresh();return;}
   if(!loaded){await adapter().productProfile();const data={};
+   const mapLimit=async(items,limit,fn)=>{const results=new Array(items.length);let next=0;const worker=async()=>{while(next<items.length){const i=next++;results[i]=await fn(items[i],i);}};await Promise.all(Array.from({length:Math.min(limit,items.length)},worker));return results;};
    const resourceNames=['categories','manufacturers','suppliers','tax_rule_groups','product_options','product_option_values','countries','tax_rules'];
-   const loadedResources=await Promise.all(resourceNames.map(resource=>readAll(resource,run)));
+   const loadedResources=await mapLimit(resourceNames,2,resource=>readAll(resource,run));
    if(run!==revision)return;
    resourceNames.forEach((resource,index)=>{data[resource]=loadedResources[index];});
    const activeGroups=new Set(data.tax_rule_groups.filter(row=>String(row.active)==='1'&&String(row.deleted||'0')==='0').map(row=>String(row.id)));
    const esCountries=new Set(data.countries.filter(row=>String(row.iso_code).toUpperCase()==='ES'&&String(row.active)==='1').map(row=>String(row.id)));
    const neededRules=data.tax_rules.filter(rule=>activeGroups.has(String(rule.id_tax_rules_group))&&(esCountries.size===0||esCountries.has(String(rule.id_country))));
    const taxIds=[...new Set((neededRules.length?neededRules:data.tax_rules).map(rule=>String(rule.id_tax)).filter(id=>/^[1-9][0-9]{0,14}$/.test(id)))];
-   data.taxes=await Promise.all(taxIds.map(async id=>{
+   data.taxes=await mapLimit(taxIds,2,async id=>{
     const response=await adapter().productMetadata('taxes',0,id);
     if(run!==revision)return null;
     if(!Array.isArray(response.rows)||response.rows.length!==1||String(response.rows[0].id)!==id)throw Error('No se han podido comprobar los impuestos de esta tienda.');
     return response.rows[0];
-   }));
+   });
    if(run!==revision)return;
    data.taxes=data.taxes.filter(Boolean);
    for(const key of ['categories','manufacturers','suppliers','tax_rule_groups'])data[key]=data[key].filter(row=>String(row.active)==='1'&&String(row.deleted||'0')==='0');

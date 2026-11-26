@@ -1,5 +1,5 @@
 /* Read-only interpretation of the existing canonical drawer closing logic. */
-import {lastDrawerBalance} from './historical-acceptance.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
+import {lastDrawerBalance} from './historical-acceptance.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
 const isActive=row=>row?.active!==false;
 const key=x=>String(x??'');
 export function nextOpeningSummary(data,{today,includeInactive=false}={}){

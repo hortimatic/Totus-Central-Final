@@ -333,8 +333,9 @@
 :is(#content,main) .totus-tpv.tpv-active .tpv-identity-place small{display:none}
 :is(#content,main) .totus-tpv.tpv-active .tpv-identity-place svg{width:20px;height:20px}
 :is(#content,main) .totus-tpv.tpv-active .tpv-identity-place strong{font-size:13px}
-:is(#content,main) .totus-tpv.tpv-active .tpv-main-nav{padding:6px 8px;gap:6px;min-height:44px}
-:is(#content,main) .totus-tpv.tpv-active .tpv-nav-search{flex:1;max-width:none;min-width:100px}
+:is(#content,main) .totus-tpv.tpv-active .tpv-main-nav{padding:0!important;gap:8px;min-height:38px;background:transparent!important;border:0!important;box-shadow:none!important}
+:is(#content,main) .totus-tpv.tpv-active .tpv-nav-search{flex:1;max-width:none;min-width:100px;height:38px;border:1px solid #cbd8e6;border-radius:8px;background:#fff;box-sizing:border-box}
+:is(#content,main) .totus-tpv.tpv-active .tpv-nav-search input,:is(#content,main) .totus-tpv.tpv-active .tpv-nav-search input:focus,:is(#content,main) .totus-tpv.tpv-active .tpv-nav-search input:focus-visible{outline:none!important;border:0!important;box-shadow:none!important;background:transparent!important}
 :is(#content,main) .totus-tpv.tpv-active .tpv-actions>summary{min-height:36px;padding:6px 12px;box-sizing:border-box;white-space:nowrap}
 :is(#content,main) .totus-tpv.tpv-active .tpv-actions>div>.btn{display:block;width:100%;min-height:40px;text-align:center;white-space:normal;box-sizing:border-box;padding:8px 12px;background:var(--panel,#fff);color:var(--ink,#17212b);border:1px solid var(--line,#dbe5ed);border-radius:var(--r,6px);font-size:12px}
 :is(#content,main) .totus-tpv.tpv-active .tpv-catalogue-card{position:relative;display:grid;grid-template-rows:auto auto;min-width:0;align-self:start;border:1px solid var(--line,#dbe5ed);border-radius:var(--r,9px);background:var(--panel,#fff);overflow:hidden}

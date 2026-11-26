@@ -2,10 +2,10 @@
  * Reuses Central's URL/secret/response protections. No POSTPV endpoints, cookies,
  * arbitrary URL forwarding, PUT state recovery, SQL or automatic write retries.
  */
-import {safeEndpoint,connectionHeaders,boundedJson,boundedText} from '../../../supabase/functions/totus-connections/transport.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
-import {assertQaTarget} from './qa-policy.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
-import {catalogueSearchFields} from '../search-preferences.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
-import {catalogueFilters as normalizeCatalogueFilters} from '../catalogue-preferences.js?v=16118be4bf82630bb8385f4b7e5b4e4d2b258151';
+import {safeEndpoint,connectionHeaders,boundedJson,boundedText} from '../../../supabase/functions/totus-connections/transport.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
+import {assertQaTarget} from './qa-policy.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
+import {catalogueSearchFields} from '../search-preferences.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
+import {catalogueFilters as normalizeCatalogueFilters} from '../catalogue-preferences.js?v=7c9c92923f0b786e3b9ddb3a993a2e71ba8730f5';
 const positive = value => Number.isSafeInteger(value) && value > 0;
 const cents = value => Number.isSafeInteger(value) && value >= 0 && value <= 100_000_000_000;
 const requireValue = (condition, code) => { if (!condition) throw new Error(code); };
