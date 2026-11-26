@@ -1,4 +1,4 @@
-import {roundPriceLineMicros,roundPriceMicros} from '../offline-rounding.js?v=9c763b3418101f5c614af036a4bdef0ed77cfdf3';
+import {roundPriceLineMicros,roundPriceMicros} from '../offline-rounding.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
 
 /** Prove the native LINE subtotal/initial-total difference for an unmodified
  * basket. This is arithmetic evidence, never permission to collect payment.

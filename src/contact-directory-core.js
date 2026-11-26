@@ -1,4 +1,4 @@
-import {DIRECTORY_FIELDS,DIRECTORY_WRITABLE} from './contact-directory-contract.js?v=9c763b3418101f5c614af036a4bdef0ed77cfdf3';
+import {DIRECTORY_FIELDS,DIRECTORY_WRITABLE} from './contact-directory-contract.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
 export const DIRECTORY_LABELS={id:'ID',firstname:'Nombre',lastname:'Apellidos',email:'Email',name:'Nombre',company:'Empresa',active:'Activo',is_guest:'Invitado',newsletter:'Boletín',optin:'Publicidad',birthday:'Nacimiento',website:'Web',siret:'SIRET',ape:'APE',id_default_group:'Grupo',id_lang:'Idioma',id_gender:'Tratamiento',id_risk:'Riesgo',outstanding_allow_amount:'Crédito',show_public_prices:'Precios públicos',max_payment_days:'Días de pago',description:'Descripción',short_description:'Resumen',meta_title:'Título SEO',meta_description:'Descripción SEO',meta_keywords:'Palabras clave',date_add:'Alta',date_upd:'Actualización',phone:'Teléfono',phone_mobile:'Móvil',address1:'Dirección',address2:'Complemento',postcode:'C. postal',city:'Ciudad',country:'País',province:'Provincia',dni:'NIF/DNI',vat_number:'IVA/NIF',orders:'Pedidos',spent:'Ventas €',margin:'Margen €',products:'Productos',public_name:'Nombre público',group_type:'Tipo',color:'Color',position:'Posición',values:'Valores',parent:'Grupo',custom:'Personalizado',id_country:'País',id_state:'Provincia',alias:'Alias',other:'Indicaciones',value:'Valor',id_attribute_group:'Atributo',id_feature:'Característica'};
 export const DIRECTORY_RESOURCES={clientes:'customers',proveedores:'suppliers',marcas:'manufacturers',atributos:'product_options'};
 export const DIRECTORY_COLUMNS={
@@ -19,7 +19,7 @@ export function directoryLayout(kind,input={}){
 export function directoryPage(rows,{search='',active='',page=1,layout,languageId}={}){
  const needle=String(search).trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');
  const normalize=value=>directoryText(value,languageId).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');
- const filtered=rows.filter(row=>(!active||String(row.active)===active)&&(!needle||Object.values(row).some(v=>normalize(v).includes(needle))));
+ const filtered=rows.filter(row=>(!active||String(row.active)===active)&&(!needle||Object.values(row).some(v=>normalize(v).includes(needle))||normalize([row.firstname,row.lastname].filter(Boolean).join(' ')).includes(needle)));
  const direction=layout.direction==='desc'?-1:1;
  filtered.sort((a,b)=>normalize(a[layout.sort]).localeCompare(normalize(b[layout.sort]),'es',{numeric:true})*direction||String(a.id).localeCompare(String(b.id),'es',{numeric:true}));
  const size=layout.pageSize||Math.max(1,filtered.length),pages=Math.max(1,Math.ceil(filtered.length/size)),current=Math.min(pages,Math.max(1,Math.trunc(Number(page)||1))),offset=(current-1)*size;
