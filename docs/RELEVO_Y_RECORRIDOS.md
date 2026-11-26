@@ -1,6 +1,8 @@
+> Actualización documental · 26/11/2026. La entrega canónica está en **OneDrive → Apps → TotuscentralStudio** y en **Fuentes** del proyecto. Los caminos locales `output/...` de la procedencia histórica ya no son ubicaciones de trabajo vigentes. Producción permanece protegida; este cambio no modifica código ejecutable, SQL, servicios ni configuración.
+
 # Totus Central: recorrido, historia y relevo vigente
 
-Fecha de consolidación: **25/11/2026, Europe/Madrid**. Este documento sustituye como guía activa los relevos acumulados de octubre y noviembre. El historial Git y los originales privados conservan la evidencia detallada; una instrucción antigua no vuelve a estar vigente por aparecer en ellos.
+Fecha de consolidación: **26/11/2026, Europe/Madrid**. Este documento sustituye como guía activa los relevos acumulados de octubre y noviembre. El historial Git y los originales privados conservan la evidencia detallada; una instrucción antigua no vuelve a estar vigente por aparecer en ellos.
 
 ## 1. Decisión actual y dos líneas de trabajo
 
@@ -8,7 +10,7 @@ Fecha de consolidación: **25/11/2026, Europe/Madrid**. Este documento sustituye
 
 **Final:** línea futura, destinada a las webs actualizadas y a un TPV más estable. Actualmente solo se autoriza desarrollar el TPV y sus arreglos necesarios, respetando todos los demás módulos y su funcionalidad. No se ha autorizado promover Final a producción, sustituir la instalación actual, actualizar las webs productivas ni retomar la cola global completa.
 
-La tarea documental del 25/11 no modifica código ejecutable, servicios, SQL, configuraciones ni datos. El objetivo histórico se conserva en PENDIENTES_Y_OBJETIVO.md, sin reactivarlo por redactar este relevo.
+La tarea documental del 26/11 no modifica código ejecutable, servicios, SQL, configuraciones ni datos. El objetivo histórico se conserva en PENDIENTES_Y_OBJETIVO.md, sin reactivarlo por redactar este relevo.
 
 ## 2. Qué es Totus Central
 
@@ -181,7 +183,7 @@ En el intervalo de las últimas 24 horas consultado el 25/11 hubo llamadas al TP
 
 ## 12. GitHub: limpieza y conservación
 
-El 25/11 se eliminó definitivamente el repositorio independiente `hortimatic/Totus-TPV` por autorización expresa. No se eliminó el TPV integrado de Central ni sus servicios/tablas. Se eliminaron también exactamente 14 ramas integradas de Central, preservando el resto de referencias. Hay bundles Git verificados anteriores en `output/limpieza-github-20261125`; no contienen secretos ni toda la configuración/comentarios de GitHub.
+El 25/11 se eliminó definitivamente el repositorio independiente `hortimatic/Totus-TPV` por autorización expresa. No se eliminó el TPV integrado de Central ni sus servicios/tablas. Se eliminaron también exactamente 14 ramas integradas de Central, preservando el resto de referencias. La entrega vigente conserva `TPV_PENDIENTE/fuente-final-historial.bundle`, con HEAD y las bases de los tres trabajos pendientes. Los respaldos generales antiguos se retiraron con autorización; ese bundle no conserva todas las referencias de ramas ni toda la configuración/comentarios de GitHub.
 
 Central mantiene 15 ramas. La principal publica producción; la rama TPV del PR213 es antecesora del fuente de Final. Hay otros cuatro PR abiertos y ramas antiguas cerradas o parcialmente reutilizadas. No declarar que todas están integradas. El detalle queda conservado en PENDIENTES_Y_OBJETIVO.md. Esta revisión no autoriza más limpieza de repositorios productivos.
 

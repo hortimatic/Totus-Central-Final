@@ -1,3 +1,5 @@
+> Actualización documental · 26/11/2026. La entrega canónica está en **OneDrive → Apps → TotuscentralStudio** y en **Fuentes** del proyecto. Los caminos locales `output/...` de la procedencia histórica ya no son ubicaciones de trabajo vigentes. Producción permanece protegida; este cambio no modifica código ejecutable, SQL, servicios ni configuración.
+
 # Pendientes y objetivo conservado — Totus Central Final
 
 Actualizado: **25/11/2026, Europe/Madrid**. Leer junto a RELEVO_Y_RECORRIDOS.md.

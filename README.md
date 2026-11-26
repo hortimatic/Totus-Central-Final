@@ -1,8 +1,10 @@
+> Actualización documental · 26/11/2026. La entrega canónica está en **OneDrive → Apps → TotuscentralStudio** y en **Fuentes** del proyecto. Los caminos locales `output/...` de la procedencia histórica ya no son ubicaciones de trabajo vigentes. Producción permanece protegida; este cambio no modifica código ejecutable, SQL, servicios ni configuración.
+
 # Totus Central Final
 
 Entorno futuro de Totus Central. Aplicación: https://totuscentralfinal.totuscode.com/tpv
 
-## Alcance vigente — 25/11/2026
+## Alcance vigente — 26/11/2026
 
 Existen dos líneas independientes. **Producción no se modifica. En Final se trabaja exclusivamente en TotusTPV**, conservando los demás módulos, sus datos y su funcionalidad. Esta revisión actualiza documentación; no cambia el comportamiento de la aplicación.
 
@@ -20,13 +22,13 @@ El recorrido que hay que conservar es: puesto y caja autorizados → catálogo d
 | Recurso | Ubicación / regla |
 |---|---|
 | Este repositorio | `hortimatic/Totus-Central-Final`, rama `main`: artefacto estático publicado y documentación vigente |
-| Fuente completa conocida | Carpeta local `output/final-tpv-payment-release`, commit `c756981be8312b6f10d1e8e5b0ec390c11246c7f`; incluye servicios, SQL y pruebas. Consultar el relevo para la raíz y los cambios externos |
+| Fuente completa conservada | OneDrive `Apps/TotuscentralStudio/CODIGO/TOTUSCENTRALFINAL_CODIGO_COMPLETO_ACTUAL.zip`; base fuente `c756981be8312b6f10d1e8e5b0ec390c11246c7f`, servicios/esquema/adaptaciones identificados dentro. Fuentes conserva el mismo paquete |
 | Artefacto funcional de referencia | `a2b080f304720c2814cd5ed83a7319cd40b97166`; una revisión posterior solo documental no cambia esa referencia de código |
 | Supabase Final | `ltwfmhilbvpzqdgjhvjb`; `totus-tpv` v11 en el inventario del 25/11 |
 | PrestaShop de pruebas | `https://preproduccion.hortimatic.com` |
 | Producción protegida | `hortimatic/Totus-Central`, rama `totus-central`; Supabase `awmojepsasikxocoeqtu`. Solo referencia de lectura |
 
-**Límite de portabilidad:** clonar este repositorio entrega el frontend publicado y algunos SQL/pruebas, pero no el conjunto completo de backend, migraciones y pruebas del fuente; en particular, falta el servicio TPV completo. El relevo identifica el fuente local y los archivos de preproducción que están fuera de su commit. No desplegar desde un ZIP antiguo ni desde el remoto histórico de producción. Antes de perder el equipo de trabajo debe conservarse ese conjunto en un respaldo privado verificable.
+**Límite de portabilidad:** clonar este repositorio entrega el frontend publicado y algunos SQL/pruebas, pero no el conjunto completo de backend, migraciones y pruebas del fuente; en particular, falta el servicio TPV completo. El relevo identifica el paquete privado del fuente y los archivos de preproducción que están fuera de su commit. No desplegar desde un ZIP antiguo ni desde el remoto histórico de producción. Ese conjunto está conservado en la entrega privada de OneDrive. No crear otro respaldo general ni subir el código privado al repositorio público.
 
 ## Reglas de conservación
 
@@ -37,4 +39,17 @@ El recorrido que hay que conservar es: puesto y caja autorizados → catálogo d
 - No subir secretos, contabilidad, documentos privados ni sesiones a GitHub. El anexo privado y los originales pertenecen a Fuentes y a las ubicaciones privadas autorizadas.
 - `hortimatic/Totus-TPV` fue eliminado por autorización expresa el 25/11/2026. **El TPV integrado y sus datos se conservan.**
 
-La próxima entrega debe actualizar estos dos documentos y este README en Final, sin trasladar cambios a producción.
+## Documentos para otro chat
+
+Leer en Fuentes, o en la misma carpeta privada de OneDrive:
+
+1. `00_ABRIR_PRIMERO.txt`: índice y estado de entrega/auditoría.
+2. `01_RECORRIDOS_CHATGPT_TOTUSCENTRALFINAL.txt`: identidad propia, catálogo, alta/edición/copia de productos, cotejo documental, gastos, conexiones, TPV y recuperación.
+3. `02_HISTORICO_Y_CONSTRUCCION_TOTUSCENTRAL.txt`: cronología y antecedentes; las instrucciones antiguas no vuelven a estar vigentes.
+4. `03_RELEVO_Y_PENDIENTES_TOTUSCENTRALFINAL.txt`: versiones, objetivo pausado, cola completa, pruebas, trabajo sin publicar y límites de Cloud.
+
+`TPV_PENDIENTE` conserva 83 archivos no publicados, capturas y un bundle con HEAD del fuente; no contiene todas las referencias de las ramas remotas. No aplicar ese trabajo automáticamente. Los paquetes de código no son volcados de todos los datos/Auth/Storage ni contienen credenciales. Los documentos no conectan por sí solos las herramientas de un nuevo chat.
+
+El recorrido confirmado utiliza el recurso **ya instalado** `totuscentralconnector` en PrestaShop. No instalar otro ni retirarlo por asumir que no existe. El cotejo compara documentos y **no mueve stock**. La incorporación universal de futuras webs y la sincronización incremental completa siguen pendientes.
+
+Las revisiones de servidor/OneDrive son documentación privada en el índice. No publicar sesiones, contabilidad ni credenciales aquí.
