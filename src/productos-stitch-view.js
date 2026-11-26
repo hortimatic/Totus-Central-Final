@@ -1,14 +1,14 @@
-import {productDisplayId} from './record-identifiers.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {columnSettingsRow} from './column-settings.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {productGallery} from './productos-gallery.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {esc} from './utils.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
-import {fieldHelp} from './components.js?v=362f926e55033fd298207ebeb28d1ec6d21a47dc';
+import {productDisplayId} from './record-identifiers.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {columnSettingsRow} from './column-settings.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {productGallery} from './productos-gallery.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {esc} from './utils.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
+import {fieldHelp} from './components.js?v=c2e1b134ea7126004413867d6ae6ae041178d0ed';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
