@@ -1,9 +1,9 @@
-import {productIntakeDraft,productIntakeTaxPrice} from './product-intake-contract.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
-import {categoryCreationDraft} from '../category-create-contract.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
-import {normalizeProductImage} from '../productos-image-editor.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
-import {productCountryTaxRate,productDisplayAmounts} from '../productos-tax.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
-import {directoryText} from '../contact-directory-core.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
-import {enhanceSearchableSelects} from '../productos-controls.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
+import {productIntakeDraft,productIntakeTaxPrice} from './product-intake-contract.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {categoryCreationDraft} from '../category-create-contract.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {normalizeProductImage} from '../productos-image-editor.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {productCountryTaxRate,productDisplayAmounts} from '../productos-tax.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {directoryText} from '../contact-directory-core.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {enhanceSearchableSelects} from '../productos-controls.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const statuses={ready:'Lista para continuar',processing:'Comprobando resultado',attention:'Necesita comprobar el resultado',completed:'Alta terminada',cancelled:'Cancelada'};
 const categoryStatus=status=>status==='completed'?'Categoría creada':statuses[status]||status;
@@ -45,13 +45,22 @@ export function createProductIntakePanel({adapter,canCreate,canRead=canCreate,co
   if(!dirty&&!active&&adapter().recoverProductPreparation){const recovered=await adapter().recoverProductPreparation();if(run!==revision)return;if(recovered)active=recovered;}
   if(!canCreate()){await refresh();return;}
   if(!loaded){await adapter().productProfile();const data={};
-   for(const resource of ['categories','manufacturers','suppliers','tax_rule_groups','product_options','product_option_values','countries','tax_rules'])data[resource]=await readAll(resource,run);
-   data.taxes=[];
-   for(const id of new Set(data.tax_rules.map(rule=>String(rule.id_tax)))){
-    const response=await adapter().productMetadata('taxes',0,id);if(run!==revision)return;
-    if(!Array.isArray(response.rows)||response.rows.length!==1||String(response.rows[0].id)!==id)throw Error('No se han podido comprobar los impuestos de esta tienda.');data.taxes.push(response.rows[0]);
-   }
+   const resourceNames=['categories','manufacturers','suppliers','tax_rule_groups','product_options','product_option_values','countries','tax_rules'];
+   const loadedResources=await Promise.all(resourceNames.map(resource=>readAll(resource,run)));
    if(run!==revision)return;
+   resourceNames.forEach((resource,index)=>{data[resource]=loadedResources[index];});
+   const activeGroups=new Set(data.tax_rule_groups.filter(row=>String(row.active)==='1'&&String(row.deleted||'0')==='0').map(row=>String(row.id)));
+   const esCountries=new Set(data.countries.filter(row=>String(row.iso_code).toUpperCase()==='ES'&&String(row.active)==='1').map(row=>String(row.id)));
+   const neededRules=data.tax_rules.filter(rule=>activeGroups.has(String(rule.id_tax_rules_group))&&(esCountries.size===0||esCountries.has(String(rule.id_country))));
+   const taxIds=[...new Set((neededRules.length?neededRules:data.tax_rules).map(rule=>String(rule.id_tax)).filter(id=>/^[1-9][0-9]{0,14}$/.test(id)))];
+   data.taxes=await Promise.all(taxIds.map(async id=>{
+    const response=await adapter().productMetadata('taxes',0,id);
+    if(run!==revision)return null;
+    if(!Array.isArray(response.rows)||response.rows.length!==1||String(response.rows[0].id)!==id)throw Error('No se han podido comprobar los impuestos de esta tienda.');
+    return response.rows[0];
+   }));
+   if(run!==revision)return;
+   data.taxes=data.taxes.filter(Boolean);
    for(const key of ['categories','manufacturers','suppliers','tax_rule_groups'])data[key]=data[key].filter(row=>String(row.active)==='1'&&String(row.deleted||'0')==='0');
    catalogues=data;loaded=true;
   }

@@ -1,6 +1,6 @@
-import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS,validateProductFieldValue} from './productos-write-contract.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
-import {centralDefaultCatalogue,centralProductRecord,centralCombinationRecord} from './central-product-adapter.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
-import {savedWebsiteTranslations} from './website-localization.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
+import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS,validateProductFieldValue} from './productos-write-contract.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {centralDefaultCatalogue,centralProductRecord,centralCombinationRecord} from './central-product-adapter.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {savedWebsiteTranslations} from './website-localization.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
 
 const clone=value=>structuredClone(value);
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(value);

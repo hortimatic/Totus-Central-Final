@@ -1,6 +1,6 @@
-import {modal,closeModal,btn,formField} from './components.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
-import {esc} from './utils.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
-import {invokeTeam} from './api.js?v=e7bb1d1c1cec5ba9f7d76411e3187d7743d9d386';
+import {modal,closeModal,btn,formField} from './components.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {esc} from './utils.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
+import {invokeTeam} from './api.js?v=acc169ca8f42de7cfea99e6548a48c8610de122f';
 export async function openAgentAccess(member){
  if(!member?.active||member.deleted_at||member.purged_at)throw Error('Activa primero la cuenta de la IA.');
  const status=await invokeTeam({action:'agent_access_status',email:member.email});
