@@ -1,5 +1,5 @@
-import {textValue} from './productos-core.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {compareTableValues} from './table-sort.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
+import {textValue} from './productos-core.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {compareTableValues} from './table-sort.js?v=62d2993b8015e522019612475d2856065cec688d';
 export const categoryId=value=>/^[1-9]\d{0,14}$/.test(String(value));
 export function categoryDescendants(rows,id){
  const children=new Map();for(const row of rows){const parent=String(row.id_parent||'0');if(!children.has(parent))children.set(parent,[]);children.get(parent).push(String(row.id));}

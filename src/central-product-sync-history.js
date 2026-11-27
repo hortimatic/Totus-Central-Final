@@ -1,4 +1,4 @@
-import {esc} from './utils.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
+import {esc} from './utils.js?v=62d2993b8015e522019612475d2856065cec688d';
 const h=value=>esc(String(value??''));
 const labels={pending:'Pendiente',running:'Comprobando',conflict:'Conflicto: revisar',needs_configuration:'Requiere revisión',uncertain:'Resultado por comprobar',completed:'Comprobado en la web',cancelled:'Envío retirado'};
 export function createCentralProductSyncHistory({rpc,current,actor,canEdit}){

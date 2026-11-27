@@ -2,10 +2,10 @@
  * Reuses Central's URL/secret/response protections. No POSTPV endpoints, cookies,
  * arbitrary URL forwarding, PUT state recovery, SQL or automatic write retries.
  */
-import {safeEndpoint,connectionHeaders,boundedJson,boundedText} from '../../../supabase/functions/totus-connections/transport.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {assertQaTarget} from './qa-policy.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {catalogueSearchFields} from '../search-preferences.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {catalogueFilters as normalizeCatalogueFilters} from '../catalogue-preferences.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
+import {safeEndpoint,connectionHeaders,boundedJson,boundedText} from '../../../supabase/functions/totus-connections/transport.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {assertQaTarget} from './qa-policy.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {catalogueSearchFields} from '../search-preferences.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {catalogueFilters as normalizeCatalogueFilters} from '../catalogue-preferences.js?v=62d2993b8015e522019612475d2856065cec688d';
 const positive = value => Number.isSafeInteger(value) && value > 0;
 const cents = value => Number.isSafeInteger(value) && value >= 0 && value <= 100_000_000_000;
 const requireValue = (condition, code) => { if (!condition) throw new Error(code); };

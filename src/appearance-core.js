@@ -22,6 +22,11 @@ export const APPEARANCE_FIELDS={
   secondaryButtonBackground:color('Fondo de botones secundarios','#ffffff'),secondaryButtonText:color('Texto de botones secundarios','#0f172a'),
   noteBackground:color('Fondo de avisos informativos','#f6f8fb'),noteText:color('Texto de avisos informativos','#5d6777'),
   filterBackground:color('Fondo de filtros','#fbfcff'),modalBackground:color('Fondo de ventanas y cuadros','#ffffff'),
+  tabText:color('Texto de pestañas','#64748b'),tabActiveText:color('Texto de pestaña activa','#2563eb'),
+  primaryButtonText:color('Texto de botones principales','#ffffff'),
+  badgeText:color('Texto de etiquetas y avisos','#1d4ed8'),
+  tabsBackground:color('Fondo de barra de pestañas','#ffffff'),kpiBackground:color('Fondo de KPIs y métricas','#ffffff'),
+  badgeBackground:color('Fondo de etiquetas y avisos','#edf4ff'),
   density:choice('Densidad','comfortable','compact:Compacta|comfortable:Cómoda|wide:Amplia'),
   shadow:choice('Sombras','soft','none:Sin sombra|soft:Suaves|strong:Intensas'),
   navigationOrder:text('Orden de módulos','',500),navigationCollapsed:text('Secciones plegadas','',100),navigationBackground:color('Fondo de navegación','#0b1228'),navigationText:color('Texto de navegación','#cbd5e1'),navigationSectionText:color('Títulos de sección','#94a3b8'),navigationActive:color('Módulo seleccionado','#00aac6'),
@@ -51,17 +56,20 @@ export const APPEARANCE_FIELDS={
  }
 };
 // Fresh visual fields retain the established look for accounts saved before this expansion.
-export const APPEARANCE_EXTENDED_KEYS=['headingText','labelText','topbarBackground','topbarText','inputBackground','inputText','tableHeadBackground','tableHeadText','tableRowBackground','secondaryButtonBackground','secondaryButtonText','noteBackground','noteText','filterBackground','modalBackground'];
+export const APPEARANCE_EXTENDED_KEYS=['headingText','labelText','topbarBackground','topbarText','inputBackground','inputText','tableHeadBackground','tableHeadText','tableRowBackground','secondaryButtonBackground','secondaryButtonText','noteBackground','noteText','filterBackground','modalBackground','tabText','tabActiveText','primaryButtonText','badgeText','tabsBackground','kpiBackground','badgeBackground'];
 export function appearanceExtendedDefaults(theme='light',values={}){
  values=values&&typeof values==='object'?values:{};
- const dark=theme==='dark',ink=values.text||(dark?'#e8f5ff':'#0f172a'),surface=values.surface||(dark?'#0b1729':'#ffffff'),card=values.card||(dark?'#0f1d33':'#ffffff');
+ const dark=theme==='dark',ink=values.text||(dark?'#e8f5ff':'#0f172a'),surface=values.surface||(dark?'#0b1729':'#ffffff'),card=values.card||(dark?'#0f1d33':'#ffffff'),primary=values.primary||'#2563eb';
  return {
   headingText:ink,labelText:dark?ink:'#596579',topbarBackground:surface,topbarText:ink,
   inputBackground:dark?card:'#ffffff',inputText:ink,
   tableHeadBackground:dark?card:'#f7f9fc',tableHeadText:dark?ink:'#647085',tableRowBackground:dark?surface:'#ffffff',
   secondaryButtonBackground:dark?card:surface,secondaryButtonText:ink,
   noteBackground:dark?card:'#f6f8fb',noteText:dark?ink:'#5d6777',
-  filterBackground:dark?surface:'#fbfcff',modalBackground:surface
+  filterBackground:dark?surface:'#fbfcff',modalBackground:surface,
+  tabText:dark?'#94a3b8':'#64748b',tabActiveText:primary,
+  primaryButtonText:contrastText(primary),badgeText:dark?'#93c5fd':'#1d4ed8',
+  tabsBackground:surface,kpiBackground:card,badgeBackground:dark?'#172554':'#edf4ff'
  };
 }
 export function appearanceValues(section,input={}){
@@ -88,7 +96,7 @@ export function contrastText(color){
 }
 export function appearanceVariables(input){
  const c=appearanceValues('interfaz',input),shadow={none:'none',soft:'0 8px 30px #0f172a14',strong:'0 14px 35px #0f172a38'};
- return {'--nav-bg':c.navigationBackground,'--nav-ink':c.navigationText,'--nav-section-ink':c.navigationSectionText,'--nav-active':c.navigationActive,'--appearance-nav-active-ink':contrastText(c.navigationActive),'--bg':c.bg,'--panel':c.card,'--ink':c.text,'--muted':c.muted,'--accent':c.primary,'--accent2':c.secondary,'--appearance-accent':c.accent,'--appearance-surface':c.surface,'--line':c.borderColor+Math.round(c.borderStrength/24*255).toString(16).padStart(2,'0'),'--shadow':[shadow[c.shadow]==='none'?'':shadow[c.shadow],c.cardGlow?'0 0 '+c.cardGlow+'px '+c.glowColor+'70':''].filter(Boolean).join(',')||'none','--r':c.radius+'px','--sidebar':c.sidebarWidth+'px','--appearance-header':c.topbarHeight+'px','--appearance-clock-font':c.clockFontSize+'px','--appearance-font':c.fontSize+'px','--appearance-pad':c.pagePad+'px','--appearance-gap':c.gap+'px','--appearance-button-radius':(c.buttonStyle==='soft'?Math.min(10,c.buttonRadius):c.buttonRadius)+'px','--appearance-card-pad':c.cardPadding+'px','--appearance-row-height':c.tableRowHeight+'px','--appearance-border-width':c.borderWidth+'px','--appearance-glow':c.glowColor+'80','--appearance-button-glow':c.buttonGlow+'px','--appearance-button-ink':contrastText(c.primary),'--appearance-hover-ink':contrastText(c.secondary),'--appearance-logo-height':c.logoHeight+'px','--appearance-bg-image':c.backgroundMode==='image'&&c.customBackgroundData?'linear-gradient('+c.bg+Math.round(c.backgroundDim*2.55).toString(16).padStart(2,'0')+','+c.bg+Math.round(c.backgroundDim*2.55).toString(16).padStart(2,'0')+'),url("'+c.customBackgroundData+'")':'none','--appearance-heading-ink':c.headingText,'--appearance-label-ink':c.labelText,'--appearance-topbar-bg':c.topbarBackground,'--appearance-topbar-ink':c.topbarText,'--appearance-input-bg':c.inputBackground,'--appearance-input-ink':c.inputText,'--appearance-table-head-bg':c.tableHeadBackground,'--appearance-table-head-ink':c.tableHeadText,'--appearance-table-row-bg':c.tableRowBackground,'--appearance-secondary-bg':c.secondaryButtonBackground,'--appearance-secondary-ink':c.secondaryButtonText,'--appearance-note-bg':c.noteBackground,'--appearance-note-ink':c.noteText,'--appearance-filter-bg':c.filterBackground,'--appearance-modal-bg':c.modalBackground,'--appearance-density':({compact:'.8',comfortable:'1',wide:'1.2'})[c.density]};
+ return {'--nav-bg':c.navigationBackground,'--nav-ink':c.navigationText,'--nav-section-ink':c.navigationSectionText,'--nav-active':c.navigationActive,'--appearance-nav-active-ink':contrastText(c.navigationActive),'--bg':c.bg,'--panel':c.card,'--ink':c.text,'--muted':c.muted,'--accent':c.primary,'--accent2':c.secondary,'--appearance-accent':c.accent,'--appearance-surface':c.surface,'--line':c.borderColor+Math.round(c.borderStrength/24*255).toString(16).padStart(2,'0'),'--shadow':[shadow[c.shadow]==='none'?'':shadow[c.shadow],c.cardGlow?'0 0 '+c.cardGlow+'px '+c.glowColor+'70':''].filter(Boolean).join(',')||'none','--r':c.radius+'px','--sidebar':c.sidebarWidth+'px','--appearance-header':c.topbarHeight+'px','--appearance-clock-font':c.clockFontSize+'px','--appearance-font':c.fontSize+'px','--appearance-pad':c.pagePad+'px','--appearance-gap':c.gap+'px','--appearance-button-radius':(c.buttonStyle==='soft'?Math.min(10,c.buttonRadius):c.buttonRadius)+'px','--appearance-card-pad':c.cardPadding+'px','--appearance-row-height':c.tableRowHeight+'px','--appearance-border-width':c.borderWidth+'px','--appearance-glow':c.glowColor+'80','--appearance-button-glow':c.buttonGlow+'px','--appearance-button-ink':c.primaryButtonText||contrastText(c.primary),'--appearance-hover-ink':contrastText(c.secondary),'--appearance-logo-height':c.logoHeight+'px','--appearance-bg-image':c.backgroundMode==='image'&&c.customBackgroundData?'linear-gradient('+c.bg+Math.round(c.backgroundDim*2.55).toString(16).padStart(2,'0')+','+c.bg+Math.round(c.backgroundDim*2.55).toString(16).padStart(2,'0')+'),url("'+c.customBackgroundData+'")':'none','--appearance-heading-ink':c.headingText,'--appearance-label-ink':c.labelText,'--appearance-topbar-bg':c.topbarBackground,'--appearance-topbar-ink':c.topbarText,'--appearance-input-bg':c.inputBackground,'--appearance-input-ink':c.inputText,'--appearance-table-head-bg':c.tableHeadBackground,'--appearance-table-head-ink':c.tableHeadText,'--appearance-table-row-bg':c.tableRowBackground,'--appearance-secondary-bg':c.secondaryButtonBackground,'--appearance-secondary-ink':c.secondaryButtonText,'--appearance-note-bg':c.noteBackground,'--appearance-note-ink':c.noteText,'--appearance-filter-bg':c.filterBackground,'--appearance-modal-bg':c.modalBackground,'--appearance-tab-ink':c.tabText,'--appearance-tab-active-ink':c.tabActiveText,'--appearance-badge-ink':c.badgeText,'--appearance-tabs-bg':c.tabsBackground,'--appearance-kpi-bg':c.kpiBackground,'--appearance-badge-bg':c.badgeBackground,'--appearance-density':({compact:'.8',comfortable:'1',wide:'1.2'})[c.density]};
 }
 export const LOGIN_BACKGROUNDS={
  'dark-gradient':'radial-gradient(at 15% 10%,#1959ad,transparent 55%),linear-gradient(135deg,#071122,#14233d)',

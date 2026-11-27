@@ -1,12 +1,12 @@
-import {initialInterfaceStyle,styleName,interfaceStyleLibrary} from './appearance-styles.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {navigationEditor,bindNavigationEditor} from './navigation-preferences.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {installAppearanceTools} from './appearance-tools.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {appearanceContrastChecks,improveAppearanceContrast} from './appearance-contrast.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {renderAppearancePreview,updateAppearancePreview} from './appearance-preview-lab.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {exportSharedInterfaceStyle,applySharedInterfaceStyle,importSharedInterfaceStyle} from './appearance-style-share.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {APPEARANCE_EXTENDED_KEYS,appearanceExtendedDefaults,APPEARANCE_FIELDS,APPEARANCE_PRESETS,appearanceValues,appearanceVariables,loginVariables} from './appearance-core.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {prepareChatBackground} from './chat-preferences.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
-import {enhancePasswordVisibility} from './login-controls.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
+import {initialInterfaceStyle,styleName,interfaceStyleLibrary} from './appearance-styles.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {navigationEditor,bindNavigationEditor} from './navigation-preferences.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {installAppearanceTools} from './appearance-tools.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {appearanceContrastChecks,improveAppearanceContrast} from './appearance-contrast.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {renderAppearancePreview,updateAppearancePreview} from './appearance-preview-lab.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {exportSharedInterfaceStyle,applySharedInterfaceStyle,importSharedInterfaceStyle} from './appearance-style-share.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {APPEARANCE_EXTENDED_KEYS,appearanceExtendedDefaults,APPEARANCE_FIELDS,APPEARANCE_PRESETS,appearanceValues,appearanceVariables,loginVariables} from './appearance-core.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {prepareChatBackground} from './chat-preferences.js?v=62d2993b8015e522019612475d2856065cec688d';
+import {enhancePasswordVisibility} from './login-controls.js?v=62d2993b8015e522019612475d2856065cec688d';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const asset=name=>new URL(name,new URL('../',import.meta.url)).href;
 const style=(element,variables)=>{for(const [key,value] of Object.entries(variables))element.style.setProperty(key,value);};
@@ -70,14 +70,14 @@ export function createAppearanceUI({settings,save,actor,canEdit,confirm,styles:p
   const value=values[key],id='appearance-'+key;
   if(section==='interfaz'){const editor=navigationEditor(key,value,esc);if(editor)return editor;}
   if(f.type==='image')return '<div class="field appearance-image-field"><label for="'+id+'">'+esc(f.label)+'</label><div class="appearance-image-upload">'+(value?'<img src="'+esc(value)+'" alt="Imagen seleccionada"><span class="small muted">Imagen preparada · '+Math.ceil(value.length*.75/1024)+' KB</span>':'<span class="appearance-image-empty" aria-hidden="true">▧</span><span class="small muted">JPG, PNG o WebP · hasta 5 MB. Se reduce antes de guardar.</span>')+'<input id="'+id+'" type="file" data-image="'+key+'" accept="image/jpeg,image/png,image/webp"><button class="btn secondary" type="button" data-remove-image="'+key+'" '+(value?'':'disabled')+'>Quitar imagen</button></div></div>';
-  return '<label class="field" for="'+id+'">'+esc(f.label)+(f.type==='range'?' <output data-value="'+key+'">'+value+'</output>':'')+(f.type==='select'?'<select id="'+id+'" name="'+key+'">'+f.options.map(([v,label])=>'<option value="'+v+'" '+(v===value?'selected':'')+'>'+esc(label)+'</option>').join('')+'</select>':'<input id="'+id+'" name="'+key+'" type="'+f.type+'" value="'+esc(value)+'" '+(f.type==='range'?'min="'+f.min+'" max="'+f.max+'" step="1"':f.max?'maxlength="'+f.max+'"':'')+'>')+'</label>';
+  return '<label class="field" for="'+id+'"><span class="appearance-field-head"><span>'+esc(f.label)+'</span>'+(f.type==='range'?'<output data-value="'+key+'">'+value+'</output>':'')+'</span>'+(f.type==='select'?'<select id="'+id+'" name="'+key+'">'+f.options.map(([v,label])=>'<option value="'+v+'" '+(v===value?'selected':'')+'>'+esc(label)+'</option>').join('')+'</select>':'<input id="'+id+'" name="'+key+'" type="'+f.type+'" value="'+esc(value)+'" '+(f.type==='range'?'min="'+f.min+'" max="'+f.max+'" step="1"':f.max?'maxlength="'+f.max+'"':'')+'>')+'</label>';
  }
  function fieldGroups(){
   const interfaceGroups=[
    ['Marca e identidad',['brandName','brandSubtitle','logoMode','customLogoData','logoHeight','theme']],
    ['Colores principales',['primary','secondary','accent','bg','surface','card','text','muted']],
-   ['Textos por elemento',['headingText','labelText','topbarText','inputText','tableHeadText','secondaryButtonText','noteText']],
-   ['Cajas y fondos por elemento',['topbarBackground','inputBackground','tableHeadBackground','tableRowBackground','secondaryButtonBackground','noteBackground','filterBackground','modalBackground']],
+   ['Textos por elemento',['headingText','labelText','topbarText','inputText','tableHeadText','primaryButtonText','secondaryButtonText','tabText','tabActiveText','noteText','badgeText']],
+   ['Cajas y fondos por elemento',['topbarBackground','tabsBackground','kpiBackground','inputBackground','tableHeadBackground','tableRowBackground','secondaryButtonBackground','noteBackground','filterBackground','badgeBackground','modalBackground']],
    ['Fondo de la herramienta',['backgroundMode','customBackgroundData','backgroundDim']],
    ['Navegación y organización',['navigationMode','startModule','sidebarWidth','navigationBackground','navigationText','navigationSectionText','navigationActive','navigationOrder','navigationCollapsed']],
    ['Bordes y efectos',['borderColor','borderStrength','borderWidth','glowColor','cardGlow','buttonGlow','buttonFinish','hoverEffect']]
@@ -89,7 +89,7 @@ export function createAppearanceUI({settings,save,actor,canEdit,confirm,styles:p
    ['Botón, bordes y brillos',['loginButtonMode','loginButtonColor','loginTextColor','loginBorderColor','loginBorderWidth','loginGlowColor','loginCardGlow','loginButtonGlow']],
    ['Fondo y ayuda',['loginBackground','customBackgroundData','loginBackgroundDim','loginHelpText','loginRecoveryText']]
   ];
-  return groups.map(([label,keys],index)=>'<details class="appearance-section" data-appearance-group="'+index+'" open><summary><span class="appearance-section-number">'+(index+1)+'</span>'+label+'</summary>'+(section==='interfaz'&&label==='Cabecera, tipografía y distribución'?'<div class="appearance-header-presets" role="group" aria-label="Altura y densidad de cabecera"><span>Distribución rápida de la cabecera:</span><button type="button" class="btn secondary" data-header-preset="compact">Compacta</button><button type="button" class="btn secondary" data-header-preset="standard">Equilibrada</button><button type="button" class="btn secondary" data-header-preset="wide">Amplia</button></div>':'')+'<fieldset class="form-grid" '+(canEdit(section)?'':'disabled')+'><legend class="sr-only">'+label+'</legend>'+keys.map(key=>field(key,APPEARANCE_FIELDS[section][key])).join('')+'</fieldset></details>').join('');
+  return groups.map(([label,keys],index)=>'<details class="appearance-section" data-appearance-group="'+index+'"'+(index===0?' open':'')+'><summary><span class="appearance-section-number">'+(index+1)+'</span>'+label+'</summary>'+(section==='interfaz'&&label==='Cabecera, tipografía y distribución'?'<div class="appearance-header-presets" role="group" aria-label="Altura y densidad de cabecera"><span>Distribución rápida de la cabecera:</span><button type="button" class="btn secondary" data-header-preset="compact">Compacta</button><button type="button" class="btn secondary" data-header-preset="standard">Equilibrada</button><button type="button" class="btn secondary" data-header-preset="wide">Amplia</button></div>':'')+'<fieldset class="form-grid" '+(canEdit(section)?'':'disabled')+'><legend class="sr-only">'+label+'</legend>'+keys.map(key=>field(key,APPEARANCE_FIELDS[section][key])).join('')+'</fieldset></details>').join('');
  }
  function paint(){
   const toolsQuery=host.dataset.appearanceSection===section?host.querySelector('[data-settings-search]')?.value||'':'';
