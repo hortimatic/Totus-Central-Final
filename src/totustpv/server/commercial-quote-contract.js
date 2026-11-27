@@ -1,6 +1,6 @@
-import {nativeCents,nativeMicros} from './native-adapter.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {nativeQuoteFingerprint} from './quote-contract.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {lineName} from '../line-name.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
+import {nativeCents,nativeMicros} from './native-adapter.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {nativeQuoteFingerprint} from './quote-contract.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {lineName} from '../line-name.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
 const need=(ok,code)=>{if(!ok)throw Error(code);};
 const positive=value=>Number.isSafeInteger(value)&&value>0;
 /** An immutable commercial snapshot, deliberately without a checkout expected

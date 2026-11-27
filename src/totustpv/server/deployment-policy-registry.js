@@ -1,5 +1,5 @@
-import {TOTUS_QA_POLICY} from './deployment-qa-policy.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {assertQaTarget} from './qa-policy.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
+import {TOTUS_QA_POLICY} from './deployment-qa-policy.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {assertQaTarget} from './qa-policy.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
 const need=(value,code)=>{if(!value)throw Error(code);};
 /** Server-owned targets only. This is not an input schema for browser requests.
  * Registering a target does not assign users, configure a native profile or

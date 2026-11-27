@@ -1,8 +1,8 @@
-import {displayPreferences,TPV_VARIANT_ORDERS} from './display-preferences.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {receiptOptions} from './receipt-options.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {customerDisplayOptions} from './customer-display.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {searchPreferences} from './search-preferences.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {cataloguePreferences} from './catalogue-preferences.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
+import {displayPreferences,TPV_VARIANT_ORDERS} from './display-preferences.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {receiptOptions} from './receipt-options.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {customerDisplayOptions} from './customer-display.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {searchPreferences} from './search-preferences.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {cataloguePreferences} from './catalogue-preferences.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
 
 // These are presentation preferences only. Fiscal, permission and payment policies
 // deliberately remain with their own authorized services.
@@ -29,6 +29,7 @@ fields['CFG-11-05'].options=[16,18,20,23,26,30,36,40].map(n=>[n,String(n)]);
 bind('CFG-09-05','root','initialCategoryId');fields['CFG-09-05'].initialCategory=true;
 bind('UI-VIEW-MODE','root','viewMode',[['grid','Fotos'],['compact','Compacta'],['list','Lista'],['table','Tabla']]);
 bind('UI-SHOW-PRODUCT-PRICES','display','showPrices');
+bind('UI-VARIANT-GROUPING','display','variantGrouping',[['selector','Agrupadas (selector emergente)'],['expanded','Desgranadas (una tarjeta por variación)']]);
 bind('CFG-09-03','search','numericKeyboard');
 bind('CFG-09-09','catalogue','hideUnavailable');
 bind('CFG-09-11','catalogue','extraDetails');

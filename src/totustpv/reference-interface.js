@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
+import {workstationIcon} from './workstation-visual.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
@@ -32,7 +32,7 @@ const fieldHtml=(f,settings,editable,draft,categories)=>{
 function preferenceGroupsHtml(section,fields,settings,editable,draft,categories){
  const sectionGroups={
   General:[['Venta y artículos',[1,2,3,4,5,6,7]],['Equipo y accesos',[8,9,10,11]]],
-  Interfaz:[['Distribución del mostrador',[1,2,3,4,5,6]],['Selección de artículos',[7,8,9,10,11,12]],['Precios, existencias y almacenes',[13,14,15,16,17]]],
+  Interfaz:[['Distribución del mostrador',[1,2,3,4,5,6]],['Selección de artículos',[7,8,9,10,11,12,'UI-VARIANT-GROUPING']],['Precios, existencias y almacenes',[13,14,15,16,17]]],
   Buscador:[['Disponibilidad y categorías',[1,2,3]],['Datos para buscar artículos',[4,5,6,7,8]]],
   'Funciones especiales':[['Pedidos y documentos',[1,2,3,4]],['Balanza y códigos',[5,6,7,9]],['Operativa del establecimiento',[8,10,11,12,13]]],
   'Estados y formas de pago':[['Formas de cobro',[1,2,3,4,5,6,7]],['Confirmación del pago',[8,9,10]],['Administración de cobros',[11,12,13,14,15,16]]]
@@ -59,7 +59,7 @@ export function receiptSetupFieldsHtml(receipt,{disabled=false,preview='',number
 export function referenceSettingsHtml(section='General',{values={},editable=false,draft={},practice=false,preview='',giftPreview='',categories=[],connectedHtml='',coveredIds=[],scopeHtml='',brandingHtml='',administrationHtml='',generalSetupHtml='',onlineOrdersHtml=''}={}){
  const settings=normalizeReferencePreferences(values);
  const original=REFERENCE_SETTINGS.find(g=>g.name===section)||REFERENCE_SETTINGS[0];
- const fields=(section==='Interfaz'?[{id:'UI-VIEW-MODE',label:'Vista del catálogo al iniciar'},{id:'UI-SHOW-PRODUCT-PRICES',label:'Mostrar precios en las tarjetas de artículos'},...original.fields]:section==='Ticket'?[...original.fields,{id:'UI-CUSTOMER-EXTRA-FIELD',label:'Dato adicional que se imprime'},{id:'UI-CUSTOMER-EXTRA-LABEL',label:'Título del dato adicional'}]:original.fields).filter(f=>!coveredIds.includes(f.id)&&(!connectedHtml||!f.id.startsWith('CFG-13-')));
+ const fields=(section==='Interfaz'?[{id:'UI-VIEW-MODE',label:'Vista del catálogo al iniciar'},{id:'UI-SHOW-PRODUCT-PRICES',label:'Mostrar precios en las tarjetas de artículos'},{id:'UI-VARIANT-GROUPING',label:'Mostrar variaciones en el catálogo'},...original.fields]:section==='Ticket'?[...original.fields,{id:'UI-CUSTOMER-EXTRA-FIELD',label:'Dato adicional que se imprime'},{id:'UI-CUSTOMER-EXTRA-LABEL',label:'Título del dato adicional'}]:original.fields).filter(f=>!coveredIds.includes(f.id)&&(!connectedHtml||!f.id.startsWith('CFG-13-')));
  const supported=fields.filter(f=>REFERENCE_PREFERENCE_FIELDS[f.id]),pending=fields.filter(f=>!REFERENCE_PREFERENCE_FIELDS[f.id]);
  return `<section class="tpv-reference-settings" aria-label="Configuración de TotusTPV">
  <header><div><small>TOTUSTPV · AJUSTES</small><h3>Configuración</h3></div><button type="button" class="btn secondary" data-tpv-action="sale">Volver al mostrador</button></header>${scopeHtml}

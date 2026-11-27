@@ -1,29 +1,29 @@
-import {centralPromotionIntent} from './promotions.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {operatorAcknowledgement} from './operator-acknowledgement.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {cashSummaryPresentation} from './cash-visibility.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {originalRefundPayments} from './refund-payments.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {offlineBasketCommercial} from './offline-basket-commercial.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {offlineBasketPrices} from './offline-basket-prices.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {createOfflineSourceStore} from './offline-source-store.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
+import {centralPromotionIntent} from './promotions.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {operatorAcknowledgement} from './operator-acknowledgement.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {cashSummaryPresentation} from './cash-visibility.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {originalRefundPayments} from './refund-payments.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {offlineBasketCommercial} from './offline-basket-commercial.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {offlineBasketPrices} from './offline-basket-prices.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {createOfflineSourceStore} from './offline-source-store.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
 /** Browser adapter: only normal authenticated Central calls. No shop URL,
  * credentials, native commands or privileged client can enter this module.
  * Request IDs survive response loss; financial commands are never auto-retried.
  */
-import {lineName} from './line-name.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {budgetDraft} from './budget-contract.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {saleNote} from './sale-note.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {taxSummary} from './tax-summary.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {parkingExpiry} from './parking-options.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {quotePaymentMethods} from './payment-options.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
-import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
+import {lineName} from './line-name.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {budgetDraft} from './budget-contract.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {saleNote} from './sale-note.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {taxSummary} from './tax-summary.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {parkingExpiry} from './parking-options.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {quotePaymentMethods} from './payment-options.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
 const need=(ok,message)=>{if(!ok)throw new Error(message);};
 const clone=value=>structuredClone(value);
 const ordered=value=>Array.isArray(value)?value.map(ordered):value&&typeof value==='object'?
@@ -242,8 +242,8 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
    return data.categories.map(r=>({...r,label:r.parentName?r.parentName+' / '+r.name:r.name})).sort((a,b)=>a.label.localeCompare(b.label,'es',{numeric:true}));},
   async resolveIncident({operationId,reason,settlementReview}){const result=await call('resolve-incident',{reason,settlementReview},operationId);
    need(result.status==='cancelled','La incidencia sigue pendiente de revisión.');forget('prepare',operationId);forget('submitted-sale',operationId);prepared.delete(operationId);return receipt(result);},
-  async searchProducts({pricingQuantity=1,search='',page=0,productId=0,categoryId=0,sortField='name',sortDirection='asc',searchFields,catalogueFilters,variantGroupId=0,inventoryOnly=false}={}){need(Number.isSafeInteger(pricingQuantity)&&pricingQuantity>=1&&pricingQuantity<=10000&&(pricingQuantity===1||productId>0&&sortField==='name')&&typeof inventoryOnly==='boolean'&&Number.isSafeInteger(variantGroupId)&&variantGroupId>=0&&variantGroupId<=2147483647&&(productId>0||variantGroupId===0),'Revisa el atributo de ordenación.');const fields=catalogueSearchFields(searchFields),filters=normalizeCatalogueFilters(catalogueFilters),query=catalogueRequest({pricingQuantity,search,page,productId,categoryId,sortField,sortDirection,searchFields:fields,catalogueFilters:filters,variantGroupId,inventoryOnly});
-   if(catalogueAdapter&&pricingQuantity===1&&productId===0&&!inventoryOnly){need(session?.status==='open'&&selected?.canSell&&canReadCentralCatalogue(),'No tienes acceso al catálogo de esta caja.');return catalogueAdapter.searchProducts({search,page,categoryId,sortField,sortDirection,searchFields:fields,catalogueFilters:filters});}
+  async searchProducts({pricingQuantity=1,search='',page=0,productId=0,categoryId=0,sortField='name',sortDirection='asc',searchFields,catalogueFilters,variantGroupId=0,inventoryOnly=false,groupVariants=true}={}){need(Number.isSafeInteger(pricingQuantity)&&pricingQuantity>=1&&pricingQuantity<=10000&&(pricingQuantity===1||productId>0&&sortField==='name')&&typeof inventoryOnly==='boolean'&&Number.isSafeInteger(variantGroupId)&&variantGroupId>=0&&variantGroupId<=2147483647&&(productId>0||variantGroupId===0),'Revisa el atributo de ordenación.');const fields=catalogueSearchFields(searchFields),filters=normalizeCatalogueFilters(catalogueFilters),query=catalogueRequest({pricingQuantity,search,page,productId,categoryId,sortField,sortDirection,searchFields:fields,catalogueFilters:filters,variantGroupId,inventoryOnly});
+   if(catalogueAdapter&&pricingQuantity===1&&!inventoryOnly){need(session?.status==='open'&&selected?.canSell&&canReadCentralCatalogue(),'No tienes acceso al catálogo de esta caja.');return catalogueAdapter.searchProducts({search,page,productId,variantGroupId,categoryId,sortField,sortDirection,searchFields:fields,catalogueFilters:filters,groupVariants});}
    const origin=canonical([selection(),customer]),requestedAt=Date.now();
    const guard=()=>need(canonical([selection(),customer])===origin,'El puesto o cliente ha cambiado. Vuelve a consultar los artículos.');
    let cache=null;try{if(!inventoryOnly)cache=catalogueStore();}catch{}
