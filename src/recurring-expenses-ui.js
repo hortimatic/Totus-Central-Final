@@ -1,8 +1,8 @@
-import {columnSettingsRow,columnSettingsCaption,standardizeColumnPanel} from './column-settings.js?v=dd70bc386ad589e84b253f26b65ade708038efd7';
-import {attachProductTableLayout} from './productos-table-layout.js?v=dd70bc386ad589e84b253f26b65ade708038efd7';
-import {esc,money,isoToday} from './utils.js?v=dd70bc386ad589e84b253f26b65ade708038efd7';
-import {EXPENSE_FREQUENCIES,expenseForecast,recurringExpenseInput} from './recurring-expenses.js?v=dd70bc386ad589e84b253f26b65ade708038efd7';
-import {confirmProductDialog} from './productos-dialogs.js?v=dd70bc386ad589e84b253f26b65ade708038efd7';
+import {columnSettingsRow,columnSettingsCaption,standardizeColumnPanel} from './column-settings.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
+import {attachProductTableLayout} from './productos-table-layout.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
+import {esc,money,isoToday} from './utils.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
+import {EXPENSE_FREQUENCIES,expenseForecast,recurringExpenseInput} from './recurring-expenses.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
+import {confirmProductDialog} from './productos-dialogs.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
 export function createRecurringExpensesUI({rpc,actor,can,stores=()=>[],suppliers=()=>[],onAutomations=()=>{},notify=()=>{}}){
  let removeLayout=()=>{},saveChain=Promise.resolve();
  let root=null,owner=null,generation=0,rows=[],busy=false,dirty=false,query='',store='',page=1,size=20,layout={columns:['title','supplier_name','store_name','due_on','amount_cents','status'],widths:{},sort:'due_on',direction:'asc'},status='';

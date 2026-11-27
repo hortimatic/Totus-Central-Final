@@ -1,4 +1,4 @@
-import {appearanceValues,APPEARANCE_PRESETS} from './appearance-core.js?v=dd70bc386ad589e84b253f26b65ade708038efd7';
+import {appearanceValues,APPEARANCE_PRESETS} from './appearance-core.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
 
 // Initial styles replace the visual settings instead of inheriting a previous
 // style's glow, dimensions or image background. Personal identity/order remain.

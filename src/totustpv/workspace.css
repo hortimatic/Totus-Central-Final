@@ -276,3 +276,6 @@
 :is(#content,main) .totus-tpv.tpv-active .tpv-cat-pager .prd-select-control>button{display:none!important}
 .tpv-stock-alert-dialog{width:min(420px,calc(100vw - 24px));padding:18px;border:1px solid var(--line);border-radius:var(--r,12px);background:var(--panel,#fff);color:var(--ink);box-shadow:0 24px 80px #07152740;margin:auto}
 .tpv-stock-alert-dialog header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px}
+.tpv-document-dialog{width:min(520px,calc(100vw - 24px));max-width:none;max-height:calc(100dvh - 24px);padding:16px;border:1px solid var(--line);border-radius:var(--r,14px);background:var(--bg,#f5f7fa);color:var(--ink);box-shadow:0 24px 80px #07152740;overflow:auto;margin:auto}
+.tpv-document-dialog::backdrop{background:#091a32a6;backdrop-filter:blur(3px)}
+.tpv-document-dialog>.tpv-document{margin:0 auto;box-shadow:0 4px 16px #10283f12}
