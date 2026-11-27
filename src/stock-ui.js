@@ -1,10 +1,10 @@
-import {canUser} from './permissions.js?v=8f52eef05c862ae862d911e455dee74fc96a845b';
-import {state} from './state.js?v=8f52eef05c862ae862d911e455dee74fc96a845b';
-import {esc,fmtDate,isoToday,download} from './utils.js?v=8f52eef05c862ae862d911e455dee74fc96a845b';
-import {btn,table,formField,selectField,modal,closeModal,toast,confirmAction} from './components.js?v=8f52eef05c862ae862d911e455dee74fc96a845b';
-import {STOCK_STATES,stockReceiptStatus,stockLineResult,stockEquivalenceProblems,stockCorrectedLineResult,stockSummary,stockChatPrompt} from './stock-core.js?v=8f52eef05c862ae862d911e455dee74fc96a845b';
-import {filterStockReceipts,sameStockEquivalence,stockIdentity,stockExportRows,stockReportHtml,stockChatEvidence} from './stock-workflow.js?v=8f52eef05c862ae862d911e455dee74fc96a845b';
-import {unmatchedStockRows,pairUnmatchedStockRows} from './stock-manual-matching.js?v=8f52eef05c862ae862d911e455dee74fc96a845b';
+import {canUser} from './permissions.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45';
+import {state} from './state.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45';
+import {esc,fmtDate,isoToday,download} from './utils.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45';
+import {btn,table,formField,selectField,modal,closeModal,toast,confirmAction} from './components.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45';
+import {STOCK_STATES,stockReceiptStatus,stockLineResult,stockEquivalenceProblems,stockCorrectedLineResult,stockSummary,stockChatPrompt} from './stock-core.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45';
+import {filterStockReceipts,sameStockEquivalence,stockIdentity,stockExportRows,stockReportHtml,stockChatEvidence} from './stock-workflow.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45';
+import {unmatchedStockRows,pairUnmatchedStockRows} from './stock-manual-matching.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45';
 const initialView=()=>({loaded:false,receipts:[],context:null,history:[],mode:'list',query:'',store:'all',from:'',to:'',status:'all',error:'',pendingUploads:[],equivalences:[],libraryQuery:'',libraryStore:'all'});
 const view=initialView();let owner='',navigationEpoch=0;
 const actorKey=()=>String(state.user?.email||'').toLowerCase();
@@ -109,9 +109,9 @@ export async function stockAction(a,el,{render,createStoredDocument,previewDocum
  syncOwner();
  if(['stock-new','stock-back','stock-open','stock-library','stock-library-refresh','stock-refresh','stock-from-prestashop'].includes(a))navigationEpoch++;
  const actionScope=readScope();
- const {sb,rpc,downloadFile,insert,select}=await import('./api.js?v=8f52eef05c862ae862d911e455dee74fc96a845b');
- const {validateDocumentFile}=await import('./file-utils.js?v=8f52eef05c862ae862d911e455dee74fc96a845b');
- const {extractStockText}=await import('./stock-extract.js?v=8f52eef05c862ae862d911e455dee74fc96a845b');
+ const {sb,rpc,downloadFile,insert,select}=await import('./api.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45');
+ const {validateDocumentFile}=await import('./file-utils.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45');
+ const {extractStockText}=await import('./stock-extract.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45');
  if(!currentRead(actionScope))return;
  const value=id=>document.getElementById(id)?.value||'';
  const list=async(table,columns,filter)=>{
@@ -157,7 +157,7 @@ export async function stockAction(a,el,{render,createStoredDocument,previewDocum
   if(!canEdit())throw Error('Necesitas permiso de edición en Documentos para guardar un cotejo.');
   const c=view.context;if(!c?.sources?.some(s=>s.source_kind==='supplier')||!c.sources.some(s=>s.source_kind==='prestashop'))throw Error('Asocia una factura o albarán y la entrada de mercancía de PrestaShop.');
   const scope=readScope(),receiptId=c.receipt.id,revision=c.receipt.revision;let savedFingerprint=null;
-  const {mountStockRuleEditor}=await import('./stock-rules-ui.js?v=8f52eef05c862ae862d911e455dee74fc96a845b');if(!currentRead(scope))return;
+  const {mountStockRuleEditor}=await import('./stock-rules-ui.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45');if(!currentRead(scope))return;
   stockModal('Cotejar factura con entrada · sin IA','<div id="stockRuleEditor"></div>');
   const editor=document.getElementById('stockRuleEditor'),working=structuredClone(c);
   editor.innerHTML='<p role="status">Leyendo los originales completos y sus columnas. No se modifican los documentos ni el cotejo guardado…</p>';
@@ -172,7 +172,7 @@ export async function stockAction(a,el,{render,createStoredDocument,previewDocum
    const entries=working.sources.filter(s=>s.source_kind==='prestashop'&&s.extraction?.table?.rows?.length);
    if(entries.length)try{
     editor.innerHTML='<p role="status">Verificando las referencias exactas en el catálogo de esta tienda…</p>';
-    const {enrichStockCatalog}=await import('./stock-catalog.js?v=8f52eef05c862ae862d911e455dee74fc96a845b'),catalog=await loadStockCatalog(c.receipt.store_id,entries.flatMap(s=>s.extraction.table.rows.map(r=>r.reference)),()=>currentRead(scope)&&editor.isConnected);
+    const {enrichStockCatalog}=await import('./stock-catalog.js?v=91a64b47f29e56e4340588813d9c7efa27cfca45'),catalog=await loadStockCatalog(c.receipt.store_id,entries.flatMap(s=>s.extraction.table.rows.map(r=>r.reference)),()=>currentRead(scope)&&editor.isConnected);
     const checkedAt=new Date().toISOString();for(const source of entries)source.extraction.table.rows=enrichStockCatalog(source.extraction.table.rows,catalog,checkedAt);
    }catch{for(const source of entries)source.extraction.warnings=[...(source.extraction.warnings||[]),'No se ha podido verificar el catálogo completo. Se mantienen los identificadores del documento, sin inventar EAN.'];}
   }
