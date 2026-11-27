@@ -1,5 +1,5 @@
-import {taxSummaryHtml} from './tax-summary.js?v=79ffad5494069a305c364320c14a05392fa8d62a';
-import {createCentralCheckout} from './central-checkout.js?v=79ffad5494069a305c364320c14a05392fa8d62a';
+import {taxSummaryHtml} from './tax-summary.js?v=fa92926d3e3c3f2671659fd9e62b3b221d107ffa';
+import {createCentralCheckout} from './central-checkout.js?v=fa92926d3e3c3f2671659fd9e62b3b221d107ffa';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(v/100);
 const cents=value=>{if(!/^\d+(?:[.,]\d{1,2})?$/.test(String(value)))throw Error('Escribe un importe positivo con hasta dos decimales.');const [whole,fraction='']=String(value).replace(',','.').split('.');const result=Number(whole)*100+Number(fraction.padEnd(2,'0'));if(!Number.isSafeInteger(result)||result>999999999)throw Error('El importe supera el máximo permitido.');return result;};
