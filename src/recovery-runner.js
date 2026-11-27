@@ -1,4 +1,4 @@
-import {buildRecoveryArchive,readRecoveryArchive,prepareRecoveryPlan,archiveHash} from './recovery-core.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {buildRecoveryArchive,readRecoveryArchive,prepareRecoveryPlan,archiveHash} from './recovery-core.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
 
 // The adapter owns authenticated IO. Uploaded files are immutable; old files remain
 // available for the checkpoint and sessions that were open before recovery.

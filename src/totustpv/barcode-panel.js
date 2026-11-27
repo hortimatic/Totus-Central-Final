@@ -1,5 +1,5 @@
-import {BARCODE_FIELDS,barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
-import {LABEL_PAPERS,labelSheetHtml,printBarcodeLabels} from './barcode-labels.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {BARCODE_FIELDS,barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
+import {LABEL_PAPERS,labelSheetHtml,printBarcodeLabels} from './barcode-labels.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={preparing:'Preparando la lista',review:'Lista para revisar',processing:'Generando códigos',paused:'En pausa',completed:'Finalizado',cancelled:'Cancelado',pending:'Pendiente',generated:'Código generado','already-set':'Código conservado',unavailable:'Artículo no disponible',uncertain:'Pendiente de comprobar',dispatched:'Comprobando resultado'};
 const button=(action,label,disabled=false,primary=false)=>`<button type="button" class="btn ${primary?'primary':'secondary'}" data-tpv-barcode="${action}" ${disabled?'disabled':''}>${label}</button>`;

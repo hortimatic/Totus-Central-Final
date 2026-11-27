@@ -1,4 +1,4 @@
-import {cashTenderPreview} from './model.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {cashTenderPreview} from './model.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 /** Presentation of the verified total and existing tender calculation; no allocation writes. */

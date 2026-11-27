@@ -1,9 +1,9 @@
-import {saleDisplayReference} from './record-identifiers.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
-import {esc,money} from './utils.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
-import {expenseCostAmount} from './calculations.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
-import {activityChartHtml} from './dashboard-activity.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
-import {homeDateRange} from './home-period.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
-import {fieldHelp} from './components.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {saleDisplayReference} from './record-identifiers.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
+import {esc,money} from './utils.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
+import {expenseCostAmount} from './calculations.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
+import {activityChartHtml} from './dashboard-activity.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
+import {homeDateRange} from './home-period.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
+import {fieldHelp} from './components.js?v=21e7728dfd2de66926baf7cc5cf728c4835bd982';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
@@ -32,7 +32,7 @@ export function nativeHomeRead(reads,shop,range,sales=[],media=new Map()){
  const summaryOrders=reads.flatMap(r=>(r.orders||[]).map(o=>{
   const orderLines=Array.isArray(o.lines)?o.lines.map((l,i)=>({id:o.id+':'+i,id_order:o.id,product_id:l.productId,product_attribute_id:l.attributeId||'0',name:l.name,product_name:l.name,qty:l.qty,product_quantity:l.qty,image:media.get(String(l.productId))||'',reference:l.reference||'',product_reference:l.reference||'',total_price_tax_incl:((Number(l.totalCents||0))/100).toFixed(2),total_price_tax_excl:((Number(l.netCents||0))/100).toFixed(2)})):null;
   if(orderLines)detail.set(String(o.id),orderLines);
-  return {id:o.id,reference:o.reference||String(o.id).slice(0,8),display_number:o.display_number??o.reference??String(o.id).slice(0,8),date_add:madrid(o.date),valid:'1',id_currency:'EUR',currency_code:'EUR',total_paid_tax_incl:(Number(o.total||0)/100).toFixed(2),payment:o.payment||'TotusTPV',customer_name:o.customer_name||'',employee_name:o.employee_name||'',margin_value:null,current_state:'Confirmada'};
+  return {id:o.id,reference:o.reference||String(o.id).slice(0,8),display_number:o.display_number??(String(o.reference||'').replace(/^Pedido\s*#/i,'')||String(o.id).slice(0,8)),date_add:madrid(o.date),valid:'1',id_currency:'EUR',currency_code:'EUR',total_paid_tax_incl:(Number(o.total||0)/100).toFixed(2),payment:o.payment||'TotusTPV',customer_name:o.customer_name||'',employee_name:o.employee_name||'',margin_value:null,current_state:'Confirmada'};
  }));
  const seenIds=new Set(rows.map(r=>String(r.id)));
  for(const extra of summaryOrders)if(!seenIds.has(String(extra.id))){rows.push(extra);chartRows.push(extra);seenIds.add(String(extra.id));}
