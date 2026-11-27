@@ -1,4 +1,4 @@
-import {saleDisplayReference} from './record-identifiers.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {saleDisplayReference} from './record-identifiers.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
 const methodNames={cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'};
 const decimal=cents=>(Number(cents)/100).toFixed(2);
 const localDate=value=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).format(new Date(value));

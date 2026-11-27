@@ -1,4 +1,4 @@
-import {nativeMicros} from './native-adapter.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {nativeMicros} from './native-adapter.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
 const positive=v=>Number.isSafeInteger(Number(v))&&Number(v)>0;
 const rows=(value,key)=>Array.isArray(value)&&value.length===0?[]:value?.[key];
 const text=v=>typeof v==='string'&&v.trim()&&v.length<=80&&!/[\x00-\x1f\x7f]/.test(v);

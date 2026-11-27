@@ -1,6 +1,6 @@
-import {captureFormDraft} from './form-drafts.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
-import {interfaceIcon,metricIcon} from './interface-icons.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
-import {esc,fmtDate,money,statusClass} from './utils.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {captureFormDraft} from './form-drafts.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
+import {interfaceIcon,metricIcon} from './interface-icons.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
+import {esc,fmtDate,money,statusClass} from './utils.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
 
 // Contextual help follows the viewport. A MutationObserver runs at the
 // open-attribute microtask, avoiding the delayed native <details> toggle event.
@@ -68,9 +68,7 @@ export const dateFilters=({from,to,store='all',stores=[],query=''},prefix='filte
   <div class="field"><label for="${prefix}Store">Tienda</label><select id="${prefix}Store"><option value="all">Todas</option>${stores.map(s=>`<option value="${s.id}" ${store===s.id?'selected':''}>${esc(s.name)}</option>`).join('')}</select></div>
   <div class="field search" ${prefix==='fiscal'?'hidden':''}><label for="${prefix}Query">Buscar</label><input id="${prefix}Query" value="${esc(query||'')}" placeholder="Buscar por texto"></div>
   ${extraFields}
-  ${btn('Aplicar',prefix+'-apply','primary')}
-  ${btn('Este mes',prefix+'-month','secondary')}
-   ${btn('Limpiar',prefix+'-clear','secondary')}
+  <div class="filter-actions inline-actions">${btn('Aplicar',prefix+'-apply','primary')}${btn('Este mes',prefix+'-month','secondary')}${btn('Limpiar',prefix+'-clear','secondary')}</div>
   <div class="date-selected-hint" role="status" aria-live="polite">Periodo aplicado: <strong>${esc(fmtDate(from))}</strong> a <strong>${esc(fmtDate(to))}</strong> · Formato español DD/MM/AAAA</div>
  </div>`;
 export const empty=(title='Sin datos',text='Todavía no hay registros.')=>`<div class="empty"><strong>${esc(title)}</strong><span>${esc(text)}</span></div>`;

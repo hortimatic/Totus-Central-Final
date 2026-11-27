@@ -274,6 +274,8 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
 .tc-col-resizer:hover,.tc-col-resizer:active{background:color-mix(in srgb,var(--accent,#2563eb) 28%,transparent)}
 .business-store-card .inline-actions{flex-wrap:wrap;gap:6px}
 .business-store-card .summary-row{flex-wrap:wrap;gap:8px}
+.ps-local-filter-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ps-order-totals{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
 }
 
 @media screen{#content [data-pr-workspace=pricing] .prd-catalog-table button[data-pr-action=open-product]{white-space:nowrap;min-width:104px}}
