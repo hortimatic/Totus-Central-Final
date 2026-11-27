@@ -1,5 +1,5 @@
-import {positionColumnPanel,standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=d66ce241905ca27652ad8a3651738d2d5b2189db';
-import {compareTableValues} from './table-sort.js?v=d66ce241905ca27652ad8a3651738d2d5b2189db';
+import {positionColumnPanel,standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
+import {compareTableValues} from './table-sort.js?v=e7b6386e615354cfda934766d5f1e516d0ea65aa';
 /** Shared presentation and personal layouts; never writes business records. */
 export function installSharedTableArrows(root=document,{owner=()=>null}={}){
  const entries=new Map(),abort=new AbortController();let frame=0;
@@ -69,7 +69,7 @@ export function installSharedTableArrows(root=document,{owner=()=>null}={}){
 
 function installColumns(table,viewport,owner){
  // Editable record grids own their column/cell contracts. Never move their DOM.
- if(table.closest('.record-page,[data-draft-form],form'))return null;
+ if(table.matches('.tpv-ticket-table')||table.closest('.record-page,[data-draft-form],form'))return null;
  const headers=[...table.tHead?.rows[0]?.cells||[]];if(headers.length<2||headers.some(h=>h.colSpan!==1))return null;
  const rawLabels=headers.map(h=>h.textContent.trim()),labels=rawLabels.map((label,i)=>label||'Acciones '+(i+1)),rows=[...table.rows].filter(r=>r.cells.length===headers.length),original=rows.map(r=>[...r.cells]);
  const url=new URL(location.href),route=url.searchParams.get('module')||url.pathname.split('/').filter(Boolean).at(-1)||'inicio',module=({precio:'pricing',chat:'equipo'})[route]||route;
