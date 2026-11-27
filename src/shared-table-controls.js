@@ -1,5 +1,5 @@
-import {positionColumnPanel,standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
-import {compareTableValues} from './table-sort.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
+import {positionColumnPanel,standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow,columnSettingsCaption} from './column-settings.js?v=cf78275988b180a3b2ac6f14281728e24bb0f7bf';
+import {compareTableValues} from './table-sort.js?v=cf78275988b180a3b2ac6f14281728e24bb0f7bf';
 /** Shared presentation and personal layouts; never writes business records. */
 export function installSharedTableArrows(root=document,{owner=()=>null}={}){
  const entries=new Map(),abort=new AbortController();let frame=0;

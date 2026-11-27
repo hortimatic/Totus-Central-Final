@@ -1,8 +1,8 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
-import {esc} from './utils.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
-import {confirmProductDialog} from './productos-dialogs.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
-import {createDirectorySession} from './contact-directory-session.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
-import {directoryFields,directoryDiff,directoryText,DIRECTORY_LABELS} from './contact-directory-core.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=cf78275988b180a3b2ac6f14281728e24bb0f7bf';
+import {esc} from './utils.js?v=cf78275988b180a3b2ac6f14281728e24bb0f7bf';
+import {confirmProductDialog} from './productos-dialogs.js?v=cf78275988b180a3b2ac6f14281728e24bb0f7bf';
+import {createDirectorySession} from './contact-directory-session.js?v=cf78275988b180a3b2ac6f14281728e24bb0f7bf';
+import {directoryFields,directoryDiff,directoryText,DIRECTORY_LABELS} from './contact-directory-core.js?v=cf78275988b180a3b2ac6f14281728e24bb0f7bf';
 const titles={product_options:'atributo',product_option_values:'valor de atributo',product_features:'característica',product_feature_values:'valor de característica'};
 export async function openAttributeRecord({root,store,resource,recordId=null,parentId=null,actor,can,rpc,invoke,current=()=>root.isConnected,onState=()=>{},onChanged=()=>{},onNotice=()=>{},trigger,sessionFactory=null,storeName=websiteName,native=false}){
  if(!titles[resource])throw Error('Tipo de atributo no válido.');
