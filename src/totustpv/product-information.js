@@ -1,4 +1,4 @@
-import {productPurchaseAmounts} from '../productos-tax.js?v=648f617ef5685fd04b0b71ac5e134c5e8668cc5a';
+import {productPurchaseAmounts} from '../productos-tax.js?v=8f52eef05c862ae862d911e455dee74fc96a845b';
 // Same purchase basis as Products. Profit is per unit before other business expenses.
 export function productInformationAmounts(value){
  const numeric=v=>v===null||v===undefined||String(v).trim()===''?null:Number(v);

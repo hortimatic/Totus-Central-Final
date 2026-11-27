@@ -335,6 +335,10 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
 #app :is(.tc-col-resizer,.directory-resizer,.prd-column-resizer):hover{
  border-right:2px solid var(--accent,#2563eb);background:color-mix(in srgb,var(--accent,#2563eb) 18%,transparent)
 }
+.tc-user-cell{display:flex;align-items:center;gap:10px;min-width:0}
+.tc-user-avatar{width:34px;height:34px;border-radius:999px;flex:none;display:inline-grid;place-items:center;object-fit:cover;background:color-mix(in srgb,var(--accent,#2563eb) 14%,var(--panel,#fff));color:var(--accent,#2563eb);font-size:12px;font-weight:700;border:1px solid var(--line)}
+.prd-thumb,.ps-product-image{object-fit:contain;border-radius:6px;background:var(--panel,#fff);border:1px solid color-mix(in srgb,var(--line) 65%,transparent)}
+.prd-no-photo,.ps-image-empty{display:inline-grid;place-items:center;font-size:10px;color:var(--muted);background:var(--bg,#f5f7fa)}
 .business-store-card .inline-actions{flex-wrap:wrap;gap:6px}
 .business-store-card .summary-row{flex-wrap:wrap;gap:8px}
 .ps-local-filter-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
