@@ -1,8 +1,8 @@
 /** Use the SAME verified directory writer and durable publication journal as
  * Central's Customers module. No second customer store or alternate save path. */
-import {writeContactDirectory} from '../../../supabase/functions/totus-connections/contact-directory-write.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
-import {TOTUS_QA_POLICY} from './deployment-qa-policy.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
-import {assertQaTarget} from './qa-policy.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
+import {writeContactDirectory} from '../../../supabase/functions/totus-connections/contact-directory-write.js?v=cd1342fc6f63498ae0149f0a06d8623f4f176e8e';
+import {TOTUS_QA_POLICY} from './deployment-qa-policy.js?v=cd1342fc6f63498ae0149f0a06d8623f4f176e8e';
+import {assertQaTarget} from './qa-policy.js?v=cd1342fc6f63498ae0149f0a06d8623f4f176e8e';
 const need=(ok,code)=>{if(!ok)throw Error(code);};
 export async function writeTpvCustomer({input,scope,websiteKey,websiteName,connection,rpc,request,resolve,qaPolicy=TOTUS_QA_POLICY}){
  assertQaTarget({...connection,website_origin:qaPolicy.origin},scope,qaPolicy);

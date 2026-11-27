@@ -212,3 +212,16 @@
 .tpv-screen-heading>div:first-of-type{flex:1;min-width:200px}
 .tpv-screen-heading .inline-actions{margin-top:0}
 @media(max-width:760px){.totus-tpv .tpv-main-nav{flex-wrap:wrap}.totus-tpv .tpv-main-nav .tpv-nav-search{flex:1 0 100%}}
+.tpv-ticket-head{display:grid;grid-template-columns:36px minmax(0,1fr) 56px auto auto auto;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line);font-size:.74rem;font-weight:600;color:var(--muted)}
+.totus-tpv .tpv-ticket-line{display:grid;grid-template-columns:36px minmax(0,1fr) 56px auto auto auto;gap:6px 8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.tpv-line-thumb{width:36px;height:36px;border-radius:6px;object-fit:contain;background:var(--bg,#f5f7fa);border:1px solid var(--line);display:grid;place-items:center;flex-shrink:0}
+.tpv-line-thumb.is-empty svg{width:20px;height:20px;opacity:.65}
+.tpv-line-main{min-width:0;display:grid;gap:2px}
+.tpv-line-unit{display:grid;justify-items:end;font-size:.82rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tpv-line-price-old{font-size:.72rem;color:var(--muted)}
+.tpv-line-actions{display:inline-flex;gap:4px;align-items:center}
+.totus-tpv .tpv-line-actions .btn{min-width:28px;min-height:30px;padding:4px 7px;font-size:.82rem}
+.totus-tpv .tpv-line-discount{grid-column:2/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px}
+.totus-tpv .tpv-line-discount label{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);flex:1 1 150px}
+.totus-tpv .tpv-line-discount select,.totus-tpv .tpv-line-discount input{min-height:30px;padding:4px 8px;font-size:.8rem}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

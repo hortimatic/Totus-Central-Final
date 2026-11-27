@@ -1,4 +1,4 @@
-import {productColumnDefaultWidth,PRODUCT_COLUMN_MIN_WIDTH as MIN,PRODUCT_COLUMN_MAX_WIDTH as MAX} from './productos-catalog.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
+import {productColumnDefaultWidth,PRODUCT_COLUMN_MIN_WIDTH as MIN,PRODUCT_COLUMN_MAX_WIDTH as MAX} from './productos-catalog.js?v=cd1342fc6f63498ae0149f0a06d8623f4f176e8e';
 // Only presentation is changed; no product fields or business operations are sent.
 export function attachProductTableLayout(root,{onWidth,onMove,onFinish=()=>{},defaultWidth=productColumnDefaultWidth}){
  const abort=new AbortController(),options={signal:abort.signal};let resizing=null,moving=null;
