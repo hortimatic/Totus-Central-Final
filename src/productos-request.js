@@ -1,6 +1,6 @@
-import {esc} from './utils.js?v=6e92618f01c8d3d5d82dea572a0fa5832046542b';
-import {fieldHelp} from './components.js?v=6e92618f01c8d3d5d82dea572a0fa5832046542b';
-import {WEBSITE_CHOICES} from './website-registry.js?v=6e92618f01c8d3d5d82dea572a0fa5832046542b';
+import {esc} from './utils.js?v=85fc1d456f797b7440970d7b4ec0ff8ae8ac4c1a';
+import {fieldHelp} from './components.js?v=85fc1d456f797b7440970d7b4ec0ff8ae8ac4c1a';
+import {WEBSITE_CHOICES} from './website-registry.js?v=85fc1d456f797b7440970d7b4ec0ff8ae8ac4c1a';
 const legacyStores={hortimatic:'Hortimatic',newoldsmok:'NewOldSmok',ambas:'Hortimatic y NewOldSmok'};
 const availableStores=()=>WEBSITE_CHOICES.length?{...Object.fromEntries(WEBSITE_CHOICES.map(w=>[w.key,w.name])),...(WEBSITE_CHOICES.length>1?{ambas:'Todas las tiendas'}:{})}:legacyStores;
 const labels={url:'URL del proveedor',product_id:'ID del producto existente',reference:'Referencia',brand:'Marca',supplier:'Proveedor',ean:'EAN del producto o de cada variación',name:'Nombre del producto',cost:'Coste sin impuestos (€)',sale:'Precio de venta con impuestos (€)',weight:'Peso (kg)',width:'Anchura (cm)',height:'Altura (cm)',depth:'Profundidad (cm)',variants:'Variaciones y atributos',images:'URLs de imágenes proporcionadas',notes:'Indicaciones adicionales'};
