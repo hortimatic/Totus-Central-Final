@@ -336,20 +336,39 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
 #app :is(.tc-col-resizer,.directory-resizer,.prd-column-resizer):hover{
  border-right:2px solid var(--accent,#2563eb);background:color-mix(in srgb,var(--accent,#2563eb) 18%,transparent)
 }
-/* Unified module tabs across Productos, PrestaShop, Administracion, Gastos, Facturacion and Cajas */
-#productosRoot .prd-v4-nav,#content .ps-tabs{
+/* Unified module tabs across Productos, PrestaShop, Tareas, Chat, Administracion, Gastos, Facturacion and Cajas */
+#productosRoot .prd-v4-nav,#content .ps-tabs,#content .tasks-views,#content .chat-view-tabs,#content .module-tabs{
  display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:4px!important;
  background:var(--appearance-surface,var(--panel,#fff))!important;border:1px solid var(--line)!important;
- border-radius:var(--r,12px)!important;padding:0 12px!important;box-shadow:none!important
+ border-radius:var(--r,12px)!important;padding:0 12px!important;box-shadow:none!important;min-height:42px!important
 }
-#productosRoot .prd-v4-nav .master-tab-btn,#content .ps-tabs button{
+#productosRoot .prd-v4-nav .master-tab-btn,#content .ps-tabs button,#content .tasks-views button,#content .chat-view-tabs button,#content .module-tabs>.tab{
  display:inline-flex!important;align-items:center!important;gap:6px!important;flex:0 0 auto!important;
  border:0!important;border-bottom:2px solid transparent!important;border-radius:0!important;
- background:transparent!important;color:var(--muted)!important;padding:11px 10px!important;min-height:40px!important;
+ background:transparent!important;color:var(--muted)!important;padding:10px!important;min-height:40px!important;
  font-size:12px!important;font-weight:700!important;white-space:nowrap!important
 }
-#productosRoot .prd-v4-nav .master-tab-btn[aria-selected=true],#content .ps-tabs button[aria-pressed=true]{
+#productosRoot .prd-v4-nav .master-tab-btn[aria-selected=true],#content .ps-tabs button[aria-pressed=true],#content .tasks-views button[aria-selected=true],#content .chat-view-tabs button[aria-selected=true],#content .module-tabs>.tab.active{
  color:var(--accent)!important;border-bottom-color:var(--accent)!important;background:transparent!important
+}
+/* Unified headings, cards, dialogs and content-adaptive responsive across the entire app */
+#app :is(.ps-header,.directory-heading,.prd-v4-header,.section-head){
+ display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;min-width:0
+}
+#app :is(.ps-header h2,.directory-heading h2,.prd-v4-header strong,.section-head h2){font-size:17px;line-height:1.35;margin:0}
+#app :is(.api-connection-card,.store-status-card,.storage-provider-card,.credential-card,.admin-entity,.ps-quality-panel,.ps-order-totals,.ps-recipe-grid>article,.tpv-central-cash-session,.tasks-calendar,.team-chat){
+ border:var(--appearance-border-width,1px) solid var(--line);border-radius:var(--r,12px);background:var(--appearance-surface,var(--panel,#fff));padding:16px;min-width:0;box-sizing:border-box
+}
+:is(.modal,.directory-dialog,.api-user-dialog,.tpv-product-dialog,.tasks-dialog,.chat-dialog){
+ border:var(--appearance-border-width,1px) solid var(--line);border-radius:var(--r,14px);
+ background:var(--appearance-modal-bg,var(--panel,#fff));color:var(--ink);box-sizing:border-box
+}
+@media(max-width:760px){
+ #app :is(.card-pad,.directory-main,.prd-panel,.ps-quality-panel,.api-connection-card,.admin-entity,.tpv-central-cash-session){padding:12px}
+ #app :is(.module-heading h2,.ps-header h2,.directory-heading h2,.section-head h2){font-size:16px}
+ #app :is(.kpi strong,.ps-kpi strong){font-size:20px}
+ #app :is(.form-grid,.directory-form-grid,.tpv-product-fields,.ps-flow-form,.tpv-central-cash-filters){grid-template-columns:minmax(0,1fr)!important}
+ #app :is(.btn,.directory-actions button,.ps-filters button){white-space:normal;text-align:center}
 }
 #productosRoot .prd-table-arrows{
  position:sticky;bottom:8px;z-index:5;justify-content:flex-end;pointer-events:none

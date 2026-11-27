@@ -1,6 +1,6 @@
-import {textValue,associationIds} from '../productos-core.js?v=24e61f01bf26b898435bbe48eb4307cb9bdc64ec';
-import {catalogueSearchFields} from './search-preferences.js?v=24e61f01bf26b898435bbe48eb4307cb9bdc64ec';
-import {catalogueFilters} from './catalogue-preferences.js?v=24e61f01bf26b898435bbe48eb4307cb9bdc64ec';
+import {textValue,associationIds} from '../productos-core.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
+import {catalogueSearchFields} from './search-preferences.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
+import {catalogueFilters} from './catalogue-preferences.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
 /** Search Central's imported products; only native cached rows carry sale previews.
  * Missing prices/stock remain missing. Base catalogue prices are never payable.
  */

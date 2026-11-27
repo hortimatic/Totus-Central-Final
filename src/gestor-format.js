@@ -1,4 +1,4 @@
-import {esc,fmtDate,inRange} from './utils.js?v=24e61f01bf26b898435bbe48eb4307cb9bdc64ec';
+import {esc,fmtDate,inRange} from './utils.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
 
 // Column order and tax split transcribed from the accountant's original report.
 // The accountant owns Nºfra.rec. and Rt; never invent those references.

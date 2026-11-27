@@ -1,4 +1,4 @@
-import {textValue} from './productos-core.js?v=24e61f01bf26b898435bbe48eb4307cb9bdc64ec';
+import {textValue} from './productos-core.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
 
 // Selection, filters and durable local gallery preferences are not unsaved writes.
 export function productHasUnpublishedChanges({record,overrides={},variants=[],variantOverrides=new Map(),mode='',targetRaw=new Map(),targets=null,tableEdits=[],wizard={},draftPhotos=[]}={}){
