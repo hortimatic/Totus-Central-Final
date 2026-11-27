@@ -83,15 +83,16 @@
 
 .home-gain-stores{display:flex;flex-wrap:wrap;gap:4px 16px;width:100%;box-sizing:border-box;margin:8px 0 0;font-size:11px}.home-gain-stores>div{display:flex;flex:1 1 140px;flex-wrap:wrap;justify-content:space-between;gap:2px 6px;min-width:0}.home-gain-stores dt{color:var(--muted);white-space:nowrap}.home-gain-stores dd{margin:0;font-weight:600;white-space:nowrap}
 
-.tc-settings-panel,.directory-dialog.directory-columns.tc-settings-panel{display:flex!important;flex-direction:column;gap:8px;width:min(360px,calc(100vw - 24px));max-height:min(84dvh,640px);overflow:hidden!important;padding:12px;font-size:12px}
+.tc-settings-panel,.directory-dialog.directory-columns.tc-settings-panel{display:flex!important;flex-direction:column;gap:8px;width:min(440px,calc(100vw - 24px));max-height:min(86dvh,680px);overflow:hidden!important;padding:12px;font-size:12px}
 .prd-columns>.tc-settings-panel:not(:popover-open){visibility:hidden}
 .tc-settings-panel[popover]:not(:popover-open){display:none!important}
 .tc-settings-header{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:0 0 8px;margin:0}
 html[data-appearance] #app #content .tc-settings-header>button,.tc-settings-header>button{width:30px;height:30px;min-height:30px;padding:0;font-size:18px}
 .tc-settings-panel>.prd-column-search,.tc-settings-panel>.tc-column-status{margin:0;flex:none}
-.tc-settings-panel .tc-settings-list{display:block!important;grid-template-columns:none!important;min-height:60px;max-height:min(32dvh,240px);overflow:auto;overscroll-behavior:contain;flex:1 1 auto;width:100%}
+.tc-settings-panel .tc-settings-list{display:block!important;grid-template-columns:none!important;min-height:220px;max-height:min(48dvh,420px);overflow:auto;overscroll-behavior:contain;flex:1 1 auto;width:100%}
 .tc-settings-panel .tc-settings-list>.tc-column-row{width:100%;max-width:100%}
-.tc-settings-advanced{display:grid;gap:6px;min-height:0;max-height:none;overflow:visible;flex:none;border-top:1px solid var(--line);padding-top:8px}.tc-settings-advanced[hidden]{display:none!important}
+.tc-settings-advanced{display:grid;gap:6px;min-height:0;flex:none;border-top:1px solid var(--line);padding-top:8px}.tc-settings-advanced[hidden]{display:none!important}
+.tc-settings-advanced>summary{cursor:pointer;list-style:none;padding:4px 0;font-size:12px;color:var(--accent,#2563eb)}
 .tc-settings-advanced :is(.prd-column-views,.tc-column-views,.ps-order-view-save){border:0;padding:0;margin:0}
 .tc-settings-footer{display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--line);padding-top:8px;flex:none}
 html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-footer>button{flex:1 1 130px;min-height:36px;font-size:12px;padding:7px 9px}
@@ -335,6 +336,25 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
 #app :is(.tc-col-resizer,.directory-resizer,.prd-column-resizer):hover{
  border-right:2px solid var(--accent,#2563eb);background:color-mix(in srgb,var(--accent,#2563eb) 18%,transparent)
 }
+/* Unified module tabs across Productos, PrestaShop, Administracion, Gastos, Facturacion and Cajas */
+#productosRoot .prd-v4-nav,#content .ps-tabs{
+ display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;gap:4px!important;
+ background:var(--appearance-surface,var(--panel,#fff))!important;border:1px solid var(--line)!important;
+ border-radius:var(--r,12px)!important;padding:0 12px!important;box-shadow:none!important
+}
+#productosRoot .prd-v4-nav .master-tab-btn,#content .ps-tabs button{
+ display:inline-flex!important;align-items:center!important;gap:6px!important;flex:0 0 auto!important;
+ border:0!important;border-bottom:2px solid transparent!important;border-radius:0!important;
+ background:transparent!important;color:var(--muted)!important;padding:11px 10px!important;min-height:40px!important;
+ font-size:12px!important;font-weight:700!important;white-space:nowrap!important
+}
+#productosRoot .prd-v4-nav .master-tab-btn[aria-selected=true],#content .ps-tabs button[aria-pressed=true]{
+ color:var(--accent)!important;border-bottom-color:var(--accent)!important;background:transparent!important
+}
+#productosRoot .prd-table-arrows{
+ position:sticky;bottom:8px;z-index:5;justify-content:flex-end;pointer-events:none
+}
+#productosRoot .prd-table-arrows>button{pointer-events:auto}
 .tc-user-cell{display:flex;align-items:center;gap:10px;min-width:0}
 .tc-user-avatar{width:34px;height:34px;border-radius:999px;flex:none;display:inline-grid;place-items:center;object-fit:cover;background:color-mix(in srgb,var(--accent,#2563eb) 14%,var(--panel,#fff));color:var(--accent,#2563eb);font-size:12px;font-weight:700;border:1px solid var(--line)}
 .prd-thumb,.ps-product-image{object-fit:contain;border-radius:6px;background:var(--panel,#fff);border:1px solid color-mix(in srgb,var(--line) 65%,transparent)}

@@ -38,7 +38,7 @@ export function standardizeColumnPanel(panel,{onClose=()=>{}}={}){
  const help=document.createElement('p');help.className='tc-column-status';help.textContent='Elige las columnas visibles y su posición.';
  const parent=rows[0].parentElement,list=parent!==panel&&rows.every(row=>row.parentElement===parent)?parent:document.createElement('div');list.classList.add('tc-settings-list','directory-column-list');list.append(...rows);
  const footer=document.createElement('footer');footer.className='tc-settings-footer';for(const button of [save,reset])if(button){button.classList.add('btn','secondary');footer.append(button);}
- const advanced=document.createElement('section');advanced.className='tc-settings-advanced';const summary=document.createElement('strong');summary.textContent='Vistas guardadas y opciones';advanced.append(summary);
+ const advanced=document.createElement('details');advanced.className='tc-settings-advanced';const summary=document.createElement('summary');summary.innerHTML='<strong>Vistas guardadas y opciones</strong>';advanced.append(summary);
  search.classList.add('prd-column-search');search.remove();for(const status of statuses)status.remove();
  for(const child of original){if(child===search||child===list||child===save||child===reset||child.matches('header,legend,p,.tc-column-row'))continue;for(const empty of [...child.querySelectorAll('div')].reverse())if(!empty.children.length&&!empty.textContent.trim())empty.remove();if(child.querySelector('input,select,button')||child.matches('label,button'))advanced.append(child);}
  panel.replaceChildren(header,search,help,list,advanced,footer,...statuses);
