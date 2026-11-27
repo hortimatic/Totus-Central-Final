@@ -53,9 +53,10 @@ export const HOME_ORDER_COLUMNS=Object.freeze(['order','reference','products','c
 const safeFilters = x => {
   if(!isObj(x))return {};
   const out={};
-  for(const key of ['from','to','status','query','payment','origin','sort','period','inheritPeriod','page','pageSize','columns','chartMode','chartMetric','tableDensity','productView','topLimit','showMetrics','showTop','heightMode','desktopHeightPx','tabletHeightPx','mobileHeightPx']){
+  for(const key of ['from','to','status','query','payment','origin','sort','period','inheritPeriod','page','pageSize','columns','columnWidths','chartMode','chartMetric','tableDensity','productView','topLimit','showMetrics','showTop','heightMode','desktopHeightPx','tabletHeightPx','mobileHeightPx']){
     if(!Object.hasOwn(x,key))continue;
-    if(['desktopHeightPx','tabletHeightPx','mobileHeightPx'].includes(key)){if(Number.isInteger(x[key])&&x[key]>=100&&x[key]<=2000)out[key]=x[key];}
+    if(key==='columnWidths'&&isObj(x[key])){const widths={};for(const [k,v]of Object.entries(x[key]))if(typeof k==='string'&&k.length<=40&&Number.isFinite(Number(v)))widths[k]=bounded(v,65,600,120);out.columnWidths=widths;}
+    else if(['desktopHeightPx','tabletHeightPx','mobileHeightPx'].includes(key)){if(Number.isInteger(x[key])&&x[key]>=100&&x[key]<=2000)out[key]=x[key];}
     else if(key==='heightMode')out.heightMode=x[key]==='manual'?'manual':'auto';
     else if(key==='chartMode')out.chartMode=['hours','days','off'].includes(x[key])?x[key]:'hours';
     else if(key==='chartMetric')out.chartMetric=['orders','sales'].includes(x[key])?x[key]:'orders';

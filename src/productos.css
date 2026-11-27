@@ -1,8 +1,8 @@
-@import url("./productos-relations.css?v=a6b725d2c27e1b8dd5ebb4f53404f641b6e27dd9");
-@import url("./productos-professional.css?v=a6b725d2c27e1b8dd5ebb4f53404f641b6e27dd9");
-@import url("./productos-photo-preview.css?v=a6b725d2c27e1b8dd5ebb4f53404f641b6e27dd9");
-@import url("./productos-stitch.css?v=a6b725d2c27e1b8dd5ebb4f53404f641b6e27dd9");
-@import url("./product-categories.css?v=a6b725d2c27e1b8dd5ebb4f53404f641b6e27dd9");
+@import url("./productos-relations.css?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a");
+@import url("./productos-professional.css?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a");
+@import url("./productos-photo-preview.css?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a");
+@import url("./productos-stitch.css?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a");
+@import url("./product-categories.css?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a");
 /* Legacy business controls retained until their individual Stitch mapping is verified. */
 .productos-page{min-width:0}
 .prd-shell{display:grid;gap:16px;min-width:0}
