@@ -225,3 +225,26 @@
 .totus-tpv .tpv-line-discount label{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);flex:1 1 150px}
 .totus-tpv .tpv-line-discount select,.totus-tpv .tpv-line-discount input{min-height:30px;padding:4px 8px;font-size:.8rem}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.tpv-ticket-head-actions{display:inline-flex;gap:6px;align-items:center;margin-left:auto}
+.tpv-ticket-table-wrap{min-height:0;overflow:auto;border:1px solid var(--line);border-radius:var(--r,8px)}
+.totus-tpv .tpv-ticket-table{width:100%;border-collapse:collapse;table-layout:auto;font-size:.84rem;min-width:0}
+.totus-tpv .tpv-ticket-table th,.totus-tpv .tpv-ticket-table td{padding:6px;border-bottom:1px solid var(--line);vertical-align:middle}
+.totus-tpv .tpv-ticket-table thead th{position:sticky;top:0;z-index:1;background:var(--bg,#f5f7fa);font-size:.74rem;font-weight:600;color:var(--muted);white-space:nowrap}
+.tpv-ticket-table .tpv-col-image{width:34px;padding-inline:4px}
+.tpv-ticket-table .tpv-col-qty{width:60px}
+.tpv-ticket-table .tpv-col-qty input{width:54px;min-height:30px;padding:3px 4px;text-align:center;font-size:.82rem}
+.tpv-ticket-table .tpv-col-discount{width:78px;text-align:center}
+.tpv-ticket-table .tpv-col-unit,.tpv-ticket-table .tpv-col-total{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tpv-ticket-table .tpv-col-actions{width:64px;text-align:right;white-space:nowrap}
+.tpv-line-thumb{width:28px;height:28px}
+.tpv-line-meta{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.tpv-stock-badge{font-size:.68rem;padding:1px 6px;line-height:1.35}
+.totus-tpv .tpv-line-disc-btn{min-height:28px;padding:3px 7px;font-size:.74rem;white-space:nowrap}
+.totus-tpv .tpv-line-disc-btn.is-active{border-color:var(--accent);color:var(--accent);font-weight:650}
+.tpv-ticket-extras-hint{display:block;font-size:.74rem;color:var(--accent);margin-top:2px}
+:is(.tpv-customer-dialog,.tpv-ticket-options-dialog,.tpv-line-discount-dialog,.tpv-ticket-columns-dialog){width:min(560px,calc(100vw - 24px));max-width:none;max-height:calc(100dvh - 24px);padding:20px;border:1px solid var(--line);border-radius:var(--r,14px);background:var(--panel,#fff);color:var(--ink);box-shadow:0 24px 80px #07152740;overflow:auto;margin:auto}
+.tpv-customer-dialog{width:min(720px,calc(100vw - 24px))}
+:is(.tpv-customer-dialog,.tpv-ticket-options-dialog,.tpv-line-discount-dialog,.tpv-ticket-columns-dialog)::backdrop{background:#091a32a6;backdrop-filter:blur(3px)}
+:is(.tpv-ticket-options-dialog,.tpv-line-discount-dialog,.tpv-ticket-columns-dialog) header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+:is(.tpv-ticket-options-dialog,.tpv-line-discount-dialog) form{display:grid;gap:12px}
+.tpv-ticket-cols-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:14px}
