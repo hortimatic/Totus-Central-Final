@@ -155,7 +155,7 @@
 .tpv-barcode-panel p{max-width:75ch}
 .tpv-barcode-panel form,.tpv-barcode-review{padding:1.25rem;border:1px solid var(--border,#dce3ec);border-radius:16px;display:grid;gap:1rem}
 .tpv-barcode-panel fieldset{border:0;padding:0;display:grid;gap:.8rem;min-width:0}
-.tpv-barcode-panel fieldset select{display:block;max-width:100%;margin-top:.4rem}
+.tpv-barcode-panel fieldset select{display:block;width:100%;max-width:340px;margin-top:.4rem}
 .tpv-barcode-start{padding:1.25rem;background:var(--surface-alt,#f0f6fb);border-radius:16px}
 .tpv-barcode-badge{padding:.5rem .8rem;border-radius:999px;background:#e6f4ef;color:#175b43;font-weight:700}
 .tpv-barcode-counts{display:flex;gap:1rem;flex-wrap:wrap}.tpv-barcode-counts span{display:grid;gap:.15rem;min-width:90px}.tpv-barcode-counts b{font-size:1.4rem}

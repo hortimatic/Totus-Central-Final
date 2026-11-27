@@ -1,5 +1,5 @@
-import {WEBSITE_CHOICES} from './website-registry.js?v=c6aa526e08eb134893f164336b4d8564cf9ef625';
-import {PRESTASHOP_QUERY_RECIPES} from './prestashop-queries.js?v=c6aa526e08eb134893f164336b4d8564cf9ef625';
+import {WEBSITE_CHOICES} from './website-registry.js?v=1387f9fe9917925c3e046968e8bca7056cf90f92';
+import {PRESTASHOP_QUERY_RECIPES} from './prestashop-queries.js?v=1387f9fe9917925c3e046968e8bca7056cf90f92';
 const date=s=>/^\d{4}-\d{2}-\d{2}$/.test(s)&&new Date(s+'T12:00:00Z').toISOString().slice(0,10)===s;
 export function validatePrestashopFlow(raw,stores=WEBSITE_CHOICES){
  const flow={id:String(raw.id||''),name:String(raw.name||'').trim(),store:raw.store,recipe:raw.recipe,period:raw.period,start:raw.start||'00:00',end:raw.end||'23:59'};

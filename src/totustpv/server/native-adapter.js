@@ -2,9 +2,9 @@
  * Quote and attributed inventory evidence are separate verified server adapters.
  * A raw quantity difference alone cannot attribute a concurrent stock movement.
  */
-import {reconcileNativeTaxedSubtotal} from './native-subtotal.js?v=c6aa526e08eb134893f164336b4d8564cf9ef625';
-import {createNativeCartPreflight} from './cart-preflight.js?v=c6aa526e08eb134893f164336b4d8564cf9ef625';
-import {paymentSummary} from '../model.js?v=c6aa526e08eb134893f164336b4d8564cf9ef625';
+import {reconcileNativeTaxedSubtotal} from './native-subtotal.js?v=1387f9fe9917925c3e046968e8bca7056cf90f92';
+import {createNativeCartPreflight} from './cart-preflight.js?v=1387f9fe9917925c3e046968e8bca7056cf90f92';
+import {paymentSummary} from '../model.js?v=1387f9fe9917925c3e046968e8bca7056cf90f92';
 const requireValue=(condition,code)=>{if(!condition)throw new Error(code);};
 const positive=value=>Number.isSafeInteger(value)&&value>0;
 const nativeId=value=>/^[1-9][0-9]*$/.test(String(value))&&positive(Number(value))?Number(value):null;

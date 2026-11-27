@@ -1,4 +1,4 @@
-import {chatPreferences} from './chat-preferences.js?v=c6aa526e08eb134893f164336b4d8564cf9ef625';
+import {chatPreferences} from './chat-preferences.js?v=1387f9fe9917925c3e046968e8bca7056cf90f92';
 // Pure chat rules. A message is never an accounting entry.
 export const CHAT_CHANNEL_ICONS=[['','Sin icono'],['📣','Avisos'],['💬','Conversación'],['🧾','Facturas y gastos'],['💶','Cajas'],['📦','Pedidos'],['🏪','Tienda'],['🛒','Clientes'],['✅','Tareas'],['📋','Revisiones'],['🚚','Recepciones'],['🔧','Soporte'],['📁','Documentos'],['⭐','Destacado']];
 export function chatChannelIdentity(name=''){const icon=CHAT_CHANNEL_ICONS.find(([v])=>v&&name.startsWith(v+' '))?.[0]||'';return {icon,name:icon?name.slice(icon.length+1):name};}
