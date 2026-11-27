@@ -1,8 +1,8 @@
-import {localCategories,categoryFilterIds} from './local-categories.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
+import {localCategories,categoryFilterIds} from './local-categories.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {createCentralCatalogueStore} from './offline-source-store.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
+import {catalogueSearchFields} from './search-preferences.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {createCentralCatalogueStore} from './offline-source-store.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
@@ -13,7 +13,8 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
  let context=null,selected=null,session=null,customer=null,workspace=null,activeDraft=null,categoryTree=[];
  const catalogueSnapshots=new Map();
  const guard=()=>need(currentActor()===actorId,'La cuenta ha cambiado. Vuelve a abrir el mostrador.');
- const call=async(name,args={})=>{guard();let result;try{result=await invoke(name,copy(args));}catch(error){if(typeof error?.message==='string'&&error.message.startsWith(name+': '))error.message=error.message.slice(name.length+2);throw error;}guard();return result;};
+ const invalidateVersion=()=>{for(const [k,v]of catalogueSnapshots)catalogueSnapshots.set(k,{...v,checkedAt:0});};
+ const call=async(name,args={})=>{guard();let result;try{result=await invoke(name,copy(args));}catch(error){if(typeof error?.message==='string'&&error.message.startsWith(name+': '))error.message=error.message.slice(name.length+2);throw error;}guard();if(name==='totus_tpv_local_finish'||name==='totus_tpv_local_tax_apply')invalidateVersion();return result;};
  const station=()=>{guard();need(selected,'Selecciona una caja de Central.');return selected;};
  const active=()=>{station();need(session?.status==='open','Abre una caja de Central.');return session;};
  const key=id=>'totus:tpv:central-operation:'+actorId+':'+id;
@@ -35,16 +36,26 @@ export function createLocalTpvAdapter({invoke,actorId,currentActor,storage,prove
   workspace=result;return copy(result);
  }
  async function page(kind,options={}){const drawerId=station().id,all=[];for(let offset=0;offset<=1000000;offset+=200){const result=await call('totus_tpv_local_read',{p_drawer:drawerId,p_kind:kind,p_search:options.search||'',p_limit:200,p_offset:offset});need(station().id===drawerId,'La caja ha cambiado durante la consulta.');need(Array.isArray(result?.items),'No se han podido leer los datos de Central.');all.push(...result.items);if(!result.hasMore)return all;}throw Error('El catálogo supera el límite de lectura. Ajusta la búsqueda.');}
- async function catalogue(){
-  const drawer=station(),cacheKey=JSON.stringify([drawer.storeId,drawer.id]),version=await call('totus_tpv_local_read',{p_drawer:drawer.id,p_kind:'catalogue-version'});
-  need(station().id===drawer.id&&version?.storeId===drawer.storeId&&typeof version.revision==='string','No se pudo verificar la versión del catálogo de esta tienda.');
+ async function catalogue({force=false}={}){
+  const drawer=station(),cacheKey=JSON.stringify([drawer.storeId,drawer.id]);
   let cached=catalogueSnapshots.get(cacheKey),device;
+  if(!force&&cached?.items&&cached.checkedAt&&(Date.now()-cached.checkedAt)<15000)return cached.items;
   try{device=catalogueStoreFactory({scope:{actorId,storeId:drawer.storeId,drawerId:drawer.id}});if(!cached)cached=await device.get();}catch{}
   guard();need(station().id===drawer.id,'La caja ha cambiado durante la consulta.');
-  if(cached?.revision===version.revision){catalogueSnapshots.set(cacheKey,cached);return cached.items;}
+  let version;
+  try{version=await call('totus_tpv_local_read',{p_drawer:drawer.id,p_kind:'catalogue-version'});}
+  catch(error){
+   if(cached?.items&&(globalThis.navigator?.onLine===false||/fetch|network|timeout|timed out|offline|failed to fetch/i.test(error?.message||''))){
+    catalogueSnapshots.set(cacheKey,{...cached,checkedAt:Date.now()});
+    return cached.items;
+   }
+   throw error;
+  }
+  need(station().id===drawer.id&&version?.storeId===drawer.storeId&&typeof version.revision==='string','No se pudo verificar la versión del catálogo de esta tienda.');
+  if(cached?.revision===version.revision){const fresh={...cached,checkedAt:Date.now()};catalogueSnapshots.set(cacheKey,fresh);return fresh.items;}
   const items=await page('catalogue'),after=await call('totus_tpv_local_read',{p_drawer:drawer.id,p_kind:'catalogue-version'});
   need(station().id===drawer.id&&after?.storeId===drawer.storeId&&after.revision===version.revision,'El catálogo ha cambiado durante la lectura. Vuelve a consultar.');
-  const snapshot={revision:version.revision,items};catalogueSnapshots.set(cacheKey,snapshot);
+  const snapshot={revision:version.revision,items,checkedAt:Date.now()};catalogueSnapshots.set(cacheKey,snapshot);
   try{await device?.put(snapshot);}catch{}
   guard();need(station().id===drawer.id,'La caja ha cambiado durante la consulta.');return items;
  }

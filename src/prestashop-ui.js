@@ -1,24 +1,24 @@
-import {openWebsiteImport} from './website-import-ui.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {centralSaleRow,centralSaleLines,centralSalesMargin} from './central-sales-data.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {websiteName} from './website-registry.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {concurrentRead} from './concurrent-read.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {catalogQualityPanel} from './catalog-quality-ui.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {catalogQualityReport} from './catalog-quality.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {createOrdersTablePreferences,sortOrderRows,renderOrdersTable,attachOrdersTable} from './prestashop-orders-table.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {enhanceProductSelects} from './productos-controls.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {approximateOrderMargin} from './prestashop-margin.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {listPage,catalogCategoryChoices,filterCatalogRows} from './prestashop-list-page.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {paymentFilterChoices,matchesPaymentFilter} from './prestashop-payment-filter.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {PRESTASHOP_STORES as REGISTERED_STORES,storeConnection,PRESTASHOP_RESOURCES,prestashopProductImage} from './prestashop-readonly.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {PRESTASHOP_QUERY_RECIPES,recipeProducts,withinDailyWindow,detailedRecipe} from './prestashop-queries.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {orderInsights,catalogIssues,sourceCents,ticketSourceKey,rotationOpportunities} from './prestashop-insights.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {esc,money,fmtDate,isoToday,csv,download} from './utils.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {interfaceIcon} from './interface-icons.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {fieldHelp} from './components.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {STOCK_STATES,stockReceiptStatus} from './stock-core.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
-import {prestashopFlowStore,prestashopFlowRange} from './prestashop-flows.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
+import {openWebsiteImport} from './website-import-ui.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {centralSaleRow,centralSaleLines,centralSalesMargin} from './central-sales-data.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {websiteName} from './website-registry.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {concurrentRead} from './concurrent-read.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {catalogQualityPanel} from './catalog-quality-ui.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {catalogQualityReport} from './catalog-quality.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {createOrdersTablePreferences,sortOrderRows,renderOrdersTable,attachOrdersTable} from './prestashop-orders-table.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {enhanceProductSelects} from './productos-controls.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {approximateOrderMargin} from './prestashop-margin.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {listPage,catalogCategoryChoices,filterCatalogRows} from './prestashop-list-page.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {paymentFilterChoices,matchesPaymentFilter} from './prestashop-payment-filter.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {PRESTASHOP_STORES as REGISTERED_STORES,storeConnection,PRESTASHOP_RESOURCES,prestashopProductImage} from './prestashop-readonly.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {PRESTASHOP_QUERY_RECIPES,recipeProducts,withinDailyWindow,detailedRecipe} from './prestashop-queries.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {orderInsights,catalogIssues,sourceCents,ticketSourceKey,rotationOpportunities} from './prestashop-insights.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {esc,money,fmtDate,isoToday,csv,download} from './utils.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {interfaceIcon} from './interface-icons.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {fieldHelp} from './components.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {STOCK_STATES,stockReceiptStatus} from './stock-core.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {prestashopFlowStore,prestashopFlowRange} from './prestashop-flows.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
 const tabs=[['summary','Resumen'],['orders','Pedidos y ventas'],['catalog','Catálogo'],['queries','Consultas'],['cash','Cajas y facturas'],['receipts','Recepciones y cotejo'],['saved_queries','Consultas guardadas'],['connection','Conexión']];
 const labels={id:'ID',id_product:'Producto',id_product_attribute:'Variante',quantity:'Existencias',physical_quantity:'Unidades',sign:'Signo',date_add:'Fecha',id_stock_mvt_reason:'Motivo',id_employee:'Empleado',id_order:'Pedido',id_supply_order:'Pedido proveedor',id_shop:'Tienda origen'};
 const amount=(value,code=null)=>{const cents=sourceCents(typeof value==='number'&&Number.isFinite(value)?value.toFixed(2):value);if(cents===null)return 'Sin importe válido';try{return code?new Intl.NumberFormat('es-ES',{style:'currency',currency:code}).format(cents/100):new Intl.NumberFormat('es-ES').format(cents/100)+' · moneda sin verificar';}catch{return 'Moneda no válida';}};
@@ -308,7 +308,7 @@ export function createPrestashopUI({rpc,invoke,actor,allowed,onManage=()=>{},onB
   // Stock actions already refresh their own data and restore keyboard focus.
   // Repeating an async mount render here would replace the restored field.
   if(tab==='receipts'&&receiptReadyKey===owner+'|'+store)return;
-  await run(async()=>{await refresh();if(tab==='receipts'&&receiptReadyKey!==owner+'|'+store)await refreshReceipts();else if(!receiptsOnly()&&autoload&&ready()&&!get('orders'))await scan('orders');});
+  await run(async()=>{await refresh();if(tab==='receipts'&&receiptReadyKey!==owner+'|'+store)await refreshReceipts();else if(!receiptsOnly()&&autoload&&ready()&&!get('orders'))await (centralData?scan('orders'):read('orders'));});
  }
  return {mount,dispose,hasDraft:()=>false,discardDraft:()=>{},selectTab(key){if(availableTabs().some(([k])=>k===key)){tab=key;requestedTab=key;}}};
 }
