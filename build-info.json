@@ -1,9 +1,9 @@
 {
   "environment": "final",
-  "commit": "bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a",
+  "commit": "f6a572fbf3fed4aa850e28289127f99f1c8ec27d",
   "domain": "totuscentralfinal.totuscode.com",
   "backend": "ltwfmhilbvpzqdgjhvjb",
-  "interfaceCommit": "bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a",
+  "interfaceCommit": "f6a572fbf3fed4aa850e28289127f99f1c8ec27d",
   "baseCommit": "2c3a3b4a",
   "backendChanged": true
 }

@@ -1,7 +1,7 @@
-import {signatureInk} from '../signature-capture.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
+import {signatureInk} from '../signature-capture.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
 const need=(ok,code)=>{if(!ok)throw Error(code);};
-export {signatureHash} from '../signature-document.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {signatureHash,signatureDocumentBytes,signatureBase64 as base64} from '../signature-document.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
+export {signatureHash} from '../signature-document.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {signatureHash,signatureDocumentBytes,signatureBase64 as base64} from '../signature-document.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
 export const signatureOriginal=document=>signatureDocumentBytes(document);
 /** Dependency injected: Deno uses pinned npm:pdf-lib; tests use the same pinned package. */
 export function createSignaturePdfRenderer({PDFDocument,StandardFonts,rgb}){

@@ -1,8 +1,8 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {approximateOrderGain} from './prestashop-margin.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {esc,money} from './utils.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {homeMarginTotal} from './home-order-enrichment.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {sourceCents} from './prestashop-insights.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {approximateOrderGain} from './prestashop-margin.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {esc,money} from './utils.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {homeMarginTotal} from './home-order-enrichment.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {sourceCents} from './prestashop-insights.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
 const signedCents=value=>{if(!Number.isFinite(value))return null;const cents=sourceCents(Math.abs(value).toFixed(6));return cents===null?null:(value<0?-1:1)*cents;};
 
 export function commercialMarginSummary(data,{from,to}={}){

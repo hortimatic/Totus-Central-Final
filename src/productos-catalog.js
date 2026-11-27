@@ -1,8 +1,8 @@
-import {productDisplayId} from './record-identifiers.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {textValue,associationIds} from './productos-core.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {csvCell} from './utils.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {compareTableValues} from './table-sort.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
+import {productDisplayId} from './record-identifiers.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {textValue,associationIds} from './productos-core.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {csvCell} from './utils.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {compareTableValues} from './table-sort.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
 export const PRODUCT_COLUMNS=Object.freeze([
  ['image','Foto'],['name','Producto'],['id','ID'],['reference','Ref.'],['ean13','EAN'],['brand','Marca'],['supplier','Proveedor'],['category','Categoría'],['store','Tienda'],['cost','Coste neto'],['costVat','Coste +IVA'],['costTotal','Coste total'],['price','PVP neto'],['gross','PVP final'],['margin','Margen %'],['marginTotal','Margen €'],['stock','Stock'],['variants','Variantes'],['active','Estado'],['weight','Peso'],['width','Ancho'],['height','Alto'],['depth','Fondo'],['date_add','Creado'],['creator','Autor'],['date_upd','Actualizado']
 ]);

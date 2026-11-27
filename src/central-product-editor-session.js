@@ -1,5 +1,5 @@
-import {centralProductEditPayload,verifyCentralProductEdit} from './central-product-edit.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
-import {sha256Text} from './productos-write-contract.js?v=bbb4da6acbbf356213d9c59a38c6b7fc15b62a8a';
+import {centralProductEditPayload,verifyCentralProductEdit} from './central-product-edit.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {sha256Text} from './productos-write-contract.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i.test(value);
 const clone=value=>structuredClone(value);
 const token=(store,args)=>store+'|'+args.resource+'|'+args.record_id;
