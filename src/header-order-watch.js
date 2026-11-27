@@ -1,5 +1,5 @@
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=d4c15edb1efcc739e7d598d019fc3abea26471a2';
-import {esc} from './utils.js?v=d4c15edb1efcc739e7d598d019fc3abea26471a2';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=0b35e9d460a59ea45373d9de1da749853dfb90da';
+import {esc} from './utils.js?v=0b35e9d460a59ea45373d9de1da749853dfb90da';
 
 const shops=()=>WEBSITE_CHOICES.map(s=>[s.key,s.name]);
 const offline=['tpvtienda','bo_order','totuscentralconnector'];

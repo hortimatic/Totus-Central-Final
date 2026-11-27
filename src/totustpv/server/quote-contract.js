@@ -3,9 +3,9 @@
  * never a browser-provided quote/profile/stock snapshot. A SHA-256 fingerprint
  * detects changed content; it is not authentication or a replacement for TLS/ACL.
  */
-import {reconcileNativeTaxedSubtotal} from './native-subtotal.js?v=d4c15edb1efcc739e7d598d019fc3abea26471a2';
-import {lineName} from '../line-name.js?v=d4c15edb1efcc739e7d598d019fc3abea26471a2';
-import {nativeCents,nativeMicros} from './native-adapter.js?v=d4c15edb1efcc739e7d598d019fc3abea26471a2';
+import {reconcileNativeTaxedSubtotal} from './native-subtotal.js?v=0b35e9d460a59ea45373d9de1da749853dfb90da';
+import {lineName} from '../line-name.js?v=0b35e9d460a59ea45373d9de1da749853dfb90da';
+import {nativeCents,nativeMicros} from './native-adapter.js?v=0b35e9d460a59ea45373d9de1da749853dfb90da';
 const need=(ok,code)=>{if(!ok)throw new Error(code);};
 const positive=value=>Number.isSafeInteger(value)&&value>0;
 const validUint=value=>Number.isSafeInteger(value)&&value>=0;
