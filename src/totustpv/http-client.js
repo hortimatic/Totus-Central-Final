@@ -92,6 +92,7 @@ const messages={
  TPV_BUDGET_IN_USE:'Este presupuesto tiene un ticket en uso o un cobro pendiente. Consulta ese ticket antes de continuar.',
  TPV_BUDGET_STORAGE_UNAVAILABLE:'No se ha podido confirmar el guardado. Conserva los mismos datos y recupera el resultado antes de crear otro presupuesto.',
  TPV_NATIVE_COMMERCIAL_QUOTE_UNAVAILABLE:'Esta tienda todavía no permite calcular presupuestos. Pide al responsable que revise la conexión.',
+ TPV_NATIVE_REMOTE_CATALOGUE_PRODUCT_UNAVAILABLE:'Uno de los artículos está desactivado en la tienda web y el conector no permite venderlo desde el TPV.',
  TPV_BUDGET_SNAPSHOT_INVALID:'No se han confirmado los artículos e importes del presupuesto. Vuelve a calcularlo antes de guardarlo.',
  TPV_COMMERCIAL_QUOTE_NOT_PAYABLE:'Los presupuestos deben convertirse en una venta antes de cobrar.',
  TPV_LINE_NAME_INVALID:'Escribe un nombre de hasta 255 caracteres, sin saltos de línea ni símbolos < > = { }.',

@@ -1,16 +1,16 @@
-import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {CENTRAL_DIRECTORY_KINDS,centralDirectoryRow} from './central-directory-data.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {readDirectorySnapshot,readCombinedCustomers} from './directory-snapshot.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {openContactAddresses} from './contact-address-ui.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {readDirectoryCustomerSales} from './contact-directory-sales.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {esc,csv,download} from './utils.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {createDirectorySession} from './contact-directory-session.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {DIRECTORY_LABELS as labels,DIRECTORY_COLUMNS,DIRECTORY_RESOURCES,directoryLayout,directoryPage,directoryText,directoryFields,directoryDiff} from './contact-directory-core.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {attachProductTableLayout} from './productos-table-layout.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {showProductDialog,confirmProductDialog} from './productos-dialogs.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
-import {openTableViewProfiles} from './table-view-profiles.js?v=d90256b2b4d5b63d2e422fd6f22282ab808f6125';
+import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {CENTRAL_DIRECTORY_KINDS,centralDirectoryRow} from './central-directory-data.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {readDirectorySnapshot,readCombinedCustomers} from './directory-snapshot.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {openContactAddresses} from './contact-address-ui.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {readDirectoryCustomerSales} from './contact-directory-sales.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {esc,csv,download} from './utils.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {createDirectorySession} from './contact-directory-session.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {DIRECTORY_LABELS as labels,DIRECTORY_COLUMNS,DIRECTORY_RESOURCES,directoryLayout,directoryPage,directoryText,directoryFields,directoryDiff} from './contact-directory-core.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {attachProductTableLayout} from './productos-table-layout.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {showProductDialog,confirmProductDialog} from './productos-dialogs.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {openTableViewProfiles} from './table-view-profiles.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
 
 export function directoryPageHtml(kind,local){
  return '<section class="directory-workspace" data-directory-root data-directory-kind="'+kind+'"><nav class="directory-sources" aria-label="Origen del directorio">'+WEBSITE_CHOICES.map(s=>'<button type="button" data-directory-source="'+esc(s.key)+'" aria-pressed="false">'+esc(s.name)+'</button>').join('')+''+(kind==='clientes'?'<button type="button" data-directory-source="both" aria-pressed="false">Ambas tiendas</button>':'')+'</nav><details class="directory-internal-tools"><summary>Opciones del directorio</summary><button type="button" class="btn secondary" data-directory-source="local" aria-pressed="false">Referencias internas de Totus</button><p class="small muted">Datos internos utilizados por Gastos, Facturación y los estudios de Precio.</p></details><div data-directory-local>'+local+'</div><div data-directory-shop hidden></div></section>';
