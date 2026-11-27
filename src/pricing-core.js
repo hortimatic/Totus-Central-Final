@@ -1,4 +1,4 @@
-import {previewQuickPriceStudy,parseDecimal} from './calculations.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {previewQuickPriceStudy,parseDecimal} from './calculations.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
 
 export function parseVariantAttributes(text){
  const entries=String(text||'').split(/[;·\n]/).map(s=>s.trim()).filter(Boolean);
