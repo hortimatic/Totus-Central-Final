@@ -1,8 +1,8 @@
-@import url("./productos-relations.css?v=0b35e9d460a59ea45373d9de1da749853dfb90da");
-@import url("./productos-professional.css?v=0b35e9d460a59ea45373d9de1da749853dfb90da");
-@import url("./productos-photo-preview.css?v=0b35e9d460a59ea45373d9de1da749853dfb90da");
-@import url("./productos-stitch.css?v=0b35e9d460a59ea45373d9de1da749853dfb90da");
-@import url("./product-categories.css?v=0b35e9d460a59ea45373d9de1da749853dfb90da");
+@import url("./productos-relations.css?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0");
+@import url("./productos-professional.css?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0");
+@import url("./productos-photo-preview.css?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0");
+@import url("./productos-stitch.css?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0");
+@import url("./product-categories.css?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0");
 /* Legacy business controls retained until their individual Stitch mapping is verified. */
 .productos-page{min-width:0}
 .prd-shell{display:grid;gap:16px;min-width:0}

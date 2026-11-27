@@ -288,8 +288,13 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
 #app :is(.card,.kpi,.directory-main,.prd-panel,.ps-quality-panel,.ps-order-totals,.tpv-panel,.tpv-central-cash,.tpv-billing){min-width:0;max-width:100%;box-sizing:border-box}
 #app :is(.filters,.directory-toolbar,.ps-filters,.ps-local-filters,.ps-catalog-filters){display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:10px;align-items:end;min-width:0}
 #app :is(.filter-actions,.directory-actions,.ps-local-filter-actions){grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-start}
-#app .kpis,#app .ps-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,185px),1fr));gap:12px}
-#app .kpi,#app .ps-kpi{min-height:94px;padding:14px}
+#app .kpis,#app .ps-kpis{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+#app .kpi,#app .ps-kpi{flex:0 1 220px;min-width:155px;max-width:280px;min-height:0!important;padding:10px 14px!important;gap:4px}
+#app .kpi strong,#app .ps-kpi strong{font-size:20px;line-height:1.2;margin-top:2px}
+#app .kpi-caption{display:inline-flex;align-items:center;gap:6px;flex-wrap:nowrap}
+#app .kpi-value{display:flex;align-items:center;gap:6px;flex-wrap:nowrap}
+#app .metric-list{display:flex;flex-wrap:wrap;gap:10px}
+#app .metric-box{flex:0 1 220px;min-width:145px;padding:10px 12px}
 #productosRoot .prd-v4-nav{flex-wrap:wrap;gap:6px}
 #productosRoot .prd-product-picker-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:10px}
  @media(max-width:760px){

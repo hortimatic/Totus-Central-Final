@@ -1,4 +1,4 @@
-import {SUPABASE_URL} from './config.js?v=0b35e9d460a59ea45373d9de1da749853dfb90da';
+import {SUPABASE_URL} from './config.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
 // Deterministic comparison only. Product matching is confirmed by a person or ChatGPT.
 export const STOCK_STATES={pending:'Pendiente de cotejo',needs_review:'Falta revisar',differences:'Con diferencias',matched:'Sin diferencias documentales',reviewed:'Revisado'};
 // Human closure is an audited overlay, not a change to documentary status.

@@ -1,6 +1,6 @@
-import {productIntakeDraft,productIntakeBase,productIntakePlan,productIntakeStage} from '../product-intake-contract.js?v=0b35e9d460a59ea45373d9de1da749853dfb90da';
-import {inspectTransparentProductPng} from '../../productos-png.js?v=0b35e9d460a59ea45373d9de1da749853dfb90da';
-import {sha256Text} from '../../productos-write-contract.js?v=0b35e9d460a59ea45373d9de1da749853dfb90da';
+import {productIntakeDraft,productIntakeBase,productIntakePlan,productIntakeStage} from '../product-intake-contract.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
+import {inspectTransparentProductPng} from '../../productos-png.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
+import {sha256Text} from '../../productos-write-contract.js?v=3c908e1b6b9a494f072f6cc731680e721f13dfa0';
 const need=(ok,code)=>{if(!ok)throw Error(code);};
 const nativeId=value=>typeof value==='string'&&/^[1-9][0-9]{0,14}$/.test(value);
 const requestId=value=>typeof value==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);
