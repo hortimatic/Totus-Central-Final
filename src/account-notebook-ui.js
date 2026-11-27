@@ -1,6 +1,6 @@
-import {esc} from './utils.js?v=742682966be65a03937a20564b7e5d4e1f4804fd';
-import {accountNotebook,filteredAccountNotes} from './account-profile.js?v=742682966be65a03937a20564b7e5d4e1f4804fd';
-import {confirmProductDialog} from './productos-dialogs.js?v=742682966be65a03937a20564b7e5d4e1f4804fd';
+import {esc} from './utils.js?v=cf0734be4a145f2eda078b1871c46bd32fde9ca1';
+import {accountNotebook,filteredAccountNotes} from './account-profile.js?v=cf0734be4a145f2eda078b1871c46bd32fde9ca1';
+import {confirmProductDialog} from './productos-dialogs.js?v=cf0734be4a145f2eda078b1871c46bd32fde9ca1';
 export function mountAccountNotebook(form,initial){
  let notes=accountNotebook(initial),selected=notes.find(n=>!n.archived)?.id||null,query='',archived=false;
  const host=form.querySelector('[data-account-notebook]'),state=form.elements.notebook_state;

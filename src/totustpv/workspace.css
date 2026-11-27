@@ -279,3 +279,13 @@
 .tpv-document-dialog{width:min(520px,calc(100vw - 24px));max-width:none;max-height:calc(100dvh - 24px);padding:16px;border:1px solid var(--line);border-radius:var(--r,14px);background:var(--bg,#f5f7fa);color:var(--ink);box-shadow:0 24px 80px #07152740;overflow:auto;margin:auto}
 .tpv-document-dialog::backdrop{background:#091a32a6;backdrop-filter:blur(3px)}
 .tpv-document-dialog>.tpv-document{margin:0 auto;box-shadow:0 4px 16px #10283f12}
+.tpv-entry-stores{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:16px}
+.tpv-entry-store-card{border:1px solid var(--line,#dbe3ec);border-radius:var(--r,12px);padding:14px;background:var(--bg,#f8fafc);display:grid;gap:10px;align-content:start}
+.tpv-entry-store-card header>div{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.tpv-entry-store-card h4{margin:0;font-size:1rem}
+.tpv-entry-badge{font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;border:1px solid var(--line)}
+.tpv-entry-badge.is-web{background:#e0f2fe;color:#0369a1;border-color:#bae6fd}
+.tpv-entry-badge.is-central{background:#eef2ff;color:#4338ca;border-color:#c7d2fe}
+.tpv-entry-drawers{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.tpv-entry-drawer-btn{display:grid!important;gap:2px;text-align:left;padding:10px 12px!important;min-height:48px}
+.tpv-entry-drawer-btn small{color:inherit;opacity:.85;font-size:.74rem;font-weight:500}

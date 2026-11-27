@@ -1,5 +1,5 @@
-import {signatureInk} from '../signature-capture.js?v=742682966be65a03937a20564b7e5d4e1f4804fd';
-import {signatureHash,signatureOriginal} from './signature-pdf.js?v=742682966be65a03937a20564b7e5d4e1f4804fd';
+import {signatureInk} from '../signature-capture.js?v=cf0734be4a145f2eda078b1871c46bd32fde9ca1';
+import {signatureHash,signatureOriginal} from './signature-pdf.js?v=cf0734be4a145f2eda078b1871c46bd32fde9ca1';
 const need=(ok,code)=>{if(!ok)throw Error(code);};
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(value);
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
