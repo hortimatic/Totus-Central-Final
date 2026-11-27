@@ -1,5 +1,5 @@
-import {creditSettings,creditDueDate} from './credit-commercial.js?v=9400e5ccb2e224446c824ec92b5caf14c080413f';
-import {referenceForTender} from './payment-reference.js?v=9400e5ccb2e224446c824ec92b5caf14c080413f';
+import {creditSettings,creditDueDate} from './credit-commercial.js?v=6959d5cdc2c7cc8f8737f2ca2a6e9cf36df3b402';
+import {referenceForTender} from './payment-reference.js?v=6959d5cdc2c7cc8f8737f2ca2a6e9cf36df3b402';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const integer=value=>Number.isSafeInteger(value)&&value>=0&&value<=999999999;
 export function createCentralCheckout({adapter,beforeSubmit,isCurrent=()=>true,today=()=>new Date().toISOString().slice(0,10)}){
