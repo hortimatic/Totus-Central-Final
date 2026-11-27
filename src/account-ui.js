@@ -1,9 +1,9 @@
-import {ACCOUNT_PROFILE_FIELDS,accountProfileFields,accountNotebook} from './account-profile.js?v=bb8f497d868456f3291f78bd02caddfdf764be22';
-import {mountAccountNotebook} from './account-notebook-ui.js?v=bb8f497d868456f3291f78bd02caddfdf764be22';
-import {taskToday,TASK_STATES} from './tasks-core.js?v=bb8f497d868456f3291f78bd02caddfdf764be22';
-import {esc,fmtDate} from './utils.js?v=bb8f497d868456f3291f78bd02caddfdf764be22';
-import {modal,closeModal,btn} from './components.js?v=bb8f497d868456f3291f78bd02caddfdf764be22';
-import {prepareChatBackground} from './chat-preferences.js?v=bb8f497d868456f3291f78bd02caddfdf764be22';
+import {ACCOUNT_PROFILE_FIELDS,accountProfileFields,accountNotebook} from './account-profile.js?v=144143a845886b00db51487771b1bf73eb747e6d';
+import {mountAccountNotebook} from './account-notebook-ui.js?v=144143a845886b00db51487771b1bf73eb747e6d';
+import {taskToday,TASK_STATES} from './tasks-core.js?v=144143a845886b00db51487771b1bf73eb747e6d';
+import {esc,fmtDate} from './utils.js?v=144143a845886b00db51487771b1bf73eb747e6d';
+import {modal,closeModal,btn} from './components.js?v=144143a845886b00db51487771b1bf73eb747e6d';
+import {prepareChatBackground} from './chat-preferences.js?v=144143a845886b00db51487771b1bf73eb747e6d';
 
 export function accountValues(input={}){
  const photo=typeof input.photo==='string'&&input.photo.length<=350000&&/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+=*$/.test(input.photo)?input.photo:'';

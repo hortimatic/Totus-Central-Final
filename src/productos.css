@@ -1,8 +1,8 @@
-@import url("./productos-relations.css?v=bb8f497d868456f3291f78bd02caddfdf764be22");
-@import url("./productos-professional.css?v=bb8f497d868456f3291f78bd02caddfdf764be22");
-@import url("./productos-photo-preview.css?v=bb8f497d868456f3291f78bd02caddfdf764be22");
-@import url("./productos-stitch.css?v=bb8f497d868456f3291f78bd02caddfdf764be22");
-@import url("./product-categories.css?v=bb8f497d868456f3291f78bd02caddfdf764be22");
+@import url("./productos-relations.css?v=144143a845886b00db51487771b1bf73eb747e6d");
+@import url("./productos-professional.css?v=144143a845886b00db51487771b1bf73eb747e6d");
+@import url("./productos-photo-preview.css?v=144143a845886b00db51487771b1bf73eb747e6d");
+@import url("./productos-stitch.css?v=144143a845886b00db51487771b1bf73eb747e6d");
+@import url("./product-categories.css?v=144143a845886b00db51487771b1bf73eb747e6d");
 /* Legacy business controls retained until their individual Stitch mapping is verified. */
 .productos-page{min-width:0}
 .prd-shell{display:grid;gap:16px;min-width:0}

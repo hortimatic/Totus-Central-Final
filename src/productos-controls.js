@@ -1,5 +1,5 @@
-import {positionColumnPanel} from './column-settings.js?v=bb8f497d868456f3291f78bd02caddfdf764be22';
-import {standardizeColumnPanels} from './column-settings.js?v=bb8f497d868456f3291f78bd02caddfdf764be22';
+import {positionColumnPanel} from './column-settings.js?v=144143a845886b00db51487771b1bf73eb747e6d';
+import {standardizeColumnPanels} from './column-settings.js?v=144143a845886b00db51487771b1bf73eb747e6d';
 // Preserve the select as the form's source of truth; stage multi-selection
 // inside one keyboard-accessible dialog before dispatching the form change.
 const fold=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('es');
@@ -65,9 +65,8 @@ export function enhanceSearchableSelects(root){
    if(select.multiple){const footer=document.createElement('footer'),clear=document.createElement('button'),save=document.createElement('button');clear.type=save.type='button';clear.textContent='Limpiar selección';save.textContent='Aplicar selección';save.className='prd-primary-action';clear.onclick=()=>{selected.clear();for(const input of list.querySelectorAll('input'))input.checked=false;status.textContent='0 seleccionadas';};save.onclick=apply;footer.append(clear,save);dialog.append(footer);}
    wrap.append(dialog);dialog.showModal();search.focus();search.oninput();
   };
-  trigger.onclick=()=>open();
-  select.addEventListener('mousedown',e=>{if(e.button===0){e.preventDefault();open();}});
-  select.addEventListener('keydown',e=>{if(e.key.length===1&&e.key!==' '&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();open(e.key);return;}if(e.key==='Enter'||e.key===' '||e.altKey&&e.key==='ArrowDown'){e.preventDefault();open();}});
+  trigger.onclick=e=>{e.preventDefault();e.stopPropagation();open();};
+  select.addEventListener('keydown',e=>{if(e.key.length===1&&e.key!==' '&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();open(e.key);}});
  }
 
 }
