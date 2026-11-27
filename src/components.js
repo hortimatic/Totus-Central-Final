@@ -1,6 +1,6 @@
-import {captureFormDraft} from './form-drafts.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {interfaceIcon,metricIcon} from './interface-icons.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {esc,fmtDate,money,statusClass} from './utils.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {captureFormDraft} from './form-drafts.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {interfaceIcon,metricIcon} from './interface-icons.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {esc,fmtDate,money,statusClass} from './utils.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
 
 // Contextual help follows the viewport. A MutationObserver runs at the
 // open-attribute microtask, avoiding the delayed native <details> toggle event.
@@ -38,6 +38,19 @@ if(typeof document!=='undefined'){
  document.addEventListener('click',event=>{const help=helpOf(event.target);if(help&&event.target.closest('summary')){event.preventDefault();const open=transientHelp.has(help)||!help.open;document.querySelectorAll('details.field-help[open]').forEach(other=>{other.open=false;});transientHelp.delete(help);help.open=open;if(!open)dismissedHelp.add(help);else dismissedHelp.delete(help);positionOpenHelp(help);}else if(!help)document.querySelectorAll('details.field-help[open]').forEach(other=>{other.open=false;transientHelp.delete(other);});});
  document.addEventListener('keydown',event=>{if(event.key==='Escape'){document.querySelectorAll('details.field-help[open]').forEach(help=>{help.open=false;transientHelp.delete(help);dismissedHelp.add(help);});}});
  document.addEventListener('scroll',event=>{if(event.target?.matches?.('.modal-body'))event.target.querySelectorAll('details.field-help[open]').forEach(help=>{help.open=false;transientHelp.delete(help);});},true);
+ document.addEventListener('pointerdown',event=>{
+  const grip=event.target instanceof Element?event.target.closest('.tc-col-resizer'):null;
+  if(!grip)return;
+  const th=grip.closest('th'),tbl=th?.closest('table');
+  if(!th||!tbl)return;
+  event.preventDefault();
+  const startX=event.clientX,startWidth=th.getBoundingClientRect().width;
+  tbl.style.tableLayout='fixed';
+  const onMove=e=>{const w=Math.max(64,Math.round(startWidth+(e.clientX-startX)));th.style.width=w+'px';};
+  const onUp=()=>{document.removeEventListener('pointermove',onMove);document.removeEventListener('pointerup',onUp);};
+  document.addEventListener('pointermove',onMove);
+  document.addEventListener('pointerup',onUp);
+ });
 
 }
 
@@ -64,7 +77,7 @@ export const empty=(title='Sin datos',text='Todavía no hay registros.')=>`<div 
 export const kpi=(label,value,sub='',{compactHelp=false}={})=>`<div class="kpi" data-metric="${metricIcon(label)}"><span class="kpi-caption">${interfaceIcon(metricIcon(label))}${esc(label)}</span>${compactHelp?`<div class="kpi-value"><strong>${value}</strong>${sub?fieldHelp(label,sub):''}</div>`:`<strong>${value}</strong>`}${sub&&!compactHelp?`<small>${esc(sub)}</small>`:''}</div>`;
 export const table=(headers,rows,{emptyTitle='Sin datos',emptyText='Todavía no hay registros.',mobileCards=true}={})=>{
  if(!rows.length)return empty(emptyTitle,emptyText);
- return `<div class="table-wrap${mobileCards?' mobile-card-table':''}"><table class="data-table"${mobileCards?' role="table"':''}><thead${mobileCards?' role="rowgroup"':''}><tr${mobileCards?' role="row"':''}>${headers.map(h=>`<th class="${h.num?'num':''}"${mobileCards?' scope="col" role="columnheader"':''}>${esc(h.label)}</th>`).join('')}</tr></thead><tbody${mobileCards?' role="rowgroup"':''}>${rows.map(r=>`<tr${mobileCards?' role="row"':''}>${headers.map(h=>`<td class="${h.num?'num':''}"${mobileCards?' role="cell" data-label="'+esc(h.label)+'"':''}>${h.html?h.html(r):esc(h.get?r[h.get]:h.value?.(r)??'')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
+ return `<div class="table-wrap${mobileCards?' mobile-card-table':''}"><table class="data-table"${mobileCards?' role="table"':''}><thead${mobileCards?' role="rowgroup"':''}><tr${mobileCards?' role="row"':''}>${headers.map((h,i)=>`<th class="${h.num?'num':''}"${mobileCards?' scope="col" role="columnheader"':''}>${esc(h.label)}<span class="tc-col-resizer" role="separator" aria-orientation="vertical" aria-label="Ancho de ${esc(h.label||'columna')}" data-tc-resize-col="${i}"></span></th>`).join('')}</tr></thead><tbody${mobileCards?' role="rowgroup"':''}>${rows.map(r=>`<tr${mobileCards?' role="row"':''}>${headers.map(h=>`<td class="${h.num?'num':''}"${mobileCards?' role="cell" data-label="'+esc(h.label)+'"':''}>${h.html?h.html(r):esc(h.get?r[h.get]:h.value?.(r)??'')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
 };
 const FIELD_HELP={
  'Ventas de esta caja':'Total de ventas anotado para este cajón, con todos sus medios de cobro. No es solo el efectivo ni el dinero que dejas para mañana. Si anotas ventas para un cajón, completa también los demás para sumar el total de tienda y contrastar cada caja.',

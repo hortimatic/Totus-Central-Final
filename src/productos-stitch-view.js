@@ -1,14 +1,14 @@
-import {productDisplayId} from './record-identifiers.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {columnSettingsRow} from './column-settings.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {productGallery} from './productos-gallery.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {esc} from './utils.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
-import {fieldHelp} from './components.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {productDisplayId} from './record-identifiers.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {columnSettingsRow} from './column-settings.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {productGallery} from './productos-gallery.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {esc} from './utils.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
+import {fieldHelp} from './components.js?v=5ee1aa5a4b1bc0bd6fa347113f7cee3327dac1ee';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -279,10 +279,11 @@ export function stitchFiche({galleryDraft={},record,backendUrl='',store,central=
  return serialize(f);
 }
 
-export function stitchCopy({store,legacyHtml,record,targetRecord,copyImages=true,copyLocked=false,canUpload=false,copyCreated=false,copyPublished=false}){
+export function stitchCopy({store,stores=WEBSITE_CHOICES,legacyHtml,record,targetRecord,copyImages=true,copyLocked=false,canUpload=false,copyCreated=false,copyPublished=false}){
  const f=fragment(STITCH_VIEWS['tab-copiar']),view=f.firstElementChild,actual=fragment(legacyHtml);
  view.classList.remove('hidden');view.classList.add('flex','prd-copy-view');
- const source=websiteName(store),target=websiteName(WEBSITE_CHOICES.find(s=>s.key!==store)?.key);
+ const storeDisplay=key=>stores.find(s=>s.key===key)?.name||WEBSITE_CHOICES.find(s=>s.key===key)?.label||websiteName(key);
+ const source=storeDisplay(store),targetStore=stores.find(s=>s.key!==store)||WEBSITE_CHOICES.find(s=>s.key!==store),target=targetStore?storeDisplay(targetStore.key):'Destino';
  const swap=f.querySelector('#btn-swap-stores');action(swap,'copy-reverse');swap.setAttribute('aria-label','Intercambiar tiendas de origen y destino');
  const buttons=[...view.querySelectorAll('button')];
  const all=buttons.find(b=>b.textContent.includes('Seleccionar Todo')),none=buttons.find(b=>b.textContent.includes('Deseleccionar'));
@@ -296,8 +297,7 @@ export function stitchCopy({store,legacyHtml,record,targetRecord,copyImages=true
  label(swap,'Intercambiar tiendas');
  for(const [i,id]of ['panel-store-source','panel-store-target'].entries()){
   const panel=f.querySelector('#'+id),editor=editors[i];
-  const storeDisplay=key=>WEBSITE_CHOICES.find(s=>s.key===key)?.label||key;
-  setText(panel.querySelector(i?'#target-store-title':'#source-store-title'),(i?'DESTINO: ':'ORIGEN: ')+(i?storeDisplay(target):storeDisplay(store||source)));
+  setText(panel.querySelector(i?'#target-store-title':'#source-store-title'),(i?'DESTINO: ':'ORIGEN: ')+(i?target:source));
   const badge=panel.firstElementChild.lastElementChild,identity=panel.children[1],actualIdentity=editor?.querySelector('.prd-parallel-identity');
   panel.firstElementChild.classList.add('prd-copy-card-heading');
   setText(badge,i?'Ficha de destino':'Ficha de origen');

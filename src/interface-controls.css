@@ -24,7 +24,7 @@
 :is(#content,#modalHost) :is(.form-grid,.directory-form-grid)>label:has(>input[type=checkbox]){display:flex;flex-direction:row;align-items:center;justify-content:flex-start;gap:8px;grid-column:1/-1;min-height:32px}
 :is(#content,#modalHost) :is(.form-grid,.directory-form-grid,.check-field) input[type=checkbox]{width:18px;height:18px;min-width:18px;max-width:18px;min-height:18px;max-height:18px;flex:0 0 18px;padding:0;margin:0;align-self:center;box-shadow:none}
 :is(.tc-table-arrows,.directory-table-arrows,.ps-orders-table-navigation),#productosRoot .prd-professional :is(.prd-table-arrows,.prd-table-navigation:has(>button)){
- display:flex;align-items:center;justify-content:flex-end;gap:var(--tc-control-gap);position:sticky;top:auto;bottom:8px;z-index:5;pointer-events:none;margin:8px 0;padding:0;border:0;background:transparent;box-shadow:none;min-height:var(--tc-control-height)
+ display:flex;align-items:center;justify-content:flex-end;gap:var(--tc-control-gap);position:static;margin:8px 0;padding:0;border:0;background:transparent;box-shadow:none;min-height:var(--tc-control-height)
 }
 :is(.tc-table-arrows,.directory-table-arrows,.ps-orders-table-navigation)>button,#productosRoot .prd-professional :is(.prd-table-arrows,.prd-table-navigation)>button{
  pointer-events:auto;display:inline-flex;align-items:center;justify-content:center;flex:0 0 var(--tc-control-height);width:var(--tc-control-height);height:var(--tc-control-height);min-height:var(--tc-control-height);padding:0;border:1px solid var(--line);border-radius:var(--appearance-button-radius,var(--r,8px));background:var(--panel);color:var(--ink);font:inherit;box-shadow:none
@@ -83,7 +83,7 @@
 
 .home-gain-stores{display:flex;flex-wrap:wrap;gap:4px 16px;width:100%;box-sizing:border-box;margin:8px 0 0;font-size:11px}.home-gain-stores>div{display:flex;flex:1 1 140px;flex-wrap:wrap;justify-content:space-between;gap:2px 6px;min-width:0}.home-gain-stores dt{color:var(--muted);white-space:nowrap}.home-gain-stores dd{margin:0;font-weight:600;white-space:nowrap}
 
-.tc-settings-panel,.directory-dialog.directory-columns.tc-settings-panel{display:flex!important;flex-direction:column;gap:8px;width:min(360px,calc(100vw - 24px));max-height:min(75dvh,480px);overflow:hidden!important;padding:12px;font-size:12px}
+.tc-settings-panel,.directory-dialog.directory-columns.tc-settings-panel{display:flex!important;flex-direction:column;gap:8px;width:min(360px,calc(100vw - 24px));max-height:min(84dvh,640px);overflow:hidden!important;padding:12px;font-size:12px}
 .prd-columns>.tc-settings-panel:not(:popover-open){visibility:hidden}
 .tc-settings-panel[popover]:not(:popover-open){display:none!important}
 .tc-settings-header{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:0 0 8px;margin:0}
@@ -91,7 +91,7 @@ html[data-appearance] #app #content .tc-settings-header>button,.tc-settings-head
 .tc-settings-panel>.prd-column-search,.tc-settings-panel>.tc-column-status{margin:0;flex:none}
 .tc-settings-panel .tc-settings-list{display:block!important;grid-template-columns:none!important;min-height:60px;max-height:min(32dvh,240px);overflow:auto;overscroll-behavior:contain;flex:1 1 auto;width:100%}
 .tc-settings-panel .tc-settings-list>.tc-column-row{width:100%;max-width:100%}
-.tc-settings-advanced{display:grid;gap:6px;min-height:0;max-height:120px;overflow:auto;flex:0 1 auto;border-top:1px solid var(--line);padding-top:8px}.tc-settings-advanced[hidden]{display:none!important}
+.tc-settings-advanced{display:grid;gap:6px;min-height:0;max-height:none;overflow:visible;flex:none;border-top:1px solid var(--line);padding-top:8px}.tc-settings-advanced[hidden]{display:none!important}
 .tc-settings-advanced :is(.prd-column-views,.tc-column-views,.ps-order-view-save){border:0;padding:0;margin:0}
 .tc-settings-footer{display:flex;flex-wrap:wrap;gap:6px;border-top:1px solid var(--line);padding-top:8px;flex:none}
 html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-footer>button{flex:1 1 130px;min-height:36px;font-size:12px;padding:7px 9px}
@@ -269,6 +269,11 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
  #content .home-gain-stores>div{flex-direction:column;gap:2px}
  #content .home-gain-stores dt,#content .home-gain-stores dd{white-space:normal}
  .tc-settings-panel .tc-settings-footer>button{min-height:36px}
+.data-table th{position:relative}
+.tc-col-resizer{position:absolute;top:0;right:0;width:8px;height:100%;cursor:col-resize;user-select:none;touch-action:none}
+.tc-col-resizer:hover,.tc-col-resizer:active{background:color-mix(in srgb,var(--accent,#2563eb) 28%,transparent)}
+.business-store-card .inline-actions{flex-wrap:wrap;gap:6px}
+.business-store-card .summary-row{flex-wrap:wrap;gap:8px}
 }
 
 @media screen{#content [data-pr-workspace=pricing] .prd-catalog-table button[data-pr-action=open-product]{white-space:nowrap;min-width:104px}}
