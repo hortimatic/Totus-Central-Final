@@ -1,7 +1,7 @@
-import {websiteKey,websiteName} from './website-registry.js?v=144143a845886b00db51487771b1bf73eb747e6d';
+import {websiteKey,websiteName} from './website-registry.js?v=f6af0c35406bcfbc868c27fc379f57af9845f059';
 // Shared configuration and notification rules. No model calls or arbitrary actions.
-import {PRESTASHOP_QUERY_RECIPES,recipeProducts,detailedRecipe,withinDailyWindow} from './prestashop-queries.js?v=144143a845886b00db51487771b1bf73eb747e6d';
-import {sourceCents} from './prestashop-insights.js?v=144143a845886b00db51487771b1bf73eb747e6d';
+import {PRESTASHOP_QUERY_RECIPES,recipeProducts,detailedRecipe,withinDailyWindow} from './prestashop-queries.js?v=f6af0c35406bcfbc868c27fc379f57af9845f059';
+import {sourceCents} from './prestashop-insights.js?v=f6af0c35406bcfbc868c27fc379f57af9845f059';
 export const AUTOMATION_RECIPES=[{id:'expense_due',name:'Vencimientos de gastos recurrentes',target:'expenses'},{id:'reminder',name:'Recordatorio personalizado',target:'message'},{id:'online_orders',name:'Nuevos pedidos online',target:'orders'},{id:'sales_summary',name:'Resumen de ventas del periodo',target:'orders'},{id:'missing_ean',name:'Productos sin código EAN',target:'catalog'},...PRESTASHOP_QUERY_RECIPES.filter(r=>r.target)];
 export const PRESTA_AUTOMATION_STORES=['hortimatic','newoldsmok'];
 const string=v=>String(v??'').trim();
@@ -37,7 +37,7 @@ export function orderOriginSamples(store,rows){
 }
 const clean=v=>string(v).replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g,'').replace(/@\{/g,'＠{');
 export function prestashopNotice({store,storeName=websiteName(store),order,lines=[],customer={},address={},currency='',stateName=''}){
- if(!PRESTA_AUTOMATION_STORES.includes(store)||!/^\d{1,15}$/.test(string(order.id))||!order.module)throw Error('Pedido sin identidad u origen verificable.');
+ if((!PRESTA_AUTOMATION_STORES.includes(store)&&!websiteKey(store))||!/^\d{1,15}$/.test(string(order.id))||!order.module)throw Error('Pedido sin identidad u origen verificable.');
  const cents=sourceCents(order.total_paid_tax_incl),amount=cents===null?null:cents/100;if(amount===null||!currency||!/^[A-Z]{3}$/.test(currency))throw Error('Importe o moneda del pedido sin verificar.');
  if(!lines.length||lines.some(l=>String(l.id_order)!==String(order.id)))throw Error('Las líneas del pedido no están completas o pertenecen a otro pedido.');
  const person=[customer.firstname,customer.lastname].map(clean).filter(Boolean).join(' ')||[address.firstname,address.lastname].map(clean).filter(Boolean).join(' ');

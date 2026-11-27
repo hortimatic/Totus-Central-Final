@@ -1,6 +1,6 @@
-import {approximateOrderMargin} from './prestashop-margin.js?v=144143a845886b00db51487771b1bf73eb747e6d';
-import {prestashopProductImage} from './prestashop-readonly.js?v=144143a845886b00db51487771b1bf73eb747e6d';
-import {readPool} from './read-pool.js?v=144143a845886b00db51487771b1bf73eb747e6d';
+import {approximateOrderMargin} from './prestashop-margin.js?v=f6af0c35406bcfbc868c27fc379f57af9845f059';
+import {prestashopProductImage} from './prestashop-readonly.js?v=f6af0c35406bcfbc868c27fc379f57af9845f059';
+import {readPool} from './read-pool.js?v=f6af0c35406bcfbc868c27fc379f57af9845f059';
 
 // One bounded lookup per distinct product/combination, not per widget or order.
 // Missing catalogue data may fall back to the order's recorded purchase cost.
