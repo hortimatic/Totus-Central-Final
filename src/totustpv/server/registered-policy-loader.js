@@ -1,4 +1,4 @@
-import {createDeploymentPolicyRegistry} from './deployment-policy-registry.js?v=1afbcd5f00481a5023acba3bc4d645902fe09ec1';
+import {createDeploymentPolicyRegistry} from './deployment-policy-registry.js?v=7e764215469bb46baffc42f093288f2852c529f6';
 /** Uses the authenticated user's RPC projection, before privileged clients or
  * native credentials. A registered target alone never grants a workstation. */
 export async function loadRegisteredTpvPolicy({scoped,connectionId}){

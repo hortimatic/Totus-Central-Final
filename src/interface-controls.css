@@ -276,6 +276,26 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
 .tc-back-btn:hover{background:color-mix(in srgb,var(--accent,#2563eb) 8%,transparent)!important;border-color:color-mix(in srgb,var(--accent,#2563eb) 22%,transparent)!important}
 .record-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
 .record-toolbar>div:first-child{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+
+/* Global design discipline: uniform button sizing, proportional containers, fluid responsive grids. */
+#app :is(.btn,.prd-v4-header button,.prd-product-picker-tools button,.prd-catalog-actions button,.directory-actions button,.directory-heading-actions button,.ps-filters button,.ps-local-filters button,.ps-catalog-filters button){
+ min-height:36px;padding:7px 12px;font-size:12px;font-weight:600;line-height:1.3;display:inline-flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;flex:0 0 auto;box-sizing:border-box
+}
+#app :is(.data-table .btn,.directory-row-actions .btn,.prd-table-button){min-height:30px;padding:5px 10px;font-size:12px}
+#app :is(.empty,.ps-empty,.prd-empty){max-width:560px;margin:16px auto;padding:20px 24px;box-sizing:border-box}
+#app :is(.split,.business-layout,.ps-summary-grid,.ps-bottom-grid){align-items:start}
+#app :is(.card,.kpi,.directory-main,.prd-panel,.ps-quality-panel,.ps-order-totals,.tpv-panel,.tpv-central-cash,.tpv-billing){min-width:0;max-width:100%;box-sizing:border-box}
+#app :is(.filters,.directory-toolbar,.ps-filters,.ps-local-filters,.ps-catalog-filters){display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:10px;align-items:end;min-width:0}
+#app :is(.filter-actions,.directory-actions,.ps-local-filter-actions){grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-start}
+#app .kpis,#app .ps-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,185px),1fr));gap:12px}
+#app .kpi,#app .ps-kpi{min-height:94px;padding:14px}
+#productosRoot .prd-v4-nav{flex-wrap:wrap;gap:6px}
+#productosRoot .prd-product-picker-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:10px}
+@media(max-width:760px){
+ #app :is(.section-head,.directory-heading,.ps-header,.record-toolbar){flex-wrap:wrap;gap:10px;align-items:flex-start}
+ #app :is(.section-head>.inline-actions,.directory-heading-actions,.module-actions){width:100%;justify-content:flex-start;flex-wrap:wrap}
+ #app :is(.split,.business-layout,.ps-summary-grid,.ps-bottom-grid){grid-template-columns:minmax(0,1fr)}
+}
 .business-store-card .inline-actions{flex-wrap:wrap;gap:6px}
 .business-store-card .summary-row{flex-wrap:wrap;gap:8px}
 .ps-local-filter-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
