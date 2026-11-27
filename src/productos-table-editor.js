@@ -1,4 +1,4 @@
-import {productInputValue,textValue} from './productos-core.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
+import {productInputValue,textValue} from './productos-core.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
 
 export const PRODUCT_TABLE_FIELDS=Object.freeze({name:'name',reference:'reference',ean13:'ean13',cost:'wholesale_price',price:'price',weight:'weight',width:'width',height:'height',depth:'depth',active:'active',visibility:'visibility',available_for_order:'available_for_order'});
 // Each row owns its native fingerprint and durable request ID. An uncertain PUT

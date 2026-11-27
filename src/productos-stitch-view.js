@@ -1,14 +1,14 @@
-import {productDisplayId} from './record-identifiers.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {columnSettingsRow} from './column-settings.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {productGallery} from './productos-gallery.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {esc} from './utils.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
-import {fieldHelp} from './components.js?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b';
+import {productDisplayId} from './record-identifiers.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {columnSettingsRow} from './column-settings.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {productGallery} from './productos-gallery.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {esc} from './utils.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
+import {fieldHelp} from './components.js?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -296,7 +296,8 @@ export function stitchCopy({store,legacyHtml,record,targetRecord,copyImages=true
  label(swap,'Intercambiar tiendas');
  for(const [i,id]of ['panel-store-source','panel-store-target'].entries()){
   const panel=f.querySelector('#'+id),editor=editors[i];
-  setText(panel.querySelector(i?'#target-store-title':'#source-store-title'),(i?'DESTINO: ':'ORIGEN: ')+(i?target:source));
+  const storeDisplay=key=>WEBSITE_CHOICES.find(s=>s.key===key)?.label||key;
+  setText(panel.querySelector(i?'#target-store-title':'#source-store-title'),(i?'DESTINO: ':'ORIGEN: ')+(i?storeDisplay(target):storeDisplay(store||source)));
   const badge=panel.firstElementChild.lastElementChild,identity=panel.children[1],actualIdentity=editor?.querySelector('.prd-parallel-identity');
   panel.firstElementChild.classList.add('prd-copy-card-heading');
   setText(badge,i?'Ficha de destino':'Ficha de origen');

@@ -1,5 +1,5 @@
-@import url('./totustpv/billing.css?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b');
-@import url('./totustpv/central-cash.css?v=c9a82a729015c0126c6ca38c7b7b4b47c0b15b7b');
+@import url('./totustpv/billing.css?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59');
+@import url('./totustpv/central-cash.css?v=2bcf03f5e41a599c2029c90e017cc29c8f79bf59');
 :root{
 --bg:#f5f7fb;--panel:#fff;--ink:#172033;--muted:#697386;--line:#dfe4ec;--nav:#111827;--nav2:#1f2937;
 --accent:#2367d1;--accent2:#174ea6;--ok:#15803d;--warn:#b45309;--bad:#b42318;--soft:#eef4ff;--shadow:0 8px 30px rgba(15,23,42,.08);
@@ -897,3 +897,7 @@ button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:
 .header-calendar{max-height:calc(100dvh - var(--appearance-header,70px) - 20px);overflow:auto}.header-calendar-agenda{border-top:1px solid var(--line);margin-top:10px;padding-top:9px;font-size:12px}.header-calendar-agenda ul{padding-left:17px;margin:7px 0;line-height:1.5}.header-calendar-agenda p{font-size:11px;color:var(--muted);margin:6px 0}
 
 @media(max-width:420px){.header-tools{gap:2px}.header-tools>button{min-width:28px;padding:4px 3px;gap:2px}.header-tools [data-header=calendar]>span:last-child{display:none}.header-tools .header-clock b{font-size:min(var(--appearance-clock-font,14px),12px)}.header-online-bell svg{width:16px;height:16px}.topbar{column-gap:4px}.header-online-orders{position:fixed;right:8px;top:calc(var(--appearance-header,70px) + 4px);width:calc(100vw - 16px)}}
+.tc-settings-panel{display:flex;flex-direction:column;max-height:min(480px,80dvh);overflow:hidden}
+.tc-settings-list{overflow-y:auto;flex:1 1 auto;min-height:110px}
+.directory-table-wrap{overflow-x:auto;padding-bottom:44px}
+.prd-catalog-table{padding-bottom:44px}
