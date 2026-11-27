@@ -1,5 +1,5 @@
-import {esc} from './utils.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
-import {prestashopStore} from './prestashop-readonly.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {esc} from './utils.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
+import {prestashopStore} from './prestashop-readonly.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
 export function productGallery(ids,draft={}){
  const actual=[...new Set(ids.map(String).filter(id=>/^[1-9]\d{0,14}$/.test(id)))],allowed=new Set(actual);
  const order=[...new Set([...(Array.isArray(draft.order)?draft.order:[]).filter(id=>allowed.has(String(id))).map(String),...actual])];

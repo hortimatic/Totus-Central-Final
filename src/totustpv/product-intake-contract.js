@@ -24,13 +24,17 @@ const price=value=>productIntakeDecimal(productIntakePrice(value));
 function reference(value,label){const result=text(value,64,label,{empty:false});requireValue(/^[a-z0-9][a-z0-9._-]{2,63}$/i.test(result),'Usa una referencia de 3 a 64 letras, números, puntos, guiones o guiones bajos.');return result;}
 function quantity(value){requireValue(Number.isSafeInteger(value)&&value>=0&&value<=1000000000,'Indica unidades enteras entre 0 y 1.000.000.000.');return value;}
 function barcode(value){const result=text(value,13,'el código EAN');requireValue(result===''||/^[0-9]{8}$|^[0-9]{13}$/.test(result),'Escribe un EAN de 8 o 13 dígitos, o déjalo vacío.');return result;}
+function upcCode(value){const result=text(value,12,'el código UPC');requireValue(result===''||/^[0-9]{12}$/.test(result),'Escribe un UPC de 12 dígitos, o déjalo vacío.');return result;}
+function weightValue(value){const raw=text(value,16,'el peso');if(raw==='')return '';const match=raw.replace(',','.').match(/^([0-9]+)(?:\.([0-9]{1,6}))?$/);requireValue(!!match,'Indica un peso válido en kg (ej.: 0,25).');return productIntakeDecimal(BigInt(match[1])*1000000n+BigInt((match[2]||'').padEnd(6,'0')));}
+function minimalQty(value){const n=Number(value??1);requireValue(Number.isSafeInteger(n)&&n>=1&&n<=1000000,'La cantidad mínima debe ser al menos 1.');return n;}
 export function productIntakeDraft(value){
- object(value,['name','reference','price','cost','ean13','supplierReference','categoryId','manufacturerId','supplierId','taxRulesGroupId','visibility','quantity','description','variants','images']);
+ object(value,['name','reference','price','cost','ean13','upc','mpn','weight','minimalQuantity','condition','location','supplierReference','categoryId','manufacturerId','supplierId','taxRulesGroupId','visibility','quantity','descriptionShort','description','metaTitle','metaDescription','variants','images']);
  const name=text(value.name,128,'el nombre',{empty:false});requireValue(!/[<>={}]/.test(name),'El nombre no admite < > = { }.');
  const ref=reference(value.reference,'la referencia');
- const result={name,reference:ref,price:price(value.price),cost:price(value.cost??'0'),ean13:barcode(value.ean13??''),supplierReference:text(value.supplierReference??'',64,'la referencia del proveedor'),
+ const condition=value.condition??'new';requireValue(['new','used','refurbished'].includes(condition),'Elige una condición válida para el producto.');
+ const result={name,reference:ref,price:price(value.price),cost:price(value.cost??'0'),ean13:barcode(value.ean13??''),upc:upcCode(value.upc??''),mpn:text(value.mpn??'',64,'el código MPN'),weight:weightValue(value.weight??''),minimalQuantity:minimalQty(value.minimalQuantity??1),condition,location:text(value.location??'',64,'la ubicación'),supplierReference:text(value.supplierReference??'',64,'la referencia del proveedor'),
   categoryId:nativeId(value.categoryId,'una categoría'),manufacturerId:nativeId(value.manufacturerId??'0','una marca',true),supplierId:nativeId(value.supplierId??'0','un proveedor',true),
-  taxRulesGroupId:nativeId(value.taxRulesGroupId??'0','un grupo de impuestos',true),visibility:value.visibility??'none',quantity:quantity(value.quantity??0),description:text(value.description??'',8000,'la descripción',{multiline:true}),variants:[],images:[]};
+  taxRulesGroupId:nativeId(value.taxRulesGroupId??'0','un grupo de impuestos',true),visibility:value.visibility??'none',quantity:quantity(value.quantity??0),descriptionShort:text(value.descriptionShort??'',800,'el resumen corto',{multiline:true}),description:text(value.description??'',8000,'la descripción',{multiline:true}),metaTitle:text(value.metaTitle??'',128,'el título SEO'),metaDescription:text(value.metaDescription??'',255,'la descripción SEO',{multiline:true}),variants:[],images:[]};
  requireValue(['none','both'].includes(result.visibility),'Elige si el producto se muestra también en la tienda online.');
  requireValue(!result.supplierReference||result.supplierId!=='0','Selecciona el proveedor de esta referencia.');
  const images=value.images??[];requireValue(Array.isArray(images)&&images.length<=6,'Puedes preparar hasta seis imágenes por alta.');let imageBytes=0;
@@ -65,8 +69,8 @@ export function productIntakeBase(draft,languageIds){
  const relations={category_ids:[draft.categoryId]};
  for(const [field,key] of [['manufacturer_id','manufacturerId'],['supplier_id','supplierId'],['tax_rules_group_id','taxRulesGroupId']])if(draft[key]!=='0')relations[field]=draft[key];
  return {reference:draft.reference,price:draft.price,category_id:draft.categoryId,
-  translations:languageIds.map(id=>({language_id:nativeId(id,'un idioma'),name:draft.name,link_rewrite:slug,...(draft.description?{description:html(draft.description)}:{})})),relations,
-  fields:[{field:'wholesale_price',value:draft.cost},{field:'visibility',value:'none'},{field:'available_for_order',value:'0'},{field:'show_price',value:'1'},...(draft.ean13?[{field:'ean13',value:draft.ean13}]:[])]};
+  translations:languageIds.map(id=>({language_id:nativeId(id,'un idioma'),name:draft.name,link_rewrite:slug,...(draft.descriptionShort?{description_short:html(draft.descriptionShort)}:{}),...(draft.description?{description:html(draft.description)}:{}),...(draft.metaTitle?{meta_title:draft.metaTitle}:{}),...(draft.metaDescription?{meta_description:draft.metaDescription}:{})})),relations,
+  fields:[{field:'wholesale_price',value:draft.cost},{field:'visibility',value:'none'},{field:'available_for_order',value:'0'},{field:'show_price',value:'1'},{field:'minimal_quantity',value:String(draft.minimalQuantity||1)},{field:'condition',value:draft.condition||'new'},...(draft.ean13?[{field:'ean13',value:draft.ean13}]:[]),...(draft.upc?[{field:'upc',value:draft.upc}]:[]),...(draft.mpn?[{field:'mpn',value:draft.mpn}]:[]),...(draft.weight?[{field:'weight',value:draft.weight}]:[]),...(draft.location?[{field:'location',value:draft.location}]:[])]};
 }
 export function productIntakePlan(draft){
  const plan=[{key:'base',kind:'base',label:'Ficha del producto'}];

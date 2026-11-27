@@ -1,14 +1,14 @@
-import {productIntakeDraft,productIntakeTaxPrice} from './product-intake-contract.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
-import {categoryCreationDraft} from '../category-create-contract.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
-import {normalizeProductImage} from '../productos-image-editor.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
-import {productCountryTaxRate,productDisplayAmounts} from '../productos-tax.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
-import {directoryText} from '../contact-directory-core.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
-import {enhanceSearchableSelects} from '../productos-controls.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {productIntakeDraft,productIntakeTaxPrice} from './product-intake-contract.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
+import {categoryCreationDraft} from '../category-create-contract.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
+import {normalizeProductImage} from '../productos-image-editor.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
+import {productCountryTaxRate,productDisplayAmounts} from '../productos-tax.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
+import {directoryText} from '../contact-directory-core.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
+import {enhanceSearchableSelects} from '../productos-controls.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const statuses={ready:'Lista para continuar',processing:'Comprobando resultado',attention:'Necesita comprobar el resultado',completed:'Alta terminada',cancelled:'Cancelada'};
 const categoryStatus=status=>status==='completed'?'Categoría creada':statuses[status]||status;
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:6}).format(value);
-const empty=()=>({name:'',reference:'',price:'',cost:'0',categoryId:'',manufacturerId:'0',supplierId:'0',taxRulesGroupId:'0',visibility:'none',quantity:0,ean13:'',supplierReference:'',description:'',images:[],variants:[]});
+const empty=()=>({name:'',reference:'',price:'',cost:'0',categoryId:'',manufacturerId:'0',supplierId:'0',taxRulesGroupId:'0',visibility:'none',quantity:0,minimalQuantity:1,condition:'new',ean13:'',upc:'',mpn:'',weight:'',location:'',supplierReference:'',descriptionShort:'',description:'',metaTitle:'',metaDescription:'',images:[],variants:[]});
 /** UI state belongs to the current workspace generation. The server owns every
  * reviewed workflow; no image or native credential is stored in localStorage. */
 export function createProductIntakePanel({adapter,canCreate,canRead=canCreate,confirmDiscard=async()=>false,onProgress=()=>{}}){
@@ -25,8 +25,9 @@ export function createProductIntakePanel({adapter,canCreate,canRead=canCreate,co
  const pricePreview=()=>{
   const rate=productCountryTaxRate(draft.taxRulesGroupId,{countries:catalogues.countries,rules:catalogues.tax_rules,taxes:catalogues.taxes});
   const amounts=productDisplayAmounts({price:draft.price.replace(',','.'),wholesale_price:draft.cost.replace(',','.')},rate);
-  return amounts.gross===null?'El importe con impuestos se calculará en el ticket según la dirección del cliente.':
-   `Precio orientativo con impuestos para España: ${money(amounts.gross)}${rate?' · '+rate+' %':''}. El ticket confirma el cálculo aplicable al cliente.`;
+  if(amounts.gross===null)return 'El importe con impuestos se calculará en el ticket según la dirección del cliente.';
+  const marginText=amounts.margin!==null&&amounts.marginPct!==null?` · Margen neto: ${money(amounts.margin)} (${amounts.marginPct.toFixed(1)} %)`:'';
+  return `PVP orientativo (España): ${money(amounts.gross)}${rate?' · IVA '+rate+' %':''}${marginText}.`;
  };
  async function readAll(resource,run){
   const rows=[];
@@ -73,23 +74,42 @@ export function createProductIntakePanel({adapter,canCreate,canRead=canCreate,co
   ${categoryHistory.length?`<details class="tpv-product-history"><summary>Categorías guardadas · ${categoryHistory.length}</summary>${categoryHistory.map(row=>`<button type="button" class="btn secondary tpv-product-history-item" data-tpv-category-id="${esc(row.id)}"><strong>${esc(row.name)}</strong><span>${esc(categoryStatus(row.status))}</span></button>`).join('')}</details>`:''}
   <details class="tpv-product-history"><summary>Altas guardadas en esta caja${history.length?' · '+history.length:''}</summary><button type="button" class="btn secondary" data-tpv-product-action="refresh">Actualizar altas</button>
   ${history.map(row=>`<button type="button" class="tpv-product-history-item btn secondary" data-tpv-product-id="${esc(row.id)}"><strong>${esc(row.name)}</strong><span>${esc(row.reference)} · ${esc(statuses[row.status]||row.status)}</span></button>`).join('')||'<p>Todavía no hay altas guardadas.</p>'}</details></div></dialog>`;}
- function formHtml(){return `<form data-tpv-product-form>${attempted?'<p class="note" role="alert">El envío está pendiente de comprobar. Conservamos la misma ficha; pulsa Comprobar envío para recuperar su resultado.</p>':''}<fieldset class="tpv-product-editor" ${attempted?'disabled':''}><div class="tpv-product-fields">
-  ${field('name','Nombre del artículo','text','required maxlength="128" autocomplete="off"')}
-  ${field('reference','Referencia','text','required minlength="3" maxlength="64" placeholder="Ej.: CAMISETA-AZUL" autocomplete="off"')}
-  ${field('price','Precio de venta sin impuestos (€)','text','required inputmode="decimal" placeholder="0,00"')}
-  <label>Precio de venta con impuestos (€)<input name="grossPrice" data-tpv-product-gross inputmode="decimal" value="${esc(grossValue())}" ${rate()===null?'disabled placeholder="Se calcula con la dirección del cliente"':'placeholder="0,00"'}></label>
-  ${select('taxRulesGroupId','Impuestos','tax_rule_groups',['0','Sin impuestos'])}
+ function formHtml(){return `<form data-tpv-product-form>${attempted?'<p class="note" role="alert">El envío está pendiente de comprobar. Conservamos la misma ficha; pulsa Comprobar envío para recuperar su resultado.</p>':''}<fieldset class="tpv-product-editor" ${attempted?'disabled':''}>
+  <section class="tpv-product-section"><h4>1. Identificación y clasificación</h4><div class="tpv-product-fields">
+  ${field('name','Nombre del artículo','text','required maxlength="128" autocomplete="off" placeholder="Ej.: Aroma Melon Mint 24ml"')}
+  ${field('reference','Referencia / SKU','text','required minlength="3" maxlength="64" placeholder="Ej.: CAMISETA-AZUL" autocomplete="off"')}
+  ${field('ean13','Código de barras EAN-13 / EAN-8','text','inputmode="numeric" maxlength="13" placeholder="Opcional (8 o 13 dígitos)"')}
+  ${field('mpn','Código de fabricante (MPN)','text','maxlength="64" placeholder="Opcional"')}
+  ${field('upc','Código UPC','text','inputmode="numeric" maxlength="12" placeholder="Opcional (12 dígitos)"')}
+  <label>Condición<select name="condition" data-tpv-product-field="condition"><option value="new" ${draft.condition==='new'?'selected':''}>Nuevo</option><option value="used" ${draft.condition==='used'?'selected':''}>Usado</option><option value="refurbished" ${draft.condition==='refurbished'?'selected':''}>Reacondicionado</option></select></label>
+  ${select('categoryId','Categoría principal','categories',['','Selecciona categoría'])}
+  ${adapter().prepareCategoryIntake?'<div class="inline-actions" style="align-self:end"><button type="button" class="btn secondary" data-tpv-product-action="category-new">+ Crear categoría</button></div>':''}
+  ${select('manufacturerId','Marca / Fabricante','manufacturers',['0','Sin marca'])}
+  </div></section>
+  <section class="tpv-product-section"><h4>2. Precios, impuestos y margen</h4><div class="tpv-product-fields">
+  ${field('cost','Precio de compra / coste sin IVA (€)','text','inputmode="decimal" required placeholder="0,00"')}
+  ${field('price','Precio de venta sin IVA (€)','text','required inputmode="decimal" placeholder="0,00"')}
+  ${select('taxRulesGroupId','Impuestos (IVA)','tax_rule_groups',['0','Sin impuestos'])}
+  <label>PVP final con impuestos (€)<input name="grossPrice" data-tpv-product-gross inputmode="decimal" value="${esc(grossValue())}" ${rate()===null?'disabled placeholder="Se calcula con la dirección del cliente"':'placeholder="0,00"'}></label>
   <p class="tpv-product-price-preview" data-tpv-product-price>${esc(pricePreview())}</p>
-  ${field('cost','Precio de compra sin impuestos (€)','text','inputmode="decimal" required')}
-  ${field('ean13','Código de barras EAN','text','inputmode="numeric" maxlength="13" placeholder="Opcional"')}
-  ${select('categoryId','Categoría','categories',['','Selecciona categoría'])}
-  ${adapter().prepareCategoryIntake?'<div class="inline-actions"><button type="button" class="btn secondary" data-tpv-product-action="category-new">+ Crear categoría</button></div>':''}
-  ${select('manufacturerId','Marca','manufacturers',['0','Sin marca'])}
-  ${select('supplierId','Proveedor','suppliers',['0','Sin proveedor'])}
-  ${field('supplierReference','Referencia del proveedor','text','maxlength="64"')}
-  ${draft.variants.length?'<p class="tpv-product-help">Las unidades se indican en cada combinación.</p>':field('quantity','Unidades disponibles','number','min="0" max="1000000000" step="1" required')}
+  </div></section>
+  <section class="tpv-product-section"><h4>3. Existencias, logística y proveedor</h4><div class="tpv-product-fields">
+  ${draft.variants.length?'<p class="tpv-product-help">Las unidades se indican en cada combinación.</p>':field('quantity','Unidades disponibles iniciales','number','min="0" max="1000000000" step="1" required')}
+  ${field('minimalQuantity','Cantidad mínima de venta','number','min="1" max="1000000" step="1" required')}
+  ${field('weight','Peso (kg)','text','inputmode="decimal" maxlength="16" placeholder="Ej.: 0,25"')}
+  ${field('location','Ubicación en tienda / almacén','text','maxlength="64" placeholder="Ej.: Estantería B-3"')}
   <label>Dónde se muestra<select name="visibility" data-tpv-product-field="visibility"><option value="none" ${draft.visibility==='none'?'selected':''}>Solo en el TPV</option><option value="both" ${draft.visibility==='both'?'selected':''}>TPV y tienda online</option></select></label>
-  <label class="tpv-product-wide">Descripción<textarea name="description" data-tpv-product-field="description" maxlength="8000" rows="3">${esc(draft.description)}</textarea></label></div>
+  ${select('supplierId','Proveedor habitual','suppliers',['0','Sin proveedor'])}
+  ${field('supplierReference','Referencia del proveedor','text','maxlength="64" placeholder="Código en el proveedor"')}
+  </div></section>
+  <section class="tpv-product-section"><h4>4. Descripciones y SEO</h4><div class="tpv-product-fields">
+  <label class="tpv-product-wide">Resumen corto <small class="muted">(opcional · hasta 800 caracteres)</small><textarea name="descriptionShort" data-tpv-product-field="descriptionShort" maxlength="800" rows="2" placeholder="Resumen breve visible en listados y fichas rápidas">${esc(draft.descriptionShort)}</textarea></label>
+  <label class="tpv-product-wide">Descripción completa<textarea name="description" data-tpv-product-field="description" maxlength="8000" rows="3" placeholder="Características, composición, modo de uso…">${esc(draft.description)}</textarea></label>
+  <details class="tpv-product-wide tpv-product-seo"><summary>SEO opcional (título y meta descripción para buscadores)</summary><div class="tpv-product-fields" style="margin-top:10px">
+  ${field('metaTitle','Título SEO','text','maxlength="128" placeholder="Si se deja vacío usa el nombre del artículo"')}
+  <label class="tpv-product-wide">Descripción SEO<textarea name="metaDescription" data-tpv-product-field="metaDescription" maxlength="255" rows="2" placeholder="Resumen para Google (máx. 255 caracteres)">${esc(draft.metaDescription)}</textarea></label>
+  </div></details>
+  </div></section>
   <section class="tpv-product-images"><h4>Imágenes <small>Opcionales · hasta 6</small></h4><p>Elige una foto con fondo liso o un PNG sin fondo. La imagen se prepara en este dispositivo antes de enviarse.</p><div class="inline-actions"><label class="btn secondary">Elegir imágenes<input type="file" accept="image/*" multiple data-tpv-product-images></label><label class="btn secondary">Hacer foto<input type="file" accept="image/*" capture="environment" data-tpv-product-images></label></div>
   <div class="tpv-product-thumbnails">${draft.images.map((image,index)=>`<figure><img alt="Imagen ${index+1} preparada" src="data:image/png;base64,${image.base64}"><figcaption>${index===0?'Portada':'Imagen '+(index+1)}</figcaption><button type="button" class="btn secondary" data-tpv-product-remove-image="${index}">Quitar imagen ${index+1}</button></figure>`).join('')}</div></section>
   <section class="tpv-product-variants"><h4>Combinaciones <small>Tallas, colores u otras opciones</small></h4>
@@ -134,7 +154,7 @@ export function createProductIntakePanel({adapter,canCreate,canRead=canCreate,co
     grossText=target.value;try{if(rate()===null)throw Error('El precio con estos impuestos necesita una dirección completa.');draft.price=grossText.trim()?productIntakeTaxPrice(grossText,String(rate()),{toNet:true}):'';target.setCustomValidity('');}
     catch(error){draft.price='';target.setCustomValidity(error.message);}
    }
-   else if(key){draft[key]=key==='quantity'?Number(target.value):target.value;
+   else if(key){draft[key]=(key==='quantity'||key==='minimalQuantity')?Number(target.value):target.value;
     if(key==='price')grossText=null;
     if(key==='taxRulesGroupId'&&grossText!==null){try{if(rate()===null)grossText=null;else draft.price=productIntakeTaxPrice(grossText,String(rate()),{toNet:true});}catch{grossText=null;}}
    }

@@ -1,5 +1,5 @@
-import {sb} from './api.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
-import {SUPABASE_URL,SUPABASE_KEY} from './config.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {sb} from './api.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
+import {SUPABASE_URL,SUPABASE_KEY} from './config.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
 export async function requestChatFile(action,values={}){
  const session=(await sb.auth.getSession()).data.session;
  if(!session)throw new Error('Vuelve a iniciar sesión para trabajar con los adjuntos.');
@@ -16,4 +16,4 @@ export function subscribeChat(channelId,onChange){
  channel.subscribe();
  return ()=>{sb.removeChannel(channel).catch(()=>{});};
 }
-export {createChatNotifier} from './chat-alerts.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+export {createChatNotifier} from './chat-alerts.js?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e';
