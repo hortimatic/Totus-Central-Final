@@ -1,5 +1,5 @@
-import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=49d2fb1f37b48dd7bc0b6bd35a29e1a042eecd54';
-import {WEBSITE_CHOICES} from './website-registry.js?v=49d2fb1f37b48dd7bc0b6bd35a29e1a042eecd54';
+import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=88ad0bcc1b93534c17e8fd43e64c3b0b505832bd';
+import {WEBSITE_CHOICES} from './website-registry.js?v=88ad0bcc1b93534c17e8fd43e64c3b0b505832bd';
 const shops={hortimatic:{label:'Hortimatic',host:'hortimatic.com',words:['hortimatic']},newoldsmok:{label:'NewOldSmok',host:'newoldsmok.com',words:['newoldsmok','new old smok','new-old-smok']}};
 const resolveShop=key=>{
  if(shops[key])return shops[key];
