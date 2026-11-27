@@ -1,5 +1,5 @@
-import {esc} from './utils.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
-import {fieldHelp} from './components.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
+import {esc} from './utils.js?v=79ffad5494069a305c364320c14a05392fa8d62a';
+import {fieldHelp} from './components.js?v=79ffad5494069a305c364320c14a05392fa8d62a';
 const directories=[['manufacturers','Marcas','/marcas'],['suppliers','Proveedores','/proveedores'],['customers','Clientes','/clientes']];
 export async function openWebsiteDirectories({rpc,website,name}){
  const dialog=document.createElement('dialog');dialog.className='api-user-dialog';

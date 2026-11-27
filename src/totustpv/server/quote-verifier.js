@@ -1,4 +1,4 @@
-import {expectedFromNativeQuote,nativeQuoteFingerprint} from './quote-contract.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
+import {expectedFromNativeQuote,nativeQuoteFingerprint} from './quote-contract.js?v=79ffad5494069a305c364320c14a05392fa8d62a';
 const need=(ok,code)=>{if(!ok)throw new Error(code);};
 /** Server preparation/revalidation coordinator; all providers are authenticated
  * adapters. Native quote requests can apply cart rules to the owned cart, but
