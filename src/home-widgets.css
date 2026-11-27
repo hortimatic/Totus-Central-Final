@@ -680,15 +680,16 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 #content .dashboard-page.home-edit-mode .home-dashboard-toolbar{padding:8px 12px;gap:8px;flex-wrap:wrap}#content .dashboard-page.home-edit-mode .home-toolbar-description>strong,#content .dashboard-page.home-edit-mode .home-toolbar-description>p{display:none}#content .dashboard-page.home-edit-mode .home-toolbar-description:has([data-home-status]:empty){display:none}#content .dashboard-page.home-edit-mode .home-toolbar-actions{margin-left:auto;gap:6px}#content .dashboard-page.home-edit-mode .home-toolbar-actions button{font-size:12px;min-height:34px;padding:6px 10px}
 
 /* Editing tools are overlays; the working board keeps exactly the same geometry. */
-#content .dashboard-page.home-edit-mode .home-dashboard-toolbar{position:fixed;top:70px;right:18px;width:min(720px,calc(100vw - 290px));box-sizing:border-box;z-index:40;margin:0}
+#content .dashboard-page.home-edit-mode .home-dashboard-toolbar{position:sticky;top:8px;width:100%;box-sizing:border-box;z-index:25;margin:0 0 12px}
 #content .dashboard-page .home-widget-header{position:relative}
 #content .dashboard-page.home-edit-mode .home-move-handle{position:absolute;left:-14px;top:-12px;z-index:5;background:var(--panel);border:1px solid var(--line);border-radius:6px}
-#content .dashboard-page.home-edit-mode .home-widget-move-actions{position:absolute;right:40px;top:-14px;z-index:5;background:var(--panel);border-radius:6px}
-@media(max-width:700px){#content .dashboard-page.home-edit-mode .home-dashboard-toolbar{width:calc(100vw - 24px);right:12px;top:64px}}
+#content .dashboard-page.home-edit-mode .home-widget-move-actions{position:static;display:inline-flex;gap:4px;margin-left:auto;background:transparent;border-radius:6px}
+@media(min-width:1040px){#content .dashboard-page.home-edit-mode:has(.home-widget-drawer:not([hidden])) .home-widget-shell{padding-right:360px;box-sizing:border-box}}
+@media(max-width:700px){#content .dashboard-page.home-edit-mode .home-dashboard-toolbar{width:100%;top:4px}}
 
-#content .dashboard-page .home-widget-grid>.home-widget-frame:not([data-home-type="prestashop.summary"]){align-self:start}
+#content .dashboard-page .home-widget-grid>.home-widget-frame{align-self:start!important}
 #content .dashboard-page .home-widget-frame[data-home-type]>.home-widget-body{flex:0 0 auto}
-#content .dashboard-page .home-widget-frame[data-home-type="prestashop.summary"]>.home-widget-body{flex:1}
+#content .dashboard-page .home-widget-frame[data-home-type="pricing.quick"][data-home-height-mode="auto"]>.home-widget-body{max-height:none!important;overflow:visible!important}
 
 #content .dashboard-page .home-orders-scroll{max-height:420px!important;overflow-y:auto!important}
 #content .dashboard-page .home-orders-cards{max-height:420px;overflow-y:auto;overscroll-behavior:contain}

@@ -1,27 +1,27 @@
-import {fieldHelp} from './components.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {productDisplayId} from './record-identifiers.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {inicio as renderHomeSources} from './pages/main.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {readPool} from './read-pool.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
+import {fieldHelp} from './components.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {productDisplayId} from './record-identifiers.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {inicio as renderHomeSources} from './pages/main.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {readPool} from './read-pool.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {nextOpeningSummary} from './home-openings-view.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {state,getFilters} from './state.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {esc,money} from './utils.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {storeConnection} from './prestashop-readonly.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {prestashopReadiness} from './prestashop-ui.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {productPhoto} from './productos-catalog.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {centralProductRecord} from './central-product-adapter.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
-import {archiveAccepted} from './historical-acceptance.js?v=11cda446c27f9d32e695370ad9187a6a1128874b';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {nextOpeningSummary} from './home-openings-view.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {state,getFilters} from './state.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {esc,money} from './utils.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {storeConnection} from './prestashop-readonly.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {prestashopReadiness} from './prestashop-ui.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {productPhoto} from './productos-catalog.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {centralProductRecord} from './central-product-adapter.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
+import {archiveAccepted} from './historical-acceptance.js?v=6dbc85dfd3cda24673631edaba05d8ac23d62aca';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],
@@ -499,7 +499,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
    intro.innerHTML='<strong>'+esc(w.title)+'</strong><p>'+esc(HOME_WIDGET_CATALOG[w.type]?.category||'Widget')+' · Selecciona tamaño y opciones sin modificar el módulo original.</p>';
    const presets=document.createElement('div');presets.className='home-editor-presets';
    const widths=allowedWidths(w),defaultWidth=HOME_WIDGET_CATALOG[w.type].width;
-   const choices=[['compact','Compacto',widths[0]],['balanced','Estándar',defaultWidth],['wide','Ancho',widths.filter(x=>x<=9).at(-1)||widths.at(-1)],['full','Completo',widths.at(-1)]];
+   const choices=[['compact','Compacto',widths[0]],['balanced','Estándar',defaultWidth],['medium','Medio',widths.filter(x=>x<=6).at(-1)||defaultWidth],['wide','Ancho',widths.filter(x=>x<=9).at(-1)||widths.at(-1)],['full','Completo',widths.at(-1)]];
    presets.innerHTML='<span class="home-editor-label">Tamaño rápido</span><div class="home-size-presets" role="group" aria-label="Tamaño de '+esc(w.title)+'">'+choices.map(([key,label,width])=>'<button type="button" data-home-command="preset-size" data-id="'+esc(w.id)+'" data-size="'+key+'" aria-pressed="'+(width===w.layout.desktop.w)+'" title="'+esc(label)+'">'+label+'<small>'+width+'/12</small></button>').join('')+'</div>';
    const content=document.createElement('details');content.className='home-editor-section';content.open=true;
    content.innerHTML='<summary>Contenido y datos</summary>';
@@ -656,7 +656,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
 
   if(['panel-library','panel-widget','panel-board','panel-styles'].includes(action)){if(!edit)return;panelView=action.slice(6);renderDrawer();if(panelView==='styles')void loadStyles();return}
    if(action==='close-panel'){panelView='closed';renderDrawer();return}
-   if(action==='preset-size'){const w=find(id);if(!edit||!w)return;const widths=allowedWidths(w),def=HOME_WIDGET_CATALOG[w.type];const options={compact:widths[0],balanced:def.width,wide:widths.filter(x=>x<=9).at(-1)||widths.at(-1),full:widths.at(-1)};const width=options[el.dataset.size];if(!widths.includes(width))return;mutate(m=>setHomeWidgetConfig(m,id,{layout:{desktop:{w:width}}}),id);panelView='widget';return}
+   if(action==='preset-size'){const w=find(id);if(!edit||!w)return;const widths=allowedWidths(w),def=HOME_WIDGET_CATALOG[w.type];const options={compact:widths[0],balanced:def.width,medium:widths.filter(x=>x<=6).at(-1)||def.width,wide:widths.filter(x=>x<=9).at(-1)||widths.at(-1),full:widths.at(-1)};const width=options[el.dataset.size];if(!widths.includes(width))return;mutate(m=>setHomeWidgetConfig(m,id,{layout:{desktop:{w:width}}}),id);panelView='widget';return}
 
   if(action==='undo'||action==='redo'){if(!edit)return;const from=action==='undo'?undoStack:redoStack,to=action==='undo'?redoStack:undoStack;if(!from.length)return;to.push(structuredClone(model));model=from.pop();model.revision=original.revision;draw();status(action==='undo'?'Cambio deshecho.':'Cambio recuperado.');return;}
   if(action==='edit'){if(edit){if(changed()&&!await confirmDiscard())return;model=structuredClone(original);edit=false;selected=null;panelView='closed'}else{edit=true;selected=null;panelView='closed'}draw();return}
