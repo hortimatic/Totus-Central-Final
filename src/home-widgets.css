@@ -750,3 +750,6 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 
 /* Let the page continue scrolling at the ends of a widget viewport. */
 #content .dashboard-page :is(.home-widget-body,.home-orders-scroll,.home-orders-cards){overscroll-behavior-y:auto!important}
+.home-th-sort{background:none;border:0;padding:0;font:inherit;font-weight:700;color:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.home-th-sort:hover{color:var(--accent,#257bb5)}
+.home-orders-table th,.home-products-table th{position:relative;min-width:85px}

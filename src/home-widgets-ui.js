@@ -1,27 +1,27 @@
-import {fieldHelp} from './components.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productDisplayId} from './record-identifiers.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {inicio as renderHomeSources} from './pages/main.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {readPool} from './read-pool.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
+import {fieldHelp} from './components.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productDisplayId} from './record-identifiers.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {inicio as renderHomeSources} from './pages/main.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {readPool} from './read-pool.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {nextOpeningSummary} from './home-openings-view.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {state,getFilters} from './state.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {esc,money} from './utils.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {storeConnection} from './prestashop-readonly.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {prestashopReadiness} from './prestashop-ui.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productPhoto} from './productos-catalog.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {centralProductRecord} from './central-product-adapter.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {archiveAccepted} from './historical-acceptance.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {nextOpeningSummary} from './home-openings-view.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {state,getFilters} from './state.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {esc,money} from './utils.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {storeConnection} from './prestashop-readonly.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {prestashopReadiness} from './prestashop-ui.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productPhoto} from './productos-catalog.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {centralProductRecord} from './central-product-adapter.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {archiveAccepted} from './historical-acceptance.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],
@@ -242,14 +242,39 @@ function psOrders(w,data){
  .filter(r=>w.filters.status==='valid'?String(r.valid)==='1':w.filters.status==='invalid'?String(r.valid)!=='1':true)
  .filter(r=>{const q=String(w.filters.query||'').toLocaleLowerCase('es').trim();return !q||String(r.id||'').includes(q)||String(r.reference||'').toLocaleLowerCase('es').includes(q)})
  .filter(r=>!w.filters.payment||w.filters.payment==='all'||String(r.payment||'').trim()===w.filters.payment)
- .sort((a,b)=>{const d=String(b.date_add||'').localeCompare(String(a.date_add||''))||Number(b.id)-Number(a.id);return w.filters.sort==='oldest'?-d:d});
+ .sort((a,b)=>{
+  const s=String(w.filters.sort||'newest');
+  if(s.includes(':')){
+   const [k,dir]=s.split(':'),mul=dir==='asc'?1:-1;
+   if(k==='total')return ((cents(a.total_paid_tax_incl)||0)-(cents(b.total_paid_tax_incl)||0))*mul;
+   if(k==='order')return String(a.display_number??a.reference??a.id).localeCompare(String(b.display_number??b.reference??b.id),'es',{numeric:true})*mul;
+   if(k==='reference')return String(a.reference||'').localeCompare(String(b.reference||''),'es',{numeric:true})*mul;
+   if(k==='margin')return (Number(a.margin_value??0)-Number(b.margin_value??0))*mul;
+   return String(a.date_add||'').localeCompare(String(b.date_add||''))*mul;
+  }
+  const d=String(b.date_add||'').localeCompare(String(a.date_add||''))||Number(b.id)-Number(a.id);return s==='oldest'?-d:d;
+ });
  const pageSize=[10,15,20].includes(Number(w.filters.pageSize))?Number(w.filters.pageSize):10;
  const pages=Math.max(1,Math.ceil(rows.length/pageSize)),page=Math.min(pages-1,Math.max(0,Number(w.filters.page)||0));
  const visible=rows.slice(page*pageSize,(page+1)*pageSize);
  const partial=shops.some(s=>!data?.[s]||!data[s].complete||data[s].error);
+ const activeCols=selectedOrderColumns(w);
+ const colHead=key=>{const sortable=['order','reference','total','date','margin'].includes(key),cur=w.filters.sort===key+':asc'?'↑':w.filters.sort===key+':desc'?'↓':'';return `<th style="resize:horizontal;overflow:hidden">${sortable?`<button type="button" class="home-th-sort" data-home-command="sort-column" data-home-sort-key="${key}" data-id="${esc(w.id)}" title="Ordenar por ${esc(orderColumnLabels[key])}">${esc(orderColumnLabels[key])} ${cur||'↕'}</button>`:esc(orderColumnLabels[key])}</th>`;};
+ const colCell=(key,row)=>{
+  if(key==='order')return `<td><button type="button" class="home-order-link" data-home-command="open-order" data-shop="${esc(row._shop)}" data-order="${esc(String(row.id))}" data-date="${esc(String(row.date_add||'').slice(0,10))}">#${esc(row.display_number??row.reference)}</button></td>`;
+  if(key==='reference')return `<td>${esc(row.reference||'—')}<small class="home-order-shop">${esc(labelStore(row._shop))}</small></td>`;
+  if(key==='products')return `<td class="home-orders-products">${Array.isArray(row._products)&&row._products.length?row._products.slice(0,2).map(item=>`<span class="home-order-product-line" title="${esc(item.name)}">${homeOrderProductImage(item)}<span>${esc(item.name)} · ${esc(String(item.qty))} uds</span></span>`).join('')+(row._products.length>2?`<small>+${row._products.length-2} líneas más</small>`:''):'<span class="small muted">Ver pedido para consultar productos</span>'}</td>`;
+  if(key==='customer')return `<td>${row.customer_name?esc(row.customer_name):/^\d{1,15}$/.test(String(row.id_customer||''))&&Number(row.id_customer)>0?`ID cliente #${esc(String(row.id_customer))}`:'No informado'}</td>`;
+  if(key==='total')return `<td>${row._currency==='EUR'&&cents(row.total_paid_tax_incl)!==null?money(cents(row.total_paid_tax_incl)/100):'Moneda sin verificar'}</td>`;
+  if(key==='payment')return `<td>${esc(row.payment||'—')}</td>`;
+  if(key==='status')return `<td>${String(row.valid)==='1'?'Válido':'No válido'}</td>`;
+  if(key==='date')return `<td>${esc(row.date_add||'')}</td>`;
+  if(key==='employee')return `<td title="Empleado del registro inicial, cuando la tienda lo identifica.">${esc(sellerText(row))}</td>`;
+  return `<td title="Ventas netas de producto menos coste de catálogo; excluye envío y embalaje. No es beneficio neto.">${esc(orderMarginText(row))}</td>`;
+ };
  return `${periodControls(w)}<div class="home-order-toolbar"><label>Buscar <input type="search" data-home-filter="query" data-id="${esc(w.id)}" value="${esc(w.filters.query||'')}" placeholder="Nº o referencia" maxlength="80"></label><label>Estado <select data-home-filter="status" data-id="${esc(w.id)}"><option value="all">Todos</option><option value="valid" ${w.filters.status==='valid'?'selected':''}>Válidos</option><option value="invalid" ${w.filters.status==='invalid'?'selected':''}>No válidos</option></select></label><label>Pago <select data-home-filter="payment" data-id="${esc(w.id)}"><option value="all">Todos</option>${paymentOptions.map(p=>`<option value="${esc(p)}" ${w.filters.payment===p?'selected':''}>${esc(p)}</option>`).join('')}</select></label><label>Orden <select data-home-filter="sort" data-id="${esc(w.id)}"><option value="newest">Más recientes</option><option value="oldest" ${w.filters.sort==='oldest'?'selected':''}>Más antiguos</option></select></label><button type="button" data-home-command="fetch" data-id="${esc(w.id)}" class="btn secondary">Actualizar</button><button type="button" class="btn secondary" data-home-command="order-columns" data-id="${esc(w.id)}">⚙ Columnas</button></div>
  ${errors.length?`<p class="home-error" role="alert">${esc(errors.join(' · '))}</p>`:''}${partial?'<p class="small muted">Consulta parcial o pendiente: el recuento no representa todas las ventas.</p>':''}
- <div class="home-orders-scroll" role="region" aria-label="Tabla de ventas de TotusTPV; desplazamiento horizontal y vertical" tabindex="0" data-home-orders-viewport="${esc(w.id)}"><table class="data-table home-orders-table"><thead><tr><th>Pedido</th><th>Referencia</th><th>Productos</th><th>Cliente</th><th>Total</th><th>Pago</th><th>Estado</th><th>Fecha y hora</th><th>Atendido por</th><th>Margen €</th></tr></thead><tbody>${visible.map(row=>`<tr><td><button type="button" class="home-order-link" data-home-command="open-order" data-shop="${esc(row._shop)}" data-order="${esc(String(row.id))}" data-date="${esc(String(row.date_add||'').slice(0,10))}">#${esc(row.display_number??row.reference)}</button></td><td>${esc(row.reference||'—')}<small class="home-order-shop">${esc(labelStore(row._shop))}</small></td><td class="home-orders-products">${Array.isArray(row._products)&&row._products.length?row._products.slice(0,2).map(item=>`<span class="home-order-product-line" title="${esc(item.name)}">${homeOrderProductImage(item)}<span>${esc(item.name)} · ${esc(String(item.qty))} uds</span></span>`).join('')+(row._products.length>2?`<small>+${row._products.length-2} líneas más</small>`:''):'<span class="small muted">Ver pedido para consultar productos</span>'}</td><td>${row.customer_name?esc(row.customer_name):/^\d{1,15}$/.test(String(row.id_customer||''))&&Number(row.id_customer)>0?`ID cliente #${esc(String(row.id_customer))}`:'No informado'}</td><td>${row._currency==='EUR'&&cents(row.total_paid_tax_incl)!==null?money(cents(row.total_paid_tax_incl)/100):'Moneda sin verificar'}</td><td>${esc(row.payment||'—')}</td><td>${String(row.valid)==='1'?'Válido':'No válido'}</td><td>${esc(row.date_add||'')}</td><td title="Empleado del registro inicial, cuando la tienda lo identifica.">${esc(sellerText(row))}</td><td title="Ventas netas de producto menos coste de catálogo; excluye envío y embalaje. No es beneficio neto.">${esc(orderMarginText(row))}</td></tr>`).join('')||'<tr><td colspan="10">No hay pedidos para estos filtros.</td></tr>'}</tbody></table></div>
+ <div class="home-orders-scroll" role="region" aria-label="Tabla de ventas de TotusTPV; desplazamiento horizontal y vertical" tabindex="0" data-home-orders-viewport="${esc(w.id)}"><table class="data-table home-orders-table"><thead><tr>${activeCols.map(colHead).join('')}</tr></thead><tbody>${visible.map(row=>`<tr>${activeCols.map(key=>colCell(key,row)).join('')}</tr>`).join('')||`<tr><td colspan="${activeCols.length}">No hay pedidos para estos filtros.</td></tr>`}</tbody></table></div>
  <div class="home-orders-cards" role="list" aria-label="Pedidos en fichas adaptativas">${visible.map(compactOrderCard).join('')}</div>
  <div class="home-order-footer"><span class="home-order-scroll-actions" aria-label="Recorrer columnas de pedidos"><button type="button" data-home-command="scroll-left" data-id="${esc(w.id)}" aria-label="Columnas anteriores">←</button><button type="button" data-home-command="scroll-right" data-id="${esc(w.id)}" aria-label="Columnas siguientes">→</button></span><label>Filas <select data-home-filter="pageSize" data-id="${esc(w.id)}">${[10,15,20].map(n=>`<option value="${n}" ${pageSize===n?'selected':''}>${n}</option>`).join('')}</select></label><label>Página <input class="home-page-select" type="number" min="1" max="${pages}" step="1" inputmode="numeric" aria-label="Ir a página de pedidos" data-home-filter="page" data-id="${esc(w.id)}" value="${page+1}"></label><span>de ${pages}${partial?' · parcial':''}</span><button type="button" data-home-command="prev-page" data-id="${esc(w.id)}" ${page===0?'disabled':''}>‹</button><button type="button" data-home-command="next-page" data-id="${esc(w.id)}" ${page>=pages-1?'disabled':''}>›</button><button class="btn secondary" data-route="ventas">Abrir Ventas</button></div>`;
 }
@@ -637,6 +662,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   if(action==='edit'){if(edit){if(changed()&&!await confirmDiscard())return;model=structuredClone(original);edit=false;selected=null;panelView='closed'}else{edit=true;selected=null;panelView='closed'}draw();return}
   if(action==='exit'){if(changed()&&!await confirmDiscard())return;edit=false;model=structuredClone(original);selected=null;panelView='closed';draw();return}
   if(action==='order-columns'){openOrderColumns(id,el);return;}
+  if(action==='sort-column'){const w=model.widgets.find(x=>x.id===id),key=el.dataset.homeSortKey;if(w&&key){w.filters.sort=w.filters.sort===key+':desc'?key+':asc':key+':desc';refreshWidget(id);}return;}
   if(action==='select'){selected=id;edit=true;panelView='widget';advancedOpen=false;draw();return}
   if(action==='add'){panelView='widget';const type=el.dataset.type;if(nonClonable.has(type)&&model.widgets.some(w=>w.type===type)){status('Ese widget contiene controles únicos y ya está añadido. Puedes moverlo o cambiar su tamaño.',true);return}const scope=type==='prestashop.summary'?{store:homeStores()[0]?.key||'all'}:{store:'all'};const newId=makeId();mutate(m=>addHomeWidget(m,type,newId,{scope}),newId);if(type==='prestashop.quality')void fetchCatalog(find(newId));else if(type.startsWith('prestashop.'))void fetchFor(find(newId));return}
   if(action==='duplicate'){const w=find(id);if(!w||nonClonable.has(w.type))return;const newId=makeId();mutate(m=>duplicateHomeWidget(m,id,newId),newId);return}

@@ -1,44 +1,44 @@
-import {productDisplayId} from './record-identifiers.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createCentralProductEditorSession} from './central-product-editor-session.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createCentralProductSyncClient} from './central-product-sync-client.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createCentralProductSyncHistory} from './central-product-sync-history.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createCentralProductCopyUI} from './central-product-copy-ui.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createCategoriesWorkspace} from './product-categories-ui.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createCentralAttributeSession} from './central-attribute-session.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {openAttributeRecord} from './productos-attribute-editor.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createProductMovementsUI} from './productos-movements-ui.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {normalizeProductImage} from './productos-image-editor.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {openTableViewProfiles} from './table-view-profiles.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {openProductMasters} from './productos-masters-ui.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {attachProductTableLayout} from './productos-table-layout.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {adaptProductTexts} from './productos-copy-text.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {showProductDialog} from './productos-dialogs.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {enhanceProductSelects} from './productos-controls.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createProductTableEditor} from './productos-table-editor.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {openCatalogPriceBatch} from './catalog-price-batch.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,sortProductCatalog,productCatalogCsv} from './productos-catalog.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productStockSummary} from './product-stock-summary.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {readPool} from './read-pool.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {storeConnection} from './prestashop-readonly.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {createProductWizard} from './productos-create-ui.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {esc} from './utils.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {fieldHelp} from './components.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productDraftStore} from './productos-draft-store.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
-import {productPriceStudy} from './pricing-core.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c';
+import {productDisplayId} from './record-identifiers.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createCentralProductEditorSession} from './central-product-editor-session.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createCentralProductSyncClient} from './central-product-sync-client.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createCentralProductSyncHistory} from './central-product-sync-history.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createCentralProductCopyUI} from './central-product-copy-ui.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createCategoriesWorkspace} from './product-categories-ui.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createCentralAttributeSession} from './central-attribute-session.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {openAttributeRecord} from './productos-attribute-editor.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createProductMovementsUI} from './productos-movements-ui.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {normalizeProductImage} from './productos-image-editor.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {openTableViewProfiles} from './table-view-profiles.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {openProductMasters} from './productos-masters-ui.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {attachProductTableLayout} from './productos-table-layout.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {adaptProductTexts} from './productos-copy-text.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {showProductDialog} from './productos-dialogs.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {enhanceProductSelects} from './productos-controls.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createProductTableEditor} from './productos-table-editor.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {openCatalogPriceBatch} from './catalog-price-batch.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,sortProductCatalog,productCatalogCsv} from './productos-catalog.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productStockSummary} from './product-stock-summary.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {readPool} from './read-pool.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {storeConnection} from './prestashop-readonly.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {createProductWizard} from './productos-create-ui.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {esc} from './utils.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {fieldHelp} from './components.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productDraftStore} from './productos-draft-store.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
+import {productPriceStudy} from './pricing-core.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1';
 
 export const productosWorkspacePage=(workspace='products')=>'<div class="page productos-page"><section id="productosRoot" data-pr-workspace="'+workspace+'" aria-label="'+(workspace==='pricing'?'Precios y ofertas':'Gestión de productos')+'"><p role="status">Cargando Productos…</p></section></div>';
 const h=x=>esc(String(x??''));
@@ -392,7 +392,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   const openCopyDetails=[...root.querySelectorAll('details[data-pr-copy-details][open]')].map(el=>el.dataset.prCopyDetails);
   const columnsOpen=!!root.querySelector('.prd-columns[open]'),columnSearch=root.querySelector('[data-pr-columns-search]')?.value||'';
   const tableOffset=root.querySelector('.prd-catalog-table')?.scrollLeft||0,columnMenuOffset=root.querySelector('.prd-columns>div')?.scrollTop||0;
-  const content=mode==='categorias'?(catalogScope==='both'?empty('Elige una tienda','Selecciona la tienda y su web para gestionar sus categorías.'):'<div data-pr-categories-host></div>'):mode==='atributos'?(catalogScope==='both'?empty('Elige una tienda','Los atributos y características pertenecen a cada PrestaShop. Selecciona una web conectada en Tienda de trabajo.'):'<div data-pr-attributes-host></div>'):mode==='catalogo'?catalog():mode==='ficha'?editor():mode==='variantes'?variantsPanel():mode==='comparar'&&centralCopy?productPicker()+(centralCopy.hasSource?centralCopy.render():empty('Selecciona el producto de origen','Elige una ficha y después su tienda de destino.')):mode==='comparar'?productPicker()+(record?stitchCopy({store,record,canUpload:createWizard.canCommit((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))||preflight.get((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))?.can_commit===true,copyCreated:!!createWizard.result((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))&&!createWizard.result((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))?.existing_product,copyPublished:!!targetRaw.get((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))?.__copyCompleted,copyImages:createWizard.copyImagesSelected((PRODUCT_STORES.find(s=>s.key!==store)?.key||'')),copyLocked:createWizard.hasAttempted((PRODUCT_STORES.find(s=>s.key!==store)?.key||'')),targetRecord:targetRaw.get((PRODUCT_STORES.find(s=>s.key!==store)?.key||'')),legacyHtml:comparisonPanel()}):comparisonPanel()):mode==='encargo'?stitchRequest({legacyHtml:renderProductRequestForm(requestBrief,requestOutput),output:requestOutput}):mode==='guardado'?(centralData?historyPanel():stitchSaved({record,legacyHtml:record?historyPanel():'',queue:copyQueue,drafts:savedDraftCards()})):bulk();
+  const content=mode==='categorias'?(catalogScope==='both'?empty('Elige una tienda','Selecciona la tienda y su web para gestionar sus categorías.'):'<div data-pr-categories-host></div>'):mode==='atributos'?(catalogScope==='both'?empty('Elige una tienda','Los atributos y características pertenecen a cada PrestaShop. Selecciona una web conectada en Tienda de trabajo.'):'<div data-pr-attributes-host></div>'):mode==='catalogo'?catalog():mode==='ficha'?editor():mode==='variantes'?variantsPanel():mode==='comparar'?productPicker()+(record?stitchCopy({store,record,canUpload:createWizard.canCommit((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))||preflight.get((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))?.can_commit===true,copyCreated:!!createWizard.result((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))&&!createWizard.result((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))?.existing_product,copyPublished:!!targetRaw.get((PRODUCT_STORES.find(s=>s.key!==store)?.key||''))?.__copyCompleted,copyImages:createWizard.copyImagesSelected((PRODUCT_STORES.find(s=>s.key!==store)?.key||'')),copyLocked:createWizard.hasAttempted((PRODUCT_STORES.find(s=>s.key!==store)?.key||'')),targetRecord:targetRaw.get((PRODUCT_STORES.find(s=>s.key!==store)?.key||'')),legacyHtml:comparisonPanel()}):comparisonPanel()):mode==='encargo'?stitchRequest({legacyHtml:renderProductRequestForm(requestBrief,requestOutput),output:requestOutput}):mode==='guardado'?(centralData?historyPanel():stitchSaved({record,legacyHtml:record?historyPanel():'',queue:copyQueue,drafts:savedDraftCards()})):bulk();
   categoriesUI.unmount();attributesUI.dispose();controlsCleanup();photoCleanup();layoutCleanup();
   replacingDOM=true;try{root.innerHTML='<div class="prd-shell prd-stitch prd-professional">'+stitchHeader({stores:centralData?PRODUCT_STORES:undefined,central:!!centralData,pricingMode:pricingMode(),store:catalogScope,mode,status:displayStatus(status),count:rows.length,product:text(record?.name),draftCount:savedDraftCards().length,pending,connected:catalogScope==='both'?PRODUCT_STORES.every(s=>ready(s.key)):ready(store)})+'<div class="prd-body">'+content+'</div></div>';}finally{replacingDOM=false;}
 
@@ -496,7 +496,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  async function loadCatalog(more,{stock=true}={}){
   if(centralData){
    const generation=epoch,shops=catalogScope==='both'?PRODUCT_STORES.map(s=>s.key):[catalogScope],nextRows=[],nextMeta=new Map(),nextStock=new Map();
-   const {centralProductRecord}=await import('./central-product-adapter.js?v=a150c70f11d66dd259a21bf3a664ccda6fd6e11c');
+   const {centralProductRecord}=await import('./central-product-adapter.js?v=c5a5309bfbd15ee77f800dac927a0a6118c1dee1');
    for(const shop of shops){if(!shop)continue;const native=await centralData.catalogue(shop);
     const directories=await Promise.allSettled([centralData.directory(shop,'brands'),centralData.directory(shop,'suppliers')]);const brands=directories[0].status==='fulfilled'?directories[0].value:[],suppliers=directories[1].status==='fulfilled'?directories[1].value:[];
     if(!current()||epoch!==generation)throw Error('La sesión ha cambiado.');
@@ -780,8 +780,8 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
    const cell=e.target.closest('.prd-catalog-table td,.prd-catalog-table th,.prd-table-viewport td,.prd-table-viewport th');if(cell&&['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].includes(e.key)&&(!e.target.matches('input,textarea,select')||e.altKey)&&!e.ctrlKey&&!e.metaKey){const row=cell.parentElement,table=row.closest('table'),rs=[...table.rows],cells=[...row.cells];let y=rs.indexOf(row),x=cells.indexOf(cell);if(e.key==='ArrowLeft')x--;if(e.key==='ArrowRight')x++;if(e.key==='ArrowUp')y--;if(e.key==='ArrowDown')y++;if(e.key==='Home')x=0;if(e.key==='End')x=cells.length-1;const target=rs[Math.max(0,Math.min(y,rs.length-1))]?.cells[Math.max(0,Math.min(x,cells.length-1))];if(target){e.preventDefault();target.focus();target.scrollIntoView({block:'nearest',inline:'nearest'});if(['Home','End'].includes(e.key)){const viewport=table.closest('.prd-catalog-table,.prd-table-viewport');if(viewport){if(e.key==='Home')viewport.scrollLeft=0;else if(viewport.matches('.prd-catalog-table'))viewport.scrollLeft+=(target.querySelector('button,a,input,select')||target).getBoundingClientRect().left-viewport.getBoundingClientRect().left;}}}return;}
 if(['Enter',' '].includes(e.key)&&e.target.matches('[data-pr-action="photo-zoom"], [data-pr-image-drop]')){e.preventDefault();e.target.click();return;}if(e.key==='Escape'){for(const panel of root.querySelectorAll('.prd-columns[open],.prd-row-menu[open]')){panel.open=false;panel.querySelector('summary')?.focus();}}};
   root.onclick=e=>{if(!e.target.closest('.prd-columns,.prd-row-menu'))root.querySelectorAll('.prd-columns[open],.prd-row-menu[open]').forEach(d=>d.open=false);const b=e.target.closest('[data-pr-action]');if(!b||!current())return;const a=b.dataset.prAction;
-   if(centralCopy&&(['product-duplicate','open-copy-item'].includes(a)||a==='picker-open'&&mode==='comparar')){void openNativeCopy(b.dataset.prId||b.dataset.id,b.dataset.prShop||store,a==='product-duplicate').catch(error=>{status=error.message;render();});return;}
-   if(centralCopy&&a==='catalog-copy'&&catalogSelected.size===1){const [shop,id]=[...catalogSelected][0].split('|');void openNativeCopy(id,shop).catch(error=>{status=error.message;render();});return;}
+   if(a==='open-copy-item'){void work(async()=>{await openProduct(b.dataset.prId||b.dataset.id,b.dataset.prShop||store);mode='comparar';});return;}
+   if(a==='catalog-copy'&&catalogSelected.size===1){const [shop,id]=[...catalogSelected][0].split('|');void work(async()=>{await openProduct(id,shop);mode='comparar';});return;}
    if(centralData&&['new-product','product-remove','catalog-publish'].includes(a)){const chosen=b.dataset.prShop||store;if(!chosen||chosen==='both'){status='Selecciona una tienda para crear o editar.';render();return;}void openCentralEditor?.({store:chosen,id:a==='new-product'?null:b.dataset.prId||b.dataset.id,intent:({'product-remove':'delete','table-archive':'archive','catalog-publish':'publish'})[a]||'edit',onSaved:async()=>{centralData.invalidate(chosen);await work(()=>loadCatalog(false));void centralSync?.run(chosen);}}).catch(error=>{status=error.message;render();});return;}
 
    if(a==='backend-config'){const shop=b.dataset.prShop,id=b.dataset.prId,dialog=document.createElement('dialog');dialog.className='prd-photo-dialog prd-backoffice-dialog';dialog.innerHTML='<form><h3>Administración · '+h(PRODUCT_STORES.find(s=>s.key===shop).label)+'</h3><p>PrestaShop protege sus enlaces de edición con un token de navegación. Abre Catálogo → Productos en su administración y pega la dirección completa. El enlace de Inicio no sirve.</p><label>Enlace del catálogo o de una ficha<input type="url" name="link" required autocomplete="off" placeholder="https://'+'tu-web.example'+'/admin777/index.php/sell/catalog/products?..."></label><p>Se conserva solo en esta sesión del navegador y esta cuenta. No se guarda en los productos, el servidor ni las exportaciones. Al caducar tu sesión de PrestaShop, actualízalo aquí.</p><p role="status" data-link-error></p><div class="inline-actions"><button type="button" data-cancel>Cancelar</button><button type="submit">Guardar enlace de esta sesión</button></div></form>';dialog.querySelector('[data-cancel]').onclick=()=>dialog.close();dialog.querySelector('form').onsubmit=event=>{event.preventDefault();try{saveBackofficeLink(new FormData(event.target).get('link'),shop,owner);dialog.close();status='Acceso de administración vinculado para esta sesión. Pulsa de nuevo Abrir en administración.';render();}catch(error){dialog.querySelector('[data-link-error]').textContent=error.message;}};showProductDialog(root,dialog,{label:'Acceso a la administración de '+shop,trigger:b});return;}
