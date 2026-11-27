@@ -1,8 +1,8 @@
-import {budgetDraft} from '../budget-contract.js?v=c576b7e6f0d299e63bdfcaf306a9a5ebfbd53261';
-import {saleNoteHash} from '../sale-note.js?v=c576b7e6f0d299e63bdfcaf306a9a5ebfbd53261';
-import {nativeQuoteFingerprint} from './quote-contract.js?v=c576b7e6f0d299e63bdfcaf306a9a5ebfbd53261';
-import {commercialFromNativeQuote} from './commercial-quote-contract.js?v=c576b7e6f0d299e63bdfcaf306a9a5ebfbd53261';
-import {createNativeRequestService,nativeStepId} from './native-request-service.js?v=c576b7e6f0d299e63bdfcaf306a9a5ebfbd53261';
+import {budgetDraft} from '../budget-contract.js?v=d66ce241905ca27652ad8a3651738d2d5b2189db';
+import {saleNoteHash} from '../sale-note.js?v=d66ce241905ca27652ad8a3651738d2d5b2189db';
+import {nativeQuoteFingerprint} from './quote-contract.js?v=d66ce241905ca27652ad8a3651738d2d5b2189db';
+import {commercialFromNativeQuote} from './commercial-quote-contract.js?v=d66ce241905ca27652ad8a3651738d2d5b2189db';
+import {createNativeRequestService,nativeStepId} from './native-request-service.js?v=d66ce241905ca27652ad8a3651738d2d5b2189db';
 const need=(ok,code)=>{if(!ok)throw Error(code);};
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);
 export async function budgetQuoteRefreshId(operationId,now=Date.now()){
