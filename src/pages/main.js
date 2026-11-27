@@ -1,37 +1,37 @@
-import {localStoreHost} from '../local-store-workspace.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {directoryPageHtml} from '../contact-directory-ui.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {apiManagerHtml} from '../api-manager.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {automationsPage} from '../automations-ui.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {prestashopWorkspacePage} from '../prestashop-ui.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {productosWorkspacePage} from '../productos-ui.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {appearancePage} from '../appearance-ui.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {discountScenarios} from '../pricing-discounts.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {draftVariantRow} from '../pricing-drafts.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {stockPage} from '../stock-ui.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {normalizeReportOrder} from '../report-layout.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {taxExpenseRecord} from '../tax-expense.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {incomeBreakdown} from '../income-breakdown.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {planStorage} from '../storage-planning.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {SUPABASE_URL} from '../config.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {expenseAttachedInvoices} from '../expense-register.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {selectExpenses} from '../expense-selection.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
+import {localStoreHost} from '../local-store-workspace.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {directoryPageHtml} from '../contact-directory-ui.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {apiManagerHtml} from '../api-manager.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {automationsPage} from '../automations-ui.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {prestashopWorkspacePage} from '../prestashop-ui.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {productosWorkspacePage} from '../productos-ui.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {appearancePage} from '../appearance-ui.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {closingDrawerValue,incompleteClosing,drawerCashSales} from '../cash-closing.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {editableReferences,expenseStoreSelection,reportDiaryStores} from '../reference-options.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {EXPENSE_REPORT_GROUPS,categoryReportGroup,EXPENSE_REPORT_COLORS,expenseReportOverride} from '../expense-colors.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {filterAuditEvents,auditActionLabel} from '../audit-register.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {discountScenarios} from '../pricing-discounts.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {draftVariantRow} from '../pricing-drafts.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {variantStudy,numericRange,formatVariantAttributes,pricingProviderCost,pricingCompetition} from '../pricing-core.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {stockPage} from '../stock-ui.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {activitySeries,activityChartHtml,activityStoreComparisons} from '../dashboard-activity.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {normalizeReportOrder} from '../report-layout.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {taxExpenseRecord} from '../tax-expense.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {incomeBreakdown} from '../income-breakdown.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {informationalTaxPayments,taxPaymentLabel} from '../payment-information.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {oneDrivePanel,oneDriveStorageCard,oneDriveCredentialNotice} from '../onedrive-connection.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {planStorage} from '../storage-planning.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {MAX_SAVED_BACKUPS,backupRetentionCount,backupRunState,backupFailureSummary} from '../backup-retention.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {archiveAccepted,quarterPresented,lastDrawerBalance} from '../historical-acceptance.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {SUPABASE_URL} from '../config.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {reportMonths,selectReportData,matchesText,searchText,selectDocuments} from '../report-period.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {state,isAdmin,isManager,getFilters,getView} from '../state.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {canUser,rolePermissions,PERMISSION_MODULES,PERMISSION_ACTIONS} from '../permissions.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {sum,money,fmtDate,inRange,monthRange,isoToday,esc} from '../utils.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {kpi,table,dateFilters,btn,moneyCell,stateBadge,formField,selectField,fieldHelp} from '../components.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {expenseAttachedInvoices} from '../expense-register.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {selectExpenses} from '../expense-selection.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {quickPriceStudy,isInvoiceRefund,invoiceOutstanding,issuedDocumentFileLocked} from '../calculations.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {manualClosingReconciled,sourceClosingReconciled,computeModel130Accumulated,estimatePriorModel130,isReviewedFiscalExpense,deductibleExpenseTotal,expenseCostAmount,isUnreconciledPayment,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from '../calculations.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
 
 const stores=()=>state.data.stores.filter(x=>x.active!==false);
 const storeName=id=>state.data.stores.find(x=>x.id===id)?.name||'—';
@@ -467,13 +467,13 @@ export function documentos(){
 }
 
 export function documentRecordHtml(row=null){
- if(row&&documentRemovalPending(row.id))return `<div class="page record-page"><div class="record-toolbar"><div><button class="btn link" data-action="document-back">← Volver a documentos</button><div class="eyebrow">Documentos · Ficha</div><h2>${esc(row.original_name||'Documento')}</h2></div><span class="badge warn">Eliminación pendiente</span></div><section class="card card-pad"><h3>Completar la eliminación</h3><p>La eliminación quedó pendiente. El servidor volverá a intentarla sin depender de este ordenador. Puedes reintentar ahora; la ficha se conserva hasta terminar y el archivo no se puede asociar a otro registro.</p><dl><dt>Proveedor / cliente</dt><dd>${esc(row.supplier_or_customer||'—')}</dd><dt>Número</dt><dd>${esc(row.invoice_number||'—')}</dd><dt>Fecha</dt><dd>${fmtDate(row.document_date||row.created_at)}</dd><dt>Tamaño</dt><dd>${(Number(row.size_bytes||0)/1024/1024).toFixed(2).replace('.',',')} MB</dd><dt>Notas</dt><dd>${esc(row.notes||'—')}</dd></dl><div class="inline-actions">${canUser(state.user,'documentos','delete',state.data.userPermissions)&&(isManager()||row.uploaded_by===state.session?.user?.id)?btn('Reintentar eliminación','document-delete','danger',`data-id="${row.id}"`):''}</div></section></div>`;
+ if(row&&documentRemovalPending(row.id))return `<div class="page record-page"><div class="record-toolbar"><div><button class="btn link tc-back-btn" data-action="document-back">← Volver a documentos</button><div class="eyebrow">Documentos · Ficha</div><h2>${esc(row.original_name||'Documento')}</h2></div><span class="badge warn">Eliminación pendiente</span></div><section class="card card-pad"><h3>Completar la eliminación</h3><p>La eliminación quedó pendiente. El servidor volverá a intentarla sin depender de este ordenador. Puedes reintentar ahora; la ficha se conserva hasta terminar y el archivo no se puede asociar a otro registro.</p><dl><dt>Proveedor / cliente</dt><dd>${esc(row.supplier_or_customer||'—')}</dd><dt>Número</dt><dd>${esc(row.invoice_number||'—')}</dd><dt>Fecha</dt><dd>${fmtDate(row.document_date||row.created_at)}</dd><dt>Tamaño</dt><dd>${(Number(row.size_bytes||0)/1024/1024).toFixed(2).replace('.',',')} MB</dd><dt>Notas</dt><dd>${esc(row.notes||'—')}</dd></dl><div class="inline-actions">${canUser(state.user,'documentos','delete',state.data.userPermissions)&&(isManager()||row.uploaded_by===state.session?.user?.id)?btn('Reintentar eliminación','document-delete','danger',`data-id="${row.id}"`):''}</div></section></div>`;
  const fileLocked=issuedDocumentFileLocked(row?.id,state.data.invoices);
  const canEdit=!row?canUser(state.user,'documentos','create',state.data.userPermissions):((isManager()||(row.uploaded_by&&row.uploaded_by===state.session?.user?.id))&&canUser(state.user,'documentos','edit',state.data.userPermissions));
- if(row&&!canEdit)return `<div class="page record-page"><div class="record-toolbar"><div>${btn('← Volver a documentos','document-back','link')}<div class="eyebrow">Documentos · Consulta</div><h2>${esc(row.original_name||'Documento')}</h2></div></div><section class="card card-pad"><p class="note">Puedes consultar y descargar este archivo. La edición corresponde a quien lo subió o a gerencia.</p><div class="inline-actions">${btn('Vista previa','document-preview','secondary',`data-id="${row.id}"`)}${btn('Descargar','document-download','secondary',`data-id="${row.id}"`)}</div></section></div>`;
+ if(row&&!canEdit)return `<div class="page record-page"><div class="record-toolbar"><div>${btn('← Volver a documentos','document-back','link tc-back-btn')}<div class="eyebrow">Documentos · Consulta</div><h2>${esc(row.original_name||'Documento')}</h2></div></div><section class="card card-pad"><p class="note">Puedes consultar y descargar este archivo. La edición corresponde a quien lo subió o a gerencia.</p><div class="inline-actions">${btn('Vista previa','document-preview','secondary',`data-id="${row.id}"`)}${btn('Descargar','document-download','secondary',`data-id="${row.id}"`)}</div></section></div>`;
  const storeOptions=[{value:'',label:'Sin tienda'},...editableReferences(state.data.stores,row?.store_id).map(s=>({value:s.id,label:s.name}))];
  return `<div class="page record-page">
-  <div class="record-toolbar"><div><button class="btn link" data-action="document-back">← Volver a documentos</button><div class="eyebrow">Documentos · ${row?'Ficha':'Nuevo'}</div><h2>${row?esc(row.original_name||'Documento'):'Subir documento'}</h2></div><div>${row?(acceptedClosing(row)?acceptedBadge:stateBadge(row.status)):'<span class="badge info">Nuevo</span>'}</div></div>
+  <div class="record-toolbar"><div><button class="btn link tc-back-btn" data-action="document-back">← Volver a documentos</button><div class="eyebrow">Documentos · ${row?'Ficha':'Nuevo'}</div><h2>${row?esc(row.original_name||'Documento'):'Subir documento'}</h2></div><div>${row?(acceptedClosing(row)?acceptedBadge:stateBadge(row.status)):'<span class="badge info">Nuevo</span>'}</div></div>
   <div class="record-layout">
    <div class="record-main stack">
     <section class="card card-pad"><div class="section-head"><div><h3>Archivo</h3><p>Máximo 20 MB. PDF, imagen, Excel, CSV, TXT o MD.</p></div></div>
@@ -1042,7 +1042,7 @@ export function closingRecordHtml(row=null){
  const locked=row?.status==='cerrado'&&!sourceReconcile;
  return `<div class="page record-page">
   ${sourceReconcile?`<section class="note warn"><b>${row.status==='cerrado'?'Modificar el cierre importado':'Conciliar el cierre importado'}</b><p>Las ventas del día y la referencia fiscal mensual se conservan. Aquí se comprueban la apertura, los movimientos de efectivo y el dinero que queda en cada caja. Completa los campos vacíos con el dato real, o con 0 si confirmas que no hubo movimiento. No se inventa el reparto entre cajas.</p><p>Referencia de la tienda: tarjeta ${JSON.parse(row.source_ref).card_sales==null?'sin anotación':money(JSON.parse(row.source_ref).card_sales)} · retiradas ${JSON.parse(row.source_ref).withdrawals==null?'sin anotación':money(JSON.parse(row.source_ref).withdrawals)} · ventas del día registradas ${money(row.reported_total_sales)}.</p></section>`:''}
-  <div class="record-toolbar"><div><button class="btn link" data-action="closing-back">← Volver a cierres</button><div class="eyebrow">Cajas · ${row?'Cierre '+fmtDate(row.business_date):'Nuevo cierre'}</div><h2>${row?esc(storeName(row.store_id)):'Nuevo cierre de caja'}</h2></div><div>${row?stateBadge(row.status):'<span class="badge info">Nuevo</span>'}</div></div>
+  <div class="record-toolbar"><div><button class="btn link tc-back-btn" data-action="closing-back">← Volver a cierres</button><div class="eyebrow">Cajas · ${row?'Cierre '+fmtDate(row.business_date):'Nuevo cierre'}</div><h2>${row?esc(storeName(row.store_id)):'Nuevo cierre de caja'}</h2></div><div>${row?stateBadge(row.status):'<span class="badge info">Nuevo</span>'}</div></div>
   <div class="record-layout">
    <div class="record-main stack">
     <section class="card card-pad">
@@ -1081,7 +1081,7 @@ export function sourceClosingRecordHtml(row,{embedded=false}={}){
  let origin;try{origin=JSON.parse(row.source_ref)}catch{throw new Error('No se puede leer el origen del cierre importado.');}
  if(origin?.kind!=='closing_source_snapshot'||!Array.isArray(origin.drawers))throw new Error('El origen del cierre importado está incompleto.');
  const amount=value=>value==null?'Sin anotación':money(value);
- return `<div class="page record-page"><div class="record-toolbar"><div>${embedded?'':btn('← Volver a cierres','closing-back','link')}<div class="eyebrow">Cierre de caja · ${fmtDate(row.business_date)}</div><h2>${esc(storeName(row.store_id))}</h2></div><span class="badge ${row.status==='cerrado'||acceptedClosing(row)?'good':'warn'}">${acceptedClosing(row)?'Conciliado y aceptado':row.status==='cerrado'?'Conciliado':'Pendiente de conciliación'}</span></div>
+ return `<div class="page record-page"><div class="record-toolbar"><div>${embedded?'':btn('← Volver a cierres','closing-back','link tc-back-btn')}<div class="eyebrow">Cierre de caja · ${fmtDate(row.business_date)}</div><h2>${esc(storeName(row.store_id))}</h2></div><span class="badge ${row.status==='cerrado'||acceptedClosing(row)?'good':'warn'}">${acceptedClosing(row)?'Conciliado y aceptado':row.status==='cerrado'?'Conciliado':'Pendiente de conciliación'}</span></div>
  <section class="card card-pad"><h3>Datos del registro anterior</h3><p>Datos conservados sin repartir tarjetas ni retiradas entre cajas cuando el origen solo indica el total de tienda.</p>${origin.missing_drawers?.length?`<p class="note warn">Sin captura de ${esc(origin.missing_drawers.join(', '))} en esta fecha. No se ha creado una caja con importes a cero.</p>`:''}${table([
  {label:'Caja',html:d=>esc(d.name)}, {label:'Dinero que quedó del cierre anterior',html:d=>amount(d.opening)},
  {label:sourceClosingReconciled(row)?'Importe «al fin» de la captura':'Ventas del día anotadas',html:d=>amount(d.al_fin)}, {label:'Dinero para abrir el siguiente día',html:d=>amount(d.closing)},
@@ -1121,7 +1121,7 @@ export function expenseRecordHtml(row=null){
  const total=Number(row?.gross_expense??row?.accounting_amount??row?.amount_paid??0);
  return `<div class="page record-page">
   ${bookPaymentPending(row)?`<div class="note warn">Asiento fiscal contrastado con el libro de gestoría. El pago del banco está registrado en el Excel original y pendiente de conciliación; no significa que esté impagado. El adjunto es un soporte del libro, no el documento individual original. ${esc(row.notes||'')}</div>`:''}
-  <div class="record-toolbar"><div><button class="btn link" data-action="expense-back">← Volver a gastos</button><div class="eyebrow">Gastos · ${row?'Registro':'Nuevo'}</div><h2>${row?esc(row.supplier_name||'Gasto'):'Nuevo gasto'}</h2></div><div>${acceptedExpense(row)?acceptedBadge:row?(row.management_only?'<span class="badge warn">Solo control interno</span>':'<span class="badge info">Fiscal</span>'):'<span class="badge info">Nuevo</span>'}</div></div>
+  <div class="record-toolbar"><div><button class="btn link tc-back-btn" data-action="expense-back">← Volver a gastos</button><div class="eyebrow">Gastos · ${row?'Registro':'Nuevo'}</div><h2>${row?esc(row.supplier_name||'Gasto'):'Nuevo gasto'}</h2></div><div>${acceptedExpense(row)?acceptedBadge:row?(row.management_only?'<span class="badge warn">Solo control interno</span>':'<span class="badge info">Fiscal</span>'):'<span class="badge info">Nuevo</span>'}</div></div>
   <div class="record-layout">
    <div class="record-main stack">
     <section class="card card-pad"><div class="section-head"><div><h3>1 · Documento y proveedor</h3><p>La tienda clasifica el gasto. La factura recibida debe identificar a ${esc(state.data.settings?.business_name||'tu nombre como autónomo')} con su NIF y domicilio fiscal comunes.</p></div></div>
@@ -1214,7 +1214,7 @@ export function invoiceRecordHtml(row=null,docType='factura',invoiceKind='invoic
  const title=isProforma?'Proforma':isRect?'Factura rectificativa':isExternal?'Factura externa':'Factura';
  const issued=!!row&&row.status!=='borrador',lock=issued?'disabled':'';
  return `<div class="page record-page">
-  <div class="record-toolbar"><div><button class="btn link" data-action="invoice-back">← Volver a facturación</button><div class="eyebrow">Facturación · ${title}</div><h2>${row?esc(row.display_number||row.external_number_text||'Borrador'):'Nueva '+title.toLowerCase()}</h2></div><div class="inline-actions">${btn('Vista previa ampliada','invoice-draft-preview','secondary')}${row?stateBadge(row.status):'<span class="badge info">Nuevo</span>'}</div></div>
+  <div class="record-toolbar"><div><button class="btn link tc-back-btn" data-action="invoice-back">← Volver a facturación</button><div class="eyebrow">Facturación · ${title}</div><h2>${row?esc(row.display_number||row.external_number_text||'Borrador'):'Nueva '+title.toLowerCase()}</h2></div><div class="inline-actions">${btn('Vista previa ampliada','invoice-draft-preview','secondary')}${row?stateBadge(row.status):'<span class="badge info">Nuevo</span>'}</div></div>
   ${draft?.prestashop_source?'<section class="note"><b>Borrador preparado desde PrestaShop</b><p>Comprueba el cliente y el documento original antes de emitir. No se ha asignado número ni registrado una venta adicional.</p></section>':''}<p class="small muted invoice-issuer-note">Emisor: <b>${esc(state.data.settings?.business_name||'Titular pendiente de configurar')}</b>. NIF y domicilio fiscal comunes. Elige la tienda para aplicar su logo; la serie de facturas es compartida.</p><div class="record-layout invoice-workspace">
    <div class="record-main stack">
     <section class="card card-pad"><div class="section-head"><div><h3>1 · Documento</h3><p>Serie, fechas y referencia.</p></div></div>

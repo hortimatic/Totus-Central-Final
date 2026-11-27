@@ -1,5 +1,5 @@
-import {esc,csv,download} from '../utils.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {printTpvMarkup} from './documents.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
+import {esc,csv,download} from '../utils.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {printTpvMarkup} from './documents.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
 const money=(value,currency='EUR')=>new Intl.NumberFormat('es-ES',{style:'currency',currency}).format(value/100);
 const recordedMoney=(value,currency)=>Number.isSafeInteger(value)?money(value,currency):'Sin dato';
 const date=value=>value?new Date(value).toLocaleString('es-ES'):'—';
@@ -73,7 +73,7 @@ export function createCentralCashUI({native=false,actor,client,canExport=()=>fal
   (row.status==='closed'?'<span>Diferencia: '+esc(recordedMoney(row.differenceCents,row.currency))+'</span>':'')+'</div><button type="button" class="btn primary" data-central-cash-open="'+esc(row.sessionId)+'" '+(busy?'disabled':'')+'>Consultar sesión</button></article>').join('')+'</div>'+pages():busy?'':'<div class="empty"><h3>No hay sesiones para esta consulta</h3><p>Revisa la caja y las fechas de apertura seleccionadas.</p></div>');}
  function detailsHtml(){
   const columns=pane==='movements'?['Movimiento','Importe','Motivo','Empleado']:['Pedido','Estado','Importe','Empleado',''];
-  return '<div class="inline-actions"><button class="btn secondary" type="button" data-central-cash-back '+(busy?'disabled':'')+'>← Volver a las sesiones</button><button class="btn secondary" type="button" data-central-cash-print '+(busy?'disabled':'')+'>Imprimir resumen</button></div>'+centralCashSummaryHtml(report)+
+  return '<div class="record-toolbar"><div><button class="btn link tc-back-btn" type="button" data-central-cash-back '+(busy?'disabled':'')+'>← Volver a las sesiones</button></div><div class="inline-actions"><button class="btn secondary" type="button" data-central-cash-print '+(busy?'disabled':'')+'>Imprimir resumen</button></div></div>'+centralCashSummaryHtml(report)+
    '<div class="tabs" aria-label="Detalle de la sesión">'+[['sales','Ventas'],['refunds','Devoluciones'],['movements','Movimientos de efectivo']].map(([value,label])=>'<button class="tab '+(pane===value?'active':'')+'" type="button" data-central-cash-pane="'+value+'" '+(busy?'disabled':'')+'>'+label+'</button>').join('')+'</div>'+
    '<form data-central-cash-detail-search class="filters"><label class="field">'+(pane==='movements'?'Buscar motivo':'Buscar número de pedido')+'<input name="detailSearch" value="'+esc(detailSearch)+'" maxlength="100" data-draft-ignore '+(busy?'disabled':'')+'></label><button class="btn secondary" '+(busy?'disabled':'')+'>Buscar</button></form>'+
    (detailSearch?'<p class="small muted">El filtro del detalle no modifica los totales de la sesión.</p>':'')+

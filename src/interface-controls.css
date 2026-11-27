@@ -270,8 +270,12 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
  #content .home-gain-stores dt,#content .home-gain-stores dd{white-space:normal}
  .tc-settings-panel .tc-settings-footer>button{min-height:36px}
 .data-table th{position:relative}
-.tc-col-resizer{position:absolute;top:0;right:0;width:8px;height:100%;cursor:col-resize;user-select:none;touch-action:none}
-.tc-col-resizer:hover,.tc-col-resizer:active{background:color-mix(in srgb,var(--accent,#2563eb) 28%,transparent)}
+.tc-col-resizer{position:absolute;top:4px;right:0;width:8px;height:calc(100% - 8px);cursor:col-resize;user-select:none;touch-action:none;border-right:1px solid color-mix(in srgb,var(--line,#cbd5e1) 85%,transparent)}
+.tc-col-resizer:hover,.tc-col-resizer:active{border-right:2px solid var(--accent,#2563eb);background:color-mix(in srgb,var(--accent,#2563eb) 18%,transparent)}
+.tc-back-btn{display:inline-flex!important;align-items:center;gap:6px;padding:6px 10px!important;min-height:36px!important;color:var(--accent,#2563eb)!important;background:transparent!important;border:1px solid transparent!important;border-radius:var(--appearance-button-radius,var(--r,8px))!important;font-weight:600!important;text-decoration:none!important;cursor:pointer}
+.tc-back-btn:hover{background:color-mix(in srgb,var(--accent,#2563eb) 8%,transparent)!important;border-color:color-mix(in srgb,var(--accent,#2563eb) 22%,transparent)!important}
+.record-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.record-toolbar>div:first-child{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
 .business-store-card .inline-actions{flex-wrap:wrap;gap:6px}
 .business-store-card .summary-row{flex-wrap:wrap;gap:8px}
 .ps-local-filter-actions{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center}

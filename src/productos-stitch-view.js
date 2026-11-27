@@ -1,14 +1,14 @@
-import {productDisplayId} from './record-identifiers.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {columnSettingsRow} from './column-settings.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {productGallery} from './productos-gallery.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {esc} from './utils.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
-import {fieldHelp} from './components.js?v=2a913bc91479e87fd1f3f1af1489e61cf2b6cd9e';
+import {productDisplayId} from './record-identifiers.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {columnSettingsRow} from './column-settings.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {productGallery} from './productos-gallery.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {esc} from './utils.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
+import {fieldHelp} from './components.js?v=59bd4eda1479fb135f11ae80e961454ab0fd7fc8';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -142,7 +142,7 @@ const inputClass='bg-surface-container-low text-on-surface font-body-md text-bod
 const labelClass='font-label-md text-label-md text-on-surface-variant';
 export function stitchFiche({galleryDraft={},record,backendUrl='',store,central=false,storeName=websiteName(store),section,overrides,variants,variantOverrides,variantReviews=new Map(),metadata,fieldControl,priceHtml,rawHtml,amounts,brands=[],categories=[],stock=null,organization=null,taxGroups=[]}){
  const f=fragment(STITCH_VIEWS['tab-ficha']),view=f.firstElementChild;
- view.insertAdjacentHTML('afterbegin','<div class="record-toolbar"><div><button type="button" class="btn link" data-pr-action="catalog-return">← Volver al catálogo</button></div></div>');
+ view.insertAdjacentHTML('afterbegin','<div class="record-toolbar"><div><button type="button" class="btn link tc-back-btn" data-pr-action="catalog-return">← Volver al catálogo</button></div></div>');
  view.classList.remove('hidden');view.classList.add('flex');
  setText(f.querySelector('h2'),textValue(overrides.name??record.name)||'Nuevo producto');
  const heading=f.querySelector('h2').parentElement;
