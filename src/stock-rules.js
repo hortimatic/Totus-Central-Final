@@ -1,5 +1,5 @@
 // Local, deterministic documentary reconciliation. Never calls an AI or changes stock.
-import {stockLineResult,stockSummary} from './stock-core.js?v=cf0734be4a145f2eda078b1871c46bd32fde9ca1';
+import {stockLineResult,stockSummary} from './stock-core.js?v=49d2fb1f37b48dd7bc0b6bd35a29e1a042eecd54';
 const text=v=>String(v??'').trim();
 export const stockRuleName=v=>text(v).normalize('NFKC').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
 const code=v=>text(v).normalize('NFKC').toUpperCase();

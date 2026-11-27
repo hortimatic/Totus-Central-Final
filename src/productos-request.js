@@ -1,14 +1,17 @@
-import {esc} from './utils.js?v=cf0734be4a145f2eda078b1871c46bd32fde9ca1';
-import {fieldHelp} from './components.js?v=cf0734be4a145f2eda078b1871c46bd32fde9ca1';
-const stores={hortimatic:'Hortimatic',newoldsmok:'NewOldSmok',ambas:'Hortimatic y NewOldSmok'};
+import {esc} from './utils.js?v=49d2fb1f37b48dd7bc0b6bd35a29e1a042eecd54';
+import {fieldHelp} from './components.js?v=49d2fb1f37b48dd7bc0b6bd35a29e1a042eecd54';
+import {WEBSITE_CHOICES} from './website-registry.js?v=49d2fb1f37b48dd7bc0b6bd35a29e1a042eecd54';
+const legacyStores={hortimatic:'Hortimatic',newoldsmok:'NewOldSmok',ambas:'Hortimatic y NewOldSmok'};
+const availableStores=()=>WEBSITE_CHOICES.length?{...Object.fromEntries(WEBSITE_CHOICES.map(w=>[w.key,w.name])),...(WEBSITE_CHOICES.length>1?{ambas:'Todas las tiendas'}:{})}:legacyStores;
 const labels={url:'URL del proveedor',product_id:'ID del producto existente',reference:'Referencia',brand:'Marca',supplier:'Proveedor',ean:'EAN del producto o de cada variación',name:'Nombre del producto',cost:'Coste sin impuestos (€)',sale:'Precio de venta con impuestos (€)',weight:'Peso (kg)',width:'Anchura (cm)',height:'Altura (cm)',depth:'Profundidad (cm)',variants:'Variaciones y atributos',images:'URLs de imágenes proporcionadas',notes:'Indicaciones adicionales'};
 export function buildProductRequest(data={}){
+ const stores=availableStores();
  if(!stores[data.store])throw Error('Selecciona una tienda de destino.');
  if(!['url','variation','edit','copy'].includes(data.operation))throw Error('Selecciona el recorrido.');
  if(data.url){let u;try{u=new URL(data.url);}catch{throw Error('La URL del proveedor no es válida.');}if(u.protocol!=='https:'||u.username||u.password)throw Error('Usa una URL HTTPS pública sin credenciales.');}
  if(data.operation==='url'&&!data.url)throw Error('Indica la URL del producto del proveedor.');
  if(data.operation!=='url'&&(!/^[1-9]\d{0,14}$/.test(data.product_id||'')||data.store==='ambas'))throw Error('Selecciona una tienda y el ID exacto del producto existente.');
- if(data.operation==='copy'&&(!['hortimatic','newoldsmok'].includes(data.source_store)||data.source_store===data.store))throw Error('Elige tiendas de origen y destino diferentes.');
+ if(data.operation==='copy'&&(!stores[data.source_store]||data.source_store==='ambas'||data.source_store===data.store))throw Error('Elige tiendas de origen y destino diferentes.');
  for(const key of ['cost','sale','weight','width','height','depth'])if(data[key]&&!/^\d+(?:[.,]\d{1,6})?$/.test(data[key]))throw Error('Revisa '+labels[key]+'.');
  if(data.operation==='variation'&&!data.variants?.trim())throw Error('Describe los atributos de la variación que quieres añadir.');
  if(data.operation==='edit'&&!data.notes?.trim())throw Error('Indica en Indicaciones adicionales qué campos quieres modificar.');
@@ -26,6 +29,7 @@ export function buildProductRequest(data={}){
  return lines.join('\n');
 }
 export function renderProductRequestForm(data={},output=''){
+ const stores=availableStores();
  const help='Completa solo lo que conozcas. ChatGPT consultará los datos del proveedor y comprobará los catálogos de la tienda; no se envía ninguna escritura desde este formulario.';
  const input=key=>'<label class="prd-field"><b>'+esc(labels[key])+'</b><input data-pr-request="'+key+'" value="'+esc(data[key]||'')+'" '+(['cost','sale','weight','width','height','depth'].includes(key)?'inputmode="decimal"':'')+'></label>';
  const area=key=>'<label class="prd-field"><b>'+esc(labels[key])+'</b><textarea rows="3" data-pr-request="'+key+'">'+esc(data[key]||'')+'</textarea></label>';

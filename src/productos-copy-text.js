@@ -1,10 +1,16 @@
-import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=cf0734be4a145f2eda078b1871c46bd32fde9ca1';
+import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=49d2fb1f37b48dd7bc0b6bd35a29e1a042eecd54';
+import {WEBSITE_CHOICES} from './website-registry.js?v=49d2fb1f37b48dd7bc0b6bd35a29e1a042eecd54';
 const shops={hortimatic:{label:'Hortimatic',host:'hortimatic.com',words:['hortimatic']},newoldsmok:{label:'NewOldSmok',host:'newoldsmok.com',words:['newoldsmok','new old smok','new-old-smok']}};
+const resolveShop=key=>{
+ if(shops[key])return shops[key];
+ const site=WEBSITE_CHOICES.find(s=>s.key===key||s.business_id===key);
+ if(!site?.origin)return null;
+ try{const host=new URL(site.origin).hostname.replace(/^www\./,'');const slug=host.split('.')[0];return {label:site.name||host,host,words:[...new Set([site.name,slug].filter(Boolean))]};}catch{return null;}
+};
 const escape=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 export function adaptStoreText(value,source,target,{slug=false}={}){
- if(!shops[source]||!shops[target])throw Error('Tiendas de adaptación no válidas.');
- if(source===target)return String(value??'');
- const from=shops[source],to=shops[target];
+ const from=resolveShop(source),to=resolveShop(target);
+ if(!from||!to||source===target)return String(value??'');
  let result=String(value??'').replace(new RegExp(escape(from.host),'gi'),to.host);
  result=result.replace(new RegExp('\\b(?:'+from.words.map(escape).join('|')+')\\b','gi'),slug?target:to.label);
  return result;
@@ -12,7 +18,8 @@ export function adaptStoreText(value,source,target,{slug=false}={}){
 // Work on an inert HTML fragment. Never rename an image host while retaining
 // another shop's image ID, and never guess where another product's URL points.
 export function adaptStoreHTML(value,source,target,{sourceProductId='',targetProductId='',imageMap={},categoryMap={}}={}){
- if(!shops[source]||!shops[target])throw Error('Tiendas de adaptación no válidas.');
+ const from=resolveShop(source),to=resolveShop(target);
+ if(!from||!to)return {value:String(value??''),unresolved:[]};
  const template=document.createElement('template');template.innerHTML=String(value??'');
  const walker=document.createTreeWalker(template.content,NodeFilter.SHOW_TEXT);let node;
  while((node=walker.nextNode()))if(!node.parentElement?.closest('script,style'))node.textContent=adaptStoreText(node.textContent,source,target);
@@ -21,14 +28,14 @@ export function adaptStoreHTML(value,source,target,{sourceProductId='',targetPro
   for(const key of ['alt','title','aria-label'])if(element.hasAttribute(key))element.setAttribute(key,adaptStoreText(element.getAttribute(key),source,target));
   for(const key of ['src','href','poster']){
    if(!element.hasAttribute(key))continue;
-   const raw=element.getAttribute(key);if(!raw||raw.startsWith('#'))continue;let url;try{url=new URL(raw,'https://'+shops[source].host);}catch{continue;}
-   if(url.hostname.replace(/^www\./,'')!==shops[source].host)continue;
+   const raw=element.getAttribute(key);if(!raw||raw.startsWith('#'))continue;let url;try{url=new URL(raw,'https://'+from.host);}catch{continue;}
+   if(url.hostname.replace(/^www\./,'')!==from.host)continue;
    const image=url.pathname.match(/^\/(\d+)(?:-([a-z_]+))?\/[^/]+\.(jpg|png|webp)$/i)||url.pathname.match(/^\/img\/p\/(?:\d\/)*(\d+)(?:-([a-z_]+))?\.(jpg|png|webp)$/i);
-   if(image&&/^[1-9]\d*$/.test(String(imageMap[image[1]]||''))){element.setAttribute(key,'https://'+shops[target].host+'/'+imageMap[image[1]]+'-'+(image[2]||'large_default')+'/product.'+image[3]);continue;}
-   if(key==='href'&&['/','/index.php'].includes(url.pathname)&&!url.search){element.setAttribute(key,'https://'+shops[target].host+'/');continue;}
-   if(key==='href'&&targetProductId&&sourceProductId&&(url.searchParams.get('controller')==='product'&&url.searchParams.get('id_product')===String(sourceProductId)||new RegExp('^/'+escape(String(sourceProductId))+'-').test(url.pathname))){element.setAttribute(key,'https://'+shops[target].host+'/index.php?controller=product&id_product='+targetProductId);continue;}
+   if(image&&/^[1-9]\d*$/.test(String(imageMap[image[1]]||''))){element.setAttribute(key,'https://'+to.host+'/'+imageMap[image[1]]+'-'+(image[2]||'large_default')+'/product.'+image[3]);continue;}
+   if(key==='href'&&['/','/index.php'].includes(url.pathname)&&!url.search){element.setAttribute(key,'https://'+to.host+'/');continue;}
+   if(key==='href'&&targetProductId&&sourceProductId&&(url.searchParams.get('controller')==='product'&&url.searchParams.get('id_product')===String(sourceProductId)||new RegExp('^/'+escape(String(sourceProductId))+'-').test(url.pathname))){element.setAttribute(key,'https://'+to.host+'/index.php?controller=product&id_product='+targetProductId);continue;}
    const category=key==='href'?(url.searchParams.get('controller')==='category'?url.searchParams.get('id_category'):url.pathname.match(/^\/(\d+)-[^/.]+$/)?.[1]):null;
-   if(category&&/^[1-9]\d*$/.test(String(categoryMap[category]||''))){element.setAttribute(key,'https://'+shops[target].host+'/index.php?controller=category&id_category='+categoryMap[category]);continue;}
+   if(category&&/^[1-9]\d*$/.test(String(categoryMap[category]||''))){element.setAttribute(key,'https://'+to.host+'/index.php?controller=category&id_category='+categoryMap[category]);continue;}
    unresolved.push({attribute:key,url:raw,reason:image?'Imagen pendiente de importar':'Enlace interno que necesita correspondencia'});
   }
  }
