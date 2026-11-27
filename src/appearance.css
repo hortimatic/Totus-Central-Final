@@ -323,7 +323,7 @@ html[data-appearance] dialog{font-size:var(--appearance-font);color:var(--ink)}
 html[data-appearance] #app :is(.module-heading h2,.directory-heading h2,.ps-section-heading h3,.tpv-panel h2,.tpv-panel h3,.tpv-panel h4,.tpv-central-cash h2,.tpv-central-cash h3,.tpv-billing h2,.tpv-billing h3,.home-widget-title,dialog header :is(h2,h3)){color:var(--appearance-heading-ink)}
 html[data-appearance] #app :is(.module-heading p,.directory-heading p,.small.muted,.muted,.eyebrow){color:var(--muted)}
 html[data-appearance] #app :is(.directory-main,.home-widget,.prd-panel,.ps-quality-panel,.ps-order-totals,.ps-store,.tpv-panel,.tpv-product,.tpv-ticket,.tpv-central-cash-session,.tpv-billing,.tasks-calendar,.team-chat,.prd-product-picker,.prd-stitch .bg-surface-container-lowest,.prd-stitch .bg-surface-container-low){background:var(--appearance-surface,var(--panel));border-width:var(--appearance-border-width,1px);border-radius:var(--r)}
-html[data-appearance] #app :is(.directory-main,.home-widget,.prd-panel,.ps-quality-panel,.tpv-central-cash-session){padding:var(--appearance-card-pad,18px)}
+html[data-appearance] #app :is(.directory-main,.prd-panel,.ps-quality-panel,.tpv-central-cash-session,.home-widget-body){padding:var(--appearance-card-pad,18px)}
 html[data-appearance] #app :is(label,.directory-toolbar label,.ps-filters label,.ps-local-filters label,.ps-catalog-filters label,.tpv-central-cash-filters label,.totus-tpv label,.prd-parallel-editors label,.prd-field b),
 html[data-appearance] dialog :is(label,.prd-field b){color:var(--appearance-label-ink)}
 html[data-appearance] #app :is(input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea),

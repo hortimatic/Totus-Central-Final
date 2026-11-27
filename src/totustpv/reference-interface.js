@@ -1,6 +1,6 @@
-import {workstationIcon} from './workstation-visual.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
-import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
-import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {workstationIcon} from './workstation-visual.js?v=d4c15edb1efcc739e7d598d019fc3abea26471a2';
+import {REFERENCE_PREFERENCE_FIELDS,normalizeReferencePreferences} from './reference-preferences.js?v=d4c15edb1efcc739e7d598d019fc3abea26471a2';
+import {REFERENCE_SETTINGS} from './reference-settings-catalogue.js?v=d4c15edb1efcc739e7d598d019fc3abea26471a2';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const folderIcon='<svg viewBox="0 0 160 112" aria-hidden="true"><path fill="#277da8" d="M2 15Q2 5 12 5h40l18 14h78q10 0 10 10v67H2z"/><path fill="#c5e2ef" d="M5 29h148v68H5z"/><path fill="#349bd4" d="M0 38q0-9 10-9h140q10 0 10 9v65q0 9-10 9H10q-10 0-10-9z"/></svg>';
 export const productIcon='<svg viewBox="0 0 120 120" aria-hidden="true"><path fill="#2e89ba" d="M60 5 111 33 60 62 9 33zM5 42l48 28v47L5 89zm110 0L67 70v47l48-28z"/></svg>';
