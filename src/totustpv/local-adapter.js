@@ -1,8 +1,8 @@
-import {localCategories,categoryFilterIds} from './local-categories.js?v=295ec0486daed20df0c9b3fba198225e60d1766b';
-import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=295ec0486daed20df0c9b3fba198225e60d1766b';
+import {localCategories,categoryFilterIds} from './local-categories.js?v=c576b7e6f0d299e63bdfcaf306a9a5ebfbd53261';
+import {paymentOptions as normalizeLocalPayments} from './payment-options.js?v=c576b7e6f0d299e63bdfcaf306a9a5ebfbd53261';
 /** Normal-session adapter for Central-owned sales. No website identity is invented. */
-import {catalogueSearchFields} from './search-preferences.js?v=295ec0486daed20df0c9b3fba198225e60d1766b';
-import {createCentralCatalogueStore} from './offline-source-store.js?v=295ec0486daed20df0c9b3fba198225e60d1766b';
+import {catalogueSearchFields} from './search-preferences.js?v=c576b7e6f0d299e63bdfcaf306a9a5ebfbd53261';
+import {createCentralCatalogueStore} from './offline-source-store.js?v=c576b7e6f0d299e63bdfcaf306a9a5ebfbd53261';
 const need=(ok,message)=>{if(!ok)throw Error(message);};
 const copy=value=>structuredClone(value);
 const LOCAL_PAYMENT_METHODS=Object.freeze(['cash','card','bizum','transfer','cheque']);
