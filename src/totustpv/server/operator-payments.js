@@ -1,12 +1,12 @@
-import {operatorAcknowledgement} from '../operator-acknowledgement.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {operatorAcknowledgement} from '../operator-acknowledgement.js?v=a9041eed381bfab7aa13a5f0e40787ad08f9500f';
 /** Real cashier-declared payments for cash and an independent card terminal.
  * This adapter does not charge/refund a bank and does not claim provider proof.
  * The checkout journal durably binds accepted allocations and dispatched_by to
  * the immutable quote before any native order effect. Use only on the server.
  */
-import {assertSameCheckoutScope} from '../context.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
-import {paymentSummary} from '../model.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
-import {paymentReference} from '../payment-reference.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {assertSameCheckoutScope} from '../context.js?v=a9041eed381bfab7aa13a5f0e40787ad08f9500f';
+import {paymentSummary} from '../model.js?v=a9041eed381bfab7aa13a5f0e40787ad08f9500f';
+import {paymentReference} from '../payment-reference.js?v=a9041eed381bfab7aa13a5f0e40787ad08f9500f';
 const need=(ok,code)=>{if(!ok)throw new Error(code);};
 const positive=value=>Number.isSafeInteger(value)&&value>0;
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);

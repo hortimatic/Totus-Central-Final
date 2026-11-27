@@ -1,5 +1,5 @@
-import {categoryCreationDraft} from '../../category-create-contract.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
-import {sha256Text} from '../../productos-write-contract.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {categoryCreationDraft} from '../../category-create-contract.js?v=a9041eed381bfab7aa13a5f0e40787ad08f9500f';
+import {sha256Text} from '../../productos-write-contract.js?v=a9041eed381bfab7aa13a5f0e40787ad08f9500f';
 const need=(ok,code)=>{if(!ok)throw Error(code);};
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);
 export function catalogueIntakeView(row){return {id:row.id,kind:row.kind,name:row.payload.name,parentId:row.payload.parentId,status:row.status,

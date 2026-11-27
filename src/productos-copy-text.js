@@ -1,4 +1,4 @@
-import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=0ac9bdf9823a82e606d0b184c8d21d7976257675';
+import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=a9041eed381bfab7aa13a5f0e40787ad08f9500f';
 const shops={hortimatic:{label:'Hortimatic',host:'hortimatic.com',words:['hortimatic']},newoldsmok:{label:'NewOldSmok',host:'newoldsmok.com',words:['newoldsmok','new old smok','new-old-smok']}};
 const escape=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 export function adaptStoreText(value,source,target,{slug=false}={}){
