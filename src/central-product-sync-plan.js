@@ -1,6 +1,6 @@
-import {centralProductChanges,centralProductEditPayload,verifyCentralProductEdit} from './central-product-edit.js?v=2522d21ee7d63b95d896a78f271d611922c0c7b2';
-import {centralProductRecord,centralCombinationRecord,centralDefaultCatalogue} from './central-product-adapter.js?v=2522d21ee7d63b95d896a78f271d611922c0c7b2';
-import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=2522d21ee7d63b95d896a78f271d611922c0c7b2';
+import {centralProductChanges,centralProductEditPayload,verifyCentralProductEdit} from './central-product-edit.js?v=a6b725d2c27e1b8dd5ebb4f53404f641b6e27dd9';
+import {centralProductRecord,centralCombinationRecord,centralDefaultCatalogue} from './central-product-adapter.js?v=a6b725d2c27e1b8dd5ebb4f53404f641b6e27dd9';
+import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=a6b725d2c27e1b8dd5ebb4f53404f641b6e27dd9';
 const numericId=value=>/^[1-9]\d{0,14}$/.test(String(value??''));
 const localized=(value,language)=>{const rows=Array.isArray(value)?value:value?.language;return Array.isArray(rows)?rows.find(row=>String(row.id??row.language_id)===language)?.value:value;};
 const decimalFields=new Set(['price','wholesale_price','weight','width','height','depth','additional_shipping_cost','minimal_quantity','low_stock_threshold','unit_price_ratio','ecotax']);
