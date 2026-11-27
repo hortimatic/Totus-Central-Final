@@ -1,10 +1,10 @@
-import {sb} from './api.js?v=7d7ef571fc64f1e11e44a308671ceb3fd39aed44';
-import {esc} from './utils.js?v=7d7ef571fc64f1e11e44a308671ceb3fd39aed44';
-import {fieldHelp} from './components.js?v=7d7ef571fc64f1e11e44a308671ceb3fd39aed44';
-import {WEBSITE_IMPORT_GROUPS} from './website-import-contract.js?v=7d7ef571fc64f1e11e44a308671ceb3fd39aed44';
-import {openWebsiteDirectories} from './website-directory-adoption.js?v=7d7ef571fc64f1e11e44a308671ceb3fd39aed44';
-import {openNativeWebsiteCatalogue} from './website-native-catalogue-ui.js?v=7d7ef571fc64f1e11e44a308671ceb3fd39aed44';
-import {openWebsiteProducts} from './website-product-adoption.js?v=7d7ef571fc64f1e11e44a308671ceb3fd39aed44';
+import {sb} from './api.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
+import {esc} from './utils.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
+import {fieldHelp} from './components.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
+import {WEBSITE_IMPORT_GROUPS} from './website-import-contract.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
+import {openWebsiteDirectories} from './website-directory-adoption.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
+import {openNativeWebsiteCatalogue} from './website-native-catalogue-ui.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
+import {openWebsiteProducts} from './website-product-adoption.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
 export async function openWebsiteImport({rpc,website,name,resources,current=()=>true}){
  const readable=new Set(resources.filter(r=>r.readable).map(r=>r.name));
  const dialog=document.createElement('dialog');dialog.className='api-user-dialog';

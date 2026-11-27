@@ -1,4 +1,4 @@
-import {inspectTransparentProductPng} from './productos-png.js?v=7d7ef571fc64f1e11e44a308671ceb3fd39aed44';
+import {inspectTransparentProductPng} from './productos-png.js?v=d14151ae9c760dd01f94523a7079efa7aad9b68e';
 
 // Local-only normalization. Flood fill removes a uniform edge-connected backdrop
 // rather than erasing matching colours inside the product itself.
