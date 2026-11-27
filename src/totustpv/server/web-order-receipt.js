@@ -1,10 +1,10 @@
-import {readReceiptCustomerExtra} from './receipt-customer-extra.js?v=88ad0bcc1b93534c17e8fd43e64c3b0b505832bd';
+import {readReceiptCustomerExtra} from './receipt-customer-extra.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
 /** Read-only copies of existing shop orders through the official Webservice.
  * No cart, command, payment, order-state update or Central sale is created. */
-import {withHistoricalGroupRates} from './receipt-group-rates.js?v=88ad0bcc1b93534c17e8fd43e64c3b0b505832bd';
-import {nativeMicros} from './native-adapter.js?v=88ad0bcc1b93534c17e8fd43e64c3b0b505832bd';
-import {roundPriceMicros} from '../offline-rounding.js?v=88ad0bcc1b93534c17e8fd43e64c3b0b505832bd';
-import {reconcileNativeTaxedSubtotal} from './native-subtotal.js?v=88ad0bcc1b93534c17e8fd43e64c3b0b505832bd';
+import {withHistoricalGroupRates} from './receipt-group-rates.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
+import {nativeMicros} from './native-adapter.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
+import {roundPriceMicros} from '../offline-rounding.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
+import {reconcileNativeTaxedSubtotal} from './native-subtotal.js?v=d8406c01d7a66ad480bcd1aabd80fa6cda456ce1';
 const need=(ok,code='TPV_WEB_ORDER_INVALID')=>{if(!ok)throw Error(code);};
 const id=value=>/^[1-9][0-9]{0,14}$/.test(String(value))&&Number.isSafeInteger(Number(value))?Number(value):null;
 const text=(value,max=512)=>typeof value==='string'&&value.length<=max&&!/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(value);
