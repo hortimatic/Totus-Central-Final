@@ -316,3 +316,29 @@ html[data-clock-date="hide"] .header-clock small{display:none}
 html[data-calendar-density="compact"] .header-calendar{width:min(270px,calc(100vw - 24px));padding:10px}
 html[data-calendar-density="compact"] .header-calendar-grid button{min-height:26px;padding:4px}
 @media(max-width:480px){html[data-clock-layout="inline"] .header-clock{display:grid;gap:0}html[data-appearance] .header-clock b{font-size:min(var(--appearance-clock-font,14px),14px)}}
+
+/* Full-application coverage for Configuracion -> Interfaz across Stitch, TPV, Directory, PrestaShop and Dialogs. */
+html[data-appearance] #app,
+html[data-appearance] dialog{font-size:var(--appearance-font);color:var(--ink)}
+html[data-appearance] #app :is(.module-heading h2,.directory-heading h2,.ps-section-heading h3,.tpv-panel h2,.tpv-panel h3,.tpv-panel h4,.tpv-central-cash h2,.tpv-central-cash h3,.tpv-billing h2,.tpv-billing h3,.home-widget-title,dialog header :is(h2,h3)){color:var(--appearance-heading-ink)}
+html[data-appearance] #app :is(.module-heading p,.directory-heading p,.small.muted,.muted,.eyebrow){color:var(--muted)}
+html[data-appearance] #app :is(.directory-main,.home-widget,.prd-panel,.ps-quality-panel,.ps-order-totals,.ps-store,.tpv-panel,.tpv-product,.tpv-ticket,.tpv-central-cash-session,.tpv-billing,.tasks-calendar,.team-chat,.prd-product-picker,.prd-stitch .bg-surface-container-lowest,.prd-stitch .bg-surface-container-low){background:var(--appearance-surface,var(--panel));border-width:var(--appearance-border-width,1px);border-radius:var(--r)}
+html[data-appearance] #app :is(.directory-main,.home-widget,.prd-panel,.ps-quality-panel,.tpv-central-cash-session){padding:var(--appearance-card-pad,18px)}
+html[data-appearance] #app :is(label,.directory-toolbar label,.ps-filters label,.ps-local-filters label,.ps-catalog-filters label,.tpv-central-cash-filters label,.totus-tpv label,.prd-parallel-editors label,.prd-field b),
+html[data-appearance] dialog :is(label,.prd-field b){color:var(--appearance-label-ink)}
+html[data-appearance] #app :is(input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea),
+html[data-appearance] dialog :is(input:not([type=color]):not([type=checkbox]):not([type=radio]):not([type=range]),select,textarea){background:var(--appearance-input-bg,var(--panel));color:var(--appearance-input-ink,var(--ink));border-color:var(--line);border-radius:var(--appearance-button-radius,var(--r))}
+html[data-appearance] #app :is(.directory-table,.ps-orders-table,.prd-data-table,.tpv-central-cash table,.tpv-billing table) :is(th,thead){background:var(--appearance-table-head-bg);color:var(--appearance-table-head-ink)}
+html[data-appearance] #app :is(.directory-table,.ps-orders-table,.prd-data-table,.tpv-central-cash table,.tpv-billing table) :is(tbody,tbody tr,td){background:var(--appearance-table-row-bg)}
+html[data-appearance] #app :is(.directory-table,.ps-orders-table,.prd-data-table,.tpv-central-cash table,.tpv-billing table) td{height:var(--appearance-row-height)}
+html[data-appearance] #app :is(.directory-toolbar,.ps-filters,.ps-local-filters,.ps-catalog-filters,.tpv-central-cash-filters,.prd-product-picker-tools){background:var(--appearance-filter-bg,var(--panel));border-color:var(--line)}
+html[data-appearance] #app :is(.note,.prd-note):not(.warn):not(.bad),
+html[data-appearance] dialog :is(.note,.prd-note):not(.warn):not(.bad){background:var(--appearance-note-bg);color:var(--appearance-note-ink);border-color:var(--line)}
+html[data-appearance] :is(dialog,.tpv-product-dialog,.directory-dialog,.prd-select-dialog,.tasks-dialog,.chat-dialog){background:var(--appearance-modal-bg,var(--panel));color:var(--ink);border-color:var(--line);border-radius:var(--r)}
+html[data-appearance] dialog :is(.tpv-product-heading,.tpv-product-footer){background:var(--appearance-modal-bg,var(--panel));border-color:var(--line)}
+html[data-appearance] #app :is(.btn,.prd-table-button,.directory-row-actions button),
+html[data-appearance] dialog .btn{border-radius:var(--appearance-button-radius,var(--r))}
+html[data-appearance] #app :is(.btn.secondary,button.secondary,.prd-table-button),
+html[data-appearance] dialog .btn.secondary{background:var(--appearance-secondary-bg,var(--panel));color:var(--appearance-secondary-ink,var(--ink));border-color:var(--line)}
+html[data-appearance] #app .prd-stitch :is(.text-on-surface,.text-on-surface-variant,.font-body-sm,.font-body-md){color:var(--ink)}
+html[data-appearance] #app .prd-stitch .text-secondary{color:var(--muted)}

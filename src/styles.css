@@ -1,5 +1,5 @@
-@import url('./totustpv/billing.css?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e');
-@import url('./totustpv/central-cash.css?v=b47a72ab36cbae222a67df42a6b291d31ae14e4e');
+@import url('./totustpv/billing.css?v=1afbcd5f00481a5023acba3bc4d645902fe09ec1');
+@import url('./totustpv/central-cash.css?v=1afbcd5f00481a5023acba3bc4d645902fe09ec1');
 :root{
 --bg:#f5f7fb;--panel:#fff;--ink:#172033;--muted:#697386;--line:#dfe4ec;--nav:#111827;--nav2:#1f2937;
 --accent:#2367d1;--accent2:#174ea6;--ok:#15803d;--warn:#b45309;--bad:#b42318;--soft:#eef4ff;--shadow:0 8px 30px rgba(15,23,42,.08);
