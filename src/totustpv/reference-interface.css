@@ -222,7 +222,8 @@ html[data-appearance] #app .totus-tpv.tpv-active .tpv-main-nav>.tab.active,:is(#
 .tpv-entry-primary{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:16px;align-items:center;padding:24px 0;border-block:1px solid var(--line)}
 .tpv-entry-symbol svg{width:42px;height:42px}.tpv-entry-primary p{margin:6px 0 0;color:var(--muted)}
 .tpv-entry-secondary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0}.tpv-entry-secondary>div{display:flex;align-items:center;gap:8px}
-.tpv-entry-admin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.tpv-entry-admin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:12px}
+.tpv-entry-admin-grid>.btn{min-height:36px!important;padding:6px 10px!important;font-size:12px!important;text-align:center}
 .tpv-general-connected{display:grid;gap:16px}.tpv-general-connected>form,.tpv-general-connected>section{padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
 @media(max-width:680px){.totus-tpv .tpv-entry-heading{align-items:flex-start;flex-direction:column}.tpv-entry-primary{grid-template-columns:40px minmax(0,1fr)}.tpv-entry-primary>.btn{grid-column:1/-1}.tpv-entry-secondary{align-items:stretch;flex-direction:column}.tpv-entry-admin-grid{grid-template-columns:1fr}.totus-tpv .tpv-activation{padding:16px;margin:8px auto}}
 
