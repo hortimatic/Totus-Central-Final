@@ -1,9 +1,9 @@
-import {saleDisplayReference} from './record-identifiers.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
-import {esc,money} from './utils.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
-import {expenseCostAmount} from './calculations.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
-import {activityChartHtml} from './dashboard-activity.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
-import {homeDateRange} from './home-period.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
-import {fieldHelp} from './components.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
+import {saleDisplayReference} from './record-identifiers.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {esc,money} from './utils.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {expenseCostAmount} from './calculations.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {activityChartHtml} from './dashboard-activity.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {homeDateRange} from './home-period.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {fieldHelp} from './components.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
@@ -81,7 +81,7 @@ export function homeTpvContent(w,read){
  const amount=v=>money(v/100),metric=(label,value)=>'<div class="home-ps-metric"><small>'+esc(label)+'</small><strong>'+esc(value)+'</strong></div>';
  const sales=read.salesCents-read.refundCents;
  if(['home.income','home.expenses','home.internal','home.result'].includes(w.type))return '<div class="kpi">'+metric({'home.income':'Ventas netas de devoluciones','home.expenses':'Gastos contables','home.internal':'Gastos internos','home.result':'Ventas menos gastos'}[w.type],amount(w.type==='home.income'?sales:w.type==='home.result'?sales-read.expense: w.type==='home.expenses'?read.expense:read.internal))+'</div>';
- if(w.type==='home.gain')return metric('Margen estimado',read.marginComplete?amount(read.marginCents):'Faltan costes')+'<details><summary>ⓘ Cómo se calcula</summary><p>Venta sin impuestos menos coste actual del catálogo. Incluye devoluciones. No es beneficio neto.</p></details>';
+ if(w.type==='home.gain')return metric('Margen estimado',read.marginComplete?amount(read.marginCents):'Faltan costes')+'<details class="field-help"><summary aria-label="Cómo se calcula">ⓘ</summary><span role="note"><strong>Margen estimado</strong>Venta sin impuestos menos coste actual del catálogo. Incluye devoluciones. No es beneficio neto.</span></details>';
  if(w.type==='prestashop.top')return (read.top||[]).map(r=>'<div class="summary-row"><span>'+esc(r.name)+'</span><b>'+esc(r.quantity)+'</b></div>').join('')||'<p>Sin productos vendidos.</p>';
  if(w.type==='prestashop.quality')return metric('Productos',String(read.products))+metric('Sin código',String(read.missingCodes));
  if(w.type==='prestashop.orders')return (read.orders||[]).map(r=>'<div class="summary-row"><span>'+esc(r.date)+'<small>'+esc(r.id)+'</small></span><b>'+amount(r.total)+'</b></div>').join('')||'<p>Sin ventas en este periodo.</p>';

@@ -361,7 +361,28 @@ html[data-appearance] #app #content .tc-settings-footer>button,.tc-settings-foot
 }
 :is(.modal,.directory-dialog,.api-user-dialog,.tpv-product-dialog,.tasks-dialog,.chat-dialog){
  border:var(--appearance-border-width,1px) solid var(--line);border-radius:var(--r,14px);
- background:var(--appearance-modal-bg,var(--panel,#fff));color:var(--ink);box-sizing:border-box
+ background:var(--appearance-modal-bg,var(--panel,#fff));color:var(--ink);box-sizing:border-box;
+ box-shadow:0 24px 70px rgba(15,23,42,.26)
+}
+dialog::backdrop,.modal-backdrop{background:rgba(2,6,23,.52)}
+:is(dialog>header,dialog>form>header,.modal-head){
+ display:flex;align-items:center;justify-content:space-between;gap:12px;
+ padding:14px 18px;border-bottom:1px solid var(--line);background:var(--appearance-modal-bg,var(--panel,#fff));position:sticky;top:0;z-index:2
+}
+:is(dialog>footer,dialog>form>footer,.modal-body .form-actions){
+ display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid var(--line);
+ background:var(--appearance-modal-bg,var(--panel,#fff));position:sticky;bottom:0;z-index:2
+}
+#app :is(select,input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=range]),textarea),
+dialog :is(select,input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=range]),textarea){
+ min-height:36px;padding:7px 10px;border:1px solid var(--line);border-radius:var(--appearance-button-radius,var(--r,8px));
+ background:var(--appearance-input-bg,var(--panel,#fff));color:var(--appearance-input-ink,var(--ink));font:inherit;box-sizing:border-box
+}
+details.field-help>[role="note"]{
+ width:min(320px,calc(100vw - 24px));max-height:min(60dvh,360px);overflow:auto;
+ padding:12px 14px;border:1px solid var(--line);border-radius:var(--r,10px);
+ background:var(--appearance-modal-bg,var(--panel,#fff));color:var(--ink);box-shadow:0 14px 36px rgba(15,23,42,.18);
+ font-size:12px;line-height:1.5;z-index:1200
 }
 @media(max-width:760px){
  #app :is(.card-pad,.directory-main,.prd-panel,.ps-quality-panel,.api-connection-card,.admin-entity,.tpv-central-cash-session){padding:12px}

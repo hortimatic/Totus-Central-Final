@@ -1,6 +1,6 @@
-import {captureFormDraft} from './form-drafts.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
-import {interfaceIcon,metricIcon} from './interface-icons.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
-import {esc,fmtDate,money,statusClass} from './utils.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
+import {captureFormDraft} from './form-drafts.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {interfaceIcon,metricIcon} from './interface-icons.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {esc,fmtDate,money,statusClass} from './utils.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
 
 // Contextual help follows the viewport. A MutationObserver runs at the
 // open-attribute microtask, avoiding the delayed native <details> toggle event.
@@ -10,14 +10,11 @@ function positionOpenHelp(el){
  if(!el.open||window.innerWidth<=700)return;
  const popup=el.querySelector('[role="note"]'),trigger=el.querySelector('summary');
  if(!popup||!trigger)return;
- if(el.closest('.modal-body')){
-  const anchor=trigger.getBoundingClientRect();popup.style.setProperty('position','fixed','important');
-  const note=popup.getBoundingClientRect(),left=Math.max(12,Math.min(anchor.left,innerWidth-note.width-12)),top=anchor.bottom+6+note.height<=innerHeight-12?anchor.bottom+6:Math.max(12,anchor.top-note.height-6);
-  popup.style.setProperty('left',left+'px','important');popup.style.setProperty('right','auto','important');popup.style.setProperty('top',top+'px','important');popup.style.setProperty('bottom','auto','important');return;
- }
- const note=popup.getBoundingClientRect(),anchor=trigger.getBoundingClientRect();
- if(note.bottom>window.innerHeight-8&&anchor.top>=note.height+32)el.classList.add('flip-up');
- if(popup.getBoundingClientRect().right>window.innerWidth-8)el.classList.add('align-right');
+ const anchor=trigger.getBoundingClientRect();
+ popup.style.setProperty('position','fixed','important');
+ popup.style.setProperty('z-index','1200','important');
+ const note=popup.getBoundingClientRect(),left=Math.max(12,Math.min(anchor.left,innerWidth-note.width-12)),top=anchor.bottom+6+note.height<=innerHeight-12?anchor.bottom+6:Math.max(12,anchor.top-note.height-6);
+ popup.style.setProperty('left',left+'px','important');popup.style.setProperty('right','auto','important');popup.style.setProperty('top',top+'px','important');popup.style.setProperty('bottom','auto','important');
 }
 if(typeof document!=='undefined'){
  const helpObserver=new MutationObserver(changes=>{

@@ -1,6 +1,6 @@
-import {esc} from './utils.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
-import {createCentralStoreData} from './central-store-data.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
-import {centralDefaultCatalogue} from './central-product-adapter.js?v=026c8998d43a0f69b261cc320a4c4d44c08f2e73';
+import {esc} from './utils.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {createCentralStoreData} from './central-store-data.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
+import {centralDefaultCatalogue} from './central-product-adapter.js?v=7edde75c9d5da8940c5666bf8ab0430d376c8cda';
 
 const names={sales:['Ventas','venta'],products:['Productos','producto'],customers:['Clientes','cliente'],suppliers:['Proveedores','proveedor'],brands:['Marcas','marca']};
 export const localStoreHost=(kind,external='')=>`<section class="card card-pad" data-local-store-workspace="${kind}"><p role="status">Consultando establecimientos…</p></section>${external?`<details class="card card-pad" style="margin-top:18px"><summary>Webs conectadas y referencias generales</summary>${external}</details>`:''}`;
@@ -21,7 +21,7 @@ export function createLocalStoreWorkspace({rpc,actor,can}){
   const current=()=>root.isConnected&&generation===epoch&&actor()===owner;
   const call=async(args,rpcName='totus_local_store_workspace')=>{if(!current())throw Error('La sesión ha cambiado.');const result=await rpc(rpcName,args);if(!current())throw Error('La sesión ha cambiado.');return result;};
   const data=createCentralStoreData({rpc:(name,args)=>call(args,name),actor});
-  const help=text=>`<details style="display:inline-block"><summary aria-label="Información" title="Información">ⓘ</summary><p class="note">${esc(text)}</p></details>`;
+  const help=text=>`<details class="field-help"><summary aria-label="Información" title="Información">ⓘ</summary><span role="note">${esc(text)}</span></details>`;
   async function load(){busy=true;paint();try{const result=summary||kind==='sales'?await call({p_store:store,p_kind:kind}):await data.page({store,kind,search:query,after:pageCursor,limit:50});if(result.storeId!==store)throw Error('La tienda cambió durante la consulta.');items=summary?result:result.items;total=result.total??result.items?.length??0;nextCursor=result.nextCursor??null;if(!summary&&kind==='products'&&can('marcas','view'))brands=(await call({p_store:store,p_kind:'brands'})).items;if(!summary&&kind==='products'&&can('proveedores','view'))suppliers=(await call({p_store:store,p_kind:'suppliers'})).items;notice='';}catch(e){notice=e.message;}finally{busy=false;if(current())paint();}}
   function paint(){
    if(!current())return;
