@@ -1,4 +1,4 @@
-@import url("./table-view-profiles.css?v=7e764215469bb46baffc42f093288f2852c529f6");
+@import url("./table-view-profiles.css?v=648f617ef5685fd04b0b71ac5e134c5e8668cc5a");
 /* Products V4: compact workspace hierarchy from the original Stitch delivery.
    Global appearance controls apply to the outer workspace; inner groups use dividers. */
 #productosRoot .prd-direct-save{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:var(--r,7px);background:var(--panel,#fff)}

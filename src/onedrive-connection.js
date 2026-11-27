@@ -1,16 +1,16 @@
-import {credentialLifetime} from './connection-maintenance.js?v=7e764215469bb46baffc42f093288f2852c529f6';
-import {backupRetentionCount} from './backup-retention.js?v=7e764215469bb46baffc42f093288f2852c529f6';
+import {credentialLifetime} from './connection-maintenance.js?v=648f617ef5685fd04b0b71ac5e134c5e8668cc5a';
+import {backupRetentionCount} from './backup-retention.js?v=648f617ef5685fd04b0b71ac5e134c5e8668cc5a';
 
-import {state,isAdmin} from './state.js?v=7e764215469bb46baffc42f093288f2852c529f6';
-import {esc} from './utils.js?v=7e764215469bb46baffc42f093288f2852c529f6';
-import {btn,kpi} from './components.js?v=7e764215469bb46baffc42f093288f2852c529f6';
+import {state,isAdmin} from './state.js?v=648f617ef5685fd04b0b71ac5e134c5e8668cc5a';
+import {esc} from './utils.js?v=648f617ef5685fd04b0b71ac5e134c5e8668cc5a';
+import {btn,kpi} from './components.js?v=648f617ef5685fd04b0b71ac5e134c5e8668cc5a';
 
 let connectionStatus=null,connectionOwner='',maintenanceStatus=null,maintenanceOwner='';
 export function setOneDriveMaintenance(value){maintenanceStatus=value;maintenanceOwner=state.user?.email||'';}
 export function setOneDriveStatus(value){connectionStatus=value?{...value,fetched_at:new Date().toISOString()}:value;connectionOwner=state.user?.email||'';if(value&&Object.hasOwn(value,'credential_expires_at'))setOneDriveMaintenance(value);}
 export async function oneDriveRequest(action,values={}){
  if(!isAdmin())throw new Error('Solo administración puede configurar OneDrive.');
- const {sb}=await import('./api.js?v=7e764215469bb46baffc42f093288f2852c529f6');
+ const {sb}=await import('./api.js?v=648f617ef5685fd04b0b71ac5e134c5e8668cc5a');
  const {data,error}=await sb.functions.invoke('totus-onedrive',{body:{action,...values}});
  if(error){
   let message='No se pudo contactar con la conexión de OneDrive.';
