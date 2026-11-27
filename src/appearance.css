@@ -69,7 +69,13 @@ html[data-appearance] .btn:focus-visible,.appearance-demo .btn:focus-visible{out
 .appearance-section>summary:after{content:'⌄';margin-left:auto}.appearance-section:not([open])>summary:after{content:'›'}
 .appearance-section>summary:focus-visible{outline:3px solid #2563eb;outline-offset:-3px}
 .appearance-section-number{display:grid;place-items:center;border-radius:9px;background:#e3edff;color:#245ab0;width:28px;height:28px;font-size:12px;flex-shrink:0}
-.appearance-grid .appearance-section fieldset{padding:16px;gap:18px}
+.appearance-grid .appearance-section fieldset{padding:18px 20px!important;gap:14px 18px}
+.nav-order-editor{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:var(--bg,#f8fafc)}
+.nav-order-editor>summary{cursor:pointer;padding:4px 0;font-size:13px}
+.nav-order-head{display:flex;justify-content:flex-start;margin:10px 0 8px}
+.nav-order-list{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel,#fff);padding:4px 10px}
+.nav-order-list>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
+.nav-order-list>div:last-child{border-bottom:0}
 .appearance-section .sr-only{display:none!important}
 .appearance-field-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0}
 .appearance-grid .form-actions{position:static;background:var(--appearance-surface,var(--panel,#fff));border:1px solid var(--line,#e2e8f0);padding:12px;border-radius:12px;margin-top:16px}
