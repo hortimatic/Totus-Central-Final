@@ -204,3 +204,11 @@
 .tpv-entry-operator p{margin-bottom:.65rem}
 
 .tpv-operator-dialog select{width:100%;min-width:0;box-sizing:border-box}
+.tpv-session-grid{display:grid;gap:16px;margin-top:14px}
+.tpv-session-card{border:1px solid var(--line);border-radius:var(--r,12px);padding:16px;background:var(--panel);display:grid;gap:12px}
+.tpv-session-card>h4{margin:0}
+.tpv-session-card dl{margin:0}
+.tpv-screen-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.tpv-screen-heading>div:first-of-type{flex:1;min-width:200px}
+.tpv-screen-heading .inline-actions{margin-top:0}
+@media(max-width:760px){.totus-tpv .tpv-main-nav{flex-wrap:wrap}.totus-tpv .tpv-main-nav .tpv-nav-search{flex:1 0 100%}}

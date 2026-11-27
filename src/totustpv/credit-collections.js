@@ -1,5 +1,5 @@
-import {creditSettlement} from './credit-commercial.js?v=f6af0c35406bcfbc868c27fc379f57af9845f059';
-import {referenceForTender} from './payment-reference.js?v=f6af0c35406bcfbc868c27fc379f57af9845f059';
+import {creditSettlement} from './credit-commercial.js?v=a4436da0249a9ef4595f7c987004d4bed68be9e2';
+import {referenceForTender} from './payment-reference.js?v=a4436da0249a9ef4595f7c987004d4bed68be9e2';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=v=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(v/100);
 const names={cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'};
