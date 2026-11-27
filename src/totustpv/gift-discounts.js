@@ -1,6 +1,6 @@
-import {receiptOptions,receiptWebsiteUrl} from './receipt-options.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
-import {receiptNumber} from './receipt-series.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
-import {historicalGroupRate} from './receipt-discount-display.js?v=0f6aa6125db316c544d604082cff3780b18ef552';
+import {receiptOptions,receiptWebsiteUrl} from './receipt-options.js?v=9400e5ccb2e224446c824ec92b5caf14c080413f';
+import {receiptNumber} from './receipt-series.js?v=9400e5ccb2e224446c824ec92b5caf14c080413f';
+import {historicalGroupRate} from './receipt-discount-display.js?v=9400e5ccb2e224446c824ec92b5caf14c080413f';
 const amount=value=>Number.isSafeInteger(value)&&value>=0&&value<=100000000000;
 const text=value=>typeof value==='string'&&value.length<=2048&&!/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(value);
 const pick=(source,keys)=>Object.fromEntries(keys.filter(key=>text(source?.[key])).map(key=>[key,source[key]]));
