@@ -239,10 +239,10 @@
 .totus-tpv .tpv-line-disc-btn{min-height:28px;padding:3px 7px;font-size:.74rem;white-space:nowrap}
 .totus-tpv .tpv-line-disc-btn.is-active{border-color:var(--accent);color:var(--accent);font-weight:650}
 .tpv-ticket-extras-hint{display:block;font-size:.74rem;color:var(--accent);margin-top:2px}
-:is(.tpv-customer-dialog,.tpv-ticket-options-dialog,.tpv-line-discount-dialog,.tpv-ticket-columns-dialog){width:min(560px,calc(100vw - 24px));max-width:none;max-height:calc(100dvh - 24px);padding:20px;border:1px solid var(--line);border-radius:var(--r,14px);background:var(--panel,#fff);color:var(--ink);box-shadow:0 24px 80px #07152740;overflow:auto;margin:auto}
+:is(.tpv-customer-dialog,.tpv-ticket-options-dialog,.tpv-line-discount-dialog,.tpv-ticket-columns-dialog,.tpv-actions-config-dialog){width:min(560px,calc(100vw - 24px));max-width:none;max-height:calc(100dvh - 24px);padding:20px;border:1px solid var(--line);border-radius:var(--r,14px);background:var(--panel,#fff);color:var(--ink);box-shadow:0 24px 80px #07152740;overflow:auto;margin:auto}
 .tpv-customer-dialog{width:min(720px,calc(100vw - 24px))}
-:is(.tpv-customer-dialog,.tpv-ticket-options-dialog,.tpv-line-discount-dialog,.tpv-ticket-columns-dialog)::backdrop{background:#091a32a6;backdrop-filter:blur(3px)}
-:is(.tpv-ticket-options-dialog,.tpv-line-discount-dialog,.tpv-ticket-columns-dialog) header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
+:is(.tpv-customer-dialog,.tpv-ticket-options-dialog,.tpv-line-discount-dialog,.tpv-ticket-columns-dialog,.tpv-actions-config-dialog)::backdrop{background:#091a32a6;backdrop-filter:blur(3px)}
+:is(.tpv-ticket-options-dialog,.tpv-line-discount-dialog,.tpv-ticket-columns-dialog,.tpv-actions-config-dialog) header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px}
 :is(.tpv-ticket-options-dialog,.tpv-line-discount-dialog) form{display:grid;gap:12px}
 .tpv-ticket-cols-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:14px}
 .totus-tpv .tpv-ticket{padding:10px}.totus-tpv .tpv-ticket>header{margin:-10px -10px 0;padding:7px 10px;min-height:38px;gap:4px 8px}
