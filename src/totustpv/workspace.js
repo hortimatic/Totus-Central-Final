@@ -1,77 +1,77 @@
-import {discoverWorkstations} from './workstation-discovery.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {productInformationAmounts} from './product-information.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {localOrderLookupInput} from './local-adapter.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {chooseNativeCustomer} from './native-customer-picker.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCreditCollections} from './credit-collections.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {openCentralCheckoutDialog,confirmCentralOperator} from './central-checkout-dialog.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createOrderNoticeWatcher,orderNoticeInbox,orderNoticeOptions,orderNoticeFields,orderNoticeFromForm,orderNoticePolicy} from './order-notices.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createOwnedTpvSetup} from './owned-configuration.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCheckoutRulesPanel,CHECKOUT_DEFAULTS,checkoutRules,checkoutReceived} from './checkout-rules.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCashSetup} from './cash-setup.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createPromotionPanel} from './promotions.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createLoyaltyPanel} from './loyalty.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createReceiptSetup} from './receipt-setup.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createGeneralSetup} from './general-setup.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {taxPreference,taxPreferenceHtml,createTaxGroupPicker} from './catalogue-tax.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createTicketBranding} from './ticket-branding.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {workstationHeader,workstationDialog,workstationIcon} from './workstation-visual.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {referencePolicyPayload,confirmReferencePolicy} from './reference-policy-settings.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {applyReferencePreferences,normalizeReferencePreferences} from './reference-preferences.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {referenceSettingsHtml,referenceActionsHtml,folderIcon,productIcon} from './reference-interface.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {customerSettings} from './customer-settings.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createInventoryPanel} from './inventory-panel.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {customerOptionsHtml,customerSettingsFormValues,customerSettingsFromForm,customerSettingsError,changeCustomerFieldPosition} from './customer-options.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {budgetOptions,budgetOptionsFromForm,budgetOptionsHtml,budgetSettingsError} from './budget-options.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {operatorSwitchPolicy,operatorSwitchPolicyHtml,saveOperatorSwitchPolicy} from './operator-switch-policy.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {sensitiveSettings,sensitiveSettingsHtml,createPasswordPrompt} from './sensitive-actions.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {loadGiftReceipt} from './gift-discounts.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {operatorSettings,operatorSettingsHtml} from './operator-settings.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {operatorAvailability,createOperatorPicker} from './operator-picker.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {cashVisibility,cashVisibilityHtml} from './cash-visibility.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createAccessBatchPanel} from './workstation-access-batch.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createSignaturePanel} from './signature-panel.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {signatureOptions,signatureOptionsFromForm,signatureOptionsHtml} from './signature-options.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {tenderSummaryHtml} from './tender-summary.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {returnPolicy,returnPolicyHtml} from './return-policy.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {menuLinks as normalizeMenuLinks,menuLinksFromForm,menuLinksHtml,menuLinksActions} from './menu-links.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCatalogueBackground} from './catalogue-background.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {mountSettingsNavigation} from './settings-navigation.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {roundPriceMicros,roundPriceSubtotal} from './offline-rounding.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createOfflineSync} from './offline-sync.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createOfflineJournal} from './offline-journal.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {offlineDevice} from './offline-device.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {submitWithLocalReceipt} from './local-sale-submission.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createOfflinePanel} from './offline-panel.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {lineName,createLineNameEditor} from './line-name.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {budgetDocumentHtml,budgetStatus} from './budget-document.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {saleNote} from './sale-note.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {paymentFormMethods,paymentSettingsHtml,paymentSettingsFromForm} from './payment-options.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {paymentReferenceFields,referenceForTender} from './payment-reference.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {parkingOptions,parkingOptionsHtml,parkingOptionsFromForm,parkingExpiry} from './parking-options.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {lineOptions,lineOptionsHtml,lineOptionsFromForm,lineAdjustment} from './line-options.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {stockPolicy,stockPolicyFromForm,stockPolicyHtml,canExceedStock,canSellProduct,stockWarning} from './stock-policy.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createQuantityPicker} from './quantity-picker.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createTpvPracticeAdapter} from './practice-adapter.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {cashTenderPreview} from './model.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {taxSummaryHtml} from './tax-summary.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
+import {discoverWorkstations} from './workstation-discovery.js';
+import {productInformationAmounts} from './product-information.js';
+import {localOrderLookupInput} from './local-adapter.js';
+import {chooseNativeCustomer} from './native-customer-picker.js';
+import {createCreditCollections} from './credit-collections.js';
+import {openCentralCheckoutDialog,confirmCentralOperator} from './central-checkout-dialog.js';
+import {createOrderNoticeWatcher,orderNoticeInbox,orderNoticeOptions,orderNoticeFields,orderNoticeFromForm,orderNoticePolicy} from './order-notices.js';
+import {createOwnedTpvSetup} from './owned-configuration.js';
+import {createCheckoutRulesPanel,CHECKOUT_DEFAULTS,checkoutRules,checkoutReceived} from './checkout-rules.js';
+import {createCashSetup} from './cash-setup.js';
+import {createPromotionPanel} from './promotions.js';
+import {createLoyaltyPanel} from './loyalty.js';
+import {createReceiptSetup} from './receipt-setup.js';
+import {createGeneralSetup} from './general-setup.js';
+import {taxPreference,taxPreferenceHtml,createTaxGroupPicker} from './catalogue-tax.js';
+import {barcodeOptions,barcodeOptionsHtml,barcodeOptionsFromForm} from './barcode-options.js';
+import {createTicketBranding} from './ticket-branding.js';
+import {workstationHeader,workstationDialog,workstationIcon} from './workstation-visual.js';
+import {referencePolicyPayload,confirmReferencePolicy} from './reference-policy-settings.js';
+import {applyReferencePreferences,normalizeReferencePreferences} from './reference-preferences.js';
+import {referenceSettingsHtml,referenceActionsHtml,folderIcon,productIcon} from './reference-interface.js';
+import {customerSettings} from './customer-settings.js';
+import {createInventoryPanel} from './inventory-panel.js';
+import {customerOptionsHtml,customerSettingsFormValues,customerSettingsFromForm,customerSettingsError,changeCustomerFieldPosition} from './customer-options.js';
+import {budgetOptions,budgetOptionsFromForm,budgetOptionsHtml,budgetSettingsError} from './budget-options.js';
+import {operatorSwitchPolicy,operatorSwitchPolicyHtml,saveOperatorSwitchPolicy} from './operator-switch-policy.js';
+import {sensitiveSettings,sensitiveSettingsHtml,createPasswordPrompt} from './sensitive-actions.js';
+import {loadGiftReceipt} from './gift-discounts.js';
+import {operatorSettings,operatorSettingsHtml} from './operator-settings.js';
+import {operatorAvailability,createOperatorPicker} from './operator-picker.js';
+import {cashVisibility,cashVisibilityHtml} from './cash-visibility.js';
+import {createAccessBatchPanel} from './workstation-access-batch.js';
+import {createSignaturePanel} from './signature-panel.js';
+import {signatureOptions,signatureOptionsFromForm,signatureOptionsHtml} from './signature-options.js';
+import {tenderSummaryHtml} from './tender-summary.js';
+import {returnPolicy,returnPolicyHtml} from './return-policy.js';
+import {menuLinks as normalizeMenuLinks,menuLinksFromForm,menuLinksHtml,menuLinksActions} from './menu-links.js';
+import {createCatalogueBackground} from './catalogue-background.js';
+import {mountSettingsNavigation} from './settings-navigation.js';
+import {roundPriceMicros,roundPriceSubtotal} from './offline-rounding.js';
+import {createOfflineSync} from './offline-sync.js';
+import {createOfflineJournal} from './offline-journal.js';
+import {offlineDevice} from './offline-device.js';
+import {submitWithLocalReceipt} from './local-sale-submission.js';
+import {createOfflinePanel} from './offline-panel.js';
+import {lineName,createLineNameEditor} from './line-name.js';
+import {budgetDocumentHtml,budgetStatus} from './budget-document.js';
+import {saleNote} from './sale-note.js';
+import {paymentFormMethods,paymentSettingsHtml,paymentSettingsFromForm} from './payment-options.js';
+import {paymentReferenceFields,referenceForTender} from './payment-reference.js';
+import {parkingOptions,parkingOptionsHtml,parkingOptionsFromForm,parkingExpiry} from './parking-options.js';
+import {lineOptions,lineOptionsHtml,lineOptionsFromForm,lineAdjustment} from './line-options.js';
+import {stockPolicy,stockPolicyFromForm,stockPolicyHtml,canExceedStock,canSellProduct,stockWarning} from './stock-policy.js';
+import {createQuantityPicker} from './quantity-picker.js';
+import {createTpvPracticeAdapter} from './practice-adapter.js';
+import {cashTenderPreview} from './model.js';
+import {taxSummaryHtml} from './tax-summary.js';
 import {receiptHtml as nativeReceiptHtml,receiptPreviewHtml,giftReceiptPreviewHtml,downloadNativePdf,printReceipt,printTpvMarkup} from './documents.js?v=ticket-logo';
-import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError,receiptNumber} from './receipt-series.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {receiptOptions,receiptOptionsHtml,receiptOptionsFromForm} from './receipt-options.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createReceiptDelivery} from './receipt-delivery.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {orderLookupInput} from './central-adapter.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createTpvCustomerPanel} from './customers.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCashReportsPanel} from './cash-reports.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createStockIntake} from './stock-intake.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createBarcodePanel} from './barcode-panel.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createProductIntakePanel} from './product-intake.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {cashOptions,cashOptionsHtml,cashOptionsFromForm,cashCountHtml,updateCashCount,clearCashCount,mountCashOptions} from './cash-counting.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createWorkstationAccessPanel} from './workstation-access.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCustomerDisplay,customerDisplayOptions,customerDisplayOptionsHtml,customerDisplayOptionsFromForm} from './customer-display.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCatalogueTable,priceBuildHtml} from './catalogue-table.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {displayPreferences,displayPreferencesHtml,displayPreferencesFromForm,cataloguePriceCents,variantOrder,TPV_VARIANT_ORDERS} from './display-preferences.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {searchPreferences,searchPreferencesFromForm,searchPreferencesHtml,TPV_SEARCH_FIELDS} from './search-preferences.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {cataloguePreferences,cataloguePreferencesFromForm,cataloguePreferencesHtml,visibleCatalogueCategories,catalogueDetails,variantDetails} from './catalogue-preferences.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
+import {receiptSeries,receiptSeriesFromForm,receiptSeriesHtml,receiptSeriesError,receiptNumber} from './receipt-series.js';
+import {receiptOptions,receiptOptionsHtml,receiptOptionsFromForm} from './receipt-options.js';
+import {createReceiptDelivery} from './receipt-delivery.js';
+import {orderLookupInput} from './central-adapter.js';
+import {createTpvCustomerPanel} from './customers.js';
+import {createCashReportsPanel} from './cash-reports.js';
+import {createStockIntake} from './stock-intake.js';
+import {createBarcodePanel} from './barcode-panel.js';
+import {createProductIntakePanel} from './product-intake.js';
+import {cashOptions,cashOptionsHtml,cashOptionsFromForm,cashCountHtml,updateCashCount,clearCashCount,mountCashOptions} from './cash-counting.js';
+import {createWorkstationAccessPanel} from './workstation-access.js';
+import {createCustomerDisplay,customerDisplayOptions,customerDisplayOptionsHtml,customerDisplayOptionsFromForm} from './customer-display.js';
+import {createCatalogueTable,priceBuildHtml} from './catalogue-table.js';
+import {displayPreferences,displayPreferencesHtml,displayPreferencesFromForm,cataloguePriceCents,variantOrder,TPV_VARIANT_ORDERS} from './display-preferences.js';
+import {searchPreferences,searchPreferencesFromForm,searchPreferencesHtml,TPV_SEARCH_FIELDS} from './search-preferences.js';
+import {cataloguePreferences,cataloguePreferencesFromForm,cataloguePreferencesHtml,visibleCatalogueCategories,catalogueDetails,variantDetails} from './catalogue-preferences.js';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 export function inputCents(value) {
@@ -139,7 +139,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
  let drawerPayments=null,customMenuLinks=[],returnRules={allowPartial:true},signatureRules=signatureOptions();
  let customerScreenOptions=customerDisplayOptions();
  let orderLookup='',focusOrderLookup=false,webHistory=false;
- let host=null,adapter=null,context=null,session=null,products=[],lines=[],search='',tab='sale',notice='',failure='',
+ let host=null,adapter=null,context=null,session=null,products=[],lines=[],search='',tab='sale',reportsReturnTab='sale',notice='',failure='',
   busy=false,payment=null,receipt=null,history=[],summary=null,generation=0,searchTimer=null,abort=null,
   returnForm=null,paymentValues={},formValues={},formDirty=false,selectedStore='',selectedDrawer='',searchRevision=0,setup=null,
   productPage=0,variantProduct=0,stockProduct=null,configuration=null,configurationId=null,configurationLoading=false,documentPreview=null,selectedCustomer=null,parked=[],draftInfo=null;
@@ -351,15 +351,16 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   const observed=await candidate.context();
   await candidate.selectWorkstation({storeId:drawer.storeId,drawerId:drawer.id});
   if(run!==generation||owner!==identity()||!host)throw Error('La sesión ha cambiado.');
-  const previousId=settingsDrawerId,previousAdapter=settingsAdapter;
-  if(!session&&targetMode!==(live()?'live':'central')){
+  const previousId=settingsDrawerId,previousAdapter=settingsAdapter,previousCentralDrawerId=centralSettingsDrawerId;
+  centralSettingsDrawerId=targetMode==='central'?drawer.id:'';
+  if(!session){
    adapter=candidate;context=observed;selectedStore=drawer.storeId;selectedDrawer=drawer.id;
    settingsDrawerId='';settingsAdapter=null;
   }else{
    if(!settingsDrawerId)saleCatalogueBeforeSettings={categoryId,productPage,variantProduct,variantGroupId,catalogueSort,parentCatalogueSort,products,search};
    settingsDrawerId=drawer.id;settingsAdapter=candidate;
   }
-  try{await loadWorkspacePreferences();}catch(error){settingsDrawerId=previousId;settingsAdapter=previousAdapter;throw error;}
+  try{await loadWorkspacePreferences();}catch(error){settingsDrawerId=previousId;settingsAdapter=previousAdapter;centralSettingsDrawerId=previousCentralDrawerId;throw error;}
   formValues=formValues.ticket?{ticket:formValues.ticket}:{};formDirty=Object.keys(formValues).length>0;
   configuration=null;configurationId=null;notice='Configurando '+(scope.stores.find(row=>row.id===drawer.storeId)?.name||'la tienda')+' · '+drawer.name+'.'+(session?' El puesto de venta se conserva.':'');
  }
@@ -467,7 +468,8 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   const drawer=observed.drawers?.find(d=>d.id===drawerId&&d.storeId===storeId);
   if(!drawer)throw Error('Esta caja ya no está disponible para tu usuario.');
   const openSession=observed.sessions?.find(s=>s.drawerId===drawerId&&s.status==='open')||null;
-  notice='';adapter=candidate;context=observed;session=openSession;selectedStore=storeId;selectedDrawer=drawerId;
+  notice='';tab='sale';reportsReturnTab='sale';settingsDrawerId='';settingsAdapter=null;saleCatalogueBeforeSettings=null;centralSettingsDrawerId='';configuration=null;configurationId=null;setup=null;workstationOpen=false;reports.reset();customers.reset();
+  adapter=candidate;context=observed;session=openSession;selectedStore=storeId;selectedDrawer=drawerId;
   if(session)await adapter.selectSession(session);
   else await adapter.selectWorkstation({storeId,drawerId});
   await loadWorkspacePreferences();
@@ -1027,8 +1029,9 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    if(!drawer?.connectionId||!drawer.shopId||!sessionId)throw Error('Selecciona el informe de caja antes de abrirlo en Central.');
    await onCash({connectionId:drawer.connectionId,shopId:drawer.shopId,sessionId});
   });
-  if(target.dataset.tpvReportAction)return work(()=>{reports.click(target);if(target.dataset.tpvReportAction==='close')tab='sale';});
+  if(target.dataset.tpvReportAction)return work(()=>{reports.click(target);if(target.dataset.tpvReportAction==='close'){tab=reportsReturnTab||'sale';reportsReturnTab='sale';}});
   if(action==='reports'&&live())return work(async()=>{if(customers.hasDraft())throw Error('Termina o descarta la edición del cliente antes de consultar informes.');
+   reportsReturnTab=(tab==='reference-actions'||!session)?'reference-actions':'sale';
    customers.reset();tab='reports';if(!session){const storeId=host.querySelector('[data-tpv-store]').value,
    drawerId=host.querySelector('[data-tpv-drawer]').value;await adapter.selectWorkstation({storeId,drawerId});}await reports.open();});
   if(action==='budgets'&&live())return work(async()=>{
@@ -1248,7 +1251,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    if(!form.querySelector('.tpv-menu-link-row:not([hidden])'))form.querySelector('.tpv-menu-link-row').hidden=false;
    form.querySelector('[data-tpv-action="add-menu-link"]').hidden=false;if(changed)rememberForm(form);return;
   }
-  if(action==='exit'){if(!await requestLeave())return;orderWatch.stop();operatorRules={switchEnabled:true,revision:0,requireAtCheckout:false};accessBatch.reset();barcodePanel.reset();adapter=null;context=null;session=null;lines=[];payment=null;receipt=null;returnForm=null;formValues={};formDirty=false;selectedCustomer=null;customers.reset();reports.reset();stockIntake.reset();inventoryPanel.reset();productIntake.reset();draftInfo=null;parked=[];render();void loadEntryChoices();return;}
+  if(action==='exit'){if(!await requestLeave())return;orderWatch.stop();operatorRules={switchEnabled:true,revision:0,requireAtCheckout:false};accessBatch.reset();barcodePanel.reset();adapter=null;context=null;session=null;lines=[];payment=null;receipt=null;returnForm=null;formValues={};formDirty=false;selectedCustomer=null;customers.reset();reports.reset();stockIntake.reset();inventoryPanel.reset();productIntake.reset();draftInfo=null;parked=[];tab='sale';reportsReturnTab='sale';notice='';failure='';settingsDrawerId='';settingsAdapter=null;saleCatalogueBeforeSettings=null;centralSettingsDrawerId='';configuration=null;configurationId=null;setup=null;selectedStore='';selectedDrawer='';workstationOpen=false;render();void loadEntryChoices();return;}
   if(['sale','history','session','stock','drafts','inventory'].includes(action))return work(()=>changeTab(action));
   if(action==='park')return work(async()=>{if(!parkingRules.enabled)throw Error('El aparcado está desactivado para tu cuenta y esta caja. Puedes consultar los tickets anteriores desde Más acciones.');if(!(live()||central()&&adapter?.park)||!canSell()||!lines.length||payment||returnForm)throw new Error('Termina el cobro o la devolución antes de aparcar otro ticket.');
    const {adjustment,coupon,note}=ticketAdjustments(),label=formValues.ticket?.draftLabel?.trim()||draftInfo?.label||'Ticket '+new Date().toLocaleString('es-ES');

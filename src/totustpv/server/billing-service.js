@@ -1,4 +1,4 @@
-import {signatureDocumentBlob} from '../signature-document.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
+import {signatureDocumentBlob} from '../signature-document.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
 const need=(ok,code)=>{if(!ok)throw Error(code);};
 const positive=value=>Number.isSafeInteger(value)&&value>0;
 const text=(value,max)=>typeof value==='string'&&Array.from(value).length<=max&&!/[\x00-\x1f\x7f]/.test(value);

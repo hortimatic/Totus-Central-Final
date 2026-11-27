@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
+import {websiteKey} from './website-registry.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
 // Public routes are Spanish paths. Internal permission/database IDs stay stable.
 export const MODULE_PATHS={totustpv:'tpv',inicio:'inicio',pricing:'precio',ventas:'ventas',productos:'productos',prestashop:'prestashop',clientes:'clientes',proveedores:'proveedores',marcas:'marcas',cajas:'cajas',gastos:'gastos',facturacion:'facturacion',documentos:'documentos',fiscalidad:'fiscalidad',informes:'informes',tareas:'tareas',equipo:'chat',administracion:'administracion',configuracion:'configuracion',automatizaciones:'automatizaciones',apis:'apis',cotejos:'cotejos'};
 const moduleId=value=>Object.entries(MODULE_PATHS).find(([,path])=>path===value)?.[0]||value;

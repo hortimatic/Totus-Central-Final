@@ -1,44 +1,44 @@
-import {productDisplayId} from './record-identifiers.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCentralProductEditorSession} from './central-product-editor-session.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCentralProductSyncClient} from './central-product-sync-client.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCentralProductSyncHistory} from './central-product-sync-history.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCentralProductCopyUI} from './central-product-copy-ui.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCategoriesWorkspace} from './product-categories-ui.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCentralAttributeSession} from './central-attribute-session.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {openAttributeRecord} from './productos-attribute-editor.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createProductMovementsUI} from './productos-movements-ui.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {normalizeProductImage} from './productos-image-editor.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {openTableViewProfiles} from './table-view-profiles.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {openProductMasters} from './productos-masters-ui.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {attachProductTableLayout} from './productos-table-layout.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {adaptProductTexts} from './productos-copy-text.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {showProductDialog} from './productos-dialogs.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {enhanceProductSelects} from './productos-controls.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createProductTableEditor} from './productos-table-editor.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {openCatalogPriceBatch} from './catalog-price-batch.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,sortProductCatalog,productCatalogCsv} from './productos-catalog.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {productStockSummary} from './product-stock-summary.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {readPool} from './read-pool.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {storeConnection} from './prestashop-readonly.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {createProductWizard} from './productos-create-ui.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {esc} from './utils.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {fieldHelp} from './components.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {productDraftStore} from './productos-draft-store.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {productPriceStudy} from './pricing-core.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
+import {productDisplayId} from './record-identifiers.js';
+import {createCentralProductEditorSession} from './central-product-editor-session.js';
+import {createCentralProductSyncClient} from './central-product-sync-client.js';
+import {createCentralProductSyncHistory} from './central-product-sync-history.js';
+import {createCentralProductCopyUI} from './central-product-copy-ui.js';
+import {createCategoriesWorkspace} from './product-categories-ui.js';
+import {createCentralAttributeSession} from './central-attribute-session.js';
+import {chooseCentralStore,rememberCentralStore} from './central-store-data.js';
+import {createCatalogOfferBatch} from './catalog-offer-batch.js';
+import {openAttributeRecord} from './productos-attribute-editor.js';
+import {createProductMovementsUI} from './productos-movements-ui.js';
+import {normalizeProductImage} from './productos-image-editor.js';
+import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js';
+import {openTableViewProfiles} from './table-view-profiles.js';
+import {createAttributesWorkspace} from './productos-attributes-workspace.js';
+import {openProductMasters} from './productos-masters-ui.js';
+import {openProductQuickEdit} from './productos-quick-edit-ui.js';
+import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js';
+import {attachProductTableLayout} from './productos-table-layout.js';
+import {adaptProductTexts} from './productos-copy-text.js';
+import {showProductDialog} from './productos-dialogs.js';
+import {attachProductPhotoPreviews} from './productos-photo-preview.js';
+import {enhanceProductSelects} from './productos-controls.js';
+import {createProductTableEditor} from './productos-table-editor.js';
+import {openCatalogPriceBatch} from './catalog-price-batch.js';
+import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js';
+import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js';
+import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js';
+import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js';
+import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,sortProductCatalog,productCatalogCsv} from './productos-catalog.js';
+import {buildProductRequest,renderProductRequestForm} from './productos-request.js';
+import {productStockSummary} from './product-stock-summary.js';
+import {readPool} from './read-pool.js';
+import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js';
+import {storeConnection} from './prestashop-readonly.js';
+import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js';
+import {createProductWizard} from './productos-create-ui.js';
+import {esc} from './utils.js';
+import {fieldHelp} from './components.js';
+import {productDraftStore} from './productos-draft-store.js';
+import {productPriceStudy} from './pricing-core.js';
 
 export const productosWorkspacePage=(workspace='products')=>'<div class="page productos-page"><section id="productosRoot" data-pr-workspace="'+workspace+'" aria-label="'+(workspace==='pricing'?'Precios y ofertas':'Gestión de productos')+'"><p role="status">Cargando Productos…</p></section></div>';
 const h=x=>esc(String(x??''));
@@ -178,11 +178,13 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  function moveCatalogColumn(key,index){catalogColumns=moveProductColumn(catalogColumns,key,index);saveCatalogPreferences();render();}
 
  function savedDraftCards(){const saved=new Map(draftsByProduct);if(record)saved.set(store+'|'+(record.id||record.draft_key||'new'),snapshotDraft());return [...saved].map(([key,d])=>({key,shop:PRODUCT_STORES.find(s=>s.key===d.store)?.label||d.store,id:d.record?.id||'',displayId:d.record?productDisplayId(d.record):'',name:textValue(d.overrides?.name??d.record?.name),reference:textValue(d.overrides?.reference??d.record?.reference),changes:d.fields?.size||0,...productDraftFacts(d)}));}
+ let sortedCacheKey='',sortedCacheRows=[];
+ function sortedCatalogRows(){const key=JSON.stringify([rows.length,catalogSort.field,catalogSort.direction,catalogScope,priceOptions.re,pending]);if(sortedCacheRows.length===rows.length&&sortedCacheKey===key&&rows[0]===sortedCacheRows[0]&&rows[rows.length-1]===sortedCacheRows[sortedCacheRows.length-1])return sortedCacheRows;sortedCacheKey=key;sortedCacheRows=sortProductCatalog(rows,catalogSort,catalogValue);return sortedCacheRows;}
  function catalog(){
   const filtered=visibleCatalog(),pages=Math.max(1,Math.ceil(filtered.length/listSize));listPage=Math.min(listPage,pages-1);
   const visibleIds=new Set(filtered.map(catalogKey));
   const metaOptions=kind=>catalogScope==='both'?PRODUCT_STORES.flatMap(shop=>(catalogMeta.get(shop.key)?.[kind]||[]).map(r=>[shop.key+'|'+r.id,shop.label+' · '+textValue(r.name)])):(kind==='brands'?catalogBrands:catalogCategories).map(r=>[r.id,textValue(r.name)]);
-  return stitchCatalog({stores:centralData?PRODUCT_STORES:undefined,central:!!centralData,pricingMode:pricingMode(),backendLink:p=>productBackofficeUrl(p,p.__store||store,owner),canDelete:canDelete(),canCreate:canCreate(),canExport:canExport(),canEdit:canEdit(),activeKey:record?.id?store+'|'+record.id:'',tableEdits:tableEditor.rows,purchaseSurcharge:priceOptions.re,offerPending:offerBatch.pending(),views:catalogViews,viewName:catalogViewName,columnWidths,layoutStatus:layoutSaveState,store:catalogScope,sort:catalogSort,rows:sortProductCatalog(rows,catalogSort,catalogValue).map(p=>({...p,__visible:visibleIds.has(catalogKey(p))})),columns:catalogColumns,selected:catalogSelected,query,filters:catalogFilters,brands:metaOptions('brands'),categories:metaOptions('categories'),page:listPage,size:listSize,hasMore,pending,ready:catalogScope==='both'?PRODUCT_STORES.length>0&&PRODUCT_STORES.every(s=>ready(s.key)):ready(store),value:catalogValue,photo:p=>photo(p,p.__store||store),rowKey:catalogKey});
+  return stitchCatalog({stores:centralData?PRODUCT_STORES:undefined,central:!!centralData,pricingMode:pricingMode(),backendLink:p=>productBackofficeUrl(p,p.__store||store,owner),canDelete:canDelete(),canCreate:canCreate(),canExport:canExport(),canEdit:canEdit(),activeKey:record?.id?store+'|'+record.id:'',tableEdits:tableEditor.rows,purchaseSurcharge:priceOptions.re,offerPending:offerBatch.pending(),views:catalogViews,viewName:catalogViewName,columnWidths,layoutStatus:layoutSaveState,store:catalogScope,sort:catalogSort,rows:sortedCatalogRows().map(p=>({...p,__visible:visibleIds.has(catalogKey(p))})),columns:catalogColumns,selected:catalogSelected,query,filters:catalogFilters,brands:metaOptions('brands'),categories:metaOptions('categories'),page:listPage,size:listSize,hasMore,pending,ready:catalogScope==='both'?PRODUCT_STORES.length>0&&PRODUCT_STORES.every(s=>ready(s.key)):ready(store),value:catalogValue,photo:p=>photo(p,p.__store||store),rowKey:catalogKey});
  }
 
  function photo(p,shop,large=false){const url=productPhoto(p,shop),cls=large?'prd-product-photo':'prd-thumb';return url?'<img class="'+cls+'" src="'+h(url)+'" alt="'+h(text(p?.name)||'Producto')+'" loading="lazy" onerror="this.outerHTML=\'<span class=&quot;'+cls+' prd-no-photo&quot; aria-label=&quot;Sin imagen&quot;>Sin imagen</span>\'">':'<span class="'+cls+' prd-no-photo" aria-label="Sin imagen">Sin imagen</span>';}
@@ -498,7 +500,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
    const generation=epoch,shops=catalogScope==='both'?PRODUCT_STORES.map(s=>s.key).filter(Boolean):[catalogScope].filter(Boolean),nextRows=[],nextMeta=new Map(),nextStock=new Map();
    const auxiliaryKeys=[['categories','categories'],['tax_rule_groups','taxGroups'],['countries','countries'],['tax_rules','rules'],['taxes','taxes']];
    const [{centralProductRecord},...shopResults]=await Promise.all([
-    import('./central-product-adapter.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48'),
+    import('./central-product-adapter.js'),
     ...shops.map(async shop=>{
      const [native,brandsRes,suppliersRes,...auxResults]=await Promise.allSettled([
       centralData.catalogue(shop),

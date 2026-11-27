@@ -1,4 +1,4 @@
-import {monthRange} from './utils.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
+import {monthRange} from './utils.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
 const dateFilter=()=>({...monthRange(),store:'all',query:''});
 export const state={
  session:null,user:null,route:'inicio',loading:false,

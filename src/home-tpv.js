@@ -1,9 +1,9 @@
-import {saleDisplayReference} from './record-identifiers.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {esc,money} from './utils.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {expenseCostAmount} from './calculations.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {activityChartHtml} from './dashboard-activity.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {homeDateRange} from './home-period.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
-import {fieldHelp} from './components.js?v=534796c8ea14fa105d75e62ddd280e5445bcde48';
+import {saleDisplayReference} from './record-identifiers.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
+import {esc,money} from './utils.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
+import {expenseCostAmount} from './calculations.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
+import {activityChartHtml} from './dashboard-activity.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
+import {homeDateRange} from './home-period.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
+import {fieldHelp} from './components.js?v=e874fd121963336dbc179362ff9ffdcd3984793b';
 export const nativeTypes=new Set(['home.income','home.expenses','home.result','home.internal','home.gain','home.activity','prestashop.summary','prestashop.orders','prestashop.top','prestashop.quality']);
 export function createHomeReader(rpc){
  const cache=new Map();
