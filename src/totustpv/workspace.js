@@ -448,14 +448,17 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
   entryLoading=true;render();
   const run=generation,owner=identity();
   try{
-   const [liveRes,centralRes]=await Promise.allSettled([
+   const [liveRes,centralRes,setupRes]=await Promise.allSettled([
     createLiveAdapter?bindAdapter(createLiveAdapter()).context():Promise.resolve(null),
-    createCentralLocalAdapter?bindAdapter(createCentralLocalAdapter()).context():Promise.resolve(null)
+    createCentralLocalAdapter?bindAdapter(createCentralLocalAdapter()).context():Promise.resolve(null),
+    canAssign()&&generalSetupInvoke?generalSetupInvoke('totus_tpv_general_setup_context',{}):Promise.resolve(null)
    ]);
    if(run!==generation||owner!==identity()||!host||(adapter&&context))return;
+   const rawCentral=centralRes.status==='fulfilled'?centralRes.value:null;
+   const enrichedCentral=rawCentral&&setupRes.status==='fulfilled'&&setupRes.value?discoverWorkstations(rawCentral,setupRes.value,identity()):rawCentral;
    entryChoices={
     live:liveRes.status==='fulfilled'?liveRes.value:null,
-    central:centralRes.status==='fulfilled'?centralRes.value:null
+    central:enrichedCentral
    };
   }finally{
    if(run===generation&&owner===identity()&&host){entryLoading=false;if(!adapter||!context)render();}
@@ -896,7 +899,7 @@ export function createTpvWorkspace({actor,can,storage,confirm=async()=>false,
    if(noticeAction==='view')return work(async()=>{if(!receiptStyle.showOnlineTickets)throw Error('Activa el ticket de pedidos online en Ticket antes de abrirlo.');const run=generation,owner=identity(),source=adapter,document=await source.webReceipt(id);if(run!==generation||owner!==identity()||source!==adapter)return;if(document?.external_order!==true||document.order_id!==id)throw Error('El ticket no corresponde al pedido seleccionado.');documentPreview=document;tab='order-notices';});
   }
   if(action==='order-notices'&&live())return work(async()=>{if(returnForm)throw Error('Termina o cancela la devolución antes de abrir los avisos.');tab='order-notices';});
-  if(action==='show-workstation'&&!session){orderWatch.stop();adapter=null;context=null;session=null;lines=[];payment=null;receipt=null;returnForm=null;formValues={};formDirty=false;selectedCustomer=null;customers.reset();reports.reset();stockIntake.reset();inventoryPanel.reset();productIntake.reset();draftInfo=null;parked=[];workstationOpen=false;render();void loadEntryChoices();return;}
+  if(action==='show-workstation'&&!session){orderWatch.stop();adapter=null;context=null;session=null;lines=[];payment=null;receipt=null;returnForm=null;formValues={};formDirty=false;selectedCustomer=null;customers.reset();reports.reset();stockIntake.reset();inventoryPanel.reset();productIntake.reset();draftInfo=null;parked=[];tab='sale';notice='';failure='';selectedStore='';selectedDrawer='';workstationStore='';workstationDrawer='';workstationOpen=false;entryChoices=null;render();void loadEntryChoices();return;}
   if(action==='show-workstation'&&central())return work(async()=>{if(hasDraft())throw Error('Termina o aparca el ticket y guarda los cambios antes de cambiar de puesto.');context=await adapter.context();if(canAssign()&&generalSetupInvoke){const available=await generalSetupInvoke('totus_tpv_general_setup_context',{});context=discoverWorkstations(context,available,identity());}workstationStore=session?.storeId||selectedStore||context.stores[0]?.id;workstationDrawer=session?.drawerId||selectedDrawer||context.drawers.find(row=>row.storeId===workstationStore)?.id;workstationOpen=true;});
   if(action==='show-workstation'){workstationStore=session?.storeId||selectedStore||context.stores[0]?.id;workstationDrawer=session?.drawerId||selectedDrawer||context.drawers.find(row=>row.storeId===workstationStore)?.id;workstationOpen=true;render();return;}
   if(action==='close-workstation'){workstationOpen=false;render();return;}
