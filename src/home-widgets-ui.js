@@ -1,27 +1,27 @@
-import {fieldHelp} from './components.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {productDisplayId} from './record-identifiers.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {inicio as renderHomeSources} from './pages/main.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {readPool} from './read-pool.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {fieldHelp} from './components.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {productDisplayId} from './record-identifiers.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {inicio as renderHomeSources} from './pages/main.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {createHomeReader,nativeHomeRead,nativeHomeFinance,nativeHomeActivity} from './home-tpv.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {standardizeColumnPanel,standardizeColumnPanels,columnSettingsRow} from './column-settings.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {readPool} from './read-pool.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
 /* Totus Central — Inicio modular. Enhances existing home DOM, preserving forms,
  * accounting functions and delegated data-action/data-route handlers. */
-import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {nextOpeningSummary} from './home-openings-view.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {state,getFilters} from './state.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {esc,money} from './utils.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {storeConnection} from './prestashop-readonly.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {prestashopReadiness} from './prestashop-ui.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {loadOrderSellers} from './prestashop-order-seller.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {sourceCents,catalogIssues} from './prestashop-insights.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {productPhoto} from './productos-catalog.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {centralProductRecord} from './central-product-adapter.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {createHomeTaskCalendar} from './home-task-calendar.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {archiveAccepted} from './historical-acceptance.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {HOME_WIDGET_CATALOG,createHomeDashboard,readHomeDashboard,addHomeWidget,duplicateHomeWidget,removeHomeWidget,setHomeWidgetConfig,reorderHomeWidget,homeCanvasSettings,HOME_ORDER_COLUMNS} from './home-widgets-core.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {nextOpeningSummary} from './home-openings-view.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {state,getFilters} from './state.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {esc,money} from './utils.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {homeToday as isoToday,minusDays,homeDateRange as dateRange,homePeriodBounds,shiftedHomePeriod as shiftedPeriod} from './home-period.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {storeConnection} from './prestashop-readonly.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {prestashopReadiness} from './prestashop-ui.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {enrichHomeOrderLines,homeOrderMargin,homeMarginTotal} from './home-order-enrichment.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {loadOrderSellers} from './prestashop-order-seller.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {sourceCents,catalogIssues} from './prestashop-insights.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {catalogQualityReport,qualityReadLabel} from './catalog-quality.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {productPhoto} from './productos-catalog.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {centralProductRecord} from './central-product-adapter.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {commercialMarginWidget,commercialMarginCompact} from './home-current-margin.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {createHomeTaskCalendar} from './home-task-calendar.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {archiveAccepted} from './historical-acceptance.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
 
 const defaultSpecs=[
  ['cash.openings','opening',12],['home.income','income',3],['home.expenses','expense',3],
@@ -100,12 +100,13 @@ function openingStatus(){
  return `<div class="home-opening-summary"><span>${esc(total)}</span><small>${outcome.items.length} cajones activos · desglose por establecimiento y cajón</small></div>`;
 }
 function storeOpeningWidget(w){
- const name=labelStore(safeStore(w.scope.store)),store=state.data.stores.find(x=>String(x.name).toLocaleLowerCase('es')===name.toLocaleLowerCase('es'));
- const snapshot=nextOpeningSummary(state.data,{today:isoToday()}),items=snapshot.items.filter(x=>String(x.storeId)===String(store?.id));
+ const scope=safeStore(w.scope.store),isAll=scope==='all';
+ const name=isAll?'Todas las tiendas':labelStore(scope),store=isAll?null:state.data.stores.find(x=>String(x.name).toLocaleLowerCase('es')===name.toLocaleLowerCase('es'));
+ const snapshot=nextOpeningSummary(state.data,{today:isoToday()}),items=isAll?snapshot.items:snapshot.items.filter(x=>String(x.storeId)===String(store?.id));
  const complete=items.length>0&&items.every(x=>x.status==='verified');
  const known=items.reduce((sum,x)=>sum+(x.amount??0),0),missing=items.filter(x=>x.amount===null).length,stale=items.filter(x=>x.status==='stale').length;
  const title=complete?'Total confirmado para abrir '+money(known):'Sin total confirmado · importes conocidos '+money(known);
- return '<div class="home-store-opening"><div class="home-store-opening-heading"><div><strong>'+esc(name)+'</strong><small>Apertura prevista '+esc(snapshot.openingDate)+' · '+items.length+' cajones activos</small></div><b>'+esc(title)+'</b></div><div class="home-opening-grid">'+items.map(x=>'<div class="home-opening-drawer"><strong>'+esc(x.drawerName)+'</strong><b>'+(x.amount===null?'Por indicar':esc(money(x.amount)))+'</b><small>'+(x.status==='verified'?'Cierre del día acreditado':x.status==='stale'?'Saldo de cierre anterior, no confirmado':'Falta importe de cierre')+'</small><small>'+esc(x.closingDate||'Sin cierre acreditado')+'</small></div>').join('')+'</div>'+(complete?'':'<p class="small muted" role="status">'+missing+' sin importe · '+stale+' de cierre anterior. El total no se supone ni se completa con otras cajas.</p>')+'<div class="home-widget-actions"><button class="btn secondary" data-route="cajas">Abrir Cajas y cierres</button></div></div>';
+ return '<div class="home-store-opening"><div class="home-store-opening-heading"><div><strong>'+esc(name)+'</strong><small>Apertura prevista '+esc(snapshot.openingDate)+' · '+items.length+' cajones activos</small></div><b>'+esc(title)+'</b></div><div class="home-opening-grid">'+items.map(x=>'<div class="home-opening-drawer"><strong>'+esc(isAll&&x.storeName?x.storeName+' · '+x.drawerName:x.drawerName)+'</strong><b>'+(x.amount===null?'Por indicar':esc(money(x.amount)))+'</b><small>'+(x.status==='verified'?'Cierre del día acreditado':x.status==='stale'?'Saldo de cierre anterior, no confirmado':'Falta importe de cierre')+'</small><small>'+esc(x.closingDate||'Sin cierre acreditado')+'</small></div>').join('')+'</div>'+(complete?'':'<p class="small muted" role="status">'+missing+' sin importe · '+stale+' de cierre anterior. El total no se supone ni se completa con otras cajas.</p>')+'<div class="home-widget-actions"><button class="btn secondary" data-route="cajas">Abrir Cajas y cierres</button></div></div>';
 }
 function psPlaceholder(w){
  const shop=safeStore(w.scope.store);if(shop==='all'&&w.type==='prestashop.summary')return `<div class="home-ps-message">Selecciona una tienda para consultar su resumen.</div>`;
@@ -359,7 +360,7 @@ export function createHomeWidgetsUI({rpc,invoke,can,notify=()=>{},onOpenOrders=(
   if(['home.income','home.expenses','home.result','home.internal'].includes(w.type))return nativeHomeFinance(w,dataFor(w),state.data.expenses);
   if(w.type==='home.activity')return periodControls(w)+nativeHomeActivity(w,dataFor(w),state.data.expenses,homeStores());
   if(w.type==='home.gain')return (w.id==='gain-summary'?'':periodControls(w))+nativeHomeFinance(w,dataFor(w),state.data.expenses)+'<button type="button" class="btn secondary" data-home-command="fetch" data-id="'+esc(w.id)+'">Actualizar margen</button>';
-  if(w.type==='cash.openings'&&safeStore(w.scope.store)!=='all')return storeOpeningWidget(w);
+  if(w.type==='cash.openings')return storeOpeningWidget(w);
   if(w.type==='prestashop.summary'){
    const shops=PRESTA_SHOPS(w),loaded=shops.map(shop=>catalogData.get(shop)).filter(Boolean);
    const catalog=loaded.length?{issues:loaded.flatMap(c=>c.issues||[]),complete:loaded.length===shops.length&&loaded.every(c=>c.complete)}:null;

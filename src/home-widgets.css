@@ -688,9 +688,11 @@ html[data-appearance] #content .dashboard-page .home-widget-shell .data-table td
 @media(max-width:700px){#content .dashboard-page.home-edit-mode .home-dashboard-toolbar{width:100%;top:4px}}
 
 #content .dashboard-page .home-widget-grid>.home-widget-frame{align-self:stretch!important;display:flex;flex-direction:column;border-radius:12px!important;border:1px solid var(--line,#dce5ee)!important;box-shadow:0 2px 6px rgba(15,23,42,.04);overflow:hidden}
-#content .dashboard-page .home-widget-frame[data-home-type]>.home-widget-body{flex:1 1 auto;display:flex;flex-direction:column}
-#content .dashboard-page .home-widget-body>:is(.home-ps-content,.home-products-widget,.home-catalog-quality,.home-pending-expenses){flex:1 1 auto;display:flex;flex-direction:column}
+#content .dashboard-page .home-widget-header{padding:9px 14px!important;min-height:40px!important}
+#content .dashboard-page .home-widget-body{padding:12px 14px!important;flex:1 1 auto;display:flex;flex-direction:column}
+#content .dashboard-page .home-widget-body>div{flex:1 1 auto;display:flex;flex-direction:column}
 #content .dashboard-page .home-widget-actions,#content .dashboard-page .home-order-footer{margin-top:auto;padding-top:10px}
+#content .dashboard-page .home-ps-chart svg,#content .dashboard-page .home-activity-chart svg{max-height:190px}
 #content .dashboard-page .home-widget-frame[data-home-type="pricing.quick"][data-home-height-mode="auto"]>.home-widget-body{max-height:none!important;overflow:visible!important}
 .home-ps-shop-badge{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .home-ps-shop-badge>span{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent,#257bb5) 12%,transparent);color:var(--accent,#1d5d8c);font-size:12px;font-weight:700}

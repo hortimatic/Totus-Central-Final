@@ -1,7 +1,7 @@
-import {selectReportData} from './report-period.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {informationalTaxPayments} from './payment-information.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {closingIncomeAmount,expenseCostAmount} from './calculations.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
-import {esc,money,fmtDate} from './utils.js?v=f6a572fbf3fed4aa850e28289127f99f1c8ec27d';
+import {selectReportData} from './report-period.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {informationalTaxPayments} from './payment-information.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {closingIncomeAmount,expenseCostAmount} from './calculations.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
+import {esc,money,fmtDate} from './utils.js?v=717b5cf40cf16d23a5df7120a6ae149c5c33b141';
 const dateOk=d=>/^\d{4}-\d{2}-\d{2}$/.test(d)&&Number.isFinite(Date.parse(d+'T12:00:00Z'))&&new Date(d+'T12:00:00Z').toISOString().slice(0,10)===d;
 export function activitySeries(data,filters){
  const {from,to}=filters;
