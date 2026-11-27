@@ -1,5 +1,5 @@
-import {DIRECTORY_KINDS,directoryQuery} from './contact-directory-contract.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
-import {storeConnection} from './prestashop-readonly.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {DIRECTORY_KINDS,directoryQuery} from './contact-directory-contract.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
+import {storeConnection} from './prestashop-readonly.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
 
 export function createDirectorySession({kind,actor,can,rpc,invoke,onProgress=()=>{}}){
  if(!DIRECTORY_KINDS[kind])throw Error('Directorio no válido.');

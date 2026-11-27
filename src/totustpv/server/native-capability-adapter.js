@@ -3,9 +3,9 @@
  * The native receipt supplies attributed stock movements, never a guessed
  * difference of global quantities. No write is performed during recovery.
  */
-import {createNativeSaleAdapter} from './native-adapter.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
-import {paymentSummary} from '../model.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
-import {paymentReference} from '../payment-reference.js?v=b4be024f454f6e70cb758fc49dbcbc6edffee4d2';
+import {createNativeSaleAdapter} from './native-adapter.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
+import {paymentSummary} from '../model.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
+import {paymentReference} from '../payment-reference.js?v=b18950adc17c89fc44ec7fadfdb0a7981fe1272f';
 const need=(ok,code)=>{if(!ok)throw new Error(code);};
 const uuid=value=>typeof value==='string'&&/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(value);
 export function createNativeCapabilityAdapter({scope,transport,verifyPrepared}){
