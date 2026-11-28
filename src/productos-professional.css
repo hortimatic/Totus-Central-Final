@@ -1,4 +1,4 @@
-@import url("./table-view-profiles.css?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1");
+@import url("./table-view-profiles.css?v=e37179deb9b0412df84d62554e93f363a0eea9e9");
 /* Products V4: compact workspace hierarchy from the original Stitch delivery.
    Global appearance controls apply to the outer workspace; inner groups use dividers. */
 #productosRoot .prd-direct-save{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:var(--r,7px);background:var(--panel,#fff)}
@@ -196,7 +196,7 @@
 #productosRoot .prd-professional .prd-picker-table tbody tr{cursor:pointer;transition:background-color .12s ease}
 #productosRoot .prd-professional .prd-picker-table tbody tr:hover>td{background:color-mix(in srgb,var(--panel,#fff) 94%,var(--accent,#006591))}
 #productosRoot .prd-professional .prd-picker-table tbody tr[data-pr-active-product="true"]>td{background:color-mix(in srgb,var(--panel,#fff) 88%,var(--accent,#006591));font-weight:600}
-#productosRoot .prd-professional .prd-picker-table .prd-product-photo,#productosRoot .prd-professional .prd-picker-no-photo{width:38px;height:38px;min-width:38px;object-fit:contain;display:grid;place-items:center;font-size:9px;background:var(--bg,#f4f7fa);border-radius:4px;border:1px solid color-mix(in srgb,var(--line,#dbe4ef) 70%,transparent)}
+#productosRoot .prd-professional .prd-picker-table .prd-picker-thumb,#productosRoot .prd-professional .prd-picker-table .prd-product-photo,#productosRoot .prd-professional .prd-picker-no-photo{width:38px;height:38px;min-width:38px;object-fit:contain;display:grid;place-items:center;font-size:9px;background:var(--bg,#f4f7fa);border-radius:4px;border:1px solid color-mix(in srgb,var(--line,#dbe4ef) 70%,transparent)}
 #productosRoot .prd-professional .prd-picker-open-btn{display:flex;flex-direction:column;align-items:flex-start;gap:1px;width:100%;min-height:0!important;padding:0!important;border:0!important;background:transparent!important;text-align:left;color:var(--ink,#0b1c30);overflow:hidden}
 #productosRoot .prd-professional .prd-picker-open-btn strong{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:16px}
 #productosRoot .prd-professional .prd-picker-open-btn small{font-size:10px;color:var(--muted,#58677a);line-height:14px}
