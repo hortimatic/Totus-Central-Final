@@ -1,45 +1,45 @@
-import {productDisplayId} from './record-identifiers.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {WEBSITE_CHOICES} from './website-registry.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createCentralProductEditorSession} from './central-product-editor-session.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createCentralProductSyncClient} from './central-product-sync-client.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createCentralProductSyncHistory} from './central-product-sync-history.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createCentralProductCopyUI} from './central-product-copy-ui.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createCategoriesWorkspace} from './product-categories-ui.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createCentralAttributeSession} from './central-attribute-session.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {openAttributeRecord} from './productos-attribute-editor.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createProductMovementsUI} from './productos-movements-ui.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {normalizeProductImage} from './productos-image-editor.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {openTableViewProfiles} from './table-view-profiles.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {openProductMasters} from './productos-masters-ui.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {attachProductTableLayout} from './productos-table-layout.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {adaptProductTexts} from './productos-copy-text.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {showProductDialog} from './productos-dialogs.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {enhanceProductSelects} from './productos-controls.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createProductTableEditor} from './productos-table-editor.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {openCatalogPriceBatch} from './catalog-price-batch.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,sortProductCatalog,productCatalogCsv} from './productos-catalog.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {productStockSummary} from './product-stock-summary.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {readPool} from './read-pool.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {storeConnection} from './prestashop-readonly.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createProductWizard} from './productos-create-ui.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {esc} from './utils.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {fieldHelp} from './components.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {productDraftStore} from './productos-draft-store.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {productPriceStudy} from './pricing-core.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
+import {productDisplayId} from './record-identifiers.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {WEBSITE_CHOICES} from './website-registry.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createCentralProductEditorSession} from './central-product-editor-session.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createCentralProductSyncClient} from './central-product-sync-client.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createCentralProductSyncHistory} from './central-product-sync-history.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createCentralProductCopyUI} from './central-product-copy-ui.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createCategoriesWorkspace} from './product-categories-ui.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createCentralAttributeSession} from './central-attribute-session.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {chooseCentralStore,rememberCentralStore} from './central-store-data.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createCatalogOfferBatch} from './catalog-offer-batch.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {openAttributeRecord} from './productos-attribute-editor.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createProductMovementsUI} from './productos-movements-ui.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {normalizeProductImage} from './productos-image-editor.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {productCategoryPicker,featureValueSelectors,attributeGroupSelectors} from './productos-relations-ui.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {openTableViewProfiles} from './table-view-profiles.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createAttributesWorkspace} from './productos-attributes-workspace.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {openProductMasters} from './productos-masters-ui.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {openProductQuickEdit} from './productos-quick-edit-ui.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {productBackofficeUrl,saveBackofficeLink} from './productos-backoffice.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {attachProductTableLayout} from './productos-table-layout.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {adaptProductTexts} from './productos-copy-text.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {showProductDialog} from './productos-dialogs.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {attachProductPhotoPreviews} from './productos-photo-preview.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {enhanceProductSelects} from './productos-controls.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createProductTableEditor} from './productos-table-editor.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {openCatalogPriceBatch} from './catalog-price-batch.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {productGallery,moveProductPhoto,productGalleryDescription} from './productos-gallery.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {productDraftFacts,productHasUnpublishedChanges} from './productos-drafts.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {productCountryTaxRate,productDisplayAmounts,productPriceForMargin,productPurchaseAmounts} from './productos-tax.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {stitchHeader,stitchCatalog,stitchFiche,stitchCopy,stitchRequest,stitchSaved,ensureStitchProductFonts} from './productos-stitch-view.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {PRODUCT_COLUMNS,DEFAULT_PRODUCT_COLUMNS,productColumns,productColumnWidths,moveProductColumn,catalogProductKey,productPhoto,filterProductCatalog,sortProductCatalog,productCatalogCsv} from './productos-catalog.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {buildProductRequest,renderProductRequestForm} from './productos-request.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {productStockSummary} from './product-stock-summary.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {readPool} from './read-pool.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {PRODUCT_STORES as REMOTE_PRODUCT_STORES,PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,productInputValue,associationIds,normalizedProduct,matchExactReference,buildProductPlan,bulkVariantSelection,productCopyRedirect,matchVariantInStore} from './productos-core.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {storeConnection} from './prestashop-readonly.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {PRODUCT_WRITE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createProductWizard} from './productos-create-ui.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {esc} from './utils.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {fieldHelp} from './components.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {productDraftStore} from './productos-draft-store.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {productPriceStudy} from './pricing-core.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
 
 export const productosWorkspacePage=(workspace='products')=>'<div class="page productos-page"><section id="productosRoot" data-pr-workspace="'+workspace+'" aria-label="'+(workspace==='pricing'?'Precios y ofertas':'Gestión de productos')+'"><p role="status">Cargando Productos…</p></section></div>';
 const h=x=>esc(String(x??''));
@@ -71,7 +71,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  let loadedCatalogScope='',catalogSort={field:'date_add',direction:'desc'};
  let catalogColumns=[...DEFAULT_PRODUCT_COLUMNS],catalogSelected=new Set(),catalogFilters={category:'',brand:'',active:''},catalogCategories=[],catalogBrands=[],catalogStock=new Map(),editorSection='general';
  let productPickerQuery='',productPickerPage=0,productPickerCollapsed=false,productPickerRenderCap=250,productPickerSort={field:'date_add',direction:'desc'},productPickerFilters={category:'',brand:'',active:'',store:''};
- let copyTargetStore='',localCopyStock=false,destSearchQuery='',destCatalogByStore=new Map(),destLinksByStore=new Map(),destLoading=new Set(),webConnections=null,localCopyResults=new Map();
+ let copyTargetStore='',localCopyStock=false,destSearchQuery='',destCatalogByStore=new Map(),destLinksByStore=new Map(),destLoading=new Set(),webConnections=null,localCopyResults=new Map(),destCategoryByStore=new Map();
  let listSize=20,listPage=0,parallelSection='general',bulkField='price',bulkValue='',bulkItems=[],bulkConfirm='';
  let photoCleanup=()=>{},controlsCleanup=()=>{},layoutCleanup=()=>{};let columnWidths={},layoutSaveState='',layoutQueue=Promise.resolve(),layoutVersion=0,replacingDOM=false,renderAfterResize=false;
  let root=null,owner=null,epoch=0,mode='catalogo',store='',pending=false,status='Selecciona una tienda y consulta su catálogo.',connections=[],rows=[],hasMore=false,page=0,query='',record=null,variants=[],fields=new Set(),overrides={},variantFields=new Map(),variantOverrides=new Map(),targets=new Set(),comparison=new Map(),preview=[],selection=new Set(),targetOverrides=new Map(),preflight=new Map(),targetRaw=new Map(),targetLanguages=new Map(),targetIds=new Map(),variantPreflight=new Map();
@@ -87,7 +87,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  const stateSnapshot=()=>({store,mode,record:record?.id||null});
  const movementsUI=createProductMovementsUI({invoke:(...args)=>invokeShop(...args),rpc,actor,canExport:()=>canExport()});
  const tableEditor=createProductTableEditor({invoke:(shop,action,args)=>invokeShop(shop,action,args),canEdit,onSaved:(shop,item)=>{operationHistory.push({shop,kind:'Edición rápida',id:String(item.id),parent_id:String(item.id),at:new Date().toISOString(),request:tableEditor.rows.get(shop+'|'+item.id)?.request?.request_id||'',changes:tableEditor.rows.get(shop+'|'+item.id)?.prepared?.review||[]});const i=rows.findIndex(p=>catalogKey(p)===shop+'|'+item.id);if(i>=0)rows[i]={...item,__store:shop};if(store===shop&&String(record?.id)===String(item.id)){record=item;shopRecords.set(shop,item);}}});
- const createWizard=createProductWizard({invoke:(shop,action,args)=>invokeShop(shop,action,args),canEdit:()=>canEdit()||canCreate()||canDelete(),onProgress:async message=>{status=message;persistDraft();await storageQueue;if(storageError)throw storageError;if(current())render();}});
+ const createWizard=createProductWizard({invoke:(shop,action,args)=>(centralData&&storeWebsiteKey(shop)?invokeWebBridge(shop,action,args):invokeShop(shop,action,args)),canEdit:()=>canEdit()||canCreate()||canDelete(),onProgress:async message=>{status=message;persistDraft();await storageQueue;if(storageError)throw storageError;if(current())render();}});
  const offerBatch=createCatalogOfferBatch({invoke:(...args)=>invokeShop(...args),canEdit,current,persist:async()=>{persistDraft();await storageQueue;if(storageError)throw storageError;}});
  const snapshotDraft=()=>({savedAt:Date.now(),offerBatch:offerBatch.snapshot(),draftPhotos,publicationScope,operationHistory,inlineStage,directLanguage,tableEdits:tableEditor.snapshot(),organization,galleryDraft,copyQueue,requestBrief,requestOutput,editorSection,catalogScope,store,mode,parallelSection,bulkField,bulkValue,bulkItems,bulkConfirm,record,variants,fields,overrides,variantFields,variantOverrides,targets,comparison,preview,targetOverrides,preflight,targetRaw,targetLanguages,targetIds,variantPreflight,shops:shopRecords,editRequests,editConfirm,wizard:createWizard.snapshot()});
  const persistDraft=()=>{if(!storageReady||!owner)return;const key=owner,value=record||tableEditor.rows.size||offerBatch.snapshot().length||(requestBrief.url||requestBrief.product_id)||draftsByShop.size||draftsByProduct.size||copyQueue.length?structuredClone({...snapshotDraft(),shopDrafts:[...draftsByShop],productDrafts:[...draftsByProduct]}):null;storageError=null;storageQueue=storageQueue.catch(()=>{}).then(()=>productDraftStore(key,value)).catch(error=>{storageError=error||Error('Borrador local no disponible');if(current())status='No se ha podido conservar el borrador local. No cierres esta pestaña hasta comprobar las operaciones pendientes.';});};
@@ -120,7 +120,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
  }
  function resetDraft(){
   movementsUI.dispose();
-  organization=null;galleryDraft={};draftPhotos=[];publicationScope='all';inlineStage=false;directLanguage='';operationHistory=[];shopRecords.clear();editRequests.clear();editConfirm.clear();bulkItems=[];bulkConfirm='';record=null;variants=[];fields=new Set();overrides={};variantFields.clear();variantOverrides.clear();selection.clear();targetOverrides.clear();targetRaw.clear();targetLanguages.clear();targetIds.clear();localCopyResults.clear();destSearchQuery='';createWizard.reset();invalidate();
+  organization=null;galleryDraft={};draftPhotos=[];publicationScope='all';inlineStage=false;directLanguage='';operationHistory=[];shopRecords.clear();editRequests.clear();editConfirm.clear();bulkItems=[];bulkConfirm='';record=null;variants=[];fields=new Set();overrides={};variantFields.clear();variantOverrides.clear();selection.clear();targetOverrides.clear();targetRaw.clear();targetLanguages.clear();targetIds.clear();localCopyResults.clear();destCategoryByStore.clear();destSearchQuery='';createWizard.reset();invalidate();
  }
  function sectionTitle(section){return ({general:'Información y descripción',precios:'Precios e impuestos',seo:'SEO',transporte:'Transporte',inventario:'Disponibilidad',organizacion:'Organización'})[section]||section;}
  function fieldControl(field,value,attrs,disabled=false){
@@ -411,18 +411,32 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   }
   const needCatalog=!destCatalogByStore.has(dest)&&!rows.some(p=>(p.__store||store)===dest);
   const needLinks=!destLinksByStore.has(store);
-  if(!needCatalog&&!needLinks)return;
+  const needCats=!!storeWebsiteKey(dest)&&!(catalogMeta.get(dest)?.categories?.length);
+  if(!needCatalog&&!needLinks&&!needCats)return;
   const gen=epoch,activeStore=store;
   destLoading.add(dest);
   void (async()=>{
    try{
-    if(needCatalog&&typeof centralData.catalogue==='function'){
-     const [{centralProductRecord},list]=await Promise.all([import('./central-product-adapter.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9'),centralData.catalogue(dest)]);
-     if(current()&&epoch===gen)destCatalogByStore.set(dest,list.map(p=>({...centralProductRecord(p),__store:dest})));
+    if(needCatalog){
+     const lookup=await rpc('totus_store_products_lookup',{p_store:dest}).catch(()=>null);
+     if(current()&&epoch===gen&&Array.isArray(lookup?.items)){
+      destCatalogByStore.set(dest,lookup.items.map(item=>({...item,__store:dest})));
+     }else if(typeof centralData.catalogue==='function'){
+      const [{centralProductRecord},list]=await Promise.all([import('./central-product-adapter.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a'),centralData.catalogue(dest)]);
+      if(current()&&epoch===gen)destCatalogByStore.set(dest,list.map(p=>({...centralProductRecord(p),__store:dest})));
+     }
     }
     if(needLinks){
      const links=await rpc('totus_store_product_links_list',{p_store:activeStore}).catch(()=>[]);
      if(current()&&epoch===gen&&Array.isArray(links))destLinksByStore.set(activeStore,links);
+    }
+    if(needCats&&typeof centralData.auxiliary==='function'){
+     const cats=await centralData.auxiliary(dest,'categories').catch(()=>[]);
+     if(current()&&epoch===gen&&Array.isArray(cats)&&cats.length){
+      const existing=catalogMeta.get(dest)||{brands:[],suppliers:[],directoryWarnings:[],categories:[],taxGroups:[],tax:{countries:[],rules:[],taxes:[]}};
+      existing.categories=cats;
+      catalogMeta.set(dest,existing);
+     }
     }
    }catch{}
    finally{
@@ -481,6 +495,17 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
    statusHtml='<div class="prd-dest-status-banner" data-state="new"><span><b>Tienda local ('+h(destLabel)+'):</b> se guardará directamente en Central para este establecimiento y su TPV.</span></div>';
   }
   let matcherHtml='';
+  if(centralData&&!localDest&&dest!==store){
+   const destCats=catalogMeta.get(dest)?.categories||[];
+   if(destCats.length){
+    let chosenCat=destCategoryByStore.get(dest)||'';
+    if(!chosenCat&&!storeWebsiteKey(store)){
+     const home=destCats.find(c=>textValue(c.name).trim().toLocaleLowerCase('es')==='inicio'||String(c.id)==='2');
+     if(home){chosenCat=String(home.id);destCategoryByStore.set(dest,chosenCat);createWizard.setPreferredCategory(dest,chosenCat);}
+    }
+    statusHtml+='<div class="prd-dest-category-row"><label class="prd-field"><span>Categoría principal en '+h(destLabel)+' (si es alta nueva)</span><select data-pr-dest-category="'+h(dest)+'" '+(copyLocked?'disabled':'')+'><option value="">Detectar por nombre de origen</option>'+destCats.map(c=>'<option value="'+h(c.id)+'" '+(chosenCat===String(c.id)?'selected':'')+'>'+h(textValue(c.name))+' · #'+h(c.id)+'</option>').join('')+'</select></label></div>';
+   }
+  }
   if(dest!==store&&!copyLocked){
    const qTokens=destSearchQuery.trim().toLocaleLowerCase('es').split(/\s+/).filter(Boolean);
    const firstHint=textValue(record.name).trim().split(/\s+/).find(w=>w.length>=3)?.toLocaleLowerCase('es')||'';
@@ -697,9 +722,22 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   const wanted=new Set(list.flatMap(v=>associationIds(v,'product_option_values')));
   try{for(let page=0;[...wanted].some(id=>!attributeNames.has(shop+'|'+id));page++){const data=await invokeShop(shop,'prestashop_read',{resource:'product_option_values',page,page_size:100});for(const value of data.rows||[]){attributeNames.set(shop+'|'+value.id,textValue(value.name));attributeValues.set(shop+'|'+value.id,value);}if(!data.possibly_more)break;if(!data.rows.length||page>=1000)throw Error('Valores de atributos incompletos.');}}catch{/* Missing names are explicit; no substitutions. */}
   try{if(!attributeGroups.has(shop)){const groups=new Map();for(let page=0;;page++){const data=await invokeShop(shop,'prestashop_read',{resource:'product_options',page,page_size:100});for(const group of data.rows||[])groups.set(String(group.id),textValue(group.name));if(!data.possibly_more)break;if(!data.rows.length||page>=1000)throw Error('Grupos incompletos.');}attributeGroups.set(shop,groups);}}catch{/* Unknown groups do not authorize a match by attribute. */}
-  for(const variant of list)variant.__attributes=associationIds(variant,'product_option_values').map(id=>{const value=attributeValues.get(shop+'|'+id);return {group:attributeGroups.get(shop)?.get(String(value?.id_attribute_group))||'',value:attributeNames.get(shop+'|'+id)||''};});
-  for(const variant of list)variant.__attributeNames=associationIds(variant,'product_option_values').map(id=>attributeNames.get(shop+'|'+id)||'Atributo #'+id);
-  try{const stock=productStockRows;for(let page=0;;page++){const data=await invokeShop(shop,'prestashop_read',{resource:'stock_availables',product_ids:[String(product.id)],page,page_size:100});if(data.rows.some(row=>String(row.id_product)!==String(product.id)))throw Error('Existencias ajenas.');stock.push(...data.rows);if(!data.possibly_more)break;if(!data.rows.length||page>=1000)throw Error('Existencias incompletas.');}for(const variant of list){const matches=stock.filter(row=>String(row.id_product_attribute)===String(variant.id)&&(!product.id_shop_default||['0',String(product.id_shop_default)].includes(String(row.id_shop))));if(matches.length===1&&String(matches[0].quantity).trim()!==''&&Number.isFinite(Number(matches[0].quantity)))variant.__stock=matches[0];}}catch{productStockRows=[];for(const variant of list)delete variant.__stock;/* A failed read is never zero. */}
+  for(const variant of list){
+   if(!variant.__attributes?.length){
+    variant.__attributes=associationIds(variant,'product_option_values').map(id=>{const value=attributeValues.get(shop+'|'+id);return {group:attributeGroups.get(shop)?.get(String(value?.id_attribute_group))||'',value:attributeNames.get(shop+'|'+id)||''};});
+   }
+   const optionNames=associationIds(variant,'product_option_values').map(id=>attributeNames.get(shop+'|'+id)||'Atributo #'+id);
+   variant.__attributeNames=optionNames.length?optionNames:(variant.__attributes||[]).map(a=>(a.group?a.group+': ':'')+a.value).filter(Boolean);
+  }
+  if(centralData&&!storeWebsiteKey(shop)){
+   const nativeCat=Array.isArray(product.__native?.catalogue)?product.__native.catalogue:[];
+   for(const variant of list){
+    const entry=nativeCat.find(c=>String(c.variant_id)===String(variant.id));
+    if(entry&&Number.isFinite(Number(entry.stock)))variant.__stock={id:entry.id,id_product:String(product.id),id_product_attribute:String(variant.id),id_shop:'0',quantity:String(entry.stock),out_of_stock:'0',depends_on_stock:'0',location:''};
+   }
+  }else{
+   try{const stock=productStockRows;for(let page=0;;page++){const data=await invokeShop(shop,'prestashop_read',{resource:'stock_availables',product_ids:[String(product.id)],page,page_size:100});if(data.rows.some(row=>String(row.id_product)!==String(product.id)))throw Error('Existencias ajenas.');stock.push(...data.rows);if(!data.possibly_more)break;if(!data.rows.length||page>=1000)throw Error('Existencias incompletas.');}for(const variant of list){const matches=stock.filter(row=>String(row.id_product_attribute)===String(variant.id)&&(!product.id_shop_default||['0',String(product.id_shop_default)].includes(String(row.id_shop))));if(matches.length===1&&String(matches[0].quantity).trim()!==''&&Number.isFinite(Number(matches[0].quantity)))variant.__stock=matches[0];}}catch{productStockRows=[];for(const variant of list)delete variant.__stock;/* A failed read is never zero. */}
+  }
   const summary=productStockSummary(product,list,list.length?list.filter(v=>v.__stock).map(v=>v.__stock):productStockRows);
   if(summary.total!==null)catalogStock.set(shop+'|'+product.id,summary.total);
   return list;
@@ -742,7 +780,7 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
    const generation=epoch,shops=catalogScope==='both'?PRODUCT_STORES.map(s=>s.key).filter(Boolean):[catalogScope].filter(Boolean),nextRows=[],nextMeta=new Map(),nextStock=new Map();
    const auxiliaryKeys=[['categories','categories'],['tax_rule_groups','taxGroups'],['countries','countries'],['tax_rules','rules'],['taxes','taxes']];
    const [{centralProductRecord},...shopResults]=await Promise.all([
-    import('./central-product-adapter.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9'),
+    import('./central-product-adapter.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a'),
     ...shops.map(async shop=>{
      const [native,brandsRes,suppliersRes,...auxResults]=await Promise.allSettled([
       centralData.catalogue(shop),
@@ -834,6 +872,60 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
   fields=new Set(['name','reference','price','description','meta_title','link_rewrite']);
   targets=new Set([store]);mode='ficha';status='Borrador nuevo. Prepara los campos y después selecciona la tienda de destino.';
  }
+ async function readRemoteWebProduct(shop,remoteId){
+  const res=await invokeWebBridge(shop,'prestashop_item_read',{resource:'products',record_id:String(remoteId)});
+  if(res.resource!=='products'||!res.item)throw Error('No se pudo leer la ficha real de '+shop+'.');
+  if(!productLanguages.has(shop)){
+   const profile=await invokeWebBridge(shop,'prestashop_product_create_profile',{});
+   if(Array.isArray(profile.language_ids)&&profile.language_ids.length)productLanguages.set(shop,profile.language_ids.map(String));
+  }
+  if(productLanguages.has(shop))res.item.__language_ids=productLanguages.get(shop);
+  return res.item;
+ }
+ async function readRemoteWebCombinations(shop,remoteProduct){
+  const ids=associationIds(remoteProduct,'combinations');
+  if(!ids.length)return [];
+  const list=[],readEpoch=epoch;
+  const loaded=await readPool(ids,async id=>{
+   const itemRes=await invokeWebBridge(shop,'prestashop_item_read',{resource:'combinations',record_id:String(id)});
+   return itemRes.item;
+  },{current:()=>current()&&epoch===readEpoch});
+  list.push(...loaded.filter(Boolean));
+  const wanted=new Set(list.flatMap(v=>associationIds(v,'product_option_values')));
+  const valMap=new Map(),grpMap=new Map();
+  if(wanted.size){
+   try{for(let page=0;;page++){const data=await invokeWebBridge(shop,'prestashop_read',{resource:'product_option_values',page,page_size:100});for(const v of data.rows||[])valMap.set(String(v.id),v);if(!data.possibly_more||!data.rows?.length||page>=200)break;}}catch{}
+   try{for(let page=0;;page++){const data=await invokeWebBridge(shop,'prestashop_read',{resource:'product_options',page,page_size:100});for(const g of data.rows||[])grpMap.set(String(g.id),textValue(g.name));if(!data.possibly_more||!data.rows?.length||page>=200)break;}}catch{}
+  }
+  for(const variant of list){
+   variant.__attributes=associationIds(variant,'product_option_values').map(id=>{const val=valMap.get(String(id));return {group:grpMap.get(String(val?.id_attribute_group))||'',value:textValue(val?.name)};});
+   variant.__attributeNames=associationIds(variant,'product_option_values').map(id=>textValue(valMap.get(String(id))?.name)||'Atributo #'+id);
+  }
+  return list;
+ }
+ async function resolveWebCopySource(dest){
+  const preferredCat=destCategoryByStore.get(dest)||((!storeWebsiteKey(store))?(catalogMeta.get(dest)?.categories?.find(c=>textValue(c.name).trim().toLocaleLowerCase('es')==='inicio'||String(c.id)==='2')?.id||''):'');
+  if(!centralData)return {...record,__sourceStore:store,__copyCatalog:organization?.store===store?organization.catalog:null};
+  if(!storeWebsiteKey(store)){
+   const baseCat=Array.isArray(record.__native?.catalogue)?record.__native.catalogue.find(c=>!c.variant_id):null;
+   return {...record,__sourceStore:store,__sourceIsLocal:true,__preferredDestCategory:preferredCat?String(preferredCat):'',__localBaseStock:baseCat&&Number.isFinite(Number(baseCat.stock))?{quantity:String(baseCat.stock),out_of_stock:'0',depends_on_stock:'0',location:''}:null};
+  }
+  const srcRemoteId=String(record.__sourceProductId||'');
+  if(/^[1-9]\d{0,14}$/.test(srcRemoteId)){
+   try{
+    const remoteSrc=await readRemoteWebProduct(store,srcRemoteId);
+    return {...remoteSrc,...overrides,__sourceStore:store,__sourceProductId:String(remoteSrc.id),__preferredDestCategory:preferredCat?String(preferredCat):'',__copyCatalog:organization?.store===store?organization.catalog:null};
+   }catch{}
+  }
+  return {...record,__sourceStore:store,__preferredDestCategory:preferredCat?String(preferredCat):'',__copyCatalog:organization?.store===store?organization.catalog:null};
+ }
+ async function syncRemoteProductToCentral(dest,remoteId,{sourceStore=null,sourceProductUuid=null}={}){
+  const remoteSaved=await readRemoteWebProduct(dest,remoteId);
+  const remoteVariants=await readRemoteWebCombinations(dest,remoteSaved);
+  const syncRes=await rpc('totus_central_sync_copied_web_product',{p_store:dest,p_remote_id:Number(remoteId),p_item:remoteSaved,p_variants:remoteVariants,p_source_store:sourceStore||null,p_source_product:sourceProductUuid||null});
+  centralData?.invalidate(dest);catalogCache.delete(dest);destCatalogByStore.delete(dest);destLinksByStore.delete(store);
+  return {remoteSaved,centralUuid:syncRes?.productId||null};
+ }
  async function prepare(){
   if(mode==='comparar'&&record?.id)targets=new Set([resolveCopyTarget()]);
   if(!record)throw Error('Abre una ficha o prepara un producto nuevo.');
@@ -847,46 +939,93 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
 
    const redirect=productCopyRedirect({fields,source:record,overrides,adapted,crossStore:dest!==store});if(redirect.notice)copyNotices.push(dest+': '+redirect.notice);
    const sourceRef=String(Object.prototype.hasOwnProperty.call(adapted,'reference')?adapted.reference:Object.prototype.hasOwnProperty.call(overrides,'reference')?overrides.reference:textValue(record.reference)).trim();
+   const localDest=isLocalCopyTarget(dest);
    let target=null,related=[];
    const explicit=String(targetIds.get(dest)||'').trim().replace(/^#/,'');
    if(explicit){
-    if(centralData){
+    if(centralData&&!localDest){
+     if(uuidRe.test(explicit)){
+      const centralTarget=await loadItem(dest,'products',explicit);
+      const remoteDestId=String(centralTarget.__sourceProductId||'');
+      if(/^[1-9]\d{0,14}$/.test(remoteDestId)){target=await readRemoteWebProduct(dest,remoteDestId);related=await readRemoteWebCombinations(dest,target);}
+      else{target=centralTarget;related=await combinations(dest,centralTarget);}
+     }else if(/^P-\d+$/i.test(explicit)){
+      const byDisp=await invokeShop(dest,'prestashop_read',{resource:'products',page:0,page_size:10,display_ids:[explicit.toUpperCase()]});
+      if(byDisp.rows.length!==1)throw Error('No se encontró un producto único con ID #'+explicit+' en '+(PRODUCT_STORES.find(s=>s.key===dest)?.label||dest)+'.');
+      const centralTarget=await loadItem(dest,'products',byDisp.rows[0].id);
+      const remoteDestId=String(centralTarget.__sourceProductId||'');
+      if(/^[1-9]\d{0,14}$/.test(remoteDestId)){target=await readRemoteWebProduct(dest,remoteDestId);related=await readRemoteWebCombinations(dest,target);}
+      else{target=centralTarget;related=await combinations(dest,centralTarget);}
+     }else if(/^[1-9]\d{0,14}$/.test(explicit)){
+      target=await readRemoteWebProduct(dest,explicit);
+      related=await readRemoteWebCombinations(dest,target);
+     }else throw Error('ID del producto de destino no válido para '+(PRODUCT_STORES.find(s=>s.key===dest)?.label||dest)+'.');
+    }else if(centralData){
      if(uuidRe.test(explicit)){target=await loadItem(dest,'products',explicit);}
      else if(/^(?:[1-9]\d{0,14}|P-\d+)$/i.test(explicit)){
       const byDisp=await invokeShop(dest,'prestashop_read',{resource:'products',page:0,page_size:10,display_ids:[explicit.toUpperCase()]});
       if(byDisp.rows.length!==1)throw Error('No se encontró un producto único con ID #'+explicit+' en '+(PRODUCT_STORES.find(s=>s.key===dest)?.label||dest)+'.');
       target=await loadItem(dest,'products',byDisp.rows[0].id);
      }else throw Error('ID del producto de destino no válido para '+(PRODUCT_STORES.find(s=>s.key===dest)?.label||dest)+'.');
+     related=await combinations(dest,target);
     }else{
      if(!/^[1-9]\d{0,14}$/.test(explicit))throw Error('ID del producto de destino no válido para '+dest+'.');
      target=await loadItem(dest,'products',explicit);
+     related=await combinations(dest,target);
     }
     readTargets.set(dest,target);
-    related=await combinations(dest,target);
    }
    if(!explicit&&dest!==store&&centralData){
     const linkedUuid=findLinkedTargetId(store,record.id,dest);
     if(linkedUuid&&uuidRe.test(linkedUuid)){
-     try{target=await loadItem(dest,'products',linkedUuid);readTargets.set(dest,target);related=await combinations(dest,target);}catch{}
+     try{
+      const centralTarget=await loadItem(dest,'products',linkedUuid);
+      if(!localDest&&/^[1-9]\d{0,14}$/.test(String(centralTarget.__sourceProductId||''))){
+       target=await readRemoteWebProduct(dest,centralTarget.__sourceProductId);
+       related=await readRemoteWebCombinations(dest,target);
+      }else{
+       target=centralTarget;
+       related=await combinations(dest,centralTarget);
+      }
+      readTargets.set(dest,target);
+     }catch{}
     }
    }
    if(!explicit&&!target&&dest!==store&&validReference(sourceRef)){
-    const found=await invokeShop(dest,'prestashop_read',{resource:'products',page:0,page_size:100,sort:'oldest',references:[sourceRef]});
+    const found=await (centralData&&!localDest?invokeWebBridge:invokeShop)(dest,'prestashop_read',{resource:'products',page:0,page_size:100,sort:'oldest',references:[sourceRef]});
     if(found.possibly_more)throw Error('Hay más coincidencias en '+dest+'. No se selecciona destino automáticamente.');
     const match=matchExactReference(found.rows,sourceRef);
     if(match.status==='ambiguous')throw Error('Referencia duplicada en '+dest+'. Revisión manual necesaria.');
     if(match.status==='matched'){
-     target=await loadItem(dest,'products',match.product.id);
+     if(centralData&&!localDest){
+      target=await readRemoteWebProduct(dest,match.product.id);
+      related=await readRemoteWebCombinations(dest,target);
+     }else{
+      target=await loadItem(dest,'products',match.product.id);
+      related=await combinations(dest,target);
+     }
      readTargets.set(dest,target);
-     related=await combinations(dest,target);
     }
    }
+   let sourceForPlan=record;
+   let variantsForPlan=variants;
+   if(centralData&&!localDest&&storeWebsiteKey(store)&&/^[1-9]\d{0,14}$/.test(String(record.__sourceProductId||''))&&variants.some(v=>(variantFields.get(keyFor(v))?.size||0)>0)){
+    try{
+     const remoteSrc=await readRemoteWebProduct(store,record.__sourceProductId);
+     const remoteSrcVars=await readRemoteWebCombinations(store,remoteSrc);
+     sourceForPlan={...record,...remoteSrc,id:record.id};
+     variantsForPlan=variants.map(v=>{
+      const rv=remoteSrcVars.find(r=>String(r.id)===String(v.__sourceVariantId));
+      return rv?{...v,associations:rv.associations,__attributes:rv.__attributes?.length?rv.__attributes:v.__attributes}:v;
+     });
+    }catch{}
+   }
    const matchedVariantIds=new Set();
-   const selected=variants.filter(v=>(variantFields.get(keyFor(v))?.size||0)>0).map(v=>{
+   const selected=variantsForPlan.filter(v=>(variantFields.get(keyFor(v))?.size||0)>0).map(v=>{
     const match=matchVariantInStore(v,related);if(match.status==='ambiguous')throw Error('Referencia o atributos de combinación ambiguos en '+dest+'.');if(match.variant){if(matchedVariantIds.has(String(match.variant.id)))throw Error('Dos combinaciones de origen coinciden con la misma combinación de destino. Revisa la selección.');matchedVariantIds.add(String(match.variant.id));}
     return {source:v,target:match.variant,fields:[...(variantFields.get(keyFor(v))||[])],overrides:variantOverrides.get(keyFor(v))||{}};
    });
-   plans.push(buildProductPlan({source:record,target,store:dest,stores:PRODUCT_STORES,fields:redirect.fields,overrides:redirect.overrides,variants:selected}));
+   plans.push(buildProductPlan({source:sourceForPlan,target,store:dest,stores:PRODUCT_STORES,fields:redirect.fields,overrides:redirect.overrides,variants:selected}));
   }
   for(const [shop,item] of readTargets)shopRecords.set(shop,item);
   targetRaw=readTargets;comparison=new Map(plans.map(p=>[p.store,p]));preview=plans;mode='comparar';status='Propuesta preparada para '+plans.length+' tienda(s). Ningún dato se ha modificado.'+(copyNotices.length?' '+copyNotices.join(' '):'');
@@ -1018,6 +1157,9 @@ export function createProductosUI({rpc,invoke,actor,allowed,canEdit=()=>false,ca
    if(e.target.matches('[data-pr-copy-dest]')){
     const nextDest=e.target.value;if(nextDest){copyTargetStore=nextDest;targets=new Set([nextDest]);destSearchQuery='';invalidate();ensureDestContext(nextDest);render();}
     return;
+   }
+   if(e.target.matches('[data-pr-dest-category]')){
+    const dest=e.target.dataset.prDestCategory;destCategoryByStore.set(dest,e.target.value);createWizard.setPreferredCategory(dest,e.target.value);persistDraft();return;
    }
    if(e.target.matches('[data-pr-copy-local-stock]')){localCopyStock=e.target.checked;render();return;}
    if(e.target.matches('[data-pr-page-number]')){listPage=Math.max(0,Math.min(Number(e.target.value)-1,Math.ceil(visibleCatalog().length/listSize)-1));void work(loadCatalogStock);return;}
@@ -1242,7 +1384,7 @@ if(['Enter',' '].includes(e.key)&&e.target.matches('[data-pr-action="photo-zoom"
    if(a==='copy-open'){void work(async()=>{const dest=resolveCopyTarget(),createdId=localCopyResults.get(dest)||createWizard.result(dest)?.record_id||targetRaw.get(dest)?.id;if(!createdId)throw Error('No hay una copia recién publicada para abrir.');await openProduct(createdId,dest);});return;}
    if(a==='copy-upload'){void work(async()=>{
     if(!fields.size&&!variants.some(v=>variantFields.get(keyFor(v))?.size))throw Error('Selecciona los datos que quieres copiar o pulsa Seleccionar Todo.');
-    const dest=resolveCopyTarget(),destLabel=PRODUCT_STORES.find(s=>s.key===dest)?.label||dest,source={...record,__sourceStore:store,__copyCatalog:organization?.store===store?organization.catalog:null};
+    const dest=resolveCopyTarget(),destLabel=PRODUCT_STORES.find(s=>s.key===dest)?.label||dest;
     targets=new Set([dest]);if(!comparison.has(dest))await prepare();const plan=comparison.get(dest);mode='comparar';
     if(isLocalCopyTarget(dest)){
      if(plan.operation==='update'){
@@ -1276,30 +1418,40 @@ if(['Enter',' '].includes(e.key)&&e.target.matches('[data-pr-action="photo-zoom"
      if(prevRes?.status!=='prepared'||typeof prevRes.revision!=='string')throw Error('No se pudo preparar la copia en '+destLabel+'.');
      const commitRes=await rpc('totus_central_product_copy',{p_action:'commit',p_source_store:store,p_source_product:record.id,p_target_store:dest,p_request:reqId,p_data:payload,p_revision:prevRes.revision});
      if(commitRes?.status!=='completed'||!commitRes.productId)throw Error('El servidor no confirmó la creación en '+destLabel+'.');
-     centralData.invalidate(dest);catalogCache.delete(dest);destCatalogByStore.delete(dest);
+     if(dest!==store)await rpc('totus_store_product_link_save',{p_source_store:store,p_source_product:record.id,p_target_store:dest,p_target_product:commitRes.productId,p_unify_reference:false}).catch(()=>null);
+     centralData.invalidate(dest);catalogCache.delete(dest);destCatalogByStore.delete(dest);destLinksByStore.delete(store);
      const savedLocal=await loadItem(dest,'products',commitRes.productId);
      savedLocal.__copyCompleted=true;targetRaw.set(dest,savedLocal);localCopyResults.set(dest,savedLocal.id);
      if(catalogScope==='both'||catalogScope===dest){const row={...savedLocal,__store:dest},idx=rows.findIndex(p=>catalogKey(p)===catalogKey(row));if(idx<0)rows.unshift(row);else rows[idx]=row;}
      status='Copia #'+productDisplayId(savedLocal)+' creada, activada y verificada en '+destLabel+'.';
      return;
     }
-    if(plan.operation!=='create'){
-     if(centralData&&/^[0-9a-f]{8}-/i.test(String(plan.target_id))){
-      if(!preflight.get(dest)?.can_commit){if(plan.changes.some(change=>change.changed))await previewXml(dest);else preflight.set(dest,{can_commit:true,changes:[],noFields:true});}
-      if(preflight.get(dest)?.changes?.length){editConfirm.set(dest,'GUARDAR');await commitEdit(dest);}
-      for(const variant of plan.variants.filter(row=>row.target_id&&row.changes.some(change=>change.changed))){await previewVariant(dest,variant.target_id);editConfirm.set(dest+'|'+variant.target_id,'GUARDAR');await commitVariant(dest,variant.target_id);}
-      const refreshed=await loadItem(dest,'products',plan.target_id);refreshed.__copyCompleted=true;targetRaw.set(dest,refreshed);destCatalogByStore.delete(dest);
-      wakeProductSync();status='Producto #'+productDisplayId(refreshed)+' actualizado en '+destLabel+' y encolado para sincronización web.';return;
+    const source=await resolveWebCopySource(dest);
+    const finalizeWebCopy=async(remoteId,label)=>{
+     const remoteCheck=centralData?await readRemoteWebProduct(dest,remoteId):await loadItem(dest,'products',remoteId);
+     if(String(remoteCheck.active)!=='1')throw Error('La tienda no ha confirmado que la copia esté activa.');
+     if(centralData){
+      const synced=await syncRemoteProductToCentral(dest,remoteId,{sourceStore:store,sourceProductUuid:record?.id||null});
+      if(synced.centralUuid)localCopyResults.set(dest,synced.centralUuid);
+      if(synced.centralUuid&&(catalogScope==='both'||catalogScope===dest)){
+       try{const freshCentral=await loadItem(dest,'products',synced.centralUuid);const row={...freshCentral,__store:dest},idx=rows.findIndex(p=>catalogKey(p)===catalogKey(row));if(idx<0)rows.unshift(row);else rows[idx]=row;}catch{}
+      }
      }
+     remoteCheck.__copyCompleted=true;targetRaw.set(dest,remoteCheck);
+     status=label;
+    };
+    if(plan.operation!=='create'){
      if(!preflight.get(dest)?.can_commit){await createWizard.openExisting(dest,targetRaw.get(dest));await createWizard.perform('create-copy-config',dest,plan,source);if(plan.changes.some(change=>change.changed))await previewXml(dest);else preflight.set(dest,{can_commit:true,changes:[],noFields:true});status='Aplicando la copia revisada y sus asociaciones.';}
      if(preflight.get(dest).changes?.length){editConfirm.set(dest,'GUARDAR');await commitEdit(dest);}
      for(const variant of plan.variants.filter(row=>row.target_id&&row.changes.some(change=>change.changed))){await previewVariant(dest,variant.target_id);editConfirm.set(dest+'|'+variant.target_id,'GUARDAR');await commitVariant(dest,variant.target_id);}
-     createWizard.setCopyPublication(dest,true);status=await createWizard.perform('create-stage-copy-all',dest,plan,source);targetRaw.set(dest,await loadItem(dest,'products',plan.target_id));if(String(targetRaw.get(dest).active)!=='1')throw Error('La tienda no ha confirmado que la copia esté activa.');targetRaw.get(dest).__copyCompleted=true;status='Producto #'+plan.target_id+' actualizado, publicado y verificado en '+destLabel+'.';return;
+     createWizard.setCopyPublication(dest,true);status=await createWizard.perform('create-stage-copy-all',dest,plan,source);
+     await finalizeWebCopy(plan.target_id,'Producto #'+plan.target_id+' actualizado, publicado y verificado en '+destLabel+'.');return;
     }
-    if(createWizard.result(dest)){createWizard.setCopyPublication(dest,true);status=await createWizard.perform('create-stage-copy-all',dest,plan,source);const result=createWizard.result(dest);targetRaw.set(dest,await loadItem(dest,'products',result.record_id));if(String(targetRaw.get(dest).active)!=='1')throw Error('Publicación sin confirmar.');targetRaw.get(dest).__copyCompleted=true;return;}
-    if(createWizard.hasAttempted(dest)){status=await createWizard.perform('create-verify',dest,plan,source);const result=createWizard.result(dest);if(result?.record_id){createWizard.setCopyPublication(dest,true);status=await createWizard.perform('create-stage-copy-all',dest,plan,source);targetRaw.set(dest,await loadItem(dest,'products',result.record_id));if(String(targetRaw.get(dest).active)!=='1')throw Error('La tienda no ha confirmado que la copia esté activa.');targetRaw.get(dest).__copyCompleted=true;status='Copia #'+result.record_id+' recuperada, completada y publicada en '+destLabel+'.';}return;}
+    if(createWizard.result(dest)){createWizard.setCopyPublication(dest,true);status=await createWizard.perform('create-stage-copy-all',dest,plan,source);const result=createWizard.result(dest);await finalizeWebCopy(result.record_id,'Copia #'+result.record_id+' completada, publicada y verificada en '+destLabel+'.');return;}
+    if(createWizard.hasAttempted(dest)){status=await createWizard.perform('create-verify',dest,plan,source);const result=createWizard.result(dest);if(result?.record_id){createWizard.setCopyPublication(dest,true);status=await createWizard.perform('create-stage-copy-all',dest,plan,source);await finalizeWebCopy(result.record_id,'Copia #'+result.record_id+' recuperada, completada y publicada en '+destLabel+'.');}return;}
     if(!createWizard.canCommit(dest)){if(!createWizard.hasProfile(dest))status=await createWizard.perform('create-copy-config',dest,plan,source);status=await createWizard.perform('create-prepare',dest,plan,source);status='Prevalidación correcta. Publicando en '+destLabel+'.';}
-    createWizard.setCopyPublication(dest,true);status=await createWizard.perform('create-accept',dest,plan,source);status=await createWizard.perform('create-stage-copy-all',dest,plan,source);const saved=createWizard.result(dest);targetRaw.set(dest,await loadItem(dest,'products',saved.record_id));if(String(targetRaw.get(dest).active)!=='1')throw Error('La tienda no ha confirmado que la copia esté activa.');targetRaw.get(dest).__copyCompleted=true;status='Copia #'+saved.record_id+' completada, publicada y verificada en '+destLabel+'.';
+    createWizard.setCopyPublication(dest,true);status=await createWizard.perform('create-accept',dest,plan,source);status=await createWizard.perform('create-stage-copy-all',dest,plan,source);const saved=createWizard.result(dest);
+    await finalizeWebCopy(saved.record_id,'Copia #'+saved.record_id+' completada, publicada y verificada en '+destLabel+'.');
    });return;}
    if(a==='copy-variations'){parallelSection='variaciones';render();return;}
    if(a==='fields-all'||a==='fields-none'){const dest=resolveCopyTarget();for(const shop of new Set([...targets,dest].filter(Boolean)))if(shop!==store)createWizard.selectCopyImages(shop,a==='fields-all');fields=new Set(a==='fields-all'?Object.values(PRODUCT_SECTIONS).flat().filter(f=>record&&record[f]!==undefined&&record[f]!==null):[]);if(a==='fields-all')for(const variant of variants)variantFields.set(keyFor(variant),new Set(VARIANT_FIELDS.filter(f=>variant[f]!==undefined&&variant[f]!==null)));if(a==='fields-none'){overrides={};targetOverrides.clear();variantFields.clear();}invalidate();render();return;}

@@ -1,4 +1,4 @@
-import {associationIds,textValue} from './productos-core.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
+import {associationIds,textValue} from './productos-core.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
 const fold=v=>textValue(v).normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().replace(/\s+/g,' ').toLocaleLowerCase('es');
 const id=v=>String(v??'');
 export function mapCopyRelations(product,source,destination){
@@ -20,6 +20,7 @@ export function mapCopyRelations(product,source,destination){
   if(mapped){categoryMap[sourceId]=mapped;relations.category_ids.push(mapped);if(id(product.id_category_default)===sourceId)categoryId=mapped;}
  }
  if(!categoryId&&product.id_category_default)categoryId=match('categories',product.id_category_default,'Categoría principal')||'';
+ if(!categoryId&&relations.category_ids.length)categoryId=relations.category_ids.at(-1);
  if(categoryId&&!relations.category_ids.includes(categoryId))relations.category_ids.push(categoryId);
  for(const sourceId of associationIds(product,'tags')){const mapped=match('tags',sourceId,'Etiqueta');if(mapped)relations.tag_ids.push(mapped);}
  for(const pair of product.associations?.product_features||[]){

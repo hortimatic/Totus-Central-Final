@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
+import {websiteKey} from './website-registry.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 const id=/^[1-9]\d{0,14}$/;
 const unsigned=/^\d{1,15}$/;
@@ -58,13 +58,13 @@ export function validateProductStage(input){
   if(['minimal_quantity','from_quantity'].includes(field)&&!id.test(value))fail('La cantidad mínima debe ser mayor que cero.');
   if(['price','weight','unit_price_impact'].includes(field)&&!(input.kind==='special_price'&&field==='price'&&value==='-1')&&!(input.kind==='variation'?signed:decimal).test(value))fail('Importe o impacto incorrecto para '+field+'.');
   if(['wholesale_price','product_supplier_price_te','reduction','ecotax'].includes(field)&&!decimal.test(value))fail('Importe incorrecto para '+field+'.');
-  if(field==='reference'&&!/^[a-z0-9][a-z0-9._-]{2,63}$/i.test(value))fail('Referencia de variación no válida.');
+  if(field==='reference'&&(!value.trim()||value!==value.trim()||value.length>64||/[\x00-\x1f<>;=#{}[\]|%\\]/.test(value)))fail('Referencia de variación no válida.');
   if(field==='ean13'&&!/^\d{0,13}$/.test(value))fail('EAN incorrecto.');
   if(field==='upc'&&!/^\d{0,12}$/.test(value))fail('UPC incorrecto.');
   if(field==='visibility'&&!['both','catalog','search','none'].includes(value))fail('Visibilidad incorrecta.');
   if(field==='reduction_type'&&!['amount','percentage'].includes(value))fail('Tipo de descuento incorrecto.');
   if(['from','to'].includes(field)&&value!=='0000-00-00 00:00:00'&&(!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(value)||Number.isNaN(Date.parse(value.replace(' ','T')+'Z'))))fail('Periodo de precio especial incorrecto.');
-  if(field==='available_date'&&value!==''&&(!/^\d{4}-\d{2}-\d{2}$/.test(value)||Number.isNaN(Date.parse(value+'T00:00:00Z'))))fail('Fecha de disponibilidad incorrecta.');
+  if(field==='available_date'&&!['','0000-00-00'].includes(value)&&(!/^\d{4}-\d{2}-\d{2}$/.test(value)||Number.isNaN(Date.parse(value+'T00:00:00Z'))))fail('Fecha de disponibilidad incorrecta.');
   out.fields[field]=value;
  }
  if(input.kind==='special_price'&&input.fields.reduction_type==='percentage'&&Number(input.fields.reduction)>1)fail('El descuento porcentual se expresa entre 0 y 1.');

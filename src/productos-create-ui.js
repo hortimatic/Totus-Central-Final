@@ -1,10 +1,10 @@
-import {esc} from './utils.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {textValue,productInputValue,matchExactReference,associationIds} from './productos-core.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {PRODUCT_CREATE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {fieldHelp} from './components.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {createProductStagesUI} from './productos-stages-ui.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {mapCopyRelations} from './productos-copy-map.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
-import {adaptStoreText,adaptStoreHTML} from './productos-copy-text.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
+import {esc} from './utils.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {textValue,productInputValue,matchExactReference,associationIds} from './productos-core.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {PRODUCT_CREATE_FIELDS,LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {fieldHelp} from './components.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {createProductStagesUI} from './productos-stages-ui.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {mapCopyRelations} from './productos-copy-map.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {adaptStoreText,adaptStoreHTML} from './productos-copy-text.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
 
 // A small opt-in creation flow. It neither copies shop IDs nor changes existing
 // products. Each destination is validated and committed separately.
@@ -15,6 +15,10 @@ export function createProductWizard({invoke,canEdit=()=>false,onProgress=()=>{}}
  const h=v=>esc(String(v??''));
  const slug=v=>String(v??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
   .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,128);
+ const cleanNameText=v=>String(v??'').replace(/[\x00-\x1f<>;=#{}]/g,' ').replace(/\s+/g,' ').trim().slice(0,128);
+ const safeSlug=(v,fallback)=>slug(v)||slug(fallback)||'producto';
+ const cleanRefText=(v,source)=>{const s=String(v??'').trim().replace(/[\x00-\x1f<>;=#{}[\]|%\\]/g,'-').slice(0,64);return s||('PROD-'+String(source?.__sourceProductId||source?.display_number||Date.now()).slice(-12));};
+ const noTargetRedirects=new Set(['','default','404','404-not-found','410','410-gone','200-displayed','301-moved','302-moved']);
  const field=(plan,key,defaultValue='')=>{
   const change=plan.changes.find(c=>c.field===key);
   return change?textValue(change.after):defaultValue;
@@ -22,11 +26,13 @@ export function createProductWizard({invoke,canEdit=()=>false,onProgress=()=>{}}
  const draft=(shop,plan,source)=>{
   let saved=config.get(shop);
   if(saved)return saved;
-  const name=field(plan,'name',textValue(source?.name));
-  saved={category_id:source.__sourceStore===shop?String(source.id_category_default||''):'',reference:field(plan,'reference',textValue(source?.reference)),price:field(plan,'price',textValue(source?.price))||'0.00',
-   translations:{}};
+  const name=cleanNameText(field(plan,'name',textValue(source?.name)))||'Producto';
+  const preferredCat=source?.__preferredDestCategory&&/^[1-9]\d{0,14}$/.test(String(source.__preferredDestCategory))?String(source.__preferredDestCategory):'';
+  saved={category_id:source.__sourceStore===shop?String(source.id_category_default||''):preferredCat,reference:cleanRefText(field(plan,'reference',textValue(source?.reference)),source),price:productInputValue('price',field(plan,'price',textValue(source?.price))||'0.00')||'0.00',
+   ...(preferredCat?{relations:{category_ids:[preferredCat]}}:{})
+   ,translations:{}};
   for(const lang of profiles.get(shop)?.language_ids||[]){
-   saved.translations[lang]={name,link_rewrite:field(plan,'link_rewrite',slug(name))||slug(name)};
+   saved.translations[lang]={name,link_rewrite:safeSlug(field(plan,'link_rewrite',''),name)};
    for(const key of LOCALIZED_PRODUCT_FIELDS.filter(f=>!['name','link_rewrite'].includes(f)))if(plan.changes.some(c=>c.field===key))saved.translations[lang][key]=field(plan,key);
   }
   config.set(shop,saved);return saved;
@@ -96,15 +102,27 @@ export function createProductWizard({invoke,canEdit=()=>false,onProgress=()=>{}}
  const payload=(shop,plan,source)=>{
   const profile=profiles.get(shop);if(!profile)throw Error('Consulta primero los idiomas de '+shop+'.');
   const entry=draft(shop,plan,source);
+  if(!entry.category_id&&source?.__preferredDestCategory&&/^[1-9]\d{0,14}$/.test(String(source.__preferredDestCategory)))entry.category_id=String(source.__preferredDestCategory);
   if(!/^[1-9]\d{0,14}$/.test(entry.category_id))throw Error('Selecciona un ID de categoría válido para '+shop+'.');
-  const translations=profile.language_ids.map(id=>({language_id:id,...entry.translations[id]}));
+  if(entry.relations?.category_ids&&!entry.relations.category_ids.includes(entry.category_id))entry.relations.category_ids=[...new Set([...entry.relations.category_ids,entry.category_id])];
+  const fallbackName=cleanNameText(field(plan,'name',textValue(source?.name)))||'Producto';
+  const translations=profile.language_ids.map(id=>{
+   const rawT=entry.translations[id]||{};
+   const tName=cleanNameText(rawT.name)||fallbackName;
+   const tSlug=safeSlug(rawT.link_rewrite,tName);
+   return {...rawT,language_id:id,name:tName,link_rewrite:tSlug};
+  });
   if(translations.some(t=>!t.name||!t.link_rewrite))throw Error('Completa el nombre y la URL de todos los idiomas de '+shop+'.');
   const supported=new Set(['active','name','reference','price','link_rewrite',...PRODUCT_CREATE_FIELDS,...LOCALIZED_PRODUCT_FIELDS]);
   const requested=plan.changes.filter(c=>c.changed);
   if(requested.some(c=>!supported.has(c.field)&&textValue(c.after)!==''))throw Error('El alta contiene campos sin contrato de creación. Deselecciónalos: '+requested.filter(c=>!supported.has(c.field)).map(c=>c.field).join(', '));
-  const fields=requested.filter(c=>PRODUCT_CREATE_FIELDS.includes(c.field)).map(c=>({field:c.field,value:productInputValue(c.field,textValue(c.after))}));
+  let fields=requested.filter(c=>PRODUCT_CREATE_FIELDS.includes(c.field)).map(c=>({field:c.field,value:productInputValue(c.field,textValue(c.after))}));
+  const redirField=fields.find(f=>f.field==='redirect_type'),redirTarget=fields.find(f=>f.field==='id_type_redirected');
+  if((redirField||redirTarget)&&noTargetRedirects.has(String(redirField?.value??''))&&(!redirTarget||redirTarget.value===''||redirTarget.value==='0')){
+   fields=fields.filter(f=>!['redirect_type','id_type_redirected'].includes(f.field));
+  }
   if(fields.some(f=>f.field==='redirect_type')!==fields.some(f=>f.field==='id_type_redirected'))throw Error('Selecciona juntos el tipo y el destino de redirección.');
-  return {reference:entry.reference,price:productInputValue('price',entry.price),category_id:entry.category_id,translations,...(fields.length?{fields}:{}),...(entry.relations?{relations:entry.relations}:{})};
+  return {reference:cleanRefText(entry.reference,source),price:productInputValue('price',entry.price)||'0.00',category_id:entry.category_id,translations,...(fields.length?{fields}:{}),...(entry.relations?{relations:entry.relations}:{})};
  };
  async function perform(action,shop,plan,source,detail={}){
   if(!shop||plan.store!==shop||plan.operation!=='create'&&!results.get(shop)?.existing_product&&String(results.get(shop)?.record_id)!==String(plan.target_id))throw Error('La operación no pertenece a esta tienda.');
@@ -118,31 +136,67 @@ export function createProductWizard({invoke,canEdit=()=>false,onProgress=()=>{}}
    await perform('create-load',shop,plan,source);
    await perform('create-load-relations',shop,plan,source);
    const readAll=async(destination,resource)=>{const all=[];for(let page=0;;page++){const response=await invoke(destination,'prestashop_read',{resource,page,page_size:100,sort:'oldest'});if(response.resource!==resource||!Array.isArray(response.rows))throw Error('Consulta incompleta: '+resource);all.push(...response.rows);if(!response.possibly_more)return all;if(!response.rows.length||page>=1000)throw Error('Consulta incompleta: '+resource);}};
-   const sourceCatalog=source.__copyCatalog||{};
-   for(const resource of ['categories',...Object.keys(resourceLabels)])if(!sourceCatalog[resource])sourceCatalog[resource]=await readAll(source.__sourceStore,resource);
-   const related=[];for(const sourceId of associationIds(source,'accessories')){let item=(sourceCatalog.related_products||[]).find(row=>String(row.id)===sourceId);if(!item){const response=await invoke(source.__sourceStore,'prestashop_item_read',{resource:'products',record_id:sourceId});item=response.item;}if(item){sourceCatalog.related_products??=[];if(!sourceCatalog.related_products.some(row=>String(row.id)===sourceId))sourceCatalog.related_products.push(item);const reference=textValue(item.reference);if(reference){const response=await invoke(shop,'prestashop_read',{resource:'products',references:[reference],page:0,page_size:100,sort:'oldest'});if(response.possibly_more)throw Error('Relacionados de destino incompletos.');related.push(...response.rows);}}}
+   const sourceIsLocal=source.__sourceIsLocal===true;
+   const sourceCatalog={...(source.__copyCatalog||{})};
+   if(!sourceIsLocal){
+    for(const resource of ['categories',...Object.keys(resourceLabels)])if(!sourceCatalog[resource])sourceCatalog[resource]=await readAll(source.__sourceStore,resource);
+   }else{
+    for(const resource of ['categories',...Object.keys(resourceLabels)])sourceCatalog[resource]??=[];
+   }
+   const related=[];
+   if(!sourceIsLocal){
+    for(const sourceId of associationIds(source,'accessories')){let item=(sourceCatalog.related_products||[]).find(row=>String(row.id)===sourceId);if(!item){const response=await invoke(source.__sourceStore,'prestashop_item_read',{resource:'products',record_id:sourceId});item=response.item;}if(item){sourceCatalog.related_products??=[];if(!sourceCatalog.related_products.some(row=>String(row.id)===sourceId))sourceCatalog.related_products.push(item);const reference=textValue(item.reference);if(reference){const response=await invoke(shop,'prestashop_read',{resource:'products',references:[reference],page:0,page_size:100,sort:'oldest'});if(response.possibly_more)throw Error('Relacionados de destino incompletos.');related.push(...response.rows);}}}
+   }
    relationCatalogs.get(shop).related_products=[...new Map(related.map(row=>[String(row.id),row])).values()];
    const destinationCatalog={...relationCatalogs.get(shop),categories:categories.get(shop)};
    const mapped=mapCopyRelations(source,sourceCatalog,destinationCatalog),entry=draft(shop,plan,source);
-   entry.relations=mapped.relations;entry.category_id=mapped.categoryId;
-   const sourceLanguages=await readAll(source.__sourceStore,'languages'),destinationLanguages=await readAll(shop,'languages');
+   const preferredCat=source.__preferredDestCategory&&/^[1-9]\d{0,14}$/.test(String(source.__preferredDestCategory))?String(source.__preferredDestCategory):'';
+   entry.relations=mapped.relations;entry.category_id=mapped.categoryId||preferredCat||'';
+   if(entry.category_id&&entry.relations&&!entry.relations.category_ids?.includes(entry.category_id))entry.relations.category_ids=[...new Set([...(entry.relations.category_ids||[]),entry.category_id])];
    const warnings=[...mapped.unresolved];
-   for(const languageId of profiles.get(shop).language_ids){
-    const language=destinationLanguages.find(row=>String(row.id)===languageId),matches=sourceLanguages.filter(row=>row.iso_code&&row.iso_code===language?.iso_code);
-    if(matches.length!==1){continue;}
-    for(const key of LOCALIZED_PRODUCT_FIELDS){
-     if(!plan.changes.some(change=>change.field===key))continue;
-     const raw=source[key],translation=Array.isArray(raw)?raw.find(row=>String(row.id)===String(matches[0].id))?.value:raw;
-     if(translation===undefined)continue;
-     entry.translations[languageId][key]=['description','description_short'].includes(key)?adaptStoreHTML(translation,source.__sourceStore,shop).value:adaptStoreText(translation,source.__sourceStore,shop,{slug:key==='link_rewrite'});
+   if(!sourceIsLocal){
+    const sourceLanguages=await readAll(source.__sourceStore,'languages'),destinationLanguages=await readAll(shop,'languages');
+    for(const languageId of profiles.get(shop).language_ids){
+     const language=destinationLanguages.find(row=>String(row.id)===languageId),matches=sourceLanguages.filter(row=>row.iso_code&&row.iso_code===language?.iso_code);
+     if(matches.length!==1){continue;}
+     for(const key of LOCALIZED_PRODUCT_FIELDS){
+      if(!plan.changes.some(change=>change.field===key))continue;
+      const raw=source[key],translation=Array.isArray(raw)?raw.find(row=>String(row.id)===String(matches[0].id))?.value:raw;
+      if(translation===undefined)continue;
+      const adaptedVal=['description','description_short'].includes(key)?adaptStoreHTML(translation,source.__sourceStore,shop).value:adaptStoreText(translation,source.__sourceStore,shop,{slug:key==='link_rewrite'});
+      if(key==='name'&&!cleanNameText(adaptedVal))continue;
+      if(key==='link_rewrite'){entry.translations[languageId][key]=safeSlug(adaptedVal,entry.translations[languageId].name);continue;}
+      entry.translations[languageId][key]=adaptedVal;
+     }
+    }
+   }else{
+    for(const languageId of profiles.get(shop).language_ids){
+     for(const key of LOCALIZED_PRODUCT_FIELDS){
+      if(!plan.changes.some(change=>change.field===key))continue;
+      const raw=source.__localized?.[key]??source[key],translation=Array.isArray(raw)?(raw.find(row=>String(row?.value||'').trim())?.value??''):raw;
+      if(translation===undefined)continue;
+      const adaptedVal=['description','description_short'].includes(key)?adaptStoreHTML(translation,source.__sourceStore,shop).value:adaptStoreText(translation,source.__sourceStore,shop,{slug:key==='link_rewrite'});
+      if(key==='name'&&!cleanNameText(adaptedVal))continue;
+      if(key==='link_rewrite'){entry.translations[languageId][key]=safeSlug(adaptedVal,entry.translations[languageId].name);continue;}
+      entry.translations[languageId][key]=adaptedVal;
+     }
     }
    }
    if(!copyPreferences.has(shop))copyPreferences.set(shop,{images:true,stock:false,publication:false});
    copyPreferences.get(shop).categoryMap=mapped.categoryMap;
    for(const translation of Object.values(entry.translations))for(const key of ['description','description_short'])if(translation[key])translation[key]=adaptStoreHTML(translation[key],source.__sourceStore,shop,{categoryMap:mapped.categoryMap}).value;
    const sourceRemoteId=String(source.__sourceProductId??source.id);
-   if(!plan.variants?.length&&copyPreferences.get(shop)?.stock){const response=await invoke(source.__sourceStore,'prestashop_read',{resource:'stock_availables',product_ids:[sourceRemoteId],page:0,page_size:100,sort:'oldest'});const stocks=(response.rows||[]).filter(row=>String(row.id_product)===sourceRemoteId&&String(row.id_product_attribute)==='0');if(response.possibly_more||stocks.length!==1)warnings.push('Existencias base: selecciona el registro de tienda antes de copiar cantidades');else copyPreferences.get(shop).baseStock=Object.fromEntries(['quantity','out_of_stock','depends_on_stock','location'].map(key=>[key,String(stocks[0][key]??(key==='location'?'':'0'))]));}
-   if(copyPreferences.get(shop)?.prices){
+   if(!plan.variants?.length&&copyPreferences.get(shop)?.stock){
+    if(sourceIsLocal&&source.__localBaseStock){
+     copyPreferences.get(shop).baseStock=source.__localBaseStock;
+    }else if(!sourceIsLocal){
+     const response=await invoke(source.__sourceStore,'prestashop_read',{resource:'stock_availables',product_ids:[sourceRemoteId],page:0,page_size:100,sort:'oldest'});
+     const stocks=(response.rows||[]).filter(row=>String(row.id_product)===sourceRemoteId&&String(row.id_product_attribute)==='0');
+     if(response.possibly_more||stocks.length!==1)warnings.push('Existencias base: selecciona el registro de tienda antes de copiar cantidades');
+     else copyPreferences.get(shop).baseStock=Object.fromEntries(['quantity','out_of_stock','depends_on_stock','location'].map(key=>[key,String(stocks[0][key]??(key==='location'?'':'0'))]));
+    }
+   }
+   if(!sourceIsLocal&&copyPreferences.get(shop)?.prices){
     const sourceCurrencies=await readAll(source.__sourceStore,'currencies'),destinationCurrencies=await readAll(shop,'currencies');
     const currency=sourceId=>{if(String(sourceId)==='0')return '0';const original=sourceCurrencies.find(row=>String(row.id)===String(sourceId)),matches=destinationCurrencies.filter(row=>row.iso_code&&row.iso_code===original?.iso_code);return matches.length===1?String(matches[0].id):null;};
     const readChildren=async resource=>{const all=[];for(let page=0;;page++){const response=await invoke(source.__sourceStore,'prestashop_read',{resource,product_ids:[sourceRemoteId],page,page_size:100,sort:'oldest'});if(!Array.isArray(response.rows)||response.rows.some(row=>String(row.id_product)!==sourceRemoteId))throw Error('Precios ajenos al producto de origen');all.push(...response.rows);if(!response.possibly_more)return all;if(!response.rows.length||page>=1000)throw Error('Precios incompletos');}};
@@ -249,5 +303,5 @@ export function createProductWizard({invoke,canEdit=()=>false,onProgress=()=>{}}
   profiles.set(shop,{language_ids:response.language_ids,product_workspace:response.product_workspace});
   results.set(shop,{record_id:remoteId,request_id:crypto.randomUUID(),existing_product:true});
  }
- return {invalidateCatalog:(shop,resource)=>{if(relationCatalogs.has(shop))delete relationCatalogs.get(shop)[resource];stages.invalidateCatalog(shop,resource);},forgetCompleted:shop=>{for(const map of [profiles,categories,relationCatalogs,config,previews,requestIds,results,confirmations,copySources,copyWarnings,copyPreferences])map.delete(shop);attempted.delete(shop);},configureOrganization:(shop,plan,source,org)=>{const entry=draft(shop,plan,source);entry.category_id=String(org.fields.id_category_default);entry.relations={manufacturer_id:String(org.fields.id_manufacturer||'0'),supplier_id:String(org.fields.id_supplier||'0'),tax_rules_group_id:String(org.fields.id_tax_rules_group||'0'),category_ids:[...org.categories],tag_ids:[...org.tags],related_product_ids:[...org.related],features:structuredClone(org.features)};},setCopyPublication:(shop,enabled)=>copyPreferences.set(shop,{images:true,stock:false,...copyPreferences.get(shop),publication:enabled,publishNow:enabled}),catalogs:stages.catalogs,publicationIncludesVariants:stages.publicationIncludesVariants,isPublication:stages.isPublication,hasProfile:shop=>profiles.has(shop),canCommit:shop=>previews.get(shop)?.can_commit===true,history:stages.history,renderInline:(plan,source)=>{const shop=plan.store,result=results.get(shop);return result?stages.render(shop,result,plan,source,profiles.get(shop),relationCatalogs.get(shop),{inline:true}):render(plan,source);},copyImagesSelected:shop=>copyPreferences.get(shop)?.images!==false,selectCopyImages:(shop,selected)=>{if(!attempted.has(shop))copyPreferences.set(shop,{images:true,stock:false,publication:false,...copyPreferences.get(shop),images:selected});},syncField,result:shop=>results.get(shop),removed:stages.removed,render,reset,invalidate,handleChange,perform,openExisting,setCatalogs:(shop,catalog)=>relationCatalogs.set(shop,catalog),handleFile:stages.handleFile,snapshot:()=>({maps:[profiles,categories,relationCatalogs,config,previews,requestIds,results,confirmations].map(m=>[...m]),copySources:[...copySources],copyPreferences:[...copyPreferences],copyWarnings:[...copyWarnings],attempted:[...attempted],stages:stages.snapshot()}),restore:data=>{reset();if(!data)return;[profiles,categories,relationCatalogs,config,previews,requestIds,results,confirmations].forEach((m,i)=>{for(const [k,v] of data.maps[i])m.set(k,v);});for(const [key,value]of data.copySources||[])copySources.set(key,value);for(const [key,value]of data.copyPreferences||[])copyPreferences.set(key,value);for(const [key,value]of data.copyWarnings||[])copyWarnings.set(key,value);for(const shop of data.attempted)attempted.add(shop);stages.restore(data.stages);},hasAttempted:shop=>attempted.has(shop)};
+ return {setPreferredCategory:(shop,catId)=>{const entry=config.get(shop);if(entry&&!attempted.has(shop)){entry.category_id=String(catId||'');if(entry.relations&&catId)entry.relations.category_ids=[...new Set([...(entry.relations.category_ids||[]),String(catId)])];previews.delete(shop);confirmations.delete(shop);}},invalidateCatalog:(shop,resource)=>{if(relationCatalogs.has(shop))delete relationCatalogs.get(shop)[resource];stages.invalidateCatalog(shop,resource);},forgetCompleted:shop=>{for(const map of [profiles,categories,relationCatalogs,config,previews,requestIds,results,confirmations,copySources,copyWarnings,copyPreferences])map.delete(shop);attempted.delete(shop);},configureOrganization:(shop,plan,source,org)=>{const entry=draft(shop,plan,source);entry.category_id=String(org.fields.id_category_default);entry.relations={manufacturer_id:String(org.fields.id_manufacturer||'0'),supplier_id:String(org.fields.id_supplier||'0'),tax_rules_group_id:String(org.fields.id_tax_rules_group||'0'),category_ids:[...org.categories],tag_ids:[...org.tags],related_product_ids:[...org.related],features:structuredClone(org.features)};},setCopyPublication:(shop,enabled)=>copyPreferences.set(shop,{images:true,stock:false,...copyPreferences.get(shop),publication:enabled,publishNow:enabled}),catalogs:stages.catalogs,publicationIncludesVariants:stages.publicationIncludesVariants,isPublication:stages.isPublication,hasProfile:shop=>profiles.has(shop),canCommit:shop=>previews.get(shop)?.can_commit===true,history:stages.history,renderInline:(plan,source)=>{const shop=plan.store,result=results.get(shop);return result?stages.render(shop,result,plan,source,profiles.get(shop),relationCatalogs.get(shop),{inline:true}):render(plan,source);},copyImagesSelected:shop=>copyPreferences.get(shop)?.images!==false,selectCopyImages:(shop,selected)=>{if(!attempted.has(shop))copyPreferences.set(shop,{images:true,stock:false,publication:false,...copyPreferences.get(shop),images:selected});},syncField,result:shop=>results.get(shop),removed:stages.removed,render,reset,invalidate,handleChange,perform,openExisting,setCatalogs:(shop,catalog)=>relationCatalogs.set(shop,catalog),handleFile:stages.handleFile,snapshot:()=>({maps:[profiles,categories,relationCatalogs,config,previews,requestIds,results,confirmations].map(m=>[...m]),copySources:[...copySources],copyPreferences:[...copyPreferences],copyWarnings:[...copyWarnings],attempted:[...attempted],stages:stages.snapshot()}),restore:data=>{reset();if(!data)return;[profiles,categories,relationCatalogs,config,previews,requestIds,results,confirmations].forEach((m,i)=>{for(const [k,v] of data.maps[i])m.set(k,v);});for(const [key,value]of data.copySources||[])copySources.set(key,value);for(const [key,value]of data.copyPreferences||[])copyPreferences.set(key,value);for(const [key,value]of data.copyWarnings||[])copyWarnings.set(key,value);for(const shop of data.attempted)attempted.add(shop);stages.restore(data.stages);},hasAttempted:shop=>attempted.has(shop)};
 }

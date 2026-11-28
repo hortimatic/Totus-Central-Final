@@ -1,4 +1,4 @@
-import {websiteKey} from './website-registry.js?v=e37179deb9b0412df84d62554e93f363a0eea9e9';
+import {websiteKey} from './website-registry.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
 // Productos / PrestaShop 1.7: restrictive write contract.
 // Never accept XML, URLs, arbitrary paths, numeric relationships or shop IDs from the client.
 // The source XML comes exclusively from a freshly validated server-side GET.
@@ -21,6 +21,8 @@ const decimal=new Set(['price','wholesale_price','weight','width','height','dept
 const flags=new Set(['active','available_for_order','show_price','online_only','on_sale','low_stock_alert','show_condition']);
 const allowedVisibility=new Set(['both','catalog','search','none']);
 const allowedCondition=new Set(['new','used','refurbished']);
+const noTargetRedirects=new Set(['','default','404','404-not-found','410','410-gone','200-displayed','301-moved','302-moved']);
+const targetRedirects=new Set(['301-product','302-product','301-category','302-category']);
 const uuid=/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i;
 const integer=/^[1-9]\d{0,14}$/;
 const hash=/^[a-f0-9]{64}$/;
@@ -34,7 +36,7 @@ function validateValue(field,value,resource){
   if(!(resource==='combinations'&&field==='price'?/^-?(?:0|[1-9]\d{0,10})(?:\.\d{1,6})?$/:/^(?:0|[1-9]\d{0,10})(?:\.\d{1,6})?$/).test(value))invalid('Importe o medida de '+field+' no válido.');
  }
  if(flags.has(field)&&!['0','1'].includes(value))invalid('Indicador de '+field+' no válido.');
- if(field==='redirect_type'&&!['404','301-product','302-product','301-category','302-category'].includes(value))invalid('Tipo de redirección no admitido por PrestaShop 1.7.8.');
+ if(field==='redirect_type'&&!noTargetRedirects.has(value)&&!targetRedirects.has(value))invalid('Tipo de redirección no admitido por PrestaShop 1.7.8.');
  if(field==='id_type_redirected'&&!/^(?:0|[1-9]\d{0,14})$/.test(value))invalid('Destino de redirección no válido.');
  if(field==='group_type'&&!['select','radio','color'].includes(value))invalid('Tipo de atributo no válido.');
  if(field==='color'&&value!==''&&!/^#[a-f0-9]{6}$/i.test(value))invalid('Color no válido.');
@@ -416,7 +418,7 @@ export function validateProductCreateRequest(input){
  if(Object.keys(input).some(key=>!accepted.has(key))||!['prestashop_product_create_prepare','prestashop_product_create_commit'].includes(input.action)||
  !websiteKey(input.store)||!uuid.test(String(input.id||''))||!uuid.test(String(input.call_id||''))||
  !Number.isSafeInteger(input.revision)||input.revision<1||!integer.test(String(input.category_id||'')))invalid('Solicitud de alta de producto no válida.');
- if(typeof input.reference!=='string'||!/^[a-z0-9][a-z0-9._-]{2,63}$/i.test(input.reference))invalid('Referencia no válida para evitar duplicados.');
+ if(typeof input.reference!=='string'||!input.reference.trim()||input.reference!==input.reference.trim()||input.reference.length>64||/[\x00-\x1f<>;=#{}[\]|%\\]/.test(input.reference))invalid('Referencia no válida para evitar duplicados.');
  validateValue('price',input.price,'products');
  if(!Array.isArray(input.translations)||input.translations.length<1||input.translations.length>12)invalid('Selecciona los idiomas de destino.');
  const seen=new Set();
@@ -590,6 +592,7 @@ export function inspectReconciledNewProduct(xml,expected,expectedId=null){
  }
  for(const entry of expected.fields||[]){
   const actual=fieldText(xml,product,entry.field);
+  if(entry.field==='redirect_type'&&noTargetRedirects.has(entry.value)&&noTargetRedirects.has(actual))continue;
   if(decimal.has(entry.field)?normalized(actual)!==normalized(entry.value):actual!==entry.value)invalid('El campo '+entry.field+' no coincide tras crear.');
  }
  for(const [key,field] of [['manufacturer_id','id_manufacturer'],['supplier_id','id_supplier'],['tax_rules_group_id','id_tax_rules_group']])if(expected.relations?.[key]&&fieldText(xml,product,field)!==expected.relations[key])invalid('La relación '+field+' no coincide tras crear.');
@@ -685,8 +688,8 @@ export function inspectProductAssociationIds(xml,productId,group){
 }
 
 export function productRedirectTarget(type,id,currentId=null){
- if(!['404','301-product','302-product','301-category','302-category'].includes(type)||!/^(?:0|[1-9]\d{0,14})$/.test(String(id)))invalid('Tipo o destino de redirección no válido.');
- if(type==='404')return null;
+ if((!noTargetRedirects.has(type)&&!targetRedirects.has(type))||!/^(?:0|[1-9]\d{0,14})$/.test(String(id??'0')))invalid('Tipo o destino de redirección no válido.');
+ if(noTargetRedirects.has(type))return null;
  if(String(id)==='0')invalid('Selecciona un destino real para la redirección.');
  const product=type.endsWith('-product');if(product&&String(id)===String(currentId))invalid('Un producto no puede redirigir a sí mismo.');
  return {resource:product?'products':'categories',node:product?'product':'category',id:String(id)};
