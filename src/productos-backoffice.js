@@ -1,4 +1,4 @@
-import {PRESTASHOP_STORES} from './prestashop-readonly.js?v=3f70339c9278f0c527dd700c9be532655e880838';
+import {PRESTASHOP_STORES} from './prestashop-readonly.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
 
 // Back-office CSRF navigation tokens are not Webservice keys. The native API
 // cannot generate them. Keep an explicitly supplied link in this tab's session,

@@ -1,29 +1,29 @@
-import {centralPromotionIntent} from './promotions.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {operatorAcknowledgement} from './operator-acknowledgement.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {cashSummaryPresentation} from './cash-visibility.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {originalRefundPayments} from './refund-payments.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {offlineBasketCommercial} from './offline-basket-commercial.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {cataloguePricingContext} from './catalogue-pricing-context.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {offlineBasketPrices} from './offline-basket-prices.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {createOfflineSourceStore} from './offline-source-store.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=3f70339c9278f0c527dd700c9be532655e880838';
+import {centralPromotionIntent} from './promotions.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {operatorAcknowledgement} from './operator-acknowledgement.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {cashSummaryPresentation} from './cash-visibility.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {originalRefundPayments} from './refund-payments.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {createOfflineWorkstationCache} from './offline-workstation-cache.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {offlineBasketCommercial} from './offline-basket-commercial.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {cataloguePricingContext} from './catalogue-pricing-context.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {prepareOfflineCatalogue} from './offline-catalogue-preparation.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {offlineCatalogueSearch} from './offline-catalogue-search.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {offlineBasketPrices} from './offline-basket-prices.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {createOfflineSourceStore} from './offline-source-store.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {createOfflineCatalogueCache} from './offline-catalogue-cache.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {commercialFromExpected,catalogueUnitMicros} from './offline-commercial.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
 /** Browser adapter: only normal authenticated Central calls. No shop URL,
  * credentials, native commands or privileged client can enter this module.
  * Request IDs survive response loss; financial commands are never auto-retried.
  */
-import {lineName} from './line-name.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {budgetDraft} from './budget-contract.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {saleNote} from './sale-note.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {taxSummary} from './tax-summary.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {parkingExpiry} from './parking-options.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {quotePaymentMethods} from './payment-options.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=3f70339c9278f0c527dd700c9be532655e880838';
+import {lineName} from './line-name.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {budgetDraft} from './budget-contract.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {saleNote} from './sale-note.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {taxSummary} from './tax-summary.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {parkingExpiry} from './parking-options.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {quotePaymentMethods} from './payment-options.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {paymentReference,documentPaymentReferences} from './payment-reference.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {catalogueSearchFields,DEFAULT_SEARCH_FIELDS} from './search-preferences.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {catalogueFilters as normalizeCatalogueFilters} from './catalogue-preferences.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
 const need=(ok,message)=>{if(!ok)throw new Error(message);};
 const clone=value=>structuredClone(value);
 const ordered=value=>Array.isArray(value)?value.map(ordered):value&&typeof value==='object'?
@@ -419,20 +419,24 @@ export function createCentralTpvAdapter({invoke,actorId,storage,uuid=()=>crypto.
    const references=source.originalPaymentReferences;
    const payment_intent=references&&typeof references==='object'&&!Array.isArray(references)?Object.entries(references).map(([method,external_reference])=>({method,external_reference})):null;
    return {saleId,reference:'Pedido #'+source.orderId,pendingRefund:source.pendingRefund,availablePayments:clone(source.remaining_payments),requireOriginalPayment:source.returnPolicy?.requireOriginalPayment===true,
+    voucherEnabled:source.returnPolicy?.voucherEnabled===true,voucherExpiryDays:source.returnPolicy?.voucherExpiryDays||30,
     originalPaymentReferences:documentPaymentReferences({kind:'receipt',payment_intent}),
     lines:source.items.map(line=>({productId:String(line.detail_id),name:line.name,remainingQty:line.remaining_quantity}))};},
   async prepareRefund({operationId,saleId,items,reason,refundMethod='original'}){const source=returnSources.get(saleId);need(source,'Vuelve a consultar la venta.');
+   const asVoucher=refundMethod==='voucher';
+   if(asVoucher)need(source.returnPolicy?.voucherEnabled===true,'Esta caja no tiene activada la emisión de vales de devolución.');
+   const effectiveMethod=asVoucher?'original':refundMethod;
    const chosen=items.map(item=>({detailId:Number(item.productId),qty:item.qty,restock:item.restock}));
    let total=0;for(const item of chosen){const row=source.items.find(row=>row.detail_id===item.detailId);
     need(row&&Number.isSafeInteger(item.qty)&&item.qty>0&&item.qty<=row.remaining_quantity,'Cantidad de devolución no válida.');
     total+=Number((BigInt(row.allocated_cents)*BigInt(row.returned_quantity+item.qty)*2n+BigInt(row.sold_quantity))/(2n*BigInt(row.sold_quantity)))-row.refunded_cents;}
-   need(refundMethod==='original'||['cash','card','bizum','transfer','cheque'].includes(refundMethod)&&source.remaining_payments[refundMethod]>=total,
+   need(effectiveMethod==='original'||['cash','card','bizum','transfer','cheque'].includes(effectiveMethod)&&source.remaining_payments[effectiveMethod]>=total,
     'El medio elegido no tiene saldo suficiente de la venta original para este reintegro. Selecciona el reparto original.');
-   need(source.returnPolicy?.requireOriginalPayment!==true||refundMethod==='original','Esta caja exige repartir el reintegro entre los medios originales. Vuelve a consultar la venta.');
-   let remaining=total;let payments=[];if(source.returnPolicy?.requireOriginalPayment===true){payments=originalRefundPayments(total,source.remaining_payments);remaining=0;}else for(const method of refundMethod==='original'?['cash','card','bizum','transfer','cheque']:[refundMethod]){const amount=Math.min(remaining,source.remaining_payments[method]||0);
+   need(source.returnPolicy?.requireOriginalPayment!==true||effectiveMethod==='original','Esta caja exige repartir el reintegro entre los medios originales. Vuelve a consultar la venta.');
+   let remaining=total;let payments=[];if(source.returnPolicy?.requireOriginalPayment===true){payments=originalRefundPayments(total,source.remaining_payments);remaining=0;}else for(const method of effectiveMethod==='original'?['cash','card','bizum','transfer','cheque']:[effectiveMethod]){const amount=Math.min(remaining,source.remaining_payments[method]||0);
     if(amount>0){payments.push({method,amountCents:amount});remaining-=amount;}}
    need(remaining===0,'No se puede distribuir este reintegro con los pagos originales.');
-   return {...await call('prepare-refund',{saleId,items:chosen,payments,...(reason?{reason}:{})},operationId),payments};},
+   return {...await call('prepare-refund',{saleId,items:chosen,payments,...(reason?{reason}:{})},operationId),payments,...(asVoucher?{refundAsVoucher:true,voucherExpiryDays:source.returnPolicy?.voucherExpiryDays||30}:{})};},
   async submitRefund({operationId,totalCents,refundConfirmed,approvalId}){need(refundConfirmed===true,'Confirma el reintegro al cliente.');
    try{return await call('submit-refund',{confirmation:{operationId,totalCents,currency:'EUR',accepted:true,...(approvalId?{approvalId}:{})}},operationId);}
    catch(error){if(['TPV_ACTION_APPROVAL_REQUIRED','TPV_APPROVAL_INVALID'].includes(error.code))throw error;return {id:operationId,status:'uncertain',totalCents,retryRefundForbidden:true};}},

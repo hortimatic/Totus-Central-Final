@@ -1,9 +1,9 @@
-import {ticketLogoData} from './ticket-branding.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {printTpvMarkup} from './documents.js?v=3f70339c9278f0c527dd700c9be532655e880838';
+import {ticketLogoData} from './ticket-branding.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {printTpvMarkup} from './documents.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money=value=>new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR'}).format(value/100);
 const date=value=>value?new Date(value).toLocaleString('es-ES'):'—';
-const label=method=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia'}[method]||method);
+const label=method=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque',voucher:'Vale de descuento'}[method]||method);
 export function cashReportHtml(report,{logoData=''}={}){
  if(!report||report.currency!=='EUR'||report.environment!=='qa'||!['open','closed'].includes(report.status)||
   report.cashSummaryHidden!==true&&!Number.isSafeInteger(report.expectedCashCents))throw Error('Informe de caja no válido.');

@@ -1,6 +1,6 @@
-import {lineAdjustment} from './line-options.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {lineName} from './line-name.js?v=3f70339c9278f0c527dd700c9be532655e880838';
-import {saleNote} from './sale-note.js?v=3f70339c9278f0c527dd700c9be532655e880838';
+import {lineAdjustment} from './line-options.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {lineName} from './line-name.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {saleNote} from './sale-note.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
 const need=ok=>{if(!ok)throw Error('TPV_BUDGET_INPUT_INVALID');};
 const positive=value=>Number.isSafeInteger(value)&&value>0&&value<=2147483647;
 function text(value,max,multiline=false){need(typeof value==='string');const s=value.replace(/\r\n?/g,'\n').trim();need(Array.from(s).length<=max&&!(multiline?/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\uD800-\uDFFF]/u:/[\u0000-\u001f\u007f\uD800-\uDFFF]/u).test(s));return s;}
