@@ -298,7 +298,14 @@ html[data-appearance] #app .totus-tpv.tpv-active .tpv-main-nav>.tab.active,:is(#
 .tpv-item-info-content dl>div{display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px;line-height:1.4}
 .tpv-item-info-content dt{font-size:12px;color:var(--muted,#687e91)}
 .tpv-item-info-content dd{margin:0;font-size:14px;overflow-wrap:anywhere}
-.tpv-item-info-dialog [data-tpv-product-financials]{padding:0 18px 18px}
+.tpv-item-info-dialog [data-tpv-product-financials]{padding:0 18px 18px;display:grid;gap:12px}
+.tpv-item-info-dialog [data-tpv-product-financials] h4{margin:4px 0 0;font-size:14px}
+.tpv-item-store-stocks ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.tpv-item-store-stocks li{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 10px;border:1px solid var(--line,#dce5ed);border-radius:var(--r,6px);background:var(--bg,#f4f7fa);font-size:13px}
+.tpv-item-store-stocks li.is-current{border-color:var(--accent,#1773c9);background:color-mix(in srgb,var(--accent,#1773c9) 8%,var(--panel,#fff))}
+.tpv-item-descriptions p{margin:6px 0 0;font-size:13px;line-height:1.5;color:var(--ink,#17212b);max-height:180px;overflow:auto}
+.tpv-item-descriptions details{margin-top:6px;font-size:13px}
+.tpv-item-descriptions summary{cursor:pointer;color:var(--accent,#1773c9);font-weight:600}
 .tpv-item-costs{display:grid;gap:8px;margin:12px 0}
 .tpv-item-costs>div{display:flex;gap:16px;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line,#dce5ed)}
 .tpv-item-costs dt{min-width:0;font-size:14px}

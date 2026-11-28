@@ -10,7 +10,7 @@ export function budgetDocumentHtml(document){
  if(!presentation||typeof presentation!=='object'||Array.isArray(presentation)||Object.keys(presentation).some(k=>k!=='hidePrices')||typeof presentation.hidePrices!=='boolean')throw Error('No se puede comprobar la presentación del presupuesto. Vuelve a consultarlo.');
  const hidePrices=presentation.hidePrices;
  if(!document?.reference||!s||s.currency!=='EUR'||!Array.isArray(s.lines)||!s.lines.length||!Number.isSafeInteger(s.totalCents)||!Number.isSafeInteger(s.totalTaxExclCents))throw Error('No se puede mostrar este presupuesto. Vuelve a consultarlo.');
- const unit=value=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:6}).format(value/1000000)+' €';
+ const unit=value=>{const nearestCents=Math.round(value/10000)*10000,clean=Math.abs(value-nearestCents)<=10?nearestCents:value;return new Intl.NumberFormat('es-ES',{minimumFractionDigits:2,maximumFractionDigits:6}).format(clean/1000000)+' €';};
  return `<article class="tpv-budget-document" aria-label="Documento del presupuesto"><header><p class="small">PRESUPUESTO</p><h3>${esc(document.title)}</h3><p><strong>${esc(document.reference)}</strong> · ${esc(budgetStatus(document.status))}${document.expired?' · Caducado':''}</p></header>
   <div class="tpv-budget-parties"><section aria-label="Establecimiento"><strong>${esc(document.storeName)}</strong><p>${party(s.merchant||{})}</p></section><section aria-label="Cliente"><strong>Cliente</strong><p>${s.customer?party(s.customer):'Cliente de mostrador'}</p></section></div>
   <p>Preparado: ${esc(date(document.createdAt))}<br>Válido hasta: ${esc(date(document.validUntil))}</p>
