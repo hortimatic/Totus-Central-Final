@@ -1,5 +1,5 @@
-import {barcodeTargetPage,barcodePlan} from '../barcode-options.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
-import {barcodeLabels} from '../barcode-labels.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {barcodeTargetPage,barcodePlan} from '../barcode-options.js?v=7773867cd26a78076832f506420b829c4224fb9f';
+import {barcodeLabels} from '../barcode-labels.js?v=7773867cd26a78076832f506420b829c4224fb9f';
 
 /** Capture the complete membership before asking for one generation approval.
  * Each request reads one bounded native page. The durable cursor, rather than

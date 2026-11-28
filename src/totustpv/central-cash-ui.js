@@ -1,9 +1,9 @@
-import {esc,csv,download} from '../utils.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
-import {printTpvMarkup} from './documents.js?v=2e9766c23a8517ea98025b755dd0c0dee5a82032';
+import {esc,csv,download} from '../utils.js?v=7773867cd26a78076832f506420b829c4224fb9f';
+import {printTpvMarkup} from './documents.js?v=7773867cd26a78076832f506420b829c4224fb9f';
 const money=(value,currency='EUR')=>new Intl.NumberFormat('es-ES',{style:'currency',currency}).format(value/100);
 const recordedMoney=(value,currency)=>Number.isSafeInteger(value)?money(value,currency):'Sin dato';
 const date=value=>value?new Date(value).toLocaleString('es-ES'):'—';
-const method=key=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque'}[key]||key);
+const method=key=>({cash:'Efectivo',card:'Tarjeta',bizum:'Bizum',transfer:'Transferencia',cheque:'Cheque',voucher:'Vale de descuento'}[key]||key);
 const paymentMethods=report=>{const keys=new Set([...Object.keys(report.payments||{}),...Object.keys(report.refunds||{})]);return [...['cash','card','bizum','transfer'].filter(key=>keys.has(key)),...[...keys].filter(key=>!['cash','card','bizum','transfer'].includes(key))];};
 const state=(value,refund=false)=>({confirmed:refund?'Devuelta':'Cobrado',ready:refund?'Preparada, sin devolver':'Preparado, sin cobrar',dispatched:'Pendiente de verificar',uncertain:'Revisar resultado',cancelled:'Anulado',open:'Abierta',closed:'Cerrada'}[value]||value);
 export function centralCashSummaryHtml(report){
