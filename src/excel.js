@@ -1,11 +1,11 @@
-import {expenseReportStyle,normalizeExpenseColor,EXPENSE_REPORT_COLORS,expenseReportOverride} from './expense-colors.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {informationalTaxPayments,taxPaymentLabel} from './payment-information.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {archiveAccepted} from './historical-acceptance.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {closingDrawerValue,closingMissingFields,incompleteClosing,closingStateLabel} from './cash-closing.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {fmtDate,n} from './utils.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {computeModel130Accumulated,estimatePriorModel130,deductibleExpenseTotal,expenseCostAmount,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from './calculations.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {GESTOR_SOURCE_COLUMNS,GESTOR_AMOUNT_COLUMNS,buildGestorSourceRows,gestorSourceTotals} from './gestor-format.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {matchesText} from './report-period.js?v=7773867cd26a78076832f506420b829c4224fb9f';
+import {expenseReportStyle,normalizeExpenseColor,EXPENSE_REPORT_COLORS,expenseReportOverride} from './expense-colors.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {informationalTaxPayments,taxPaymentLabel} from './payment-information.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {archiveAccepted} from './historical-acceptance.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {closingDrawerValue,closingMissingFields,incompleteClosing,closingStateLabel} from './cash-closing.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {fmtDate,n} from './utils.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {computeModel130Accumulated,estimatePriorModel130,deductibleExpenseTotal,expenseCostAmount,isExpensePaymentEvidence,closingIncomeAmount,closingSalesAmount} from './calculations.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {GESTOR_SOURCE_COLUMNS,GESTOR_AMOUNT_COLUMNS,buildGestorSourceRows,gestorSourceTotals} from './gestor-format.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {matchesText} from './report-period.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
 
 // The library is loaded by the calling action, not captured during module evaluation.
 const XLSX=new Proxy({}, {get(_target,key){if(!window.XLSX)throw new Error('El motor Excel todavía no está disponible.');return window.XLSX[key];}});

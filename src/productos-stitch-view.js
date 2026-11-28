@@ -1,14 +1,14 @@
-import {productDisplayId} from './record-identifiers.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {columnSettingsRow} from './column-settings.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {productGallery} from './productos-gallery.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {esc} from './utils.js?v=7773867cd26a78076832f506420b829c4224fb9f';
-import {fieldHelp} from './components.js?v=7773867cd26a78076832f506420b829c4224fb9f';
+import {productDisplayId} from './record-identifiers.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {columnSettingsRow} from './column-settings.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {productGallery} from './productos-gallery.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {esc} from './utils.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
+import {fieldHelp} from './components.js?v=697baec6aef76473a7cf38602ef8adfdee8fc5f1';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -279,16 +279,38 @@ export function stitchFiche({galleryDraft={},record,backendUrl='',store,central=
  return serialize(f);
 }
 
-export function stitchCopy({store,stores=WEBSITE_CHOICES,legacyHtml,record,targetRecord,copyImages=true,copyLocked=false,canUpload=false,copyCreated=false,copyPublished=false}){
+export function stitchCopy({store,targetKey='',isLocalTarget=false,localCopyStock=false,central=false,stores=WEBSITE_CHOICES,legacyHtml,record,targetRecord,destStatusHtml='',destMatcherHtml='',copyImages=true,copyLocked=false,canUpload=false,copyCreated=false,copyPublished=false}){
  const f=fragment(STITCH_VIEWS['tab-copiar']),view=f.firstElementChild,actual=fragment(legacyHtml);
  view.classList.remove('hidden');view.classList.add('flex','prd-copy-view');
- const storeDisplay=key=>stores.find(s=>s.key===key)?.name||WEBSITE_CHOICES.find(s=>s.key===key)?.label||websiteName(key);
- const source=storeDisplay(store),targetStore=stores.find(s=>s.key!==store)||WEBSITE_CHOICES.find(s=>s.key!==store),target=targetStore?storeDisplay(targetStore.key):'Destino';
+ const storeDisplay=key=>stores.find(s=>s.key===key)?.name||stores.find(s=>s.key===key)?.label||WEBSITE_CHOICES.find(s=>s.key===key)?.label||websiteName(key);
+ const resolvedTarget=targetKey&&stores.some(s=>s.key===targetKey)?targetKey:(stores.find(s=>s.key!==store)?.key||WEBSITE_CHOICES.find(s=>s.key!==store)?.key||store);
+ const source=storeDisplay(store),target=storeDisplay(resolvedTarget);
  const swap=f.querySelector('#btn-swap-stores');action(swap,'copy-reverse');swap.setAttribute('aria-label','Intercambiar tiendas de origen y destino');
  const buttons=[...view.querySelectorAll('button')];
  const all=buttons.find(b=>b.textContent.includes('Seleccionar Todo')),none=buttons.find(b=>b.textContent.includes('Deseleccionar'));
  if(all){action(all,'fields-all');all.parentElement.classList.add('prd-copy-primary-actions');}if(none)action(none,'fields-none');
- const imageChoice=document.createElement('label');imageChoice.className='prd-copy-image-choice';imageChoice.innerHTML='<input type="checkbox" data-pr-copy-option="images" data-pr-create-store="'+((stores.find(s=>s.key!==store)?.key||WEBSITE_CHOICES.find(s=>s.key!==store)?.key||''))+'" '+(copyImages?'checked':'')+' '+(copyLocked?'disabled':'')+'> Copiar imágenes ('+associationIds(record,'images').length+')'+fieldHelp('Copiar imágenes','Seleccionar todo incluye las fotos. La copia sube cada imagen a la tienda destino y comprueba su ID nativo; la foto de origen no se considera una imagen ya copiada.');all?.after(imageChoice);
+ if(swap&&stores.length){
+  const routeBar=document.createElement('div');routeBar.className='prd-copy-route-bar';
+  const srcLabel=document.createElement('label');srcLabel.className='prd-copy-store-select';srcLabel.innerHTML='<span>Origen</span><select data-pr-copy-source data-preserve-option-order aria-label="Tienda de origen" '+(copyLocked?'disabled':'')+'>'+stores.map(s=>'<option value="'+esc(s.key)+'" '+(s.key===store?'selected':'')+'>'+esc(s.name||s.label||s.key)+'</option>').join('')+'</select>';
+  const dstOptions=[...stores.filter(s=>s.key!==store),...(central?stores.filter(s=>s.key===store):[])];
+  const dstLabel=document.createElement('label');dstLabel.className='prd-copy-store-select';dstLabel.dataset.centralCopyForm='';dstLabel.innerHTML='<span>Destino</span><select data-pr-copy-dest data-preserve-option-order aria-label="Tienda de destino" '+(copyLocked?'disabled':'')+'>'+dstOptions.map(s=>'<option value="'+esc(s.key)+'" '+(s.key===resolvedTarget?'selected':'')+'>'+esc((s.name||s.label||s.key)+(s.key===store?' · duplicar en esta tienda':''))+'</option>').join('')+'</select>';
+  swap.before(routeBar);routeBar.append(srcLabel,swap,dstLabel);
+ }
+ if(all){
+  const presets=document.createElement('div');presets.className='prd-copy-presets';
+  for(const [preset,text,tip] of [
+   ['commercial','Ficha comercial','Selecciona nombre, referencia, EAN, descripciones, precios, SEO, imágenes y variaciones'],
+   ['content','Textos y SEO','Selecciona únicamente textos comerciales y metadatos SEO'],
+   ['prices','Solo precios','Selecciona precio de venta, coste, impuestos y oferta']
+  ]){
+   const pb=document.createElement('button');pb.type='button';pb.className='btn secondary prd-preset-btn';pb.dataset.prAction='fields-preset';pb.dataset.prPreset=preset;pb.title=tip;pb.textContent=text;pb.disabled=copyLocked;presets.append(pb);
+  }
+  all.after(presets);
+  const imageChoice=document.createElement('label');imageChoice.className='prd-copy-image-choice';imageChoice.innerHTML='<input type="checkbox" data-pr-copy-option="images" data-pr-create-store="'+esc(resolvedTarget)+'" '+(copyImages?'checked':'')+' '+(copyLocked?'disabled':'')+'> Copiar imágenes ('+associationIds(record,'images').length+')'+fieldHelp('Copiar imágenes',isLocalTarget?'Conserva las imágenes vinculadas del producto para mostrarlas en la tienda local y en el TPV.':'Seleccionar todo incluye las fotos. La copia sube cada imagen a la tienda destino y comprueba su ID nativo; la foto de origen no se considera una imagen ya copiada.');presets.after(imageChoice);
+  if(isLocalTarget){
+   const stockChoice=document.createElement('label');stockChoice.className='prd-copy-image-choice';stockChoice.innerHTML='<input type="checkbox" data-pr-copy-local-stock '+(localCopyStock?'checked':'')+' '+(copyLocked?'disabled':'')+'> Copiar existencias'+fieldHelp('Copiar existencias en tienda local','Crea unidades independientes en el destino sin descontar del origen. Déjalo desmarcado para iniciar con stock 0.');imageChoice.after(stockChoice);
+  }
+ }
  for(const b of buttons)if(/Copiar a Borrador|Revisar y Publicar/.test(b.textContent))action(b,'compare');
  const editors=[...actual.querySelectorAll('.prd-parallel-editors>fieldset')];
  f.querySelector('#panel-store-source')?.parentElement.classList.add('prd-copy-panels');
@@ -297,25 +319,28 @@ export function stitchCopy({store,stores=WEBSITE_CHOICES,legacyHtml,record,targe
  label(swap,'Intercambiar tiendas');
  for(const [i,id]of ['panel-store-source','panel-store-target'].entries()){
   const panel=f.querySelector('#'+id),editor=editors[i];
-  setText(panel.querySelector(i?'#target-store-title':'#source-store-title'),(i?'DESTINO: ':'ORIGEN: ')+(i?target:source));
+  setText(panel.querySelector(i?'#target-store-title':'#source-store-title'),(i?'DESTINO: ':'ORIGEN: ')+(i?target+(isLocalTarget?' (Tienda local)':''):source));
   const badge=panel.firstElementChild.lastElementChild,identity=panel.children[1],actualIdentity=editor?.querySelector('.prd-parallel-identity');
   panel.firstElementChild.classList.add('prd-copy-card-heading');
-  setText(badge,i?'Ficha de destino':'Ficha de origen');
-  if(actualIdentity){const picture=actualIdentity.querySelector('img'),slot=identity.firstElementChild,description=identity.lastElementChild;slot.replaceChildren();if(picture){picture.className='prd-product-photo w-full h-full object-contain';slot.append(picture);}else slot.textContent='Sin foto';description.replaceChildren();const name=document.createElement('strong');name.className='font-headline-sm text-headline-sm text-on-surface';name.textContent=i&&!targetRecord?(editor.querySelector('[data-pr-target-field="name"]')?.value||textValue(record?.name)||'Nueva ficha'):actualIdentity.querySelector('strong')?.textContent||'Nueva ficha';const note=document.createElement('span');note.className='font-body-sm text-body-sm text-on-surface-variant';note.textContent=i?'Revisa los datos de destino antes de guardar.':'Datos leídos del origen. Selecciona qué copiar.';description.append(name,note);}
+  setText(badge,i?(targetRecord?'Ficha existente en destino':isLocalTarget?'Copia en tienda local':'Ficha de destino'):'Ficha de origen');
+  if(actualIdentity){const picture=actualIdentity.querySelector('img'),slot=identity.firstElementChild,description=identity.lastElementChild;slot.replaceChildren();if(picture){picture.className='prd-product-photo w-full h-full object-contain';slot.append(picture);}else slot.textContent='Sin foto';description.replaceChildren();const name=document.createElement('strong');name.className='font-headline-sm text-headline-sm text-on-surface';name.textContent=i&&!targetRecord?(editor.querySelector('[data-pr-target-field="name"]')?.value||textValue(record?.name)||'Nueva ficha'):actualIdentity.querySelector('strong')?.textContent||'Nueva ficha';const note=document.createElement('span');note.className='font-body-sm text-body-sm text-on-surface-variant';note.textContent=i?(isLocalTarget?'Adapta nombre, referencia o precios antes de guardar en '+target+'.':'Revisa los datos de destino antes de guardar.'):'Datos leídos del origen. Marca las casillas o usa un ajuste rápido.';description.append(name,note);}
   identity.classList.add('prd-copy-identity');
   const previewImage=!!(i&&copyImages&&!associationIds(targetRecord,'images').length&&associationIds(record,'images').length);
-  const product=i?(previewImage?record:targetRecord):record,shop=i&&!previewImage?((stores.find(s=>s.key!==store)?.key||WEBSITE_CHOICES.find(s=>s.key!==store)?.key||'')):store;
+  const product=i?(previewImage?record:targetRecord):record,shop=i&&!previewImage?resolvedTarget:store;
   if(previewImage){setText(badge,'Vista previa · pendiente de copiar');const slot=identity.firstElementChild;slot.replaceChildren();const previewSrc=productPhoto(record,store);if(previewSrc){const image=document.createElement('img');image.className='prd-product-photo w-full h-full object-contain';image.src=previewSrc;image.alt=textValue(record.name)||'Vista previa de copia';slot.append(image);}else slot.textContent='Sin foto';const note=identity.lastElementChild.querySelector('span');note.classList.add('prd-copy-photo-pending');note.textContent='Vista previa: fotos pendientes de guardar en '+target+'.';}
 
   if(product){const gallery=document.createElement('div');gallery.className='prd-copy-gallery';for(const imageId of associationIds(product,'images')){if(!/^[1-9]\d{0,14}$/.test(String(imageId)))continue;const photoSrc=productPhoto({...product,id_default_image:imageId},shop);if(!photoSrc)continue;const image=document.createElement('img');image.className='prd-product-photo';image.src=photoSrc;image.alt=textValue(product.name)||'Producto';gallery.append(image);}if(gallery.children.length)identity.lastElementChild.append(gallery);const facts=document.createElement('small');facts.textContent=(previewImage?'Vista previa del origen · ':'ID '+productDisplayId(product)+' · ')+(product.reference||'Sin referencia')+' · '+associationIds(product,'images').length+' fotos · '+associationIds(product,'combinations').length+' combinaciones';identity.lastElementChild.append(facts);}
-  const fieldsPanel=panel.children[2],rowTemplate=fieldsPanel.children[1].cloneNode(true),heading=fieldsPanel.firstElementChild.cloneNode(true);setText(heading,i?'Datos de destino':'Datos de origen');fieldsPanel.replaceChildren(heading);
+  if(i&&destStatusHtml)identity.insertAdjacentHTML('afterend',destStatusHtml);
+  const fieldsPanel=panel.children[i&&destStatusHtml?3:2],rowTemplate=fieldsPanel.children[1].cloneNode(true),heading=fieldsPanel.firstElementChild.cloneNode(true);setText(heading,i?'Datos de destino':'Datos de origen');fieldsPanel.replaceChildren(heading);
   if(editor){
 
    const idLabel=editor.querySelector(':scope>label.prd-field');if(idLabel){idLabel.className='prd-copy-id-control';idLabel.querySelector('input').className=inputClass;fieldsPanel.append(idLabel);}
+   if(i&&destMatcherHtml)fieldsPanel.insertAdjacentHTML('beforeend',destMatcherHtml);
    for(const variantPanel of editor.querySelectorAll('.prd-copy-variant-options,.prd-copy-variant-destination'))fieldsPanel.append(variantPanel);
    for(const field of editor.querySelectorAll('.prd-fields-grid>.prd-field')){
     const row=rowTemplate.cloneNode(true),check=field.querySelector('input[type="checkbox"]'),control=field.querySelector('[data-pr-value],[data-pr-target-field]'),caption=field.querySelector(':scope>span:has(b)')||document.createElement('span'),title=field.querySelector('b')?.textContent||'';
     row.classList.add('prd-copy-field-row');
+    if(field.dataset.prSelected==='1')row.dataset.prSelected='1';
     const checkbox=row.querySelector('input[type="checkbox"]');if(checkbox){if(check){check.setAttribute('aria-label','Copiar '+title);checkbox.replaceWith(check);}else checkbox.remove();}
     const container=row.querySelector('.flex-col'),oldTitle=container?.firstElementChild;if(!container)continue;
     if(!caption.childNodes.length)caption.append(field.querySelector('b'));
@@ -324,7 +349,6 @@ export function stitchCopy({store,stores=WEBSITE_CHOICES,legacyHtml,record,targe
     container.classList.add('w-full','prd-copy-field-content');
     if(control){control.dataset.prCopyField=control.dataset.prValue||control.dataset.prTargetField;control.className=inputClass+' prd-copy-control';control.setAttribute('aria-label',(i?'Destino · ':'Origen · ')+title);container.append(control);}
     for(const language of field.querySelectorAll('.prd-lang-label,[data-pr-lang-store],small'))container.append(language);
-    // The prototype badge is an example, not proof of destination equality.
     if(i&&row.lastElementChild!==container)row.lastElementChild.remove();
     if(!row.querySelector('input[type=checkbox]')){const gutter=document.createElement('span');gutter.className='prd-copy-checkbox-space';gutter.setAttribute('aria-hidden','true');row.prepend(gutter);}
     fieldsPanel.append(row);
@@ -332,11 +356,14 @@ export function stitchCopy({store,stores=WEBSITE_CHOICES,legacyHtml,record,targe
   }
 
  }
- const stockNote=[...view.querySelectorAll('span')].find(n=>n.textContent.trim().startsWith('Regla de Stock:'));if(stockNote)setText(stockNote,'Existencias: la copia de campos no traslada stock físico entre tiendas. Revisa las cantidades propias en la etapa de existencias.');
- // Remove design-only database prefixes and sample direction badges, not controls.
+ const stockNote=[...view.querySelectorAll('span')].find(n=>n.textContent.trim().startsWith('Regla de Stock:'));if(stockNote)setText(stockNote,isLocalTarget?'Tienda local en Central: puedes elegir si iniciar con stock 0 o copiar las cantidades actuales como existencias propias del destino.':'Existencias: la copia de campos no traslada stock físico entre tiendas. Revisa las cantidades propias en la etapa de existencias.');
  for(const node of [...view.querySelectorAll('span,small,code')])if(!node.children.length&&/PS_PREFIX:|ps_nos_|ps_hort_|Hortimatic 1\.7\.8\.11|#10482/.test(node.textContent))node.remove();
- const nav=actual.querySelector('.prd-parallel-tabs');if(nav){const variations=document.createElement('button');variations.type='button';variations.dataset.prAction='copy-variations';variations.textContent='Variaciones ('+associationIds(record,'combinations').length+')';view.firstElementChild.after(nav);}
- // Copy has one explicit destination: the opposite store shown in its header.
+ const nav=actual.querySelector('.prd-parallel-tabs');
+ if(nav){
+  const existingVarBtn=nav.querySelector('[data-pr-section="variaciones"]');
+  if(!existingVarBtn){const variations=document.createElement('button');variations.type='button';variations.dataset.prAction='copy-variations';variations.textContent='Variaciones ('+associationIds(record,'combinations').length+')';nav.append(variations);}
+  view.firstElementChild.after(nav);
+ }
  if(!record?.id){const destinations=actual.querySelector('.prd-targets');if(destinations)view.firstElementChild.append(destinations);}
  const preview=actual.querySelector('.prd-preview');
  if(preview&&record?.id){
