@@ -1,14 +1,14 @@
-import {productDisplayId} from './record-identifiers.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {columnSettingsRow} from './column-settings.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {productGallery} from './productos-gallery.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {STITCH_VIEWS} from './productos-stitch-template.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {esc} from './utils.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {fieldHelp} from './components.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {productDisplayId} from './record-identifiers.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {WEBSITE_CHOICES,websiteName} from './website-registry.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {columnSettingsRow} from './column-settings.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {PRODUCT_TABLE_FIELDS} from './productos-table-editor.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {productGallery} from './productos-gallery.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {STITCH_VIEWS} from './productos-stitch-template.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {STITCH_V4_HEADER} from './productos-stitch-v4-template.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {PRODUCT_COLUMNS,productPhoto,productWebUrl,productColumnHeading,productColumnDefaultWidth} from './productos-catalog.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {PRODUCT_SECTIONS,VARIANT_FIELDS,textValue,associationIds} from './productos-core.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {esc} from './utils.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {fieldHelp} from './components.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
 
 // Original Stitch nodes are cloned, rather than approximated with a second layout.
 // Demo handlers are removed by the extractor. All actions belong to Productos UI.
@@ -330,8 +330,8 @@ export function stitchCopy({store,targetKey='',isLocalTarget=false,localCopyStoc
   if(previewImage){setText(badge,'Vista previa · pendiente de copiar');const slot=identity.firstElementChild;slot.replaceChildren();const previewSrc=productPhoto(record,store);if(previewSrc){const image=document.createElement('img');image.className='prd-product-photo w-full h-full object-contain';image.src=previewSrc;image.alt=textValue(record.name)||'Vista previa de copia';slot.append(image);}else slot.textContent='Sin foto';const note=identity.lastElementChild.querySelector('span');note.classList.add('prd-copy-photo-pending');note.textContent='Vista previa: fotos pendientes de guardar en '+target+'.';}
 
   if(product){const gallery=document.createElement('div');gallery.className='prd-copy-gallery';for(const imageId of associationIds(product,'images')){if(!/^[1-9]\d{0,14}$/.test(String(imageId)))continue;const photoSrc=productPhoto({...product,id_default_image:imageId},shop);if(!photoSrc)continue;const image=document.createElement('img');image.className='prd-product-photo';image.src=photoSrc;image.alt=textValue(product.name)||'Producto';gallery.append(image);}if(gallery.children.length)identity.lastElementChild.append(gallery);const facts=document.createElement('small');facts.textContent=(previewImage?'Vista previa del origen · ':'ID '+productDisplayId(product)+' · ')+(product.reference||'Sin referencia')+' · '+associationIds(product,'images').length+' fotos · '+associationIds(product,'combinations').length+' combinaciones';identity.lastElementChild.append(facts);}
+  const fieldsPanel=panel.lastElementChild,rowTemplate=fieldsPanel.children[1].cloneNode(true),heading=fieldsPanel.firstElementChild.cloneNode(true);setText(heading,i?'Datos de destino':'Datos de origen');fieldsPanel.replaceChildren(heading);
   if(i&&destStatusHtml)identity.insertAdjacentHTML('afterend',destStatusHtml);
-  const fieldsPanel=panel.children[i&&destStatusHtml?3:2],rowTemplate=fieldsPanel.children[1].cloneNode(true),heading=fieldsPanel.firstElementChild.cloneNode(true);setText(heading,i?'Datos de destino':'Datos de origen');fieldsPanel.replaceChildren(heading);
   if(editor){
 
    const idLabel=editor.querySelector(':scope>label.prd-field');if(idLabel){idLabel.className='prd-copy-id-control';idLabel.querySelector('input').className=inputClass;fieldsPanel.append(idLabel);}

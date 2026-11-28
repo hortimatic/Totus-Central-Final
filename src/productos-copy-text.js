@@ -1,5 +1,5 @@
-import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
-import {WEBSITE_CHOICES} from './website-registry.js?v=577653ec754f9cb45a53fd995da6cfeac146ba3a';
+import {LOCALIZED_PRODUCT_FIELDS} from './productos-write-contract.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
+import {WEBSITE_CHOICES} from './website-registry.js?v=92d388846d3f31a3ccc8592cb3b8b720e23304cd';
 const UUID_RE=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const shops={
  hortimatic:{label:'Hortimatic',slug:'hortimatic',host:'hortimatic.com',words:['hortimatic']},
